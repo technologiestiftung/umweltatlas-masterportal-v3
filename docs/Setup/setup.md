@@ -14,8 +14,8 @@ This guide describes how to set up the Masterportal on your server and how to co
         - resources/
             - img/
                 - ...
-            - rest-services-internet.json
-            - services-internet.json
+            - rest-services.json
+            - services.json
             - style_v3.json
         - config.js
         - config.json

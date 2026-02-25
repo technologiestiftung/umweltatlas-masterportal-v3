@@ -1,9 +1,9 @@
 import sinon from "sinon";
 import {expect} from "chai";
-import layerCollectionModule from "../../../../../core/layers/js/layerCollection";
-import createLayerAddToTreeModule from "../../../../../shared/js/utils/createLayerAddToTree";
-import actions from "../../../store/actionsSelectFeatures";
-import stateSelectFeatures from "../../../store/stateSelectFeatures";
+import layerCollectionModule from "@core/layers/js/layerCollection.js";
+import createLayerAddToTreeModule from "@shared/js/utils/createLayerAddToTree.js";
+import actions from "@modules/selectFeatures/store/actionsSelectFeatures.js";
+import stateSelectFeatures from "@modules/selectFeatures/store/stateSelectFeatures.js";
 
 
 describe("src/modules/selectFeatures/store/actionsSelectFeatures.js", () => {
@@ -15,7 +15,7 @@ describe("src/modules/selectFeatures/store/actionsSelectFeatures.js", () => {
         createLayerAddToTreeStub = sinon.spy(createLayerAddToTreeModule, "createLayerAddToTree");
         rootGetters = {
             "treeHighlightedFeatures": {active: true},
-            "treeType": "custom"
+            "treeType": ""
         };
         state = {...stateSelectFeatures};
         layerId = "visibleLayer";
@@ -69,7 +69,7 @@ describe("src/modules/selectFeatures/store/actionsSelectFeatures.js", () => {
             expect(createLayerAddToTreeStub.calledOnce).to.be.true;
             expect(createLayerAddToTreeStub.firstCall.args[0]).to.be.deep.equals(layerId);
             expect(createLayerAddToTreeStub.firstCall.args[1]).to.be.deep.equals([feature]);
-            expect(createLayerAddToTreeStub.firstCall.args[2]).to.be.equals("custom");
+            expect(createLayerAddToTreeStub.firstCall.args[2]).to.be.equals("");
             expect(createLayerAddToTreeStub.firstCall.args[3]).to.be.deep.equals(rootGetters.treeHighlightedFeatures);
         });
 

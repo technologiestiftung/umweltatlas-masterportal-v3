@@ -1,7 +1,7 @@
 import axios from "axios";
-import {RoutingGeosearchResult} from "../classes/routing-geosearch-result";
-import state from "../../store/stateRouting";
-import store from "../../../../app-store";
+import {RoutingGeosearchResult} from "../classes/routing-geosearch-result.js";
+import state from "../../store/stateRouting.js";
+import store from "@appstore/index.js";
 
 /**
  * Requests POIs from text from LocationFinder
@@ -40,10 +40,12 @@ function getRoutingLocationFinderGeosearchUrl (search) {
     else {
         serviceUrl += "/Lookup";
     }
+
     url = new URL(serviceUrl);
     url.searchParams.set("limit", state.geosearch.limit);
     url.searchParams.set("properties", "text");
-    url.searchParams.set("query", encodeURIComponent(search));
+    url.searchParams.set("query", search);
+
     return url;
 }
 

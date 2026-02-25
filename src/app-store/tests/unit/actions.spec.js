@@ -1,9 +1,9 @@
 import axios from "axios";
-import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
-import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList.js";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 import sinon from "sinon";
 import {expect} from "chai";
-import actions from "../../actions";
+import actions from "../../actions.js";
 
 describe("src/app-store/actions.js", () => {
     let axiosMock,
@@ -13,7 +13,7 @@ describe("src/app-store/actions.js", () => {
         state,
         initializeLayerListSpy,
         initializeStyleListSpy;
-    const restConf = "./resources/rest-services-internet.json",
+    const restConf = "./resources/rest-services.json",
         layerConf = "./services.json";
 
     beforeEach(() => {
@@ -33,7 +33,6 @@ describe("src/app-store/actions.js", () => {
                 }
             }
         };
-        global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
         axiosMock = sinon.stub(axios, "get").returns(Promise.resolve({request: {status: 200, data: []}}));
         initializeLayerListSpy = sinon.spy(rawLayerList, "initializeLayerList");
         initializeStyleListSpy = sinon.spy(styleList, "initializeStyleList");
@@ -56,16 +55,16 @@ describe("src/app-store/actions.js", () => {
             expect(commit.firstCall.args[0]).to.equals("setConfigJs");
             expect(commit.firstCall.args[1]).to.equals(payLoad);
         });
-        it("loadConfigJson", () => {
+        it("loadConfigJson", async () => {
             const getters = {
                 isMobile: false
             };
 
-            actions.loadConfigJson({commit, state, dispatch, getters});
+            await actions.loadConfigJson({commit, state, dispatch, getters});
 
             expect(axiosMock.calledOnce).to.be.true;
             expect(axiosMock.calledWith("config.json")).to.be.true;
-
+            expect(dispatch.calledWith("processLayerNamesHtmlTags")).to.be.true;
         });
         it("loadRestServicesJson", () => {
             actions.loadRestServicesJson({commit, state});
@@ -120,51 +119,146 @@ describe("src/app-store/actions.js", () => {
             expect(typeof initializeStyleListSpy.firstCall.args[4]).to.be.equals("function");
 
         });
+        describe("moveStartModuleControls", () => {
+            let startModule, getters;
 
-        it("moveStartModuleControls", () => {
-            const startModule = {
+            beforeEach(() => {
+                startModule = {
                     secondaryMenu: [
                         {
                             type: "module_1",
                             foo: "bar"
                         }
                     ]
-                },
+                };
                 getters = {
                     controlsConfig: {
                         startModule
                     }
                 };
 
-            state = {
-                portalConfig: {
-                    map: {
-                        controls: {
-                            startModule
-                        }
-                    },
-                    secondaryMenu: {
-                        sections: [
-                            [
-                                {
-                                    type: "print"
-                                },
-                                {
-                                    type: "draw"
-                                }
+                state = {
+                    portalConfig: {
+                        map: {
+                            controls: {
+                                startModule
+                            }
+                        },
+                        secondaryMenu: {
+                            sections: [
+                                [
+                                    {
+                                        type: "print"
+                                    },
+                                    {
+                                        type: "draw"
+                                    }
+                                ]
                             ]
+                        }
+                    }
+                };
+            });
+
+            it("moveStartModuleControls - no duplicates", () => {
+                actions.moveStartModuleControls({getters, state}, "secondaryMenu");
+
+                expect(dispatch.notCalled).to.be.true;
+                expect(state.portalConfig.secondaryMenu.sections[0].length).to.be.equals(3);
+                expect(state.portalConfig.secondaryMenu.sections[0][2].type).to.be.equals("module_1");
+                expect(state.portalConfig.map.controls.startModule.secondaryMenu).to.be.deep.equals([]);
+
+            });
+
+            it("moveStartModuleControls - with duplicates", () => {
+                startModule.secondaryMenu[0].type = "print";
+
+                actions.moveStartModuleControls({getters, state}, "secondaryMenu");
+
+                expect(dispatch.notCalled).to.be.true;
+                expect(state.portalConfig.secondaryMenu.sections[0].length).to.be.equals(2);
+                expect(state.portalConfig.secondaryMenu.sections[0][0].type).to.be.equals("print");
+                expect(state.portalConfig.secondaryMenu.sections[0][1].type).to.be.equals("draw");
+                expect(state.portalConfig.map.controls.startModule.secondaryMenu).to.be.deep.equals([]);
+
+            });
+        });
+    });
+
+    describe("processLayerNamesHtmlTags", () => {
+        it("should process layer names and extract HTML tags to htmlName", () => {
+            const testState = {
+                layerConfig: {
+                    LayerSubjects: {
+                        elements: [
+                            {
+                                id: "layer1",
+                                name: "Layer with <b>HTML</b> tags"
+                            },
+                            {
+                                id: "layer2",
+                                name: "Another <br>Layer"
+                            }
                         ]
                     }
                 }
             };
 
-            actions.moveStartModuleControls({getters, state}, "secondaryMenu");
+            actions.processLayerNamesHtmlTags({state: testState});
 
-            expect(dispatch.notCalled).to.be.true;
-            expect(state.portalConfig.secondaryMenu.sections[0].length).to.be.equals(3);
-            expect(state.portalConfig.secondaryMenu.sections[0][2].type).to.be.equals("module_1");
-            expect(state.portalConfig.map.controls.startModule.secondaryMenu).to.be.deep.equals([]);
+            expect(testState.layerConfig.LayerSubjects.elements[0].htmlName).to.equals("Layer with <b>HTML</b> tags");
+            expect(testState.layerConfig.LayerSubjects.elements[0].name).to.equals("Layer with HTML tags");
+            expect(testState.layerConfig.LayerSubjects.elements[1].htmlName).to.equals("Another <br>Layer");
+            expect(testState.layerConfig.LayerSubjects.elements[1].name).to.equals("Another Layer");
+        });
 
+        it("should not process layer names if htmlName already exists", () => {
+            const testState = {
+                layerConfig: {
+                    LayerSubjects: {
+                        elements: [
+                            {
+                                id: "layer1",
+                                name: "Clean name",
+                                htmlName: "Already processed <b>name</b>"
+                            }
+                        ]
+                    }
+                }
+            };
+
+            actions.processLayerNamesHtmlTags({state: testState});
+
+            expect(testState.layerConfig.LayerSubjects.elements[0].name).to.equals("Clean name");
+            expect(testState.layerConfig.LayerSubjects.elements[0].htmlName).to.equals("Already processed <b>name</b>");
+        });
+
+        it("should handle nested layer structures with getNestedValues", () => {
+            const testState = {
+                layerConfig: {
+                    LayerSubjects: {
+                        elements: [
+                            {
+                                id: "folder1",
+                                name: "Folder <i>Name</i>",
+                                elements: [
+                                    {
+                                        id: "layer1",
+                                        name: "Nested <strong>Layer</strong>"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            };
+
+            actions.processLayerNamesHtmlTags({state: testState});
+            expect(testState.layerConfig.LayerSubjects.elements[0].htmlName).to.equals("Folder <i>Name</i>");
+            expect(testState.layerConfig.LayerSubjects.elements[0].name).to.equals("Folder Name");
+            expect(testState.layerConfig.LayerSubjects.elements[0].elements[0].htmlName).to.equals("Nested <strong>Layer</strong>");
+            expect(testState.layerConfig.LayerSubjects.elements[0].elements[0].name).to.equals("Nested Layer");
         });
     });
+
 });

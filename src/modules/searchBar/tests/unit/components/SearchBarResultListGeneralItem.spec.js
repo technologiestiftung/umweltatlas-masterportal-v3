@@ -3,7 +3,7 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import SearchBarResultListGeneralItemComponent from "../../../components/SearchBarResultListGeneralItem.vue";
+import SearchBarResultListGeneralItemComponent from "@modules/searchBar/components/SearchBarResultListGeneralItem.vue";
 
 config.global.mocks.$t = key => key;
 
@@ -112,6 +112,47 @@ describe("src/modules/searchBar/components/SearchBarResultListGeneralItem.vue", 
             expect(wrapper.find("#search-bar-result-list-general-itemBeidemNeuenKrahn2Adresse").exists()).to.be.true;
             expect(wrapper.find("button").html()).to.contain("Bei dem Neuen Krahn 2");
             expect(wrapper.findAll("action-button-stub").length).to.be.equals(0);
+        });
+    });
+    describe("test rendering of searchResult image", () => {
+        it("renders an <img> if imagePath is provided", () => {
+            const searchResultWithImage = {
+                ...searchResults[0],
+                id: "WithImage",
+                imagePath: "http://example.com/test.png"
+            };
+
+            wrapper = shallowMount(SearchBarResultListGeneralItemComponent, {
+                global: {
+                    plugins: [store]
+                },
+                propsData: {
+                    searchResult: searchResultWithImage
+                }
+            });
+
+            expect(wrapper.find("img.search-bar-result-list-general-image").exists()).to.be.true;
+            expect(wrapper.find("img.search-bar-result-list-general-image").attributes("src")).to.equal("http://example.com/test.png");
+            expect(wrapper.find("img.search-bar-result-list-general-image").attributes("alt")).to.equal("search result image");
+        });
+
+        it("does not render an <img> if imagePath is empty", () => {
+            const searchResultWithoutImage = {
+                ...searchResults[0],
+                id: "WithoutImage",
+                imagePath: ""
+            };
+
+            wrapper = shallowMount(SearchBarResultListGeneralItemComponent, {
+                global: {
+                    plugins: [store]
+                },
+                propsData: {
+                    searchResult: searchResultWithoutImage
+                }
+            });
+
+            expect(wrapper.find("img.search-bar-result-list-general-image").exists()).to.be.false;
         });
     });
 });

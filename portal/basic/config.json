@@ -20,6 +20,29 @@
           6000000.0
         ],
         "startZoomLevel": 1
+      },
+      "mouseHover": {
+        "numFeaturesToShow": 2,
+        "infoText": "Exampletext",
+         "highlightOnHover": true,
+          "highlightVectorRulesPolygon": {
+              "fill": {
+                  "color": [255, 255, 255, 0.5]
+              },
+              "stroke": {
+                  "width": 4,
+                  "color": [255, 0, 0, 0.9]
+              }
+          },
+          "highlightVectorRulesPointLine": {
+              "stroke": {
+                  "width": 8,
+                  "color": [255, 0, 255, 0.9]
+              },
+              "image": {
+                  "scale": 2
+              }
+          }
       }
     },
     "portalFooter": {
@@ -28,7 +51,7 @@
           "bezeichnung": "common:modules.portalFooter.designation",
           "url": "https://geoinfo.hamburg.de/",
           "alias": "Landesbetrieb Geoinformation und Vermessung",
-          "alias_mobil": "LGV"
+          "alias_mobile": "LGV"
         }
       ]
     },
@@ -103,6 +126,21 @@
           },
           {
             "type": "language"
+          },
+           {
+            "type": "about",
+            "title": "Portal basic",
+            "abstractText": "Dies ist ein simples Portal.<br><br>Die erforderlichen Ressource-Dateien liegen lokal.<br>Der Themenbaum ist einfach.",
+            "metaUrl": "https://metaver.de/trefferanzeige?docuuid=40D48B03-AD1D-407B-B04D-B5BC6855BE15",
+            "metaId": "40D48B03-AD1D-407B-B04D-B5BC6855BE15",
+            "contact":{
+              "name":"Erika Mustermann",
+              "positionName": ["<small>Abteilung A</small>", "<small>Teamlead</small>"],
+              "street":"Neuenfelder Straße 19",
+              "postalCode":"21109",
+              "city":"Hamburg",
+              "email":"email@email.de"
+            }
           }
         ]
       ]
@@ -112,12 +150,23 @@
       "sections": [
         [
           {
+            "delete": true,
+            "update": true,
+            "multiUpdate": [
+              {
+                "layerId": "lgvpoint",
+                "available": true,
+                "configAttributes": ["name"],
+                "controlAttributes": ["gemeinde"]
+              }
+            ],
             "type": "wfst",
             "name": "WFS-T Tool",
             "layerIds": [
-              "lgvline",
+              "lgvpolygon",
               "lgvpoint",
-              "lgvpolygon"
+              "lgvline",
+              "1122"
             ],
             "toggleLayer": false,
             "lineButton": [
@@ -138,8 +187,12 @@
                 "available": true
               }
             ],
-            "update": "Bearbeiten!",
-            "delete": true
+            "multipolygonButton": [ 
+              { 
+                "layerId": "1122", 
+                "available": true
+              }
+            ]
           },
           {
             "type": "legend"
@@ -206,19 +259,11 @@
           "visibility": true
         },
         {
-          "id": "452"
+          "id": "34127",
+          "time": false
         },
         {
-          "id": [
-            "717",
-            "718",
-            "719",
-            "720",
-            "13712",
-            "13709",
-            "13714",
-            "13716"
-          ],
+          "id": "33780",
           "name": "Geobasiskarten (farbig)"
         },
         {
@@ -233,7 +278,7 @@
     "subjectlayer": {
       "elements": [
         {
-          "id": [ "3302", "4561"], 
+          "id": [ "3302", "4561"],
           "name": "WMS-Gruppe Trinkwasser und Eventlotse (min-/maxScale 1:1.000 - 1:10.000)",
           "typ": "GROUP",
           "visibility": true,
@@ -258,6 +303,12 @@
           "typ": "WFS"
         },
         {
+          "id": "1122",
+          "name": "Test WFS-T LGV + Multipolygon",
+          "visibility": false,
+          "typ": "WFS"
+        },
+        {
           "id": "2426",
           "name": "WMS Bezirke",
           "layerAttribution": "<span>Hier Text angeben, der angezeigt wird sobald der Layer sichtbar ist.</span>"
@@ -265,7 +316,7 @@
         {
           "id": "2003",
           "name": "WFS Schutzgebiete",
-          "styleId": "2003",
+          "styleId":"diagonal-right",
           "mouseHoverField": "gebietsname"
         },
         {

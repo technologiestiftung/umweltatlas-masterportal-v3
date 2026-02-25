@@ -1,12 +1,14 @@
 import axios from "axios";
-import {rawLayerList} from "@masterportal/masterportalapi/src";
-import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import {rawLayerList} from "@masterportal/masterportalapi/src/index.js";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
+import removeHtmlTags from "@shared/js/utils/removeHtmlTags.js";
 
-import actionsLayerConfig from "./actionsLayerConfig";
-import {fetchFirstModuleConfig} from "../shared/js/utils/fetchFirstModuleConfig";
-import {portalConfigKey, treeTopicConfigKey} from "../shared/js/utils/constants";
-import {updateProxyUrl} from "./js/getProxyUrl";
-import {upperFirst} from "../shared/js/utils/changeCase";
+import actionsLayerConfig from "./actionsLayerConfig.js";
+import {fetchFirstModuleConfig} from "@shared/js/utils/fetchFirstModuleConfig.js";
+import {portalConfigKey, treeTopicConfigKey} from "@shared/js/utils/constants.js";
+import {updateProxyUrl} from "./js/getProxyUrl.js";
+import {upperFirst} from "@shared/js/utils/changeCase.js";
+import globalUrlParams from "@core/urlParams/js/globalUrlParams.js";
 
 /**
  * The root actions.
@@ -53,6 +55,7 @@ export default {
                     dispatch("moveStartModuleControls", "secondaryMenu");
                 }
                 commit("setLayerConfig", response.data ? response.data[treeTopicConfigKey] : null);
+                dispatch("processLayerNamesHtmlTags");
                 commit("setLoadedConfigs", "configJson");
             })
             .catch(error => {
@@ -73,7 +76,7 @@ export default {
             const modules = [].concat(getters.controlsConfig.startModule[side]);
 
             modules.forEach(module => {
-                if (module) {
+                if (module && !state.portalConfig[side].sections[0].find(conf => conf.type === module.type)) {
                     state.portalConfig[side].sections[0].push(module);
                 }
             });
@@ -176,5 +179,48 @@ export default {
             }).then(() => {
             commit("setStyleListLoaded", true);
         }).catch(error => console.error(error));
+    },
+
+    initializeUrlParams ({commit}) {
+        const params = new URLSearchParams(window.location.search);
+
+        commit("setUrlParams", {params});
+        globalUrlParams.processGlobalUrlParams();
+    },
+
+    /**
+     * Processes HTML tags in all layer names.
+     * Stores the original name in htmlName and removes HTML tags from name.
+     * Recursively processes nested layer structures.
+     * @param {Object} context the vue context
+     * @param {Object} context.state the state
+     * @returns {void}
+     */
+    processLayerNamesHtmlTags ({state}) {
+        /**
+         * Recursively processes layer array and its nested elements
+         * @param {Object[]} layers The layers array to process
+         * @returns {void}
+         */
+        function processLayers (layers) {
+            if (!Array.isArray(layers)) {
+                return;
+            }
+            layers.forEach(layerConf => {
+                if (layerConf?.name && !layerConf?.htmlName) {
+                    layerConf.htmlName = layerConf.name;
+                    layerConf.name = removeHtmlTags(layerConf.name);
+                }
+                if (Array.isArray(layerConf?.elements)) {
+                    processLayers(layerConf.elements);
+                }
+            });
+        }
+
+        Object.values(state.layerConfig).forEach(layerGroup => {
+            if (Array.isArray(layerGroup?.elements)) {
+                processLayers(layerGroup.elements);
+            }
+        });
     }
 };

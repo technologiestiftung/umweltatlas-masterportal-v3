@@ -3,6 +3,7 @@ import MenuContainerBodyRoot from "./MenuContainerBodyRoot.vue";
 import MenuNavigation from "./MenuNavigation.vue";
 import {mapActions, mapGetters} from "vuex";
 import GetFeatureInfo from "../../getFeatureInfo/components/GetFeatureInfo.vue";
+import MenuComponentKeepAlivePlaceholder from "./MenuComponentKeepAlivePlaceholder.vue";
 
 /**
  * @module modules/MenuContainerBody
@@ -15,7 +16,8 @@ export default {
     components: {
         GetFeatureInfo,
         MenuContainerBodyRoot,
-        MenuNavigation
+        MenuNavigation,
+        MenuComponentKeepAlivePlaceholder
     },
     props: {
         /** Defines in which menu the component is being rendered */
@@ -54,7 +56,42 @@ export default {
             if (current !== "root" && current !== this.defaultComponent) {
                 current = this.componentMap[current];
             }
+
             return current;
+        },
+        /**
+         * Modules that are to be cached using Vue's keep-alive feature must implement
+         * the keep-alive-specific lifecycle hooks "activated()" and "deactivated()".
+         * Only if both hooks are found, the component is cached via keep-alive.
+         * See documentation: docs/Dev/vueComponents/ToolCaching.md
+         *
+         * @returns {Array} Returns a list of component names for keep-alive
+         */
+        keepAliveComponents () {
+            const
+                keepAliveComponents = Object.keys(this.componentMap).filter((type) => {
+                    return typeof this.componentMap[type]?.activated === "function"
+                        && typeof this.componentMap[type]?.deactivated === "function";
+                }),
+                componentNames = keepAliveComponents.map(type => this.componentMap[type].name);
+
+            componentNames.push("MenuComponentKeepAlivePlaceholder");
+
+            return componentNames;
+        },
+        /**
+         * The Vue keep-alive feature only works if a component is always included.
+         * Conditional skipping of components using v-if is not possible.
+         * Therefore, we need to use an empty placeholder component for root and getFeatureInfo.
+         *
+         * @returns {*|string} Name of the component to render
+         */
+        currentComponentName () {
+            if (["root", "getFeatureInfo"].includes(this.currentComponent)) {
+                return "MenuComponentKeepAlivePlaceholder";
+            }
+
+            return this.currentComponent;
         }
     },
     mounted () {
@@ -102,14 +139,13 @@ export default {
             v-if="side === gfiMenuSide"
             v-show="currentComponent === 'getFeatureInfo'"
         />
-
-        <component
-            :is="currentComponent"
-            v-if="currentComponent !== 'root' && currentComponent !== 'getFeatureInfo'"
-
-            class="menu-body-component"
-        />
-
+        <keep-alive :include="keepAliveComponents">
+            <component
+                :is="currentComponentName"
+                class="menu-body-component"
+                :side="side"
+            />
+        </keep-alive>
         <MenuContainerBodyRoot
             v-show="currentComponent === 'root'"
             :side="side"

@@ -1,7 +1,7 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
-import visibilityChecker from "../../../shared/js/utils/visibilityChecker";
-import LightButton from "../../../shared/modules/buttons/components/LightButton.vue";
+import visibilityChecker from "@shared/js/utils/visibilityChecker.js";
+import LightButton from "@shared/modules/buttons/components/LightButton.vue";
 
 /**
  * Menu Container Body Root Item Element
@@ -55,7 +55,15 @@ export default {
         ...mapGetters("Menu", [
             "mainMenu",
             "secondaryMenu",
-            "showDescription"
+            "showDescription",
+            "expanded",
+            "currentComponent",
+            "currentComponentName",
+            "navigationHistory"
+        ]),
+
+        ...mapGetters([
+            "visibleLayerConfigs"
         ]),
 
         /**
@@ -84,6 +92,79 @@ export default {
          */
         type () {
             return this.properties.type;
+        },
+
+        /**
+         * @returns {Boolean} Whether all required layers for this item are visible.
+         */
+        isAllRequiredLayersVisible () {
+            return this.areLayersVisible(this.properties?.showOnlyByLayersVisible);
+        },
+
+        /**
+         * Checks if at least one element inside 'properties.elements' has its required layers visible.
+         * @returns {Boolean} Whether any child element should be visible.
+         */
+        hasVisibleChildElement () {
+            if (!Array.isArray(this.properties?.elements)) {
+                return false;
+            }
+
+            return this.properties.elements.some(element => {
+                return this.areLayersVisible(element.showOnlyByLayersVisible);
+            });
+        }
+    },
+    watch: {
+        /**
+         * Watches visibility changes in layers and opens the folder only once
+         * for each unique set of visible layers defined by child elements.
+         */
+        visibleLayerConfigs: {
+            handler (newVal, oldVal) {
+                if (!Array.isArray(this.properties.elements)) {
+                    return;
+                }
+
+                const oldVisibleIds = (oldVal || [])
+                        .filter(layer => layer.visibility)
+                        .map(layer => layer.id),
+                    newVisibleIds = (newVal || [])
+                        .filter(layer => layer.visibility)
+                        .map(layer => layer.id);
+
+                for (const element of this.properties.elements) {
+                    const requiredLayerIds = element.showOnlyByLayersVisible || [],
+                        newlyVisible = requiredLayerIds.some(
+                            id => newVisibleIds.includes(id) && !oldVisibleIds.includes(id)
+                        );
+
+                    if (requiredLayerIds.length === 0) {
+                        continue;
+                    }
+
+
+                    if (newlyVisible && this.areLayersVisible(requiredLayerIds)) {
+                        if (this.properties.showEntryDirectly === true && this.type === "folder") {
+                            if (!this.expanded(this.side)) {
+                                this.toggleMenu(this.side);
+                            }
+                            if (
+                                this.currentComponent(this.side)?.props?.name !== this.name &&
+                        !this.navigationHistory(this.side)?.some(entry => entry?.props?.name === this.name)
+                            ) {
+                                this.changeCurrentComponent({
+                                    type: this.type,
+                                    side: this.side,
+                                    props: {name: this.name, path: this.path}
+                                });
+                            }
+                        }
+                        break;
+                    }
+                }
+            },
+            deep: true
         }
     },
     /**
@@ -96,31 +177,56 @@ export default {
                 name: this.name,
                 path: this.path,
                 side: this.side,
-                type: this.type
+                type: this.type,
+                properties: this.properties
             });
         }
     },
     methods: {
-        ...mapActions("Menu", ["clickedMenuElement", "resetMenu"]),
+        ...mapActions("Menu", ["clickedMenuElement", "resetMenu", "changeCurrentComponent", "toggleMenu"]),
 
         /**
-         * Checks if the module is to be applied in the map- and device mode.
-         * If current visible component does not support the map- and device mode, it is destroyed.
-         * @returns {Boolean} The module is shown.
+         * Generic helper to check visibility of layers.
+         * @param {Array} requiredLayerIds - Array of required layer IDs.
+         * @returns {Boolean} Whether all required layers are visible.
          */
-        checkIsVisible () {
-            const supportedMapModes = this.properties.supportedMapModes,
-                supportedDevices = this.properties.supportedDevices,
-                supportedTreeTypes = this.properties.supportedTreeTypes,
-                showModule = visibilityChecker.isModuleVisible(this.mode, this.deviceMode, this.portalConfig?.tree?.type, supportedMapModes, supportedDevices, supportedTreeTypes);
+        areLayersVisible (requiredLayerIds) {
+            if (!Array.isArray(requiredLayerIds) || requiredLayerIds.length === 0) {
+                return true;
+            }
 
-            if (!showModule && this.menu.currentComponent === this.type) {
+            const visibleLayerIds = this.visibleLayerConfigs
+                ?.filter(layer => layer.visibility)
+                .map(layer => layer.id);
+
+            return requiredLayerIds.every(id => visibleLayerIds?.includes(id));
+        },
+
+        /**
+        * Checks module visibility and resets menu if not visible.
+        * @returns {Boolean} True if the module and its layers or children are visible; otherwise, false.
+        */
+        checkIsVisible () {
+            const {supportedMapModes, supportedDevices, supportedTreeTypes, elements} = this.properties,
+
+                showModule = visibilityChecker.isModuleVisible({
+                    mapMode: this.mode,
+                    deviceMode: this.deviceMode,
+                    treeType: this.portalConfig?.tree?.type,
+                    elements,
+                    supportedMapModes,
+                    supportedDevices,
+                    supportedTreeTypes,
+                    visibleLayerConfigs: this.visibleLayerConfigs
+                });
+
+            if (!showModule && this.menu.currentComponent === this.type && this.menu.navigation.currentComponent.props.name === this.name) {
                 this.resetMenu(this.side);
             }
-            return showModule;
+
+            return showModule && (this.isAllRequiredLayersVisible || this.hasVisibleChildElement);
         }
     }
-
 };
 </script>
 

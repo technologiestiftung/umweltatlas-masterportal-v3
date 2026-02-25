@@ -108,6 +108,7 @@ Layer.prototype.inspectLegendUrl = function () {
         }
         else {
             legend = this.get("legendURL");
+            legend = Array.isArray(legend) ? legend : [legend];
         }
     }
 

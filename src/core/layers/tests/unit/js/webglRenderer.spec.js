@@ -1,11 +1,14 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import Feature from "ol/Feature";
-import VectorLayer from "ol/layer/Vector";
-import VectorSource from "ol/source/Vector";
-import WFSLayer from "../../../js/layer2dVectorWfs";
-import webgl from "../../../js/webglRenderer";
+import Feature from "ol/Feature.js";
+import VectorLayer from "ol/layer/Vector.js";
+import VectorSource from "ol/source/Vector.js";
+import WFSLayer from "@core/layers/js/layer2dVectorWfs.js";
+import webgl from "@core/layers/js/webglRenderer.js";
 
+afterEach(() => {
+    sinon.restore();
+});
 
 describe("src/core/js/layers/webglRenderer.js", () => {
     let attributes, olLayer, source, includes, removeLayerSpy, addLayerSpy;

@@ -10,18 +10,23 @@ List of URL parameters with examples.
 
 |Name|Description|Example|
 |----|-----------|-------|
-|CONFIGJSON|Sets the configuration file to use. This is done by either providing an absolute URL (`https://...`) or a relative path. The specified path must point to a config.json file.|`&CONFIGJSON=../config.json`|
+|CONFIGJSON|Sets the configuration file `config.json` to use. This is done by either providing an absolute URL (`https://...`) or a relative path. The specified path must point to a config.json file.|`&CONFIGJSON=../config.json`|
+|CONFIGJS|Sets the configuration file `config.js` to use. This is done by either providing an absolute URL (`https://...`) or a relative path. The specified path must point to a config.js file.|`&CONFIGJS=../config.js`|
 |FEATUREVIAURL|Creates the given features and adds them to a GeoJSON layer. A `layerId` should be given for each feature set, and each feature must provide the fields `coordinates` and `label`. The coordinates should match the respective *GeometryType* according to the [GeoJSON specification RFC7946](https://tools.ietf.org/html/rfc7946), which also states that the coordinates must fit the `"EPSG:4326"` coordinate system. The parameters also depend on the module's configuration in **[config.featureviaurl](../Portal-Config/config.js.md)**. If another coordinate system is defined in the module´s configuration, the coordinates will be transformed to `"EPSG:4326"`.|`&FEATUREVIAURL=[{"layerId":"42","features":[{"coordinates":[10,53.5],"label":"TestPunkt"}]}]`|
 |HIGHLIGHTFEATURE|Describes a feature of a layer that is to be highlighted and zoomed in on. The layer ID and feature ID are separated by a comma. The LayerId corresponds to the layer ID configured in services.json. The FeatureId corresponds to the `gml:id` of the wfs service, e.g. `DE.HH.UP_GESUNDHEIT_KRANKENHAEUSER_6`. Several FeatureId can also be specified. These are separated by commas after the first FeatureId. If there are several features, an extent is calculated on which the zoom is performed.|`&HIGHLIGHTFEATURE=1711,DE.HH.UP_GESUNDHEIT_KRANKENHAEUSER_6,DE.HH.UP_GESUNDHEIT_KRANKENHAEUSER_18,DE.HH.UP_GESUNDHEIT_KRANKENHAEUSER_29`|
 |HIGHLIGHTFEATURESBYATTRIBUTE|Highlights the features of a WFS configured via URL parameters wfsId, attributeName, attributeValue and optional attributeQuery. The wfsId has to match the layer configuration in **[Themenconfig.Layer.WFS](../Portal-Config/config.json.md)** and services.json. WFS version has to be 1.1.0. The parameters - attributeName has to contain the name of the property in the WFS (with featurePrefix from config.json prefixed), attributeValue the value to match (or the list of values separated by comma for isIn) and optional attributeQuery can be isEqual for exact searching, isLike for an isLike search or isIn for searching in a set of values that has to be defined in attributeValue (with a configurable value delimiter defaulting to semicolon).|`&HIGHLIGHTFEATURESBYATTRIBUTE=123&WFSID=8712&ATTRIBUTENAME=bezirk&ATTRIBUTEVALUE=Altona&ATTRIBUTEQUERY=IsLike`|`HIGHLIGHTFEATURESBYATTRIBUTE=123&WFSID=1711&ATTRIBUTENAME=name&ATTRIBUTEVALUE=Helios%20ENDO-Klinik%20Hamburg&ATTRIBUTEQUERY=IsLike` `HIGHLIGHTFEATURESBYATTRIBUTE=123&WFSID=2003&ATTRIBUTENAME=gebietsname&ATTRIBUTEVALUE=NSG%20Zollenspieker&ATTRIBUTEQUERY=isequal` `HIGHLIGHTFEATURESBYATTRIBUTE=123&WFSID=2928&ATTRIBUTENAME=biotop_nr&ATTRIBUTEVALUE=279&ATTRIBUTEQUERY=isLike`|
 |LAYERS|Overrides the layers in the topic tree. If you use this parameter, only the layers specified in the URL will be displayed. It is possible to specify the visibility and transparency for each layer. Attention: It should be noted that only one WMSTimeLayer can be visible at a time. If more than one such layer is specified, only one will be displayed.|`&LAYERS=[{"id":"453","visibility":true},{"id":"2426","visibility":true,"transparency":50}]`|
 |LNG|Sets the language, if configured in config.js|`&LNG=en`|
+|MAINWIDTH|Sets the width of the main Menu|`&MAINWIDTH=50`|
+|MAINCLOSED|Closes the main menu on initial load if set to true|`&MAINCLOSED=true`|
 |MAPS|Sets attributes of the map like zoomLevel or center. The map can be started in 2D and 3D modes. In 3D mode it is possible to position the camera.|`&MAPS={"mode":"3D","altitude":127,"heading":-1.2502079000000208,"tilt":45}` `&MAPS={"center":[567558.0717944179,5939099.392574146],"mode":"2D","zoom":4}`|
 |MARKER|Sets a point marker to the given coordinate. If `PROJECTION` is given as parameter, the marker coordinates are to be expected in that coordinate reference system and are translated before application. Else, the given coordinates must match the map's coordinate reference system. See **[config.namedProjections.epsg](../Portal-Config/config.js.md)**.|`&MARKER=565874,5934140`|
 |MDID|Activates all layers with the specified metadata ID. In addition, the baselayer configured at the top in config.json is displayed.|`&MDID=F35EAC11-C236-429F-B1BF-751C0C18E8B7`|
 |MENU|Sets modules that should be opened initially. For the mainMenu and secondaryMenu one module each can be specified. The specification of attributes is possible depending on the respective module.|`&MENU={"main":{"currentComponent":"print","attributes":{"currentScale":5000,"dpiForPdf":"120"}},"secondary":{"currentComponent":"coordToolkit"}}`|
 |QUERY|Starts the search via the search bar with any string given.|`&QUERY=Neuenfelder Straße 19`||
 |UISTYLE|Activates a special UI variant. E.g. `simple` may be set to hide all UI elements in an iFrame scenario.|`&UISTYLE=simple`|
+|SECONDARYWIDTH|Sets the width of the secondary Menu|`&SECONDARYWIDTH=50`|
+|SECONDARYCLOSED|Closes the secondary menu on initial load if set to true|`&SECONDARYCLOSED=true`|
 |ZOOMTOEXTENT|Zooms to an extent. May be combined with projection.|`&ZOOMTOEXTENT=510000,5850000,625000,6000000`|
 |ZOOMTOFEATUREID|Zooms to the features of a WFS configured via **[config.zoomTo](../Portal-Config/config.js.md)**.|`&ZOOMTOFEATUREID=18,26`|
 |ZOOMTOGEOMETRY|Zooms to a feature requested from a WFS. Allowed parameters depend on **[config.zoomTo](../Portal-Config/config.js.md)**. As an alternative to the feature name, features may also be addressed by their `geometries` array index, starting at 1.|`&ZOOMTOGEOMETRY=bergedorf`|
@@ -69,3 +74,37 @@ List of obsolete URL parameters with examples. Current URL parameters are given 
 |ZOOMLEVEL|Sets the initial zoom level.|`&ZOOMLEVEL=2`|`MAPS={"zoom":0}`|
 
 ***
+
+## Adding URL Parameters through the ShareView Module
+
+The `shareView` component identifies and retains addon-specific parameters when the application modifies the URL.
+
+**Example: [https://localhost:9001/portal/master/?MAPS={"center":[567558.0717944179,5939099.392574146],"mode":"2D",
+"zoom":4}&LAYERS=[{"id":"453","visibility":true},{"id":"2426","visibility":true,"transparency":50}]&MENU={"main":
+{"currentComponent":"print","attributes":{"currentScale":5000,"dpiForPdf":"120"}},"secondary":
+{"currentComponent":"coordToolkit"}}](https://localhost:9001/portal/master/?MAPS={"center":[567558.0717944179,
+5939099.392574146],"mode":"2D","zoom":4}&LAYERS=[{"id":"453","visibility":true},{"id":"2426","visibility":true,
+"transparency":50}]&MENU={"main":{"currentComponent":"print","attributes":{"currentScale":5000,"dpiForPdf":"120"}},
+"secondary":{"currentComponent":"coordToolkit"}}&ADDON={"date":"01.01.2024"})**
+
+### Setting URL Parameters from inside an Addon
+
+```js
+const existingParameters = new URLSearchParams(window.location.search),
+    newParameter = JSON.stringify({
+        key: value
+    });
+
+existingParameters.set("ADDONNAME", newParameter);
+
+// Update existing URL Parameters
+history.replaceState(null, null, "?" + existingParameters.toString());
+```
+
+### Getting URL Parameters from inside an Addon
+
+```js
+const urlParameters = new URLSearchParams(window.location.search),
+    parameter = urlParameters.get("ADDONNAME"),
+    value = JSON.parse(parameter).value;
+```

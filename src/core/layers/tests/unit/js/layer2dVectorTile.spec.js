@@ -1,11 +1,11 @@
 import axios from "axios";
-import crs from "@masterportal/masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs.js";
 import {expect} from "chai";
 import sinon from "sinon";
-import Collection from "ol/Collection";
-import webgl from "../../../js/webglRenderer";
+import Collection from "ol/Collection.js";
+import webgl from "@core/layers/js/webglRenderer.js";
 
-import Layer2dVectorTile from "../../../js/layer2dVectorTile";
+import Layer2dVectorTile from "@core/layers/js/layer2dVectorTile.js";
 
 describe("src/core/js/layers/layer2dVectorTile.js", () => {
     const attrs = {
@@ -84,7 +84,7 @@ describe("src/core/js/layers/layer2dVectorTile.js", () => {
         crs.registerProjections();
     });
 
-    after(() => {
+    afterEach(() => {
         sinon.restore();
     });
 
@@ -146,6 +146,7 @@ describe("src/core/js/layers/layer2dVectorTile.js", () => {
 
             expect(vectorTileLayer.getLayerParams(localAttributes)).to.deep.equals({
                 gfiAttributes: "The attributes",
+                gfiTitleAttribute: undefined,
                 opacity: 0.5,
                 zIndex: 10,
                 renderer: "canvas",
@@ -398,9 +399,7 @@ describe("src/core/js/layers/layer2dVectorTile.js", () => {
         }
 
         it("retrieves json from url, checks it, and sets id to layer and model", function (done) {
-            global.fetch = sinon.spy(() => new Promise(r => r({
-                json: () => new Promise(ir => ir(validStyle))
-            })));
+            sinon.stub(axios, "get").resolves(Promise.resolve(validStyle));
 
             const {setStyleByDefinition} = Layer2dVectorTile.prototype,
                 context = makeContext(done);
@@ -410,9 +409,7 @@ describe("src/core/js/layers/layer2dVectorTile.js", () => {
         });
 
         it("rejects invalid json", function (done) {
-            global.fetch = sinon.spy(() => new Promise(r => r({
-                json: () => new Promise(ir => ir(invalidStyle))
-            })));
+            sinon.stub(axios, "get").resolves(Promise.resolve(invalidStyle));
 
             const {setStyleByDefinition} = Layer2dVectorTile.prototype,
                 context = makeContext(done);

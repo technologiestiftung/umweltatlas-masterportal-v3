@@ -1,7 +1,8 @@
 <script>
-import isObject from "../../../shared/js/utils/isObject";
+import isObject from "@shared/js/utils/isObject.js";
 import {mapGetters, mapActions} from "vuex";
-import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
+import InputText from "@shared/modules/inputs/components/InputText.vue";
 
 /**
  * Draw Item Attributes
@@ -17,7 +18,10 @@ import IconButton from "../../../shared/modules/buttons/components/IconButton.vu
  */
 export default {
     name: "DrawItemAttributes",
-    components: {IconButton},
+    components: {
+        IconButton,
+        InputText
+    },
     props: {
         selectedFeature: {
             type: Object,
@@ -114,6 +118,7 @@ export default {
 
             delete attributes.masterportal_attributes;
             delete attributes.geometries;
+            delete attributes.source;
 
             if (isObject(attributes)) {
                 keyList.forEach(key => {
@@ -157,6 +162,7 @@ export default {
 
                     delete attributes.masterportal_attributes;
                     delete attributes.geometry;
+                    delete attributes.source;
 
                     if (Object.keys(attributes).length) {
                         this.$emit("updateAttributesKeyList", Object.keys(attributes));
@@ -176,12 +182,11 @@ export default {
             this.attributes = [];
             const attributes = Object.assign({}, this.selectedFeature.getProperties());
 
-
             if (isObject(attributes)) {
                 Object.entries(attributes).forEach(([key, value]) => {
                     const attr = {key, value};
 
-                    if (key !== "geometry" && key !== "masterportal_attributes") {
+                    if (key !== "geometry" && key !== "masterportal_attributes" && key !== "source") {
                         this.attributes.push(attr);
                     }
                 });
@@ -338,28 +343,28 @@ export default {
             >
                 <div class="col-5 position-relative">
                     <div class="input-group has-validation">
-                        <input
-                            :id="'key-input-'+idx"
+                        <InputText
+                            :id="'key-input-' + idx"
                             v-model="attribute.key"
                             aria-label="attribute"
-                            type="text"
                             :title="validKeys[attribute.key].valid === null ? validKeys[attribute.key].message : null"
-                            :class="[validKeys[attribute.key].valid === false ? 'is-invalid' : '', 'form-control']"
-                            placeholder="Attribute key"
-                        >
+                            :class-obj="[validKeys[attribute.key].valid === false ? 'is-invalid' : '']"
+                            :placeholder="$t('common:modules.draw_old.attributeSelect.input.key')"
+                            :label="$t('common:modules.draw_old.attributeSelect.input.key')"
+                        />
                     </div>
                 </div>
                 <div class="col-1">
                     -
                 </div>
                 <div class="col-5">
-                    <input
+                    <InputText
+                        :id="'value-input-' + idx"
                         v-model="attribute.value"
                         aria-label="attribute"
-                        type="text"
-                        class="form-control"
-                        placeholder="Attribute value"
-                    >
+                        :placeholder="$t('common:modules.draw_old.attributeSelect.input.value')"
+                        :label="$t('common:modules.draw_old.attributeSelect.input.value')"
+                    />
                 </div>
                 <IconButton
                     :aria="$t('common:modules.draw_old.attributeSelect.remove')"
@@ -371,33 +376,33 @@ export default {
             <div class="row align-items-center text-center justify-content-center">
                 <div class="col-5">
                     <div class="input-group has-validation">
-                        <input
+                        <InputText
                             id="attribute-key-input"
                             ref="attributeKey"
                             v-model="attributeKey"
                             aria-label="attribute"
-                            type="text"
                             :title="addKey.valid === null ? addKey.message : null"
-                            :class="[addKey.valid === false ? 'is-invalid' : '', 'form-control']"
-                            :placeholder="$t('common:modules.draw_old.attributeSelect.input.key')"
+                            :class-obj="[addKey.valid === false ? 'is-invalid' : '']"
+                            :placeholder="$t('common:modules.draw_old.attributeSelect.input.newKey')"
+                            :label="$t('common:modules.draw_old.attributeSelect.input.newKey')"
                             @input="addKey.valid = true"
                             @keyup.enter="switchToRef('attributeValue')"
-                        >
+                        />
                     </div>
                 </div>
                 <div class="col-1">
                     -
                 </div>
                 <div class="col-5">
-                    <input
+                    <InputText
+                        id="attribute-value-input"
                         ref="attributeValue"
                         v-model="attributeValue"
                         aria-label="attribute"
-                        type="text"
-                        class="form-control"
-                        :placeholder="$t('common:modules.draw_old.attributeSelect.input.value')"
+                        :placeholder="$t('common:modules.draw_old.attributeSelect.input.newValue')"
+                        :label="$t('common:modules.draw_old.attributeSelect.input.newValue')"
                         @keyup.enter="addAttributesToFeature(), switchToRef('attributeKey')"
-                    >
+                    />
                 </div>
                 <IconButton
                     :aria="$t('common:modules.draw_old.attributeSelect.save')"

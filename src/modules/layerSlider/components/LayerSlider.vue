@@ -2,7 +2,7 @@
 import {mapGetters, mapMutations, mapActions} from "vuex";
 import LayerSliderHandle from "./LayerSliderHandle.vue";
 import LayerSliderPlayer from "./LayerSliderPlayer.vue";
-import NavTab from "../../../shared/modules/tabs/components/NavTab.vue";
+import NavTab from "@shared/modules/tabs/components/NavTab.vue";
 
 /**
  * Layer Slider
@@ -23,14 +23,14 @@ export default {
             "title"
         ])
     },
-    mounted () {
+    beforeMount () {
         this.checkIfAllLayersAvailable(this.layerIds);
-        this.addIndexToLayerIds(this.layerIds);
+        this.addInformationToLayerIds(this.layerIds);
     },
     unmounted () {
         this.setWindowsInterval(null);
-        this.sendModification({layerId: this.activeLayer.layerId, visibility: false});
         this.resetActiveLayer();
+        this.layerIds.forEach((initialLayerInformation) => this.sendModification(initialLayerInformation));
     },
     methods: {
         ...mapMutations("Modules/LayerSlider", [
@@ -38,7 +38,7 @@ export default {
             "setWindowsInterval"
         ]),
         ...mapActions("Modules/LayerSlider", [
-            "addIndexToLayerIds",
+            "addInformationToLayerIds",
             "checkIfAllLayersAvailable",
             "sendModification"
         ])

@@ -1,7 +1,7 @@
 <script>
-import isObject from "../../../shared/js/utils/isObject";
-import thousandsSeparator from "@masterportal/masterportalapi/src/lib/thousandsSeparator";
-import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
+import isObject from "@shared/js/utils/isObject.js";
+import thousandsSeparator from "@masterportal/masterportalapi/src/lib/thousandsSeparator.js";
+import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
 import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnippetType.js";
 import SnippetInfo from "./SnippetInfo.vue";
 
@@ -116,15 +116,30 @@ export default {
             required: false,
             default: undefined
         },
+        outOfZoom: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
         prechecked: {
             type: Array,
             required: false,
             default: undefined
         },
+        preventUniqueValueRequest: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
         snippetId: {
             type: Number,
             required: false,
             default: 0
+        },
+        searchInMapExtent: {
+            type: Boolean,
+            required: false,
+            default: false
         },
         timeoutInput: {
             type: Number,
@@ -152,7 +167,7 @@ export default {
             default: true
         }
     },
-    emits: ["changeRule", "deleteRule", "disableFilterButton", "enableFilterButton", "setSnippetPrechecked"],
+    emits: ["changeRule", "deleteRule", "disableFilterButton", "enableFilterButton", "registerUniqueValueOnMove", "setSnippetPrechecked"],
     data () {
         return {
             inputFrom: 0,
@@ -164,7 +179,7 @@ export default {
         };
     },
     watch: {
-        adjustment (adjusting) {
+        async adjustment (adjusting) {
             if (!isObject(adjusting) || this.visible === false || this.isParent) {
                 return;
             }
@@ -191,6 +206,7 @@ export default {
                         this.currentSliderMax = this.getMemoryAdjustMax();
                     }
 
+                    await this.$nextTick();
                     if (this.sliderFrom !== this.currentSliderMin) {
                         this.sliderFrom = this.currentSliderMin;
                     }
@@ -298,23 +314,26 @@ export default {
         ];
     },
     mounted () {
-        this.$nextTick(() => {
+        this.$emit("registerUniqueValueOnMove", this.snippetId, this.gatherAllValues);
+        this.gatherAllValues();
+    },
+    methods: {
+        translateKeyWithPlausibilityCheck,
+
+        /**
+         * Gathers all values for the slider.
+         * @returns {void}
+         */
+        gatherAllValues () {
+            if (this.preventUniqueValueRequest) {
+                this.setIsInitializing(false);
+                this.$emit("setSnippetPrechecked", false);
+                return;
+            }
             this.$nextTick(() => {
                 this.getInitialSliderMin(this.getAttrNameFrom(), min => {
                     this.getInitialSliderMax(this.getAttrNameUntil(), max => {
                         this.initSlider(parseFloat(min), parseFloat(max));
-                        this.$nextTick(() => {
-                            if (this.isPrecheckedValid()) {
-                                this.emitCurrentRule([
-                                    this.isPrecheckedHigherThanMin() ? this.prechecked[0] : this.currentSliderMin,
-                                    this.isPrecheckedLowerThanMax() ? this.prechecked[1] : this.currentSliderMax], true);
-                                this.$emit("setSnippetPrechecked", this.visible ? this.snippetId : false);
-                            }
-                            else {
-                                this.$emit("setSnippetPrechecked", false);
-                            }
-                            this.setIsInitializing(false);
-                        });
                     }, error => {
                         this.setIsInitializing(false);
                         this.$emit("setSnippetPrechecked", false);
@@ -326,28 +345,32 @@ export default {
                     console.error(error);
                 });
             });
-        });
-    },
-    methods: {
-        translateKeyWithPlausibilityCheck,
-
+        },
         /**
          * Initializes the slider with the given min/max value.
          * @param {Number} min The min value.
          * @param {Number} max The max value.
          * @returns {void}
          */
-        initSlider (min, max) {
+        async initSlider (min, max) {
             this.currentSliderMin = min;
             this.currentSliderMax = max;
+            await this.$nextTick();
             if (this.isPrecheckedValid()) {
                 this.sliderFrom = this.isPrecheckedHigherThanMin() ? this.prechecked[0] : this.currentSliderMin;
                 this.sliderUntil = this.isPrecheckedLowerThanMax() ? this.prechecked[1] : this.currentSliderMax;
+                this.emitCurrentRule([
+                    this.isPrecheckedHigherThanMin() ? this.prechecked[0] : this.currentSliderMin,
+                    this.isPrecheckedLowerThanMax() ? this.prechecked[1] : this.currentSliderMax], true);
+                this.$emit("setSnippetPrechecked", this.visible ? this.snippetId : false);
             }
             else {
                 this.sliderFrom = this.currentSliderMin;
                 this.sliderUntil = this.currentSliderMax;
+                this.$emit("setSnippetPrechecked", false);
             }
+            await this.$nextTick();
+            this.setIsInitializing(false);
         },
         /**
          * Receives the initial min by props or api.
@@ -383,7 +406,8 @@ export default {
                 false,
                 {rules: this.fixedRules, filterId: this.filterId, commands: {
                     filterGeometry: this.filterGeometry,
-                    geometryName: this.filterGeometryName
+                    geometryName: this.filterGeometryName,
+                    searchInMapExtent: this.searchInMapExtent
                 }}
             );
         },
@@ -421,7 +445,8 @@ export default {
                 false,
                 {rules: this.fixedRules, filterId: this.filterId, commands: {
                     filterGeometry: this.filterGeometry,
-                    geometryName: this.filterGeometryName
+                    geometryName: this.filterGeometryName,
+                    searchInMapExtent: this.searchInMapExtent
                 }}
             );
         },
@@ -556,6 +581,7 @@ export default {
                 startup,
                 fixed: !this.visible,
                 attrName: this.attrName,
+                attrLabel: translateKeyWithPlausibilityCheck(this.getTitle(), key => this.$t(key)),
                 operatorForAttrName: this.operatorForAttrName,
                 operator: this.getOperator(),
                 value,
@@ -779,6 +805,81 @@ export default {
             >
                 {{ translateKeyWithPlausibilityCheck(getTitle(), key => $t(key)) }}
             </div>
+        </div>
+        <div class="d-flex">
+            <div class="sliderInputWrapper">
+                <div
+                    class="sliderWrapper"
+                    :class="{ disabledClass: disabled || outOfZoom }"
+                >
+                    <div
+                        class="track"
+                        :class="{ disabledClass: disabled || outOfZoom }"
+                    >
+                        <div
+                            class="measure"
+                            :style="{ left: getMeasureLeft(), width: getMeasureWidth() }"
+                            :class="{ disabledClass: disabled || outOfZoom }"
+                        />
+                    </div>
+                    <input
+                        v-model="sliderFrom"
+                        type="range"
+                        :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.min', {param: getAttrNameFrom()})"
+                        class="from"
+                        :disabled="disabled || outOfZoom"
+                        :class="{ disabledClass: disabled || outOfZoom }"
+                        :step="getSliderSteps(decimalPlaces)"
+                        :min="currentSliderMin"
+                        :max="currentSliderMax"
+                        @mousedown="setSliderMouseDown"
+                        @mouseup="setSliderMouseUp"
+                    >
+                    <input
+                        v-model="sliderUntil"
+                        type="range"
+                        :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.max', {param: getAttrNameUntil()})"
+                        class="until"
+                        :disabled="disabled || outOfZoom"
+                        :class="{ disabledClass: disabled || outOfZoom }"
+                        :step="getSliderSteps(decimalPlaces)"
+                        :min="currentSliderMin"
+                        :max="currentSliderMax"
+                        @mousedown="setSliderMouseDown"
+                        @mouseup="setSliderMouseUp"
+                    >
+                </div>
+                <div class="inputWrapper">
+                    <div class="from">
+                        <input
+                            v-model="inputFrom"
+                            type="number"
+                            :step="getSliderSteps(decimalPlaces)"
+                            :min="currentSliderMin"
+                            :max="currentSliderMax"
+                            :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.min', {param: getAttrNameFrom()})"
+                            :disabled="disabled"
+                            :class="{ disabledClass: disabled || outOfZoom }"
+                            class="form-control"
+                            @input="setCurrentSource('input')"
+                        >
+                    </div>
+                    <div class="until">
+                        <input
+                            v-model="inputUntil"
+                            type="number"
+                            :step="getSliderSteps(decimalPlaces)"
+                            :min="currentSliderMin"
+                            :max="currentSliderMax"
+                            :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.max', {param: getAttrNameUntil()})"
+                            :disabled="disabled"
+                            :class="{ disabledClass: disabled || outOfZoom }"
+                            class="form-control"
+                            @input="setCurrentSource('input')"
+                        >
+                    </div>
+                </div>
+            </div>
             <div
                 v-if="info"
                 class="info"
@@ -788,75 +889,6 @@ export default {
                     translation-key="snippetSliderRange"
                 />
             </div>
-        </div>
-        <div class="inputWrapper">
-            <div class="from">
-                <input
-                    v-model="inputFrom"
-                    type="number"
-                    :step="getSliderSteps(decimalPlaces)"
-                    :min="currentSliderMin"
-                    :max="currentSliderMax"
-                    :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.min', {param: getAttrNameFrom()})"
-                    :disabled="disabled"
-                    :class="{ disabledClass: disabled }"
-                    @input="setCurrentSource('input')"
-                >
-            </div>
-            <div class="until">
-                <input
-                    v-model="inputUntil"
-                    type="number"
-                    :step="getSliderSteps(decimalPlaces)"
-                    :min="currentSliderMin"
-                    :max="currentSliderMax"
-                    :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.max', {param: getAttrNameUntil()})"
-                    :disabled="disabled"
-                    :class="{ disabledClass: disabled }"
-                    @input="setCurrentSource('input')"
-                >
-            </div>
-        </div>
-        <div
-            class="sliderWrapper"
-            :class="{ disabledClass: disabled }"
-        >
-            <div
-                class="track"
-                :class="{ disabledClass: disabled }"
-            >
-                <div
-                    class="measure"
-                    :style="{ left: getMeasureLeft(), width: getMeasureWidth() }"
-                    :class="{ disabledClass: disabled }"
-                />
-            </div>
-            <input
-                v-model="sliderFrom"
-                type="range"
-                :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.min', {param: getAttrNameFrom()})"
-                class="from"
-                :disabled="disabled"
-                :class="{ disabledClass: disabled }"
-                :step="getSliderSteps(decimalPlaces)"
-                :min="currentSliderMin"
-                :max="currentSliderMax"
-                @mousedown="setSliderMouseDown"
-                @mouseup="setSliderMouseUp"
-            >
-            <input
-                v-model="sliderUntil"
-                type="range"
-                :aria-label="$t('common:modules.filter.ariaLabel.sliderRange.max', {param: getAttrNameUntil()})"
-                class="until"
-                :disabled="disabled"
-                :class="{ disabledClass: disabled }"
-                :step="getSliderSteps(decimalPlaces)"
-                :min="currentSliderMin"
-                :max="currentSliderMax"
-                @mousedown="setSliderMouseDown"
-                @mouseup="setSliderMouseUp"
-            >
         </div>
     </div>
 </template>
@@ -869,60 +901,61 @@ export default {
         height: auto;
 
         .titleWrapper {
+            display: flex;
             position: relative;
-            height: 16px;
             .title {
-                position: absolute;
-                left: 0;
-                padding-right: 15px;
+                padding-right: 10px;
             }
             .info {
-                position: absolute;
-                right: 0;
+                margin-top: -1px;
             }
         }
         .disabledClass {
             cursor: wait;
         }
+        .sliderInputWrapper {
+            width: 100%;
+        }
         .inputWrapper {
             position: relative;
-            margin-top: 5px;
+            margin: 5px 0 15px;
             height: 24px;
             .disabledClass {
                 background-color: $light_grey;
+            }
+            input {
+                border: 1px solid #dee2e6;
+                border-radius: 5px;
+                box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+                -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+                transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+                &.disabledClass {
+                    color: #9B9A9A;
                 }
+            }
             .from {
                 position: absolute;
                 left: 0;
-                width: 50%;
-
                 label {
                     display: block;
                     height: 18px;
-                }
-                input {
-                    width: 90%;
                 }
             }
             .until {
                 position: absolute;
                 right: 0;
-                width: 50%;
                 text-align: right;
-
                 label {
                     display: block;
                     height: 18px;
                 }
                 input {
-                    width: 90%;
                     text-align: right;
                 }
             }
         }
         .sliderWrapper {
             position: relative;
-            margin-top: 5px;
             height: 28px;
             .track {
                 width: 100%;
@@ -933,16 +966,21 @@ export default {
                 top: 0;
                 bottom: 0;
                 border-radius: 10px;
+                &.disabledClass {
+                    background-color: #D9D9D9;
+                }
             }
             .measure {
                 height: 15px;
-                background-color: $light_blue;
+                background-color: $secondary;
                 position: absolute;
                 top: 0;
                 bottom: 0;
                 border-radius: 10px;
+                &.disabledClass {
+                    background-color: #9B9A9A;
+                }
             }
-
             input[type="range"] {
                 -webkit-appearance: none;
                 -moz-appearance: none;
@@ -952,7 +990,7 @@ export default {
                 position: absolute;
                 margin: auto;
                 top: 0;
-                bottom: 1px;
+                bottom: 2px;
                 left: 0;
                 background-color: transparent;
                 pointer-events: none;
@@ -982,40 +1020,40 @@ export default {
                 -webkit-appearance: none;
                 height: 15px;
                 width: 15px;
-                background-color: $white;
+                background-color: $secondary;
                 border-radius: 10px;
+                border: 1px solid $white;
                 pointer-events: auto;
                 margin-top: -5px;
                 z-index: 2;
+                &.disabledClass {
+                    background-color: #9B9A9A;
+                }
             }
             input[type="range"]::-moz-range-thumb {
                 appearance: auto;
                 -webkit-appearance: none;
                 height: 15px;
                 width: 15px;
-                background-color: $white;
+                background-color: $secondary;
                 border-radius: 50%;
+                border: 1px solid $white;
                 pointer-events: auto;
+                &.disabledClass {
+                    background-color: #9B9A9A;
+                }
             }
             input[type="range"]::-ms-thumb {
                 -appearance: none;
                 height: 15px;
                 width: 15px;
-                background-color: $white;
+                background-color: $secondary;
                 border-radius: 50%;
+                border: 1px solid $white;
                 pointer-events: auto;
-            }
-            input[type="range"]:active::-ms-thumb {
-                background-color: $white;
-                border: 1px solid $light_blue;
-            }
-            input[type="range"]:active::-moz-range-thumb {
-                background-color: $white;
-                border: 1px solid $light_blue;
-            }
-            input[type="range"]:active:not(.disabledClass)::-webkit-slider-thumb {
-                background-color: $white;
-                border: 1px solid $light_blue;
+                &.disabledClass {
+                    background-color: #9B9A9A;
+                }
             }
             input::-webkit-outer-spin-button,
             input::-webkit-inner-spin-button {
@@ -1035,6 +1073,9 @@ export default {
                     right: 0;
                     top: 48px;
                 }
+            }
+            input[type="range"].disabledClass::-webkit-slider-thumb {
+                background-color: #9B9A9A;
             }
         }
     }

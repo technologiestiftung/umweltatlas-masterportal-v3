@@ -10,7 +10,8 @@ const state = {
     iconArrow: "arrows-fullscreen",
     iconExit: "fullscreen-exit",
     supportedDevices: ["Desktop"],
-    supportedMapModes: ["2D", "3D"]
+    supportedMapModes: ["2D", "3D"],
+    newTabFromFrame: true
 };
 
 export default state;

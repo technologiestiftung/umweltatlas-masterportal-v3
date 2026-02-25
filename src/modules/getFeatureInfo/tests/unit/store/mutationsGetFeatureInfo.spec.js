@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import mutations from "../../../store/mutationsGetFeatureInfo";
+import mutations from "@modules/getFeatureInfo/store/mutationsGetFeatureInfo.js";
 
 describe("src/modules/getFeatureInfo/store/mutationsGetFeatureInfo.js", () => {
     describe("removeGfiFeatureByLayerId", () => {

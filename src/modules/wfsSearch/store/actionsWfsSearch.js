@@ -1,8 +1,8 @@
 import axios from "axios";
-import handleAxiosResponse from "../../../shared/js/utils/handleAxiosResponse";
-import {setLikeFilterProperties} from "../js/buildFilter";
-import {createUserHelp, prepareLiterals, resetFieldValues} from "../js/literalFunctions";
-import {rawLayerList} from "@masterportal/masterportalapi/src";
+import handleAxiosResponse from "@shared/js/utils/handleAxiosResponse.js";
+import {setLikeFilterProperties} from "../js/buildFilter.js";
+import {createUserHelp, prepareLiterals, resetFieldValues} from "../js/literalFunctions.js";
+import {rawLayerList} from "@masterportal/masterportalapi/src/index.js";
 
 const actions = {
     /**
@@ -32,7 +32,7 @@ const actions = {
 
         if (wfs) {
             const {selectSource} = currentInstance,
-                service = {url: wfs.url || (wfs.get ? wfs.get("url") : undefined)};
+                service = {url: wfs.url || (wfs.get ? wfs.get("url") : undefined), featureNS: wfs.featureNS || (wfs.get ? wfs.get("featureNS") : undefined), featurePrefix: wfs.featurePrefix || (wfs.get ? wfs.get("featurePrefix") : undefined)};
 
             // NOTE: The extra object is sadly needed so that the object is reactive :(
             commit("setRequiredValues", {...prepareLiterals(currentInstance.literals)});

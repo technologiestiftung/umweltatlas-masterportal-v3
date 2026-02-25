@@ -3,7 +3,7 @@ import {config, shallowMount, mount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import SearchBarComponent from "../../../components/SearchBar.vue";
+import SearchBarComponent from "@modules/searchBar/components/SearchBar.vue";
 
 config.global.mocks.$t = key => key;
 
@@ -19,7 +19,12 @@ describe("src/modules/searchBar/components/SearchBar.vue", () => {
         menuActionsSpy,
         searchBarActionsSpy,
         searchBarMutationsSpy,
-        searchInputValue;
+        searchInputValue,
+        setGlobalPlaceholderSpy,
+        setSearchResultsActiveSpy,
+        setShowAllResultsSpy,
+        setShowSearchResultsInTreeSpy,
+        setCurrentActionEventSpy;
 
 
     beforeEach(() => {
@@ -62,16 +67,25 @@ describe("src/modules/searchBar/components/SearchBar.vue", () => {
             search: sinon.stub(),
             activateActions: sinon.stub(),
             startLayerSelectionSearch: sinon.stub(),
-            checkLayerSelectionSearchConfig: sinon.stub()
+            checkLayerSelectionSearchConfig: sinon.stub(),
+            removeHighlight3DTile: sinon.stub()
         };
 
+        setGlobalPlaceholderSpy = sinon.spy();
+        setSearchResultsActiveSpy = sinon.spy();
+        setShowAllResultsSpy = sinon.spy();
+        setShowSearchResultsInTreeSpy = sinon.spy();
+        setCurrentActionEventSpy = sinon.spy();
         searchBarMutationsSpy = {
             addSuggestionItem: sinon.stub(),
             setSearchInput: sinon.stub(),
-            setShowAllResults: sinon.stub(),
+            setShowAllResults: setShowAllResultsSpy,
+            setShowSearchResultsInTree: setShowSearchResultsInTreeSpy,
+            setCurrentActionEvent: setCurrentActionEventSpy,
             setCurrentSide: sinon.stub(),
-            setSearchResultsActive: sinon.stub(),
-            setSearchSuggestions: sinon.stub()
+            setSearchResultsActive: setSearchResultsActiveSpy,
+            setSearchSuggestions: sinon.stub(),
+            setGlobalPlaceholder: setGlobalPlaceholderSpy
         };
 
         searchInputValue = "abc-straße";
@@ -96,7 +110,8 @@ describe("src/modules/searchBar/components/SearchBar.vue", () => {
                                 searchResultsActive: () => false,
                                 showAllResults: () => false,
                                 suggestionListLength: () => 0,
-                                type: () => "searchBar"
+                                type: () => "searchBar",
+                                addLayerButtonSearchActive: () => true
                             },
                             mutations: searchBarMutationsSpy
                         }
@@ -302,10 +317,9 @@ describe("src/modules/searchBar/components/SearchBar.vue", () => {
 
             wrapper.vm.checkCurrentComponent("layerSelection");
 
-
             expect(startSearchSpy.called).to.be.true;
-            expect(menuActionsSpy.navigateBack.called).to.be.true;
             expect(searchBarActionsSpy.startLayerSelectionSearch.called).to.be.true;
+            expect(menuActionsSpy.navigateBack.called).to.be.true;
         });
     });
 
@@ -409,6 +423,43 @@ describe("src/modules/searchBar/components/SearchBar.vue", () => {
 
             wrapper.vm.$options.watch.searchInputValue.handler.call(wrapper.vm);
             expect(startSearchSpy.calledOnce).to.be.true;
+        });
+    });
+    describe("watcher", () => {
+        it("currentComponentSide layerSelection, addLayerButtonSearchActive is true", async () => {
+            wrapper = shallowMount(SearchBarComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.$options.watch.currentComponentSide.handler.call(wrapper.vm, "layerSelection");
+            expect(setGlobalPlaceholderSpy.calledOnce).to.be.true;
+            expect(setGlobalPlaceholderSpy.firstCall.args[1]).to.equal("common:modules.searchBar.search");
+            expect(setShowAllResultsSpy.notCalled).to.be.true;
+            expect(setShowSearchResultsInTreeSpy.notCalled).to.be.true;
+            expect(setCurrentActionEventSpy.notCalled).to.be.true;
+            expect(setSearchResultsActiveSpy.notCalled).to.be.true;
+
+        });
+        it("currentComponentSide root, addLayerButtonSearchActive is true", async () => {
+            wrapper = shallowMount(SearchBarComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.$options.watch.currentComponentSide.handler.call(wrapper.vm, "root");
+            expect(setSearchResultsActiveSpy.calledOnce).to.be.true;
+            expect(menuActionsSpy.navigateBack.called).to.be.true;
+            expect(setGlobalPlaceholderSpy.calledOnce).to.be.true;
+            expect(setGlobalPlaceholderSpy.firstCall.args[1]).to.equal("ABC");
+            expect(setShowAllResultsSpy.calledOnce).to.be.true;
+            expect(setShowAllResultsSpy.firstCall.args[1]).to.be.false;
+            expect(setShowSearchResultsInTreeSpy.calledOnce).to.be.true;
+            expect(setShowSearchResultsInTreeSpy.firstCall.args[1]).to.be.false;
+            expect(setCurrentActionEventSpy.calledOnce).to.be.true;
+            expect(setCurrentActionEventSpy.firstCall.args[1]).to.be.equals("");
         });
     });
 });

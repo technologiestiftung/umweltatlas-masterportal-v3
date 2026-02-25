@@ -1,7 +1,7 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
-import MenuFolder from "../../../components/MenuFolder.vue";
-import MenuContainerBodyRootItems from "../../../components/MenuContainerBodyRootItems.vue";
+import MenuFolder from "@modules/menu/components/MenuFolder.vue";
+import MenuContainerBodyRootItems from "@modules/menu/components/MenuContainerBodyRootItems.vue";
 import {expect} from "chai";
 import sinon from "sinon";
 

@@ -1,6 +1,6 @@
-import testAction from "../../../../../../devtools/tests/VueTestUtils";
-import actions from "../../../store/actionsFilter";
-import state from "../../../store/stateFilter";
+import testAction from "@devtools/tests/VueTestUtils.js";
+import actions from "@modules/filter/store/actionsFilter.js";
+import state from "@modules/filter/store/stateFilter.js";
 
 const {
     updateRules,

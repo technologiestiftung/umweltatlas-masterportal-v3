@@ -1,9 +1,9 @@
 import axios from "axios";
-import store from "../../../../../../app-store";
+import store from "@appstore/index.js";
 import {expect} from "chai";
 import sinon from "sinon";
-import {RoutingGeosearchResult} from "../../../../js/classes/routing-geosearch-result";
-import {fetchRoutingSpecialWfsGeosearch, makeWFSRequest} from "../../../../js/geosearch/routing-specialWfs-geosearch";
+import {RoutingGeosearchResult} from "@modules/routing/js/classes/routing-geosearch-result.js";
+import {fetchRoutingSpecialWfsGeosearch, makeWFSRequest} from "@modules/routing/js/geosearch/routing-specialWfs-geosearch.js";
 
 describe("src/modules/routing/js/geosearch/routing-specialWfs-geosearch.js", () => {
     const makeWFSRequestStub = sinon.stub(),
@@ -42,7 +42,8 @@ describe("src/modules/routing/js/geosearch/routing-specialWfs-geosearch.js", () 
     beforeEach(() => {
         sinon.stub(i18next, "t").callsFake((...args) => args);
         store.getters = {
-            restServiceById: () => ({url: "tmp"})
+            restServiceById: () => ({url: "tmp"}),
+            directionsWaypointsSource: () => []
         };
         store.state.Modules.Routing.geosearch.propertyNames = ["ms:LABEL_TEXT"];
         store.state.Modules.Routing.geosearch.typeName = "ms:strasse_nr";

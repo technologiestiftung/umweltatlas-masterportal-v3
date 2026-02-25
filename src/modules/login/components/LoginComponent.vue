@@ -1,6 +1,6 @@
 <script>
-import {mapMutations, mapGetters, mapActions} from "vuex";
-import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
+import {mapGetters, mapActions} from "vuex";
+import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
 
 export default {
     name: "LoginComponent",
@@ -10,15 +10,15 @@ export default {
         ...mapGetters(["isMobile"]),
         ...mapGetters("Modules/Login", ["loggedIn", "screenName", "email", "iconLogin", "iconLogged"])
     },
-    mounted () {
-        if (!this.isLoggedIn()) {
+    created () {
+        Config.overwriteWmsLoadfunction = true;
+    },
+    async mounted () {
+        if (!await this.isLoggedIn()) {
             this.openLoginWindow();
         }
-        setInterval(() => this.isLoggedIn(), 10_000);
     },
     methods: {
-        ...mapMutations("Menu", ["setCurrentComponentPropsName", "setCurrentComponentPropsDescription"]),
-        ...mapMutations("Modules/Login", ["setActive", "setIcon"]),
         ...mapActions("Modules/Login", [
             "initialize",
             "logout",
@@ -48,9 +48,8 @@ export default {
          * Returns true if user is logged in, else false
          * @return {Boolean} logged in
          */
-        isLoggedIn () {
-            this.checkLoggedIn();
-            this.setLoginProps();
+        async isLoggedIn () {
+            await this.checkLoggedIn();
             return this.loggedIn;
         },
 
@@ -98,26 +97,9 @@ export default {
         logoutButton (reload = false) {
             this.logout();
 
-            this.setLoginProps();
-
             if (reload) {
                 this.reloadWindow();
             }
-        },
-
-
-        /**
-         * Sets the icon, name and description according to the login status.
-         * @return {void}
-         */
-        setLoginProps () {
-            const iconType = this.loggedIn ? this.iconLogged : this.iconLogin,
-                componentName = this.loggedIn ? "common:modules.login.logout" : "common:modules.login.login",
-                componentDescription = this.loggedIn ? "common:modules.login.descriptionLoggedIn" : "common:modules.login.description";
-
-            this.setIcon(iconType);
-            this.setCurrentComponentPropsName({side: "secondaryMenu", name: componentName});
-            this.setCurrentComponentPropsDescription({side: "secondaryMenu", description: componentDescription});
         }
     }
 };

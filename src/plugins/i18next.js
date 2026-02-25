@@ -2,7 +2,6 @@ import I18NextVue from "i18next-vue";
 import LanguageDetector from "i18next-browser-languagedetector";
 import Backend from "i18next-http-backend";
 
-
 /**
  * Initialization. Wrapped in a function to avoid calling it initially
  * in a mochapack run.
@@ -17,7 +16,9 @@ export function initiateVueI18Next (app) {
 * initialization of the language with i18next
 * @pre i18next is not initialized
 * @post i18next is initialized
+* @param {String} portalId the unique identifier for each portal
 * @param {Object} portalLanguageConfig the configuration red from config.js
+* @param {Object} portalLocales portal-specific locale overrides from config.js
 * @param {Boolean} config.enabled activates the GUI for language switching
 * @param {Boolean} config.debug if true i18next show debugging for developing
 * @param {Object} config.languages the languages to be used as {krz: full} where krz is "en" and full is "english"
@@ -25,19 +26,19 @@ export function initiateVueI18Next (app) {
 * @param {Array} config.changeLanguageOnStartWhen the incidents that changes the language on startup as Array where the order is important
 * @returns {void}
 */
-export function initLanguage (portalLanguageConfig) {
-    // default language configuration
-    const portalLanguage = Object.assign({
-        "enabled": false,
-        "debug": false,
-        "languages": {
-            "de": "deutsch",
-            "en": "english"
-        },
-        "fallbackLanguage": "de",
-        "changeLanguageOnStartWhen": ["querystring", "localStorage", "navigator", "htmlTag"],
-        "loadPath": "/locales/{{lng}}/{{ns}}.json"
-    }, portalLanguageConfig);
+export function initLanguage (portalLanguageConfig, portalLocales) {
+    const portalId = window.location.pathname.split("/")[2] || window.location.hostname.split(".")[0],
+        portalLanguage = Object.assign({
+            "enabled": false,
+            "debug": false,
+            "languages": {
+                "de": "deutsch",
+                "en": "english"
+            },
+            "fallbackLanguage": "de",
+            "changeLanguageOnStartWhen": ["querystring", "localStorage", "navigator", "htmlTag"],
+            "loadPath": "/locales/{{lng}}/{{ns}}.json"
+        }, portalLanguageConfig);
 
     // init i18next
     if (Config.portalLanguage !== undefined && Config.portalLanguage.enabled) {
@@ -99,7 +100,7 @@ export function initLanguage (portalLanguageConfig) {
                 // keys or params to lookup language from
                 lookupQuerystring: "lng",
                 lookupCookie: "i18next",
-                lookupLocalStorage: "i18nextLng",
+                lookupLocalStorage: `i18nextLng_${portalId}`,
                 lookupFromPathIndex: 0,
                 lookupFromSubdomainIndex: 0,
 
@@ -118,8 +119,28 @@ export function initLanguage (portalLanguageConfig) {
                 skipOnVariables: false
             },
             appendNamespaceToMissingKey: true,
+            /**
+             * Custom handler for missing keys. Strips prefixes and corrects time format.
+             * Removes unnecessary prefixes from translation keys and adjusts time formats
+             * to use colons (`:`) where appropriate (e.g., replacing "HH.MM" with "HH:MM").
+             * @param {String} key - The missing key string to process.
+             * @returns {String} The cleaned key with time formats corrected if applicable.
+             */
             parseMissingKeyHandler: (key) => {
-                return key.replace(/^(common:|additional:)/, "");
+                return key
+                    .replace(/^(common:|additional:)/, "")
+                    .replace(/(?<=\s|^)([01]?[0-9]|2[0-3])\.([0-5][0-9])(?=\s|$)/g, "$1:$2");
+            }
+        })
+        .then(() => {
+            if (portalLocales) {
+                Object.entries(portalLocales).forEach(([language, languageEntries]) => Object.entries(languageEntries).forEach(([namespace, resources]) => i18next.addResourceBundle(
+                    language,
+                    namespace,
+                    resources,
+                    true,
+                    true
+                )));
             }
         });
 }

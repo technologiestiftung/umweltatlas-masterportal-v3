@@ -425,8 +425,6 @@ function migrateFolderStructure (oldData, elements) {
  * @returns {Array} the layers and if groups available, with v3 structure
  */
 function createGroupLayer (layers) {
-    let createdGroup = false;
-
     layers.forEach(layer => {
         if (layer.children) {
             const ids = [];
@@ -435,14 +433,10 @@ function createGroupLayer (layers) {
                 ids.push(child.id);
             });
             layer.id = ids;
-            delete layer.children;
-            console.info("   created Grouplayer " + layer.name);
-            createdGroup = true;
+            layer.typ = "GROUP";
+            console.info("   created Grouplayer " + layer.name, ids);
         }
     });
-    if (createdGroup) {
-        console.info("   --- HINT: layers are shown as configured in services.json. For special configuration add this to services.json.\n");
-    }
 }
 
 /**

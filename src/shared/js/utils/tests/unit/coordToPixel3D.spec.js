@@ -1,7 +1,11 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import crs from "@masterportal/masterportalapi/src/crs";
-import transformer from "../../coordToPixel3D";
+import crs from "@masterportal/masterportalapi/src/crs.js";
+import transformer from "@shared/js/utils/coordToPixel3D.js";
+
+afterEach(() => {
+    sinon.restore();
+});
 
 describe("src/shared/js/utils/coordToPixel3D", () => {
     let fromDegrees,

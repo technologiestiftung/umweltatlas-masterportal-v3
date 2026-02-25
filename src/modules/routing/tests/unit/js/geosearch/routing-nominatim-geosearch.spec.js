@@ -1,14 +1,14 @@
 import axios from "axios";
-import store from "../../../../../../app-store";
+import store from "@appstore/index.js";
 import {expect} from "chai";
 import sinon from "sinon";
-import {RoutingGeosearchResult} from "../../../../js/classes/routing-geosearch-result";
+import {RoutingGeosearchResult} from "@modules/routing/js/classes/routing-geosearch-result.js";
 import {
     fetchRoutingNominatimGeosearch,
     fetchRoutingNominatimGeosearchReverse,
     getRoutingNominatimGeosearchUrl,
     getRoutingNominatimGeosearchReverseUrl
-} from "../../../../js/geosearch/routing-nominatim-geosearch";
+} from "@modules/routing/js/geosearch/routing-nominatim-geosearch.js";
 
 describe("src/modules/routing/js/geosearch/routing-nominatim-geosearch.js", () => {
     let service;

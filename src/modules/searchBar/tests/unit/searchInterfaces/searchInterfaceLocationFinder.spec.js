@@ -1,9 +1,9 @@
-import crs from "@masterportal/masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs.js";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import SearchInterface from "../../../searchInterfaces/searchInterface.js";
-import SearchInterfaceLocationFinder from "../../../searchInterfaces/searchInterfaceLocationFinder.js";
+import SearchInterface from "@modules/searchBar/searchInterfaces/searchInterface.js";
+import SearchInterfaceLocationFinder from "@modules/searchBar/searchInterfaces/searchInterfaceLocationFinder.js";
 
 describe("src/modules/searchBar/searchInterfaces/searchInterfaceLocationFinder.js", () => {
     let error,
@@ -317,6 +317,176 @@ describe("src/modules/searchBar/searchInterfaces/searchInterfaceLocationFinder.j
                     category: "abc",
                     id: "locationFinder_1",
                     icon: "bi-record-circle",
+                    name: "First result"
+                }
+            );
+        });
+
+        it("should use displayName as category when classDefinition has displayName", () => {
+            const searchResult = {
+                    cx: 513211.35,
+                    cy: 5403346.4,
+                    id: 1,
+                    name: "First result",
+                    type: "Haltestelle"
+                },
+                extendedData = {
+                    classDefinition: {
+                        name: "Haltestelle",
+                        displayName: "ÖPNV-Haltestelle",
+                        icon: "bi-record-circle"
+                    },
+                    epsgCode: "EPSG:25832"
+                };
+
+            expect(SearchInterface1.normalizeResult(searchResult, extendedData)).to.deep.equals(
+                {
+                    events: {
+                        onClick: {
+                            setMarker: {
+                                coordinates: [
+                                    1,
+                                    2
+                                ]
+                            },
+                            zoomToResult: {
+                                coordinates: [
+                                    1,
+                                    2
+                                ]
+                            }
+                        },
+                        onHover: {
+                            setMarker: {
+                                coordinates: [
+                                    1,
+                                    2
+                                ]
+                            }
+                        },
+                        buttons: {
+                            startRouting: {
+                                coordinates: [1, 2],
+                                name: searchResult.name
+                            }
+                        }
+                    },
+                    category: "ÖPNV-Haltestelle",
+                    id: "locationFinder_1",
+                    icon: "bi-record-circle",
+                    name: "First result"
+                }
+            );
+        });
+
+        it("should fall back to type when classDefinition has no displayName", () => {
+            const searchResult = {
+                    cx: 513211.35,
+                    cy: 5403346.4,
+                    id: 1,
+                    name: "First result",
+                    type: "Straßenname"
+                },
+                extendedData = {
+                    classDefinition: {
+                        name: "Straßenname",
+                        icon: "bi-signpost-2"
+                    },
+                    epsgCode: "EPSG:25832"
+                };
+
+            expect(SearchInterface1.normalizeResult(searchResult, extendedData)).to.deep.equals(
+                {
+                    events: {
+                        onClick: {
+                            setMarker: {
+                                coordinates: [
+                                    1,
+                                    2
+                                ]
+                            },
+                            zoomToResult: {
+                                coordinates: [
+                                    1,
+                                    2
+                                ]
+                            }
+                        },
+                        onHover: {
+                            setMarker: {
+                                coordinates: [
+                                    1,
+                                    2
+                                ]
+                            }
+                        },
+                        buttons: {
+                            startRouting: {
+                                coordinates: [1, 2],
+                                name: searchResult.name
+                            }
+                        }
+                    },
+                    category: "Straßenname",
+                    id: "locationFinder_1",
+                    icon: "bi-signpost-2",
+                    name: "First result"
+                }
+            );
+        });
+
+        it("should translate displayName if it is an i18next key", () => {
+            const searchResult = {
+                    cx: 513211.35,
+                    cy: 5403346.4,
+                    id: 1,
+                    name: "First result",
+                    type: "Adresse"
+                },
+                extendedData = {
+                    classDefinition: {
+                        name: "Adresse",
+                        displayName: "common:modules.searchBar.type.address",
+                        icon: "bi-house-door-fill"
+                    },
+                    epsgCode: "EPSG:25832"
+                };
+
+            expect(SearchInterface1.normalizeResult(searchResult, extendedData)).to.deep.equals(
+                {
+                    events: {
+                        onClick: {
+                            setMarker: {
+                                coordinates: [
+                                    1,
+                                    2
+                                ]
+                            },
+                            zoomToResult: {
+                                coordinates: [
+                                    1,
+                                    2
+                                ]
+                            }
+                        },
+                        onHover: {
+                            setMarker: {
+                                coordinates: [
+                                    1,
+                                    2
+                                ]
+                            }
+                        },
+                        buttons: {
+                            startRouting: {
+                                coordinates: [1, 2],
+                                name: searchResult.name
+                            }
+                        }
+                    },
+                    category: "modules.searchBar.type.address",
+                    id: "locationFinder_1",
+                    icon: "bi-house-door-fill",
                     name: "First result"
                 }
             );

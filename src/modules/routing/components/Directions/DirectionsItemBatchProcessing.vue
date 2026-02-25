@@ -1,12 +1,12 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import RoutingBatchProcessing from "../RoutingBatchProcessing.vue";
-import {RoutingTaskHandler} from "../../js/classes/routing-task-handler";
+import {RoutingTaskHandler} from "../../js/classes/routing-task-handler.js";
 
 
 /**
  * DirectionsItemBatchProcessing
- * @module modules/DirectionsItemBatchProcessing
+ * @module modules/routing/components/Directions/DirectionsItemBatchProcessing
  * @vue-prop {Object} settings - The settings.
  * @vue-data {Boolean} isProcessing - Shows if files are being processed.
  * @vue-data {Number} countFailed - The failed attempts fo get directions.

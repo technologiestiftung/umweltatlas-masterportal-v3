@@ -1,6 +1,6 @@
 import {expect} from "chai";
 
-import mutations from "../../../store/mutationsLayerSelection";
+import mutations from "@modules/layerSelection/store/mutationsLayerSelection.js";
 
 const {clearLayerSelection, reduceToPreviousLayerSelection, addToLayerSelection} = mutations;
 

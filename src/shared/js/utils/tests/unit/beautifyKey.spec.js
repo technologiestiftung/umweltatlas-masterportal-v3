@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import beautifyKey from "../../beautifyKey.js";
+import beautifyKey from "@shared/js/utils/beautifyKey.js";
 
 describe("src/utils/beautifyKey.js", () => {
     describe("beautifyKey", () => {

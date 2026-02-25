@@ -1,12 +1,13 @@
-import buildTreeStructure from "./js/buildTreeStructure";
-import getNestedValues from "../shared/js/utils/getNestedValues";
-import replacer from "../shared/js/utils/replaceInNestedValues";
-import {getAndMergeAllRawLayers, getAndMergeRawLayer} from "./js/getAndMergeRawLayer";
-import {sortObjects} from "../shared/js/utils/sortObjects";
-import {treeOrder, treeBaselayersKey, treeSubjectsKey} from "../shared/js/utils/constants";
-import layerCollection from "../core/layers/js/layerCollection";
-import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
-import {trackMatomo} from "../plugins/matomo";
+import buildTreeStructure from "./js/buildTreeStructure.js";
+import getNestedValues from "@shared/js/utils/getNestedValues.js";
+import replacer from "@shared/js/utils/replaceInNestedValues.js";
+import {getAndMergeAllRawLayers, getAndMergeRawLayer} from "./js/getAndMergeRawLayer.js";
+import {sortObjects} from "@shared/js/utils/sortObjects.js";
+import {treeOrder, treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList.js";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
+import {trackMatomo} from "../plugins/matomo.js";
 
 /**
  * The root actions for layer configurations.
@@ -44,7 +45,7 @@ export default {
         dispatch("updateLayerConfigZIndex", {layerContainer, maxZIndex});
 
         if (matchingLayer === undefined) {
-            layerConfig.zIndex = maxZIndex + 1;
+            layerConfig.zIndex ??= maxZIndex + 1;
             if (state.layerConfig[parentKey]) {
                 state.layerConfig[parentKey].elements.push(layerConfig);
             }
@@ -85,7 +86,7 @@ export default {
                 lastVisibility = existingLayer?.visibility;
             let assigned = [];
 
-            if (existingLayer?.zIndex === undefined && config.zIndex === undefined && replacement.visibility) {
+            if (existingLayer?.zIndex === undefined && config.layer.zIndex === undefined && replacement.visibility) {
                 replacement.zIndex = getters.determineZIndex(id);
             }
             assigned = replacer.replaceInNestedValues(state.layerConfig, "elements", replacement, {key: "id", value: id});
@@ -103,7 +104,9 @@ export default {
                 layerCollection.getLayerById(id)?.visibilityChanged(replacement.visibility);
             }
 
-            dispatch("showLayerAttributions", config.layer);
+            if (getters["Maps/mode"] === "2D" && !config.layer.is3DLayer || getters["Maps/mode"] === "3D") {
+                dispatch("showLayerAttributions", config.layer);
+            }
         });
     },
 
@@ -116,9 +119,10 @@ export default {
      * @param {Boolean} [showInLayerTree = true] value for showInLayerTree
      * @param {Boolean} [isBaseLayer = false] value for isBaseLayer
      * @param {Number} zIndex new zIndex of the layer in the tree
+     * @param {Number} [payload.time] time information for time-dependent layers e.g. timestamp
      * @returns {Boolean} true, if layer exists an was added or replaced
      */
-    addOrReplaceLayer: function ({dispatch, getters}, {layerId, visibility = true, transparency = 0, showInLayerTree = true, isBaseLayer = false, zIndex}) {
+    addOrReplaceLayer: function ({dispatch, getters}, {layerId, visibility = true, transparency = 0, showInLayerTree = true, isBaseLayer = false, zIndex, time}) {
         const layer = getters.layerConfigById(layerId);
         let newZIndex = zIndex;
 
@@ -131,9 +135,19 @@ export default {
                 config.visibility = visibility;
                 config.transparency = transparency;
                 config.showInLayerTree = showInLayerTree;
-                config.zIndex = getters.determineZIndex(layerId);
+                config.zIndex = newZIndex ?? getters.determineZIndex(layerId);
+                if (time) {
+                    config.time = time;
+                }
 
-                dispatch("addLayerToLayerConfig", {layerConfig: config, parentKey});
+                if (config.styleId && typeof styleList.returnStyleObject(config.styleId) === "undefined") {
+                    styleList.initStyleAndAddToList(getters.configJs, config.styleId).then(() => {
+                        dispatch("addLayerToLayerConfig", {layerConfig: config, parentKey});
+                    });
+                }
+                else {
+                    dispatch("addLayerToLayerConfig", {layerConfig: config, parentKey});
+                }
             }
             else {
                 console.warn("addOrReplaceLayer- layer with id: " + layerId + " not added, because it was not found in services.json.");
@@ -141,20 +155,22 @@ export default {
             }
         }
         else {
-            if (!newZIndex) {
-                newZIndex = layer.zIndex;
+            if (newZIndex === null || newZIndex === undefined) {
+                newZIndex = layer.zIndex ?? newZIndex;
             }
 
-            if (!zIndex && !layer.showInLayerTree && visibility) {
-                newZIndex = getters.determineZIndex(layerId);
+            if ((layer.zIndex === null || layer.zIndex === null) && !layer.showInLayerTree && visibility) {
+                newZIndex = newZIndex ?? getters.determineZIndex(layerId);
             }
+
             dispatch("replaceByIdInLayerConfig", {layerConfigs: [{
                 id: layerId,
                 layer: {
                     visibility: visibility,
                     transparency: transparency,
                     showInLayerTree: showInLayerTree,
-                    zIndex: newZIndex
+                    zIndex: newZIndex,
+                    time: time
                 }
             }]});
         }
@@ -235,11 +251,22 @@ export default {
         let layerContainer = [];
 
         dispatch("addBaselayerAttribute");
-        layerContainer = getNestedValues(state.layerConfig, "elements", true).flat(Infinity);
         if (state.portalConfig?.tree?.type === "auto") {
+            layerContainer = getNestedValues(state.layerConfig, "elements", true).flat(Infinity);
             dispatch("processTreeTypeAuto", layerContainer);
+            dispatch("updateLayerConfigs", layerContainer);
         }
         else {
+            getters.allLayerConfigsByParentKey(treeSubjectsKey).map(attributes => {
+                const rawLayers = getAndMergeRawLayer(attributes, !getters.showLayerAddButton, state.portalConfig?.tree?.layerIDsToStyle);
+
+                if (rawLayers.length > 1) {
+                    // this is the case if config parameter tree.layerIDsToStyle results in more than on new created layers
+                    // --> replaces the originally config in config.json with the new created and styled configs
+                    replacer.replaceInNestedValues(state.layerConfig, "elements", rawLayers, {key: "id", value: attributes.id, replaceObject: attributes.id});
+                }
+                return Object.assign(attributes, rawLayers[0]);
+            });
             const allLayerConfigsStructured = getters.allLayerConfigsStructured(),
                 folders = allLayerConfigsStructured.filter(conf => conf.type === "folder");
 
@@ -248,8 +275,15 @@ export default {
             }
 
             buildTreeStructure.setIdsAtFolders(folders);
+            // fill layerContainer after state.layerConfig changed
+            layerContainer = getNestedValues(state.layerConfig, "elements", true).flat(Infinity);
+            if (getters.showLayerAddButton) {
+                dispatch("updateLayerConfigs", layerContainer.filter(conf => conf.baselayer === true || conf.visibility === true || conf.showInLayerTree));
+            }
+            else {
+                dispatch("updateLayerConfigs", layerContainer);
+            }
         }
-        dispatch("updateLayerConfigs", layerContainer);
     },
 
     /**
@@ -325,7 +359,8 @@ export default {
             const rawLayers = getAndMergeRawLayer(layerConf, !getters.showLayerAddButton, state.portalConfig?.tree?.layerIDsToStyle);
 
             if (rawLayers.length > 1) {
-                // this is the case if config parameter tree.layerIDsToStyle results in new created layers (layerIDsToStyle.styles contains more than one entry)
+            // this is the case if config parameter tree.layerIDsToStyle results in more than on new created layers
+            // --> replaces the originally config in config.json with the new created and styled configs
                 replacer.replaceInNestedValues(state.layerConfig, "elements", rawLayers, {key: "id", value: layerConf.id, replaceObject: layerConf.id});
             }
 

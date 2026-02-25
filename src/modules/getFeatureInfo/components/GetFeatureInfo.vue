@@ -2,9 +2,9 @@
 import {mapGetters, mapMutations, mapActions} from "vuex";
 
 import GetFeatureInfoDetached from "./GetFeatureInfoDetached.vue";
-import {mapAttributes} from "@masterportal/masterportalapi/src/lib/attributeMapper";
-import omit from "../../../shared/js/utils/omit";
-import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
+import {mapAttributes} from "@masterportal/masterportalapi/src/lib/attributeMapper.js";
+import omit from "@shared/js/utils/omit.js";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 
 /**
  * Get Feature Info
@@ -44,10 +44,10 @@ export default {
         ...mapGetters("Modules/GetFeatureInfo", [
             "configPaths",
             "currentFeature",
-            "initialMenuSide",
             "menuSide",
             "name",
             "showMarker",
+            "showPageNumber",
             "type",
             "visible"
         ]),
@@ -119,13 +119,14 @@ export default {
          */
         visible (value) {
             const menuSides = ["mainMenu", "secondaryMenu"],
-                otherSide = menuSides.find((element) => element !== this.initialMenuSide);
+                otherSide = menuSides.find((element) => element !== this.menuSide);
 
             if (!value) {
                 this.reset();
             }
             else {
                 if (this.currentComponent(this.menuSide).type === "print") {
+                    this.createMappedProperties(this.feature);
                     this.setMenuSide(otherSide);
                 }
 
@@ -241,7 +242,6 @@ export default {
                     this.setUpdatedFeature(true);
                 }
                 else if (newFeatures === null) {
-                    this.resetMenu(this.menuSide);
                     this.setUpdatedFeature(false);
                 }
             },
@@ -250,7 +250,7 @@ export default {
     },
     mounted () {
         this.initializeModule({configPaths: this.configPaths, type: this.type});
-        this.setMenuSide(this.initialMenuSide);
+        this.setMenuSide(this.menuSide);
     },
     beforeUpdate () {
         if (this.feature) {
@@ -361,6 +361,9 @@ export default {
             :key="componentKey"
             :feature="feature"
             :is-updated="updatedFeature"
+            :pager-index="pagerIndex"
+            :total-features="gfiFeatures.length"
+            :show-page-number="showPageNumber"
             @update-feature-done="setUpdatedFeature(true)"
             @close="reset"
         >
@@ -411,7 +414,6 @@ export default {
     .gfi {
         color: $dark_blue;
         height: 100vh;
-        overflow-x: auto
     }
 
     .gfi-pager {

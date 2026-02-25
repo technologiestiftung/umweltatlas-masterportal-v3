@@ -1,6 +1,7 @@
 <script>
 import {mapGetters} from "vuex";
 import axios from "axios";
+import visibilityChecker from "@shared/js/utils/visibilityChecker.js";
 
 /**
  * This module can display HTML from config.json or an external file.
@@ -18,6 +19,16 @@ export default {
             type: String,
             default: "mainMenu",
             validator: value => value === "mainMenu" || value === "secondaryMenu"
+        },
+        mapMode: {
+            type: String,
+            default: "2D",
+            validator: value => value === "2D" || value === "3D"
+        },
+        deviceMode: {
+            type: String,
+            default: "Desktop",
+            validator: value => value === "Desktop" || value === "Mobile" || value === "Table"
         }
     },
     data: () => {
@@ -32,6 +43,20 @@ export default {
         },
         pathToContent () {
             return this.currentComponent(this.side).props.pathToContent;
+        },
+        supportedMapModes () {
+            return this.currentComponent(this.side).props.supportedMapModes || ["2D", "3D"];
+        },
+        supportedDevices () {
+            return this.currentComponent(this.side).props.supportedDevices || ["Desktop", "Mobile", "Table"];
+        },
+        isVisible () {
+            return visibilityChecker.isModuleVisible({
+                mapMode: this.mapMode,
+                deviceMode: this.deviceMode,
+                supportedMapModes: this.supportedMapModes,
+                supportedDevices: this.supportedDevices
+            });
         }
     },
     methods: {
@@ -85,7 +110,10 @@ export default {
 </script>
 
 <template lang="html">
-    <div class="custom-menu-element">
+    <div
+        v-if="isVisible"
+        class="custom-menu-element"
+    >
         <div
             v-if="validateHTMLContent()"
             v-html="htmlContent"

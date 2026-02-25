@@ -6,7 +6,7 @@ import {
     isCalendarMoment,
     getGaussianEasterMoment,
     getFirstAdventMoment
-} from "../../calendar.js";
+} from "@shared/js/utils/calendar.js";
 import {expect} from "chai";
 
 describe("src/utils/calendar.js", () => {
@@ -84,6 +84,26 @@ describe("src/utils/calendar.js", () => {
             expect(result.moment.format("YYYY-MM-DD")).to.equal("2021-01-06");
             expect(result.holidayKey).to.equal("epiphany");
             expect(result.translationKey).to.equal("common:utils.calendar.epiphany");
+        });
+        it("should return true for liberation day in 2025", () => {
+            const date = "2025-05-08",
+                holidays = ["liberationDay"],
+                result = getPublicHoliday(date, holidays, "YYYY-MM-DD");
+
+
+            expect(result).to.be.an("object");
+            expect(result.moment).to.be.an("object");
+            expect(result.moment.format).to.be.a("function");
+            expect(result.moment.format("YYYY-MM-DD")).to.equal("2025-05-08");
+            expect(result.holidayKey).to.equal("liberationDay");
+            expect(result.translationKey).to.equal("common:utils.calendar.liberationDay");
+        });
+        it("should return false for liberation day in 2024", () => {
+            const date = "2024-05-08",
+                holidays = ["liberationDay"],
+                result = getPublicHoliday(date, holidays, "YYYY-MM-DD");
+
+            expect(result).to.be.false;
         });
     });
     describe("getPublicHolidays", () => {

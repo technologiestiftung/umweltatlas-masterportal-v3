@@ -1,6 +1,6 @@
 <script>
 import {mapGetters, mapActions, mapMutations} from "vuex";
-import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 
 /**
  * Action button to display at each search result and to execute configured actions.
@@ -60,10 +60,9 @@ export default {
     <IconButton
         v-if="displayAction()"
         :aria="$t('common:modules.searchBar.actions.'+actionName)"
-        :class-array="['btn-light']"
+        :class-array="['btn-light', 'ms-2']"
         :icon="iconsByActions[actionName]"
         :interaction="callAction"
-        class="ms-2"
     />
 </template>
 

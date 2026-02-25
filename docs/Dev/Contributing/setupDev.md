@@ -43,7 +43,7 @@ The Node Package Manager (**[NPM](http://npmjs.org)**) comes bundled with your N
 
 ```console
 $ node -v
-v20.12.2
+v22.19.0
 
 $ npm -v
 10.5.0
@@ -69,6 +69,7 @@ npm config set cache D:\npm-cache
 ### Proxy configuration (optional)
 
 Only relevant when a proxy is in use.
+Proxy in use on windows machines can be checked by running `netsh winhttp show proxy` in `cmd`
 
 
 Run in `cmd`:
@@ -118,16 +119,6 @@ Now all npm dependencies are installed.
 
 In case add-ons are to be used, please refer to the **[add-ons documentation](../Tutorials/addOnsVue.md)** for further assistance.
 
-### Python Dependencies
-
-The documentation of this software is generated with mkdocs-material, a tool written in Python.
-To prevent conflicts between Python packages on the system and project level,
-a virtual environment (venv) is recommended.
-
-1. Run `python -m venv .venv` in the root folder of the cloned project to create a new virtual Python environment.
-2. Activate the venv by running either `source .venv/bin/activate` on Linux or `call .venv/Scripts/activate.bat` on Windows.
-3. Now run `pip install -r .\python-dependencies.txt` to install the required Python packages. You may need to pass a [proxy configuration](https://pip.pypa.io/en/stable/user_guide/#using-a-proxy-server) to pip if you are behind a corporate firewall.
-
 
 ## npm Commands
 
@@ -170,6 +161,17 @@ $ npm run build
 
 The created files are stored in the *dist* folder. The folder will be created automatically in the Masterportal folder root. The source code is bundled within the **Mastercode** folder with the current version.
 
+### Build Script Configuration
+
+You can provide the portal path in two ways:
+
+1. **Via environment variable** (preferred for automation):
+```
+PORTAL_PATH="your/portal/path"
+ ```
+2. **Interactively via prompt:** If `PORTAL_PATH` is not set, the build script will ask for the path interactively.
+
+> **Note:** Using the environment variable allows you to automate builds in CI/CD pipelines without manual input.
 
 ### `npm run buildExamples`
 
@@ -197,7 +199,7 @@ Please refer to the [npm update documentation](https://docs.npmjs.com/cli/v6/com
 
 
 
-## Set up debugging in Visual Studio Code
+## Set up Debugging in Visual Studio Code
 
 1. Install extension Firefox/Chrome-Debugger
 
@@ -253,3 +255,17 @@ $ npm start
 7. Set a breakpoint
 
     ![Set a breakpoint](https://docs.microsoft.com/en-us/sharepoint/dev/images/vscode-debugging-breakpoint-configured.png)
+
+
+## Local Documentation Preview
+
+Optionally, you can install the documentation framework locally to preview advanced changes to the docs.
+The documentation of this software is generated with **mkdocs-material**, a tool written in Python.
+
+To prevent conflicts between Python packages on the system and project level, a virtual environment (venv) is recommended.
+
+1. Run `python -m venv .venv` in the root folder of the cloned project to create a new virtual Python environment in a folder named `.venv`.
+2. Activate the venv by running either `source .venv/bin/activate` on Linux or `call .venv/Scripts/activate.bat` on Windows.
+3. Now run `pip install -r devtools/docsValidation/python-dependencies.txt` to install the required Python packages.
+   You may need to pass a [proxy configuration](https://pip.pypa.io/en/stable/user_guide/#using-a-proxy-server) to pip if you are behind a corporate firewall.
+

@@ -1,6 +1,6 @@
 <script>
-import {generateColorRange, assignColors} from "../../../shared/js/utils/colorRange";
-import ColorPicker from "../../../shared/modules/inputs/components/ColorPicker.vue";
+import {generateColorRange, assignColors} from "@shared/js/utils/colorRange.js";
+import ColorPicker from "@shared/modules/inputs/components/ColorPicker.vue";
 
 /**
  * AttributeStyler

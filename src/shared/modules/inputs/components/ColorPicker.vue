@@ -1,4 +1,10 @@
 <script>
+
+/**
+ * ColorPicker Component: A component for showing a simple color picker.
+ * @module shared/modules/inputs/ColorPicker
+ * @vue-prop {String} selectedColor is the initially shown color in the picker.
+ */
 export default {
     name: "ColorPicker",
     data () {

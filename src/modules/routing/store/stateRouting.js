@@ -1,5 +1,7 @@
 /**
- * User type definition
+ * State of routing
+ * @module modules/routing/store/state
+ *
  * @typedef {Object} RoutingState
  * @property {String} description The description that should be shown in the button in the menu.
  * @property {String} type The type of the module.
@@ -17,7 +19,6 @@
  * @property {Object} directionsSettings Routing Direction Parameters. // type: "ORS",serviceId: "bkg_ors".
  * @property {Object} isochronesSettings Routing Isochrones Parameters. // type: "ORS",serviceId: "bkg_ors".
 */
-
 const state = {
     // mandatory
     type: "routing",
@@ -61,6 +62,10 @@ const state = {
         serviceId: null,
         speedProfile: "CAR",
         preference: "RECOMMENDED",
+        elevation: false,
+        avoidRadius: 0.005,
+        maxAvoidRadius: 12,
+        defaultAvoidRadius: 0.005,
         styleRoute: {
             fillColor: [255, 44, 0, 1],
             width: 6,
@@ -87,11 +92,22 @@ const state = {
             pointRadius: 8,
             pointLineWidth: 4
         },
+        styleElevationProfile: {
+            profileColor: "#fe2c00",
+            profileFillColor: "#fccac0",
+            elevationPointLineColor: [0, 0, 0, 1.0],
+            elevationPointFillColor: [125, 125, 125, 1.0]
+        },
         batchProcessing: {
             enabled: false,
             active: false,
             limit: 1000,
             maximumConcurrentRequests: 3
+        },
+        avoidAreaOptions: {
+            maxFeatures: 50,
+            maxArea: 200000,
+            maxSideLength: 20000
         }
     },
     isochronesSettings: {
@@ -105,9 +121,12 @@ const state = {
         timeValue: 30,
         minTime: 1,
         maxTime: 180,
+        intervalOption: "default",
         intervalValue: 15,
         minInterval: 3,
         maxInterval: 30,
+        attributes: [],
+        areaUnit: "km",
         styleCenter: {
             lineColor: [255, 127, 0],
             lineWidth: 4,
@@ -126,6 +145,34 @@ const state = {
             active: false,
             limit: 1000,
             maximumConcurrentRequests: 3
+        }
+    },
+    tsrSettings: {
+        type: null,
+        serviceId: null,
+        speedProfile: "CAR",
+        preference: "RECOMMENDED",
+        elevation: false,
+        tsrPointLimit: 50,
+        styleRoute: {
+            fillColor: [255, 44, 0],
+            width: 6
+        },
+        styleWaypoint: {
+            lineColor: [255, 127, 0],
+            lineWidth: 4,
+            fillColor: [255, 127, 0],
+            textFillColor: "#000",
+            textLineColor: "#fff",
+            textLineWidth: 3,
+            opacity: 0.3,
+            radius: 8
+        },
+        styleElevationProfile: {
+            profileColor: "#32a9e8",
+            profileFillColor: "#8cc7e6",
+            elevationPointLineColor: [0, 0, 0, 1.0],
+            elevationPointFillColor: [125, 125, 125, 1.0]
         }
     }
 };

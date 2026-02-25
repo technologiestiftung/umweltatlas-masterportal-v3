@@ -1,7 +1,7 @@
 import GeoJSONWriter from "jsts/org/locationtech/jts/io/GeoJSONWriter";
 import OL3Parser from "jsts/org/locationtech/jts/io/OL3Parser";
-import {Fill, Stroke, Style} from "ol/style";
-import {ResultType} from "./enums";
+import {Fill, Stroke, Style} from "ol/style.js";
+import {ResultType} from "./enums.js";
 
 /**
  * User type definition

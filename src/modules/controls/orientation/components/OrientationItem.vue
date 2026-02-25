@@ -1,6 +1,6 @@
 <script>
 import {mapGetters, mapMutations, mapActions} from "vuex";
-import mutations from "../store/mutationsOrientation";
+import mutations from "../store/mutationsOrientation.js";
 import ControlIcon from "../../components/ControlIcon.vue";
 import PoiChoice from "./poi/PoiChoice.vue";
 import PoiOrientation from "./poi/PoiOrientation.vue";
@@ -9,8 +9,8 @@ import Overlay from "ol/Overlay.js";
 import proj4 from "proj4";
 import * as Proj from "ol/proj.js";
 import {Circle, LineString} from "ol/geom.js";
-import layerCollection from "../../../../core/layers/js/layerCollection";
-import isObject from "../../../../shared/js/utils/isObject";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import isObject from "@shared/js/utils/isObject.js";
 
 /**
  * Orientation control that allows the user to locate themselves on the map.
@@ -46,6 +46,8 @@ export default {
             "geolocation",
             "iconGeolocate",
             "iconGeolocatePOI",
+            "iconGeolocationMarker",
+            "iFrameGeolocationEnabled",
             "onlyFilteredFeatures",
             "poiDistances",
             "poiMode",
@@ -88,7 +90,6 @@ export default {
     mounted () {
         this.addElement();
         this.checkWFS();
-
     },
     methods: {
         ...mapMutations("Controls/Orientation", Object.keys(mutations)),
@@ -114,7 +115,16 @@ export default {
         track () {
             let geolocation = null;
 
-            if (this.isGeolocationDenied === false) {
+            const inIframe = window.self !== window.top,
+                iFrameGeolocationEnabled = this.iFrameGeolocationEnabled === true;
+
+            if (inIframe && !iFrameGeolocationEnabled) {
+                this.addSingleAlert({
+                    category: "error",
+                    content: `<strong>${this.$t("common:modules.controls.orientation.iFrameGeolocationError")}`
+                });
+            }
+            else if (this.isGeolocationDenied === false) {
                 mapCollection.getMap("2D").addOverlay(this.marker);
                 if (this.geolocation === null) {
                     geolocation = new Geolocation({tracking: true, projection: Proj.get("EPSG:4326")});
@@ -515,7 +525,7 @@ export default {
             id="geolocation_marker"
             class="geolocation_marker"
         >
-            <i class="bi-circle-fill" />
+            <i :class="iconGeolocationMarker" />
         </span>
         <ControlIcon
             id="geolocate"

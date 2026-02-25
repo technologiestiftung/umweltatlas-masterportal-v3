@@ -1,11 +1,15 @@
+import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
-import FilterList from "../../../components/FilterList.vue";
-import IconButton from "../../../../../shared/modules/buttons/components/IconButton.vue";
+import FilterList from "@modules/filter/components/FilterList.vue";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
+
+afterEach(() => {
+    sinon.restore();
+});
 
 describe("src/modules/filter/components/FilterList.vue", () => {
     let wrapper,
@@ -18,7 +22,19 @@ describe("src/modules/filter/components/FilterList.vue", () => {
                 Alerting: {
                     namespaced: true,
                     actions: {
-                        addSingleAlert: sinon.stub()
+                        addSingleAlert: sinon.spy()
+                    }
+                },
+                Modules: {
+                    namespaced: true,
+                    modules: {
+                        namespaced: true,
+                        Filter: {
+                            namespaced: true,
+                            getters: {
+                                rulesOfFilters: () => []
+                            }
+                        }
                     }
                 }
             }
@@ -39,6 +55,16 @@ describe("src/modules/filter/components/FilterList.vue", () => {
     });
 
     it("should render filter title disabled true if multiLayerSelector is false", async () => {
+        wrapper = shallowMount(FilterList, {
+            propsData: {
+                filters: [{filterId: 0, title: "i am a filter"}, {filterId: 1, title: "i am a filter"}],
+                multiLayerSelector: false
+            },
+            global: {
+                plugins: [store]
+            }
+        });
+
         await wrapper.setProps({
             selectedLayers: [{
                 filterId: 0
@@ -53,33 +79,7 @@ describe("src/modules/filter/components/FilterList.vue", () => {
         });
         expect(wrapper.find(".disabled").exists()).to.be.false;
     });
-
-    it("should render short description if filter is closed", async () => {
-        await wrapper.setProps({
-            selectedLayers: [{
-                filterId: 1
-            }],
-            filters: [{
-                shortDescription: "Short Description",
-                filterId: 0
-            }]
-        });
-        expect(wrapper.find(".layerInfoText").exists()).to.be.true;
-        expect(wrapper.find(".layerInfoText").text()).to.equal("Short Description");
-    });
-    it("should not render short description if filter is open", async () => {
-        await wrapper.setProps({
-            selectedLayers: [{
-                filterId: 0
-            }],
-            filters: [{
-                filterId: 0
-            }]
-        });
-        expect(await wrapper.find(".layerInfoText").exists()).to.be.false;
-    });
-
-    it("should render an icon button if initialStartupReset is true on the filter", async () => {
+    it("should render an accordion if there are layer filter", async () => {
         wrapper.vm.hasUnfixedRules = () => true;
         await wrapper.setProps({
             selectedLayers: [{
@@ -87,23 +87,24 @@ describe("src/modules/filter/components/FilterList.vue", () => {
             }],
             filters: [{
                 filterId: 0,
-                initialStartupReset: true
+                layerId: "19091"
             }]
         });
-        expect(wrapper.findComponent(IconButton).exists()).to.be.true;
+        expect(wrapper.findComponent(AccordionItem).exists()).to.be.true;
     });
-    it("should not render an icon button if initialStartupReset is false on the filter", async () => {
+
+    it("should render collapse element if collapseButton is true", async () => {
         wrapper.vm.hasUnfixedRules = () => true;
         await wrapper.setProps({
             selectedLayers: [{
                 filterId: 0
             }],
+            collapseButtons: true,
             filters: [{
-                filterId: 0,
-                initialStartupReset: false
+                filterId: 0
             }]
         });
-        expect(wrapper.findComponent(IconButton).exists()).to.be.false;
+        expect(wrapper.find(".button-collapse").exists()).to.be.true;
     });
 
     describe("updateSelectedLayers", () => {
@@ -150,6 +151,130 @@ describe("src/modules/filter/components/FilterList.vue", () => {
             await wrapper.vm.$nextTick();
             wrapper.vm.scrollToView(0);
             expect(wrapper.emitted()).to.have.property("resetJumpToId");
+        });
+    });
+    describe("showRulesNumber", () => {
+        it("should return false, if the first parameter is not correct", () => {
+            expect(wrapper.vm.showRulesNumber(null)).to.be.false;
+            expect(wrapper.vm.showRulesNumber(undefined)).to.be.false;
+            expect(wrapper.vm.showRulesNumber([])).to.be.false;
+            expect(wrapper.vm.showRulesNumber("str")).to.be.false;
+            expect(wrapper.vm.showRulesNumber({})).to.be.false;
+            expect(wrapper.vm.showRulesNumber(false)).to.be.false;
+            expect(wrapper.vm.showRulesNumber(true)).to.be.false;
+        });
+        it("should return false, if the second parameter is not correct", () => {
+            expect(wrapper.vm.showRulesNumber(1, null)).to.be.false;
+            expect(wrapper.vm.showRulesNumber(1, undefined)).to.be.false;
+            expect(wrapper.vm.showRulesNumber(1, "str")).to.be.false;
+            expect(wrapper.vm.showRulesNumber(1, {})).to.be.false;
+            expect(wrapper.vm.showRulesNumber(1, false)).to.be.false;
+            expect(wrapper.vm.showRulesNumber(1, true)).to.be.false;
+        });
+        it("should return false, if the third parameter is not correct", () => {
+            const selectedLayers = [
+                {
+                    "layerId": "19091",
+                    "filterId": 0
+                }
+            ];
+
+            expect(wrapper.vm.showRulesNumber(1, selectedLayers, 123)).to.be.false;
+            expect(wrapper.vm.showRulesNumber(1, selectedLayers, "str")).to.be.false;
+            expect(wrapper.vm.showRulesNumber(1, selectedLayers, {})).to.be.false;
+            expect(wrapper.vm.showRulesNumber(1, selectedLayers, false)).to.be.false;
+            expect(wrapper.vm.showRulesNumber(1, selectedLayers, true)).to.be.false;
+        });
+        it("should return false, if the rule object is a real rule, but layer id is not selected", () => {
+            const selectedLayers = [
+                    {
+                        "layerId": "19091",
+                        "filterId": 0
+                    }
+                ],
+                rulesOfFilters = [
+                    {
+                        "snippetId": 0,
+                        "startup": false,
+                        "fixed": false,
+                        "attrName": "@Datastreams.0.Observations.0.result",
+                        "operatorForAttrName": "AND",
+                        "operator": "BETWEEN",
+                        "value": [
+                            0,
+                            95
+                        ],
+                        "tagTitle": "0 - 95"
+                    }
+                ];
+
+            expect(wrapper.vm.showRulesNumber(1, selectedLayers, rulesOfFilters)).to.be.false;
+        });
+        it("should return false, if the rule object is a real rule but layer id is not selected", () => {
+            const selectedLayers = [
+                    {
+                        "layerId": "19091",
+                        "filterId": 1
+                    }
+                ],
+                rulesOfFilters = [];
+
+            rulesOfFilters[0] = [];
+            rulesOfFilters[0] =
+                {
+                    "snippetId": 0,
+                    "startup": false,
+                    "fixed": false,
+                    "attrName": "@Datastreams.0.Observations.0.result",
+                    "operatorForAttrName": "AND",
+                    "operator": "BETWEEN",
+                    "value": [
+                        0,
+                        95
+                    ],
+                    "tagTitle": "0 - 95"
+                };
+            expect(wrapper.vm.showRulesNumber(1, selectedLayers, rulesOfFilters)).to.be.false;
+        });
+    });
+    describe("getRulesNumber", () => {
+        it("should return 0, if first parameter is not correct", () => {
+            expect(wrapper.vm.getRulesNumber(null)).to.be.equals(0);
+            expect(wrapper.vm.getRulesNumber(undefined)).to.be.equals(0);
+            expect(wrapper.vm.getRulesNumber("str")).to.be.equals(0);
+            expect(wrapper.vm.getRulesNumber(false)).to.be.equals(0);
+            expect(wrapper.vm.getRulesNumber({})).to.be.equals(0);
+            expect(wrapper.vm.getRulesNumber([])).to.be.equals(0);
+        });
+        it("should return 0, if second parameter is not correct", () => {
+            expect(wrapper.vm.getRulesNumber(123, undefined)).to.be.equals(0);
+            expect(wrapper.vm.getRulesNumber(123, "str")).to.be.equals(0);
+            expect(wrapper.vm.getRulesNumber(123, false)).to.be.equals(0);
+            expect(wrapper.vm.getRulesNumber(123, {})).to.be.equals(0);
+            expect(wrapper.vm.getRulesNumber(123, [])).to.be.equals(0);
+        });
+        it("should return the number of rules", () => {
+            const rulesOfFilters = [];
+
+            rulesOfFilters[8] = [];
+
+            rulesOfFilters[8] = [
+                {
+                    "snippetId": 0,
+                    "startup": false,
+                    "fixed": false,
+                    "attrName": "@Datastreams.0.Observations.0.result",
+                    "operatorForAttrName": "AND",
+                    "operator": "BETWEEN",
+                    "value": [
+                        0,
+                        95
+                    ],
+                    "tagTitle": "0 - 95"
+                }
+            ];
+
+            expect(wrapper.vm.getRulesNumber(8, rulesOfFilters)).to.be.equals(1);
         });
     });
 });

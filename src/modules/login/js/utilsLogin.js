@@ -1,6 +1,6 @@
-import Cookie from "./utilsCookies";
-import OIDC from "./utilsOIDC";
-import AxiosUtils from "./utilsAxios";
+import Cookie from "./utilsCookies.js";
+import OIDC from "./utilsOIDC.js";
+import AxiosUtils from "./utilsAxios.js";
 
 /**
  * This function is used to intercept the masterportal load to
@@ -54,6 +54,7 @@ export function handleLoginParameters () {
         return "user logged in: " + (Cookie.get("email") || "no email defined for user");
     }
 
+    addAuthenticationBearerInterceptors(Config.login);
     return false;
 }
 
@@ -67,7 +68,6 @@ export function handleLoginParameters () {
 function addAuthenticationBearerInterceptors (config) {
     const token = Cookie.get("token");
 
-
     if (token !== undefined) {
         const account = OIDC.parseJwt(token),
             expiry = account.exp ? account.exp * 1000 : Date.now() + 10000;
@@ -76,7 +76,7 @@ function addAuthenticationBearerInterceptors (config) {
             OIDC.eraseCookies();
         }
 
-        AxiosUtils.addInterceptor(token, config?.interceptorUrlRegex);
+        AxiosUtils.addInterceptor(config?.interceptorUrlRegex);
     }
 }
 

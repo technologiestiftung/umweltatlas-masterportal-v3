@@ -1,6 +1,6 @@
 import {Draw} from "ol/interaction.js";
-import style from "./measureStyle";
-import source from "./measureSource";
+import style from "./measureStyle.js";
+import source from "./measureSource.js";
 
 let styleIdCounter = 0;
 
@@ -12,11 +12,11 @@ let styleIdCounter = 0;
  * @param {function} setTooltipCoord to set the coordinates for the tooltip into state
  * @returns {module:ol/interaction/Draw} draw interaction
  */
-function makeDraw (type, addFeature, setIsDrawing, setFeatureId, setTooltipCoord) {
+function makeDraw ({state}, type, addFeature, setIsDrawing, setFeatureId, setTooltipCoord) {
     const draw = new Draw({
         source,
         type,
-        style
+        style: style(state.color)
     });
 
     let sketch = null,

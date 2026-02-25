@@ -3,8 +3,8 @@ import {config, shallowMount} from "@vue/test-utils";
 import {nextTick} from "vue";
 import {expect} from "chai";
 import sinon from "sinon";
-import MeasureInMapComponent from "../../../components/MeasureInMap.vue";
-import MeasureModule from "../../../store/indexMeasure";
+import MeasureInMapComponent from "@modules/measure/components/MeasureInMap.vue";
+import MeasureModule from "@modules/measure/store/indexMeasure.js";
 
 config.global.mocks.$t = key => key;
 

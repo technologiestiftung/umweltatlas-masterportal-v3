@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import deepCopy from "../../deepCopy";
+import deepCopy from "@shared/js/utils/deepCopy.js";
 
 describe("src/utils/deepCopy.js", () => {
     describe("deepCopy", () => {

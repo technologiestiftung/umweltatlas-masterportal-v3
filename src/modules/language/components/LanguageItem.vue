@@ -1,6 +1,6 @@
 <script>
 import {mapGetters, mapMutations} from "vuex";
-import getters from "../store/gettersLanguage";
+import getters from "../store/gettersLanguage.js";
 
 /**
  * Language Item

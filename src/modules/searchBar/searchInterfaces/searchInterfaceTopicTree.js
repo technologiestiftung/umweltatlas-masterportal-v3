@@ -1,6 +1,6 @@
-import SearchInterface from "./searchInterface";
-import store from "../../../app-store";
-import layerFactory from "../../../core/layers/js/layerFactory";
+import SearchInterface from "./searchInterface.js";
+import store from "@appstore/index.js";
+import layerTypes from "@core/layers/js/layerTypes.js";
 
 /**
  * The search interface to the topic tree.
@@ -15,7 +15,7 @@ import layerFactory from "../../../core/layers/js/layerFactory";
  * @param {String} [searchType=""] Decides whether the metadata or the name of a layer should be searched. Possible value: "metadata". If empty, name will be searched.
  * @returns {void}
  */
-export default function SearchInterfaceTopicTree ({hitTemplate, resultEvents, searchInterfaceId, searchType} = {}) {
+export default function SearchInterfaceTopicTree ({hitTemplate, resultEvents, searchInterfaceId, searchType, toolTip} = {}) {
     const resultEventsDefault = {
             onClick: ["activateLayerInTopicTree"],
             buttons: ["showInTree", "showLayerInfo"]
@@ -32,6 +32,7 @@ export default function SearchInterfaceTopicTree ({hitTemplate, resultEvents, se
     );
 
     this.searchType = searchType || "";
+    this.toolTip = toolTip;
 }
 
 SearchInterfaceTopicTree.prototype = Object.create(SearchInterface.prototype);
@@ -44,7 +45,7 @@ SearchInterfaceTopicTree.prototype = Object.create(SearchInterface.prototype);
  */
 SearchInterfaceTopicTree.prototype.search = async function (searchInput) {
     this.searchState = "running";
-    const searchInputRegExp = this.createRegExp(searchInput),
+    const searchInputRegExp = this.createRegExp(searchInput.trim()),
         foundLayers = this.searchInLayers(store.getters.allLayerConfigs, searchInputRegExp),
         foundFolders = this.searchInFolders(store.getters.layerConfig, searchInputRegExp);
 
@@ -60,8 +61,7 @@ SearchInterfaceTopicTree.prototype.search = async function (searchInput) {
  * @return {String} The search input as regExp String.
  */
 SearchInterfaceTopicTree.prototype.createRegExp = function (searchInput) {
-    const string = searchInput.replace(/ /g, ""),
-        searchInputRegExp = new RegExp(string.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&"), "i");
+    const searchInputRegExp = new RegExp(searchInput.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&"), "i");
 
     return searchInputRegExp;
 };
@@ -77,22 +77,23 @@ SearchInterfaceTopicTree.prototype.searchInLayers = function (layerConfigs, sear
     const foundLayers = [];
 
     layerConfigs.forEach(layer => {
-
-        if (store.getters["Maps/mode"] === "3D" || !layerFactory.getLayerTypes3d().includes(layer?.typ?.toUpperCase())) {
+        if (store.getters["Maps/mode"] === "3D" || !layerTypes.getLayerTypes3d().includes(layer?.typ?.toUpperCase())) {
             const datasets = layer.datasets;
             let searchString = "",
                 datasetsExist = false;
 
             if (this.searchType === "metadata" && Array.isArray(datasets) && datasets.length > 0 && typeof datasets[0].md_name === "string") {
-                searchString = layer.datasets[0].md_name.replace(/ /g, "");
+                searchString = i18next.t(layer.datasets[0].md_name);
             }
             else if (typeof layer.name === "string") {
-                searchString = layer.name.replace(/ /g, "");
+                searchString = i18next.t(layer.name);
             }
             if (Array.isArray(datasets) && datasets.length > 0 && typeof datasets[0].md_name === "string") {
                 datasetsExist = true;
             }
-
+            if (this.toolTip === "path") {
+                layer.layerPath = this.getPath(layer);
+            }
             if (searchString.search(searchInputRegExp) !== -1) {
                 foundLayers.push(this.normalizeLayerResult(layer, datasetsExist));
             }
@@ -103,19 +104,58 @@ SearchInterfaceTopicTree.prototype.searchInLayers = function (layerConfigs, sear
 };
 
 /**
+ * creates the path in the layertree of the given layer/folder
+ * @param {Object} layerOrFolder - given layer or leaf folder
+ * @return {String} path - the path in the layertree
+ */
+SearchInterfaceTopicTree.prototype.getPath = function (layerOrFolder) {
+    let layerPath = [layerOrFolder.name];
+
+    layerPath = this.getNamesOfParentFolder(layerOrFolder.parentId, layerPath).reverse();
+
+    return layerPath.length > 0 ? layerPath.join("/") : undefined;
+};
+
+/**
+ * Looks up for the names of all parent folders.
+ * @param {String} parentId id of the parent folder
+ * @param {Array} names to store names
+ * @returns {Array}  the names of all parent folders
+ */
+SearchInterfaceTopicTree.prototype.getNamesOfParentFolder = function (parentId, names) {
+    if (parentId !== undefined) {
+        const parent = store.getters.folderById(parentId);
+
+        if (parent) {
+            names.push(parent.name);
+            this.getNamesOfParentFolder(parent.parentId, names);
+        }
+    }
+    return names;
+};
+
+/**
  * Normalizes the layer search results to display them in a SearchResult.
  * @param {Object} layer The search results layer.
  * @param {Boolean} datasetsExist Is true, if layer has datasets.
  * @returns {Object} The normalized layer search result.
  */
 SearchInterfaceTopicTree.prototype.normalizeLayerResult = function (layer, datasetsExist) {
+    let toolTip = "";
+
+    if (this.toolTip === "path") {
+        toolTip = layer.layerPath;
+    }
+    else if (datasetsExist) {
+        toolTip = layer.datasets[0].md_name;
+    }
     return {
         events: this.normalizeResultEvents(this.resultEvents, layer),
-        category: i18next.t("common:modules.searchBar.type.topic"),
+        category: layer.baselayer ? i18next.t("common:modules.searchBar.type.topicBaselayer") : i18next.t("common:modules.searchBar.type.topic"),
         icon: "bi-stack",
         id: layer.id,
         name: layer.name,
-        toolTip: datasetsExist ? layer.datasets[0].md_name : ""
+        toolTip: toolTip
     };
 };
 
@@ -135,6 +175,9 @@ SearchInterfaceTopicTree.prototype.searchInFolders = function (layerConfig, sear
 
     folders.forEach(folder => {
         if (folder.name.search(searchInputRegExp) !== -1) {
+            if (this.toolTip === "path") {
+                folder.folderPath = this.getPath(folder);
+            }
             foundFolders.push(this.normalizeFolderResult(folder));
         }
     });
@@ -168,7 +211,8 @@ SearchInterfaceTopicTree.prototype.normalizeFolderResult = function (folder) {
         category: i18next.t("common:modules.searchBar.type.folder"),
         icon: "bi-folder",
         id: folder.id,
-        name: folder.name
+        name: folder.name,
+        toolTip: this.toolTip ? folder.folderPath : folder.name
     };
 };
 

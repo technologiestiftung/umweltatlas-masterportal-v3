@@ -1,10 +1,12 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import Layer2dRasterWms from "../../../js/layer2dRasterWms";
+import store from "@appstore/index.js";
+import Layer2dRasterWms from "@core/layers/js/layer2dRasterWms.js";
 
 describe("src/core/js/layers/layer2dRasterWms.js", () => {
     let attributes,
-        warn;
+        warn,
+        origGetters;
 
     before(() => {
         warn = sinon.spy();
@@ -29,6 +31,7 @@ describe("src/core/js/layers/layer2dRasterWms.js", () => {
     });
 
     beforeEach(() => {
+        origGetters = store.getters;
         attributes = {
             id: "id",
             layers: "layer1,layer2",
@@ -40,8 +43,10 @@ describe("src/core/js/layers/layer2dRasterWms.js", () => {
         };
     });
 
-    after(() => {
+    afterEach(() => {
+        delete Config.overwriteWmsLoadfunction;
         sinon.restore();
+        store.getters = origGetters;
     });
 
     describe("createLayer", () => {
@@ -145,9 +150,10 @@ describe("src/core/js/layers/layer2dRasterWms.js", () => {
                 zIndex: 1,
                 featureCount: 5
             };
+
         });
 
-        it("should return the layer params", () => {
+        it("should return the layer params, , overwriteWmsLoadfunction not set", () => {
             const wmsLayer = new Layer2dRasterWms(localAttributes);
 
             expect(wmsLayer.getLayerParams(localAttributes)).to.deep.equals({
@@ -155,6 +161,7 @@ describe("src/core/js/layers/layer2dRasterWms.js", () => {
                 gfiAsNewWindow: false,
                 gfiAttributes: "showAll",
                 gfiTheme: "default",
+                gfiTitleAttribute: undefined,
                 infoFormat: "text/xml",
                 layers: "test_layers",
                 name: "test_name",
@@ -162,7 +169,31 @@ describe("src/core/js/layers/layer2dRasterWms.js", () => {
                 typ: "wms",
                 zIndex: 1,
                 featureCount: 5,
-                gfiThemeSettings: undefined
+                gfiThemeSettings: undefined,
+                useFetchForWMS: false
+            });
+        });
+
+        it("should return the layer params, overwriteWmsLoadfunction is true", () => {
+            Config.overwriteWmsLoadfunction = true;
+
+            const wmsLayer = new Layer2dRasterWms(localAttributes);
+
+            expect(wmsLayer.getLayerParams(localAttributes)).to.deep.equals({
+                format: "image/png",
+                gfiAsNewWindow: false,
+                gfiAttributes: "showAll",
+                gfiTheme: "default",
+                gfiTitleAttribute: undefined,
+                infoFormat: "text/xml",
+                layers: "test_layers",
+                name: "test_name",
+                opacity: 0.9,
+                typ: "wms",
+                zIndex: 1,
+                featureCount: 5,
+                gfiThemeSettings: undefined,
+                useFetchForWMS: true
             });
         });
     });

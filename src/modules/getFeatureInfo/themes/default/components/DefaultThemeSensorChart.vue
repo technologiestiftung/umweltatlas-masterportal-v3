@@ -4,8 +4,8 @@ import {
     getObservations,
     convertObservationsToLinechart
 } from "../js/staTools.js";
-import LinechartItem from "../../../../../shared/modules/charts/components/LinechartItem.vue";
-import ExportButtonCSV from "../../../../../shared/modules/buttons/components/ExportButtonCSV.vue";
+import LinechartItem from "@shared/modules/charts/components/LinechartItem.vue";
+import ExportButtonCSV from "@shared/modules/buttons/components/ExportButtonCSV.vue";
 
 /**
  * Sensor chart for default theme of the get feature info.

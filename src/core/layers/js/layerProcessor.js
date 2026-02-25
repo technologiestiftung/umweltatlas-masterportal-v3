@@ -1,6 +1,7 @@
-import layerFactory from "./layerFactory";
-import layerCollection from "./layerCollection";
-import store from "../../../app-store";
+import layerFactory from "./layerFactory.js";
+import layerCollection from "./layerCollection.js";
+import store from "@appstore/index.js";
+import {toRaw} from "vue";
 
 /**
  * Starts the creation of the layer in the layer factory
@@ -55,7 +56,6 @@ export function processLayerConfig (layerConfig, mapMode) {
             updateLayerAttributes(layer, layerConf);
         }
         else if (layerConf.visibility === true) {
-            Object.assign(layerConf, {showInLayerTree: true}); // a visible layer is always show in layer tree
             layer = layerFactory.createLayer(layerConf, mapMode);
             processLayer(layer, mapMode);
         }
@@ -79,8 +79,8 @@ export function processLayerConfig (layerConfig, mapMode) {
  * @returns {void}
  */
 export function updateLayerAttributes (layer, layerConf) {
-    layer.updateLayerValues(layerConf);
-    Object.assign(layer.attributes, layerConf);
+    layer.updateLayerValues(toRaw(layerConf));
+    Object.assign(layer.attributes, toRaw(layerConf));
 }
 
 /**
@@ -109,7 +109,10 @@ export function setResolutions (layer) {
                 zIndex = layer.get("zIndex");
 
             setMinMaxResolution(childLayer, layer);
-            childLayer.getLayer().setOpacity(opacity);
+            if (layer.layer.getOpacity() !== 1 && childLayer.layer.getOpacity() === 1) {
+                childLayer.getLayer().setOpacity(opacity);
+
+            }
             childLayer.getLayer().setZIndex(zIndex);
         });
     }
@@ -136,8 +139,19 @@ function setMinMaxResolution (layer, groupLayer) {
         const resoByMaxScale = store.getters["Maps/getResolutionByScale"](layer.get("maxScale"), "max"),
             resoByMinScale = store.getters["Maps/getResolutionByScale"](layer.get("minScale"), "min");
 
-        layer.getLayer().setMaxResolution(resoByMaxScale + (resoByMaxScale / 100));
-        layer.getLayer().setMinResolution(resoByMinScale);
+        if (layer.getLayer && typeof layer.getLayer().setMaxResolution === "function") {
+            layer.getLayer().setMaxResolution(resoByMaxScale + resoByMaxScale / 100);
+            layer.getLayer().setMinResolution(resoByMinScale);
+        }
+        else if (layer.tileset) {
+            const maxDistance = layer.get("maxScale") / 10,
+                minDistance = layer.get("minScale") / 10;
+
+            layer.tileset.show = true;
+            layer.tileset.minimumDistance = minDistance;
+            layer.tileset.maximumDistance = maxDistance;
+        }
+
     }
 }
 

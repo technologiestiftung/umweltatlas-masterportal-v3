@@ -2,16 +2,16 @@ import {createStore} from "vuex";
 import {expect} from "chai";
 import sinon from "sinon";
 import {config, shallowMount} from "@vue/test-utils";
-import IsochronesItemBatchProcessingComponent from "../../../../components/Isochrones/IsochronesItemBatchProcessing.vue";
-import mutations from "../../../../store/mutationsRouting";
-import actions from "../../../../store/actionsRouting";
-import getters from "../../../../store/gettersRouting";
-import mutationsIsochrones from "../../../../store/isochrones/mutationsIsochrones";
-import actionsIsochrones from "../../../../store/isochrones/actionsIsochrones";
-import gettersIsochrones from "../../../../store/isochrones/gettersIsochrones";
-import stateIsochrones from "../../../../store/isochrones/stateIsochrones";
-import {RoutingIsochrones} from "../../../../js/classes/routing-isochrones";
-import {RoutingIsochronesArea} from "../../../../js/classes/routing-isochrones-area";
+import IsochronesItemBatchProcessingComponent from "@modules/routing/components/Isochrones/IsochronesItemBatchProcessing.vue";
+import mutations from "@modules/routing/store/mutationsRouting.js";
+import actions from "@modules/routing/store/actionsRouting.js";
+import getters from "@modules/routing/store/gettersRouting.js";
+import mutationsIsochrones from "@modules/routing/store/isochrones/mutationsIsochrones.js";
+import actionsIsochrones from "@modules/routing/store/isochrones/actionsIsochrones.js";
+import gettersIsochrones from "@modules/routing/store/isochrones/gettersIsochrones.js";
+import stateIsochrones from "@modules/routing/store/isochrones/stateIsochrones.js";
+import {RoutingIsochrones} from "@modules/routing/js/classes/routing-isochrones.js";
+import {RoutingIsochronesArea} from "@modules/routing/js/classes/routing-isochrones-area.js";
 
 config.global.mocks.$t = key => key;
 
@@ -114,8 +114,8 @@ describe("src/modules/routing/components/Isochrones/IsochronesItemBatchProcessin
                 ]);
 
                 iso1.addArea(
-                    new RoutingIsochronesArea(
-                        [
+                    new RoutingIsochronesArea({
+                        coordinates: [
                             [13.654976, 51.716036],
                             [13.974829, 51.564453],
                             [14.595649, 51.711114],
@@ -123,19 +123,19 @@ describe("src/modules/routing/components/Isochrones/IsochronesItemBatchProcessin
                             [13.714232, 51.85033],
                             [13.654976, 51.716036]
                         ],
-                        0,
-                        1800,
-                        1800,
-                        900,
-                        "CAR",
-                        "TIME",
-                        [],
-                        30
-                    )
+                        groupIndex: 0,
+                        value: 1800,
+                        maximum: 1800,
+                        interval: 900,
+                        speedProfile: "CAR",
+                        optimization: "TIME",
+                        avoidSpeedProfileOptions: [],
+                        displayValue: 30
+                    })
                 );
                 iso1.addArea(
-                    new RoutingIsochronesArea(
-                        [
+                    new RoutingIsochronesArea({
+                        coordinates: [
                             [13.826935, 51.802841],
                             [13.947338, 51.685157],
                             [14.033771, 51.652093],
@@ -143,15 +143,15 @@ describe("src/modules/routing/components/Isochrones/IsochronesItemBatchProcessin
                             [14.073216, 51.788426],
                             [13.826935, 51.802841]
                         ],
-                        0,
-                        1800,
-                        1800,
-                        900,
-                        "CAR",
-                        "TIME",
-                        [],
-                        15
-                    )
+                        groupIndex: 0,
+                        value: 1800,
+                        maximum: 1800,
+                        interval: 900,
+                        speedProfile: "CAR",
+                        optimization: "TIME",
+                        avoidSpeedProfileOptions: [],
+                        displayValue: 15
+                    })
                 );
 
                 return iso1;

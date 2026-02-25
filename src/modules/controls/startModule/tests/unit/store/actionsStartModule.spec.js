@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import actions from "../../../store/actionsStartModule";
+import actions from "@modules/controls/startModule/store/actionsStartModule.js";
 
 const {
     setConfiguredModuleStates,

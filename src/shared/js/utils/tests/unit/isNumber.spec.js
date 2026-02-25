@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import isNumber from "../../isNumber";
+import isNumber from "@shared/js/utils/isNumber.js";
 
 describe("src/shared/js/utils/isNumber", () => {
     it("should return false if the given param is not a number", () => {

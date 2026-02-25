@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {translateKeyWithPlausibilityCheck} from "../../translateKeyWithPlausibilityCheck.js";
+import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
 
 describe("src/shared/js/utils/translateKeyWithPlausibilityCheck", () => {
     it("should return an empty string if the given value is not a string", () => {

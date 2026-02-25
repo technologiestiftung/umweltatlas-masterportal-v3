@@ -1,10 +1,11 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import actions from "../../../store/actionsModeler3D";
-import store from "../../../../../app-store";
+import actions from "@modules/modeler3D/store/actionsModeler3D.js";
+import store from "@appstore/index.js";
 import proj4 from "proj4";
-import blobHandler from "../../../js/blob";
+import blobHandler from "@modules/modeler3D/js/blob.js";
 import {nextTick} from "vue";
+import layerCollection from "@core/layers/js/layerCollection.js";
 
 describe("Actions", () => {
     let entity,
@@ -59,8 +60,25 @@ describe("Actions", () => {
         };
 
     beforeEach(() => {
+        sinon.stub(global, "fetch").returns(
+            Promise.resolve({
+                ok: true,
+                text: () => Promise.resolve(`
+                        <xml>
+                            <dictionaryEntry>
+                                <gml:description>ALKIS</gml:description>
+                                <gml:name>31001_1000</gml:name>
+                                <gml:name>name1</gml:name>
+                            </dictionaryEntry>
+                        </xml>
+                    `)
+            })
+        );
+        store.state.Maps.mode = "3D";
         mapCollection.clear();
         mapCollection.addMap(map3D, "3D");
+        sinon.stub(console, "error").callsFake(sinon.spy());
+        sinon.stub(console, "warn").callsFake(sinon.spy());
 
         global.Cesium = {
             PolylineGraphics: function (options) {
@@ -156,7 +174,9 @@ describe("Actions", () => {
                 });
             },
             Transforms: {
-                eastNorthUpToFixedFrame: () => ({x: 10, y: 20, z: 30})
+                eastNorthUpToFixedFrame: () => ({x: 10, y: 20, z: 30}),
+                headingPitchRollQuaternion: sinon.stub()
+
             },
             Entity: class {
                 /**
@@ -190,14 +210,16 @@ describe("Actions", () => {
             Math: {
                 toDegrees: () => 9.99455657887449,
                 toRadians: () => 0.97
+            },
+            HeadingPitchRoll: class {
+                /**
+                 * Temp constructor
+                 */
+                constructor () {
+                    return {};
+                }
             }
         };
-
-        store.state.Maps.mode = "3D";
-        store.getters = {
-            "Maps/mode": store.state.Maps.mode
-        };
-
         scene = {
             globe: {
                 getHeight: () => 5.7896
@@ -219,7 +241,6 @@ describe("Actions", () => {
         entity = undefined;
         sinon.restore();
         entities.values = [];
-
     });
     describe("deleteEntity", () => {
         it("should delete the entity from list and entityCollection", () => {
@@ -1191,10 +1212,9 @@ describe("Actions", () => {
             const entityList = [
                     {
                         blob: new Blob()
-                    },
-                    {}
+                    }
                 ],
-                dispatch = sinon.stub();
+                dispatch = sinon.spy();
 
             await actions.createEntities({dispatch}, entityList);
             expect(dispatch.callCount).to.be.equal(1);
@@ -1293,6 +1313,115 @@ describe("Actions", () => {
             await actions.createEntity({commit, state: localTestState}, {blob, fileName, rotation: 10, scale: 2});
             await nextTick();
             expect(commit.getCalls().find(call => call.firstArg === "setIsLoading").lastArg).to.be.false;
+        });
+    });
+    describe("bulkHideObjects", () => {
+        it("should not call mutation", async () => {
+            const commit = sinon.spy(),
+                localTestState = {
+                    hiddenObjectsWithLayerId: [
+                        {
+                            name: "foo",
+                            layerId: 1
+                        },
+                        {
+                            name: "bar",
+                            layerId: 1
+                        }
+                    ],
+                    hiddenObjects: [
+                        {name: "foo"},
+                        {name: "bar"}
+                    ]
+                },
+                localTestGetter = {
+                    updateAllLayers: false
+                };
+
+            await actions.bulkHideObjects({state: localTestState, getters: localTestGetter, commit}, undefined);
+            await nextTick();
+            expect(commit.called).to.be.false;
+        });
+        it("should call commit with expecteed array if an empty array is given", async () => {
+            const commit = sinon.spy(),
+                localTestState = {
+                    hiddenObjectsWithLayerId: [
+                        {
+                            name: "foo",
+                            layerId: 1
+                        },
+                        {
+                            name: "bar",
+                            layerId: 1
+                        }
+                    ],
+                    hiddenObjects: [
+                        {name: "foo"},
+                        {name: "bar"}
+                    ]
+                },
+                localTestGetter = {
+                    updateAllLayers: false
+                };
+
+            await actions.bulkHideObjects({state: localTestState, getters: localTestGetter, commit}, []);
+            await nextTick();
+            expect(commit.getCall(0).args[1]).to.eql(localTestState.hiddenObjects);
+            expect(commit.getCall(1).args[1]).to.eql(localTestState.hiddenObjectsWithLayerId);
+        });
+        it("should call commit with expected array", async () => {
+            sinon.stub(layerCollection, "getLayerById").returns({
+                layer: {
+                    tileset: Promise.resolve({})
+                }
+            });
+            const commit = sinon.spy(),
+                localTestState = {
+                    hiddenObjectsWithLayerId: [
+                        {
+                            name: "foo",
+                            layerId: 1
+                        },
+                        {
+                            name: "bar",
+                            layerId: 1
+                        }
+                    ],
+                    hiddenObjects: [
+                        {name: "foo"},
+                        {name: "bar"}
+                    ]
+                },
+                localTestGetter = {
+                    updateAllLayers: false
+                };
+
+            await actions.bulkHideObjects({state: localTestState, getters: localTestGetter, commit}, [
+                {
+                    name: "foow",
+                    layerId: 1
+                }
+            ]);
+            await nextTick();
+            expect(commit.getCall(0).args[1]).to.eql([
+                {name: "foo"},
+                {name: "bar"},
+                {name: "foow"}
+            ]);
+            expect(commit.getCall(1).args[1]).to.eql([
+                {
+                    name: "foo",
+                    layerId: 1
+                },
+                {
+                    name: "bar",
+                    layerId: 1
+                },
+                {
+                    name: "foow",
+                    layerId: 1
+                }
+            ]);
         });
     });
 });

@@ -1,5 +1,5 @@
-import stateRouting from "../../store/stateRouting";
-import {convertColor} from "../../../../shared/js/utils/convertColor";
+import stateRouting from "../../store/stateRouting.js";
+import {convertColor} from "@shared/js/utils/convertColor.js";
 
 /**
  * @description Abstracts the search results of isochrones areas.
@@ -17,8 +17,10 @@ class RoutingIsochronesArea {
      * @param {String} optimization parameter.
      * @param {String[]} avoidSpeedProfileOptions parameter.
      * @param {Number} displayValue of area for GUI
+     * @param {Number} population of area
+     * @param {Number} area of area
      */
-    constructor (coordinates, groupIndex, value, maximum, interval, speedProfile, optimization, avoidSpeedProfileOptions, displayValue) {
+    constructor ({coordinates, groupIndex, value, maximum, interval, speedProfile, optimization, avoidSpeedProfileOptions, displayValue, population, area}) {
         this.coordinates = coordinates;
         this.groupIndex = groupIndex;
         this.value = value;
@@ -29,6 +31,8 @@ class RoutingIsochronesArea {
         this.avoidSpeedProfileOptions = avoidSpeedProfileOptions;
         this.displayValue = displayValue;
         this.calculateColor();
+        this.population = population;
+        this.area = area;
     }
 
     /**
@@ -155,10 +159,29 @@ class RoutingIsochronesArea {
                 optimization: this.getOptimization(),
                 speedProfile: this.getSpeedProfile(),
                 avoidSpeedProfileOptions: this.getAvoidSpeedProfileOptions(),
-                ...additionalProperties
+                ...additionalProperties,
+                ...this.getPopulation() && {population: this.getPopulation()},
+                ...this.getArea() && {area: this.getArea()}
             }
         };
     }
+
+    /**
+     * Population of the area
+     * @returns {Number} population of the area
+     */
+    getPopulation () {
+        return this.population;
+    }
+
+    /**
+     * Area of the isochrone
+     * @returns {Number} Area of the isochrone
+     */
+    getArea () {
+        return this.area;
+    }
+
 }
 
 export {RoutingIsochronesArea};

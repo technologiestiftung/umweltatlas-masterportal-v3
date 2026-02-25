@@ -1,4 +1,4 @@
-import mutations from "../../../store/mutationsAlerting";
+import mutations from "@modules/alerting/store/mutationsAlerting.js";
 import {expect} from "chai";
 
 describe("src/modules/alerting/store/mutationsAlerting.js", () => {

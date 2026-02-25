@@ -1,14 +1,14 @@
 import axios from "axios";
-import store from "../../../../../../app-store";
+import store from "@appstore/index.js";
 import {expect} from "chai";
 import sinon from "sinon";
-import {RoutingGeosearchResult} from "../../../../js/classes/routing-geosearch-result";
+import {RoutingGeosearchResult} from "@modules/routing/js/classes/routing-geosearch-result.js";
 import {
     getRoutingKomootGeosearchUrl,
     getRoutingKomootGeosearchReverseUrl,
     fetchRoutingKomootGeosearch,
     fetchRoutingKomootGeosearchReverse
-} from "../../../../js/geosearch/routing-komoot-geosearch";
+} from "@modules/routing/js/geosearch/routing-komoot-geosearch.js";
 
 describe("src/modules/routing/js/geosearch/routing-komoot-geosearch.js", () => {
     let service;

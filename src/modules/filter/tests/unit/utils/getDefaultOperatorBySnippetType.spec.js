@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {getDefaultOperatorBySnippetType} from "../../../utils/getDefaultOperatorBySnippetType.js";
+import {getDefaultOperatorBySnippetType} from "@modules/filter/utils/getDefaultOperatorBySnippetType.js";
 
 describe("src/modules/filter/utils/getDefaultOperatorBySnippetType.js", () => {
     describe("getDefaultOperatorBySnippetType", () => {

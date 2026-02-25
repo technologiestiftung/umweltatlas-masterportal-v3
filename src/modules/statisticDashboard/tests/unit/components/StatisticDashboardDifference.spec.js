@@ -1,12 +1,11 @@
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import {createStore} from "vuex";
-import StatisticDashboardDifference from "../../../components/StatisticDashboardDifference.vue";
-import indexStatisticDashboard from "../../../store/indexStatisticDashboard";
+import StatisticDashboardDifference from "@modules/statisticDashboard/components/StatisticDashboardDifference.vue";
+import indexStatisticDashboard from "@modules/statisticDashboard/store/indexStatisticDashboard.js";
 import Multiselect from "vue-multiselect";
-import StatisticSwitcher from "../../../components/StatisticDashboardSwitcher.vue";
-import {rawLayerList} from "@masterportal/masterportalapi";
-import getOAFFeature from "../../../../../shared/js/api/oaf/getOAFFeature";
+import {rawLayerList} from "@masterportal/masterportalapi/src/index.js";
+import getOAFFeature from "@shared/js/api/oaf/getOAFFeature.js";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
@@ -65,7 +64,7 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardDifferenc
                 }
             });
 
-            expect(wrapper.findComponent(StatisticSwitcher).exists()).to.be.true;
+            expect(wrapper.findComponent({name: "ButtonGroup"}).exists()).to.be.true;
         });
 
         it("The component multiselect should exist", () => {
@@ -77,6 +76,17 @@ describe("src/modules/statiscticDashboard/components/StatisticDashboardDifferenc
             });
 
             expect(wrapper.findComponent(Multiselect).exists()).to.be.true;
+        });
+
+        it("should find a des element", () => {
+            const wrapper = shallowMount(StatisticDashboardDifference, {
+                propsData: propsData,
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.find(".des").exists()).to.be.true;
         });
     });
 

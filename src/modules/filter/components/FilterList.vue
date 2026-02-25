@@ -1,29 +1,34 @@
 <script>
-import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
-import {mapActions} from "vuex";
-import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
+import AccordionItem from "@shared/modules/accordion/components/AccordionItem.vue";
+import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
+import {mapActions, mapGetters} from "vuex";
+import {isRule} from "../utils/isRule.js";
 import {hasUnfixedRules} from "../utils/hasUnfixedRules.js";
 
 /**
  * Filter List
  * @module modules/FilterList
- * @vue-prop {Boolean} multidLayerSelector - Shows if multi layer selection is allowed.
+ * @vue-prop {Boolean} multiLayerSelector - Shows if multi layer selection is allowed.
  * @vue-prop {Array} filters - List of all the filters.
  * @vue-prop {Array} selectedLayers - List of all the selected layers.
  * @vue-prop {Number} jumpToId - The id it should scroll to.
- * @vue-prop {Array} rulesOfFilters - List of all filter rules.
  * @vue-data {Array} itemRefs - The references to the item.
- * @vue-computed {Booleand} disabled - Shows if button should be disabled.
+ * @vue-computed {Boolean} disabled - Shows if button should be disabled.
  * @vue-event {String} selectedAccordions - Updates the selected accordions.
- * @vue-event {String} setLayerLoaded - Emitting the function by transfering the filter Id of layer.
+ * @vue-event {String} setLayerLoaded - Emitting the function by transferring the filter Id of layer.
  * @vue-event {null} resetJumpToId - Resets the function.
  */
 export default {
     name: "FilterList",
     components: {
-        IconButton
+        AccordionItem
     },
     props: {
+        collapseButtons: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
         multiLayerSelector: {
             type: Boolean,
             required: false,
@@ -43,11 +48,6 @@ export default {
             type: Number,
             required: false,
             default: undefined
-        },
-        rulesOfFilters: {
-            type: Array,
-            required: false,
-            default: () => []
         }
     },
     emits: ["selectedAccordions", "setLayerLoaded", "resetJumpToId", "deleteAllRules"],
@@ -55,6 +55,9 @@ export default {
         return {
             itemRefs: []
         };
+    },
+    computed: {
+        ...mapGetters("Modules/Filter", ["rulesOfFilters"])
     },
     watch: {
         jumpToId (newFilterId) {
@@ -68,6 +71,7 @@ export default {
         ...mapActions("Alerting", ["addSingleAlert"]),
         translateKeyWithPlausibilityCheck,
         hasUnfixedRules,
+        isRule,
         /**
          * Updates selectedLayers array.
          * @param {Number} filterId id which should be removed or added to selectedLayers array
@@ -88,6 +92,39 @@ export default {
             this.$emit("setLayerLoaded", filterId);
         },
         /**
+         * Checks if the layer with a given filterId is selected and a rule is defined.
+         * @param {number} filterId - The filterId.
+         * @param {Array} selectedLayers - The selected layers.
+         * @param {Array} rulesOfFilters - The rules of filters.
+         * @returns {Boolean} true, if the rules number is to be displayed.
+         */
+        showRulesNumber (filterId, selectedLayers, rulesOfFilters) {
+            if (typeof filterId !== "number" || !Array.isArray(selectedLayers) || !Array.isArray(rulesOfFilters[filterId])) {
+                return false;
+            }
+            return !selectedLayers.some(layers => layers.filterId === filterId) && rulesOfFilters[filterId].some(rule => isRule(rule));
+        },
+        /**
+         * Returns the number of the defined rules.
+         * @param {number} filterId - The filterId.
+         * @param {Array} rulesOfFilters - The rules of filters.
+         * @returns {number} The defined rules number.
+         */
+        getRulesNumber (filterId, rulesOfFilters) {
+            let i = 0;
+
+            if (typeof filterId !== "number" || typeof rulesOfFilters === "undefined" || !Array.isArray(rulesOfFilters[filterId])) {
+                return i;
+            }
+
+            rulesOfFilters[filterId].forEach(rule => {
+                if (isRule(rule) && rule?.fixed !== true) {
+                    i++;
+                }
+            });
+            return i;
+        },
+        /**
          * Scrolls to given filterId.
          * @param {Number} filterId The filterId to jump to.
          * @returns {void}
@@ -104,7 +141,7 @@ export default {
                 });
             }
             else {
-                this.addSingleAlert(i18next.t("common:modules.filter.alertingMessages.noMatchingFilterId"), {root: true});
+                this.$store.dispatch("Alerting/addSingleAlert", i18next.t("common:modules.filter.alertingMessages.noMatchingFilterId"), {root: true});
             }
             this.$emit("resetJumpToId");
             if (!this.selectedLayers.some(selectedLayer => selectedLayer.filterId === filterId)) {
@@ -130,7 +167,7 @@ export default {
          * @returns {Boolean} if button should be disabled
          */
         disabled (filterId) {
-            return !this.multiLayerSelector && this.selectedLayers.length > 0 && this.selectedLayers.some(accordion => accordion.filterId === filterId);
+            return this.selectedLayers.length === 0 || !this.multiLayerSelector && this.selectedLayers.length > 0 && !this.selectedLayers.some(accordion => accordion.filterId === filterId);
         }
     }
 };
@@ -138,72 +175,168 @@ export default {
 
 <template>
     <div
-        class="panel-group"
-        role="tablist"
-        aria-multiselectable="true"
+        v-if="!collapseButtons"
     >
         <div
-            v-for="filter in filters"
-            :id="'filter-' + filter.filterId"
-            :ref="setItemRef"
-            :key="filter.filterId"
-            class="panel panel-default"
+            class="panel-group ps-3"
+            role="tablist"
         >
-            <button
-                :disabled="disabled(filter.filterId)"
-                data-toggle="collapse"
-                data-parent="#accordion"
-                class="d-flex justify-content-between w-100 btn-transparent"
-                @click="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
-                @keydown.enter="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
-            >
-                <div class="w-100">
-                    <h2
-                        :class="['panel-title d-flex justify-content-between align-items-center', disabled(filter.filterId) ? 'disabled' : '']"
-                    >
-                        <div>{{ filter.title ? filter.title : filter.layerId }}</div>
-                        <div
-                            v-if="filter.initialStartupReset && hasUnfixedRules(rulesOfFilters[filter.filterId]) && selectedLayers.find(layers => layers.filterId === filter.filterId)"
-                            @click.stop=""
-                        >
-                            <IconButton
-                                icon="bi bi-arrow-counterclockwise bi-xs"
-                                :class-array="['btn-light']"
-                                :aria="$t('common:modules.filter.resetButton')"
-                                :title="$t('common:modules.filter.resetButton')"
-                                :interaction="() => deleteAllRulesEmit(filter.filterId)"
-                            />
-                        </div>
-                    </h2>
-                </div>
-                <span
-                    v-if="!selectedLayers.some(layers => layers.filterId === filter.filterId)"
-                    class="bi bi-chevron-down float-end"
-                />
-                <span
-                    v-else
-                    class="bi bi-chevron-up float-end"
-                />
-            </button>
             <div
-                v-if="filter.shortDescription && !selectedLayers.includes(filter.filterId)"
-                class="layerInfoText"
+                v-for="filter in filters"
+                :id="'filter-' + filter.filterId"
+                :ref="setItemRef"
+                :key="filter.filterId"
+                class="panel panel-default"
             >
-                {{ translateKeyWithPlausibilityCheck(filter.shortDescription, key => $t(key)) }}
+                <AccordionItem
+                    v-if="filter.active && multiLayerSelector"
+                    :id="filter.layerId + '-' + filter.filterId"
+                    :title="filter.title ? filter.title : filter.layerId"
+                    :is-open="true"
+                    :icon="filter.icon"
+                    class="filter-layer"
+                    @update-accordion-state="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
+                >
+                    <div
+                        v-if="filter.shortDescription && selectedLayers.find(layers => layers.filterId === filter.filterId)"
+                        class="layerInfoText"
+                    >
+                        {{ translateKeyWithPlausibilityCheck(filter.shortDescription, key => $t(key)) }}
+                    </div>
+                    <slot
+                        :layer="filter"
+                    />
+                </AccordionItem>
+                <AccordionItem
+                    v-else-if="!multiLayerSelector"
+                    :id="filter.layerId + '-' + filter.filterId"
+                    :title="filter.title ? filter.title : filter.layerId"
+                    :is-open="!disabled(filter.filterId)"
+                    :icon="filter.icon"
+                    class="filter-layer"
+                    @update-accordion-state="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
+                >
+                    <div
+                        v-if="filter.shortDescription && selectedLayers.find(layers => layers.filterId === filter.filterId)"
+                        class="layerInfoText"
+                    >
+                        {{ translateKeyWithPlausibilityCheck(filter.shortDescription, key => $t(key)) }}
+                    </div>
+                    <slot
+                        :layer="filter"
+                    />
+                </AccordionItem>
+                <AccordionItem
+                    v-else
+                    :id="filter.layerId + '-' + filter.filterId"
+                    :title="filter.title ? filter.title : filter.layerId"
+                    :icon="filter.icon"
+                    class="filter-layer"
+                    @update-accordion-state="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
+                >
+                    <div
+                        v-if="filter.shortDescription && selectedLayers.find(layers => layers.filterId === filter.filterId)"
+                        class="layerInfoText"
+                    >
+                        {{ translateKeyWithPlausibilityCheck(filter.shortDescription, key => $t(key)) }}
+                    </div>
+                    <slot
+                        :layer="filter"
+                    />
+                </AccordionItem>
+                <div class="number">
+                    <div
+                        :class="['d-flex align-items-center header-color', disabled(filter.filterId) ? 'disabled' : '']"
+                    >
+                        <div
+                            v-if="showRulesNumber(filter.filterId, selectedLayers, rulesOfFilters) && getRulesNumber(filter.filterId, rulesOfFilters) > 0"
+                            class="rules-number"
+                        >
+                            <span>
+                                {{ getRulesNumber(filter.filterId, rulesOfFilters) }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    v-if="filter.shortDescription && !selectedLayers.find(layers => layers.filterId === filter.filterId)"
+                    class="layerInfoText"
+                >
+                    {{ translateKeyWithPlausibilityCheck(filter?.shortDescription, key => $t(key)) }}
+                </div>
+                <hr class="mb-1">
             </div>
+        </div>
+    </div>
+    <div
+        v-else
+    >
+        <div
+            class="collapse-group ps-3 row g-1"
+        >
+            <div
+                v-for="filter in filters"
+                :id="'filter-' + filter.filterId"
+                :ref="setItemRef"
+                :key="filter.filterId"
+                :class="'col col-md-auto'"
+            >
+                <button
+                    class="button-collapse btn btn-secondary"
+                    :class="{active: selectedLayers.some(layers => layers.filterId === filter.filterId)}"
+                    data-bs-toggle="collapse"
+                    data-bs-target="multi-collapse"
+                    aria-expanded="false"
+                    @click="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
+                    @keydown.enter="setLayerLoaded(filter.filterId), updateSelectedLayers(filter.filterId)"
+                >
+                    <div class="w-100 row">
+                        <div
+                            class="col col-md-auto text-nowrap"
+                        >
+                            {{ filter.title ? filter.title : filter.layerId }}
+                        </div>
+                        <div
+                            v-if="showRulesNumber(filter.filterId, selectedLayers, rulesOfFilters) && getRulesNumber(filter.filterId, rulesOfFilters) > 0"
+                            class="col col-md-1 m-0"
+                        >
+                            <span
+                                class="outline-rules-number ms-0"
+                            >
+                                {{ getRulesNumber(filter.filterId, rulesOfFilters) }}
+                            </span>
+                        </div>
+                    </div>
+                </button>
+                <div
+                    v-if="filter.shortDescription && !selectedLayers.includes(filter.filterId) && !collapseButtons"
+                    class="layerInfoText"
+                >
+                    {{ translateKeyWithPlausibilityCheck(filter?.shortDescription, key => $t(key)) }}
+                </div>
+            </div>
+        </div>
+        <div
+            v-for="filter in filters"
+            :key="filter.filterId"
+        >
             <slot
                 :layer="filter"
             />
+            <div />
         </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
 @import "~variables";
-#tool-general-filter .panel {
-    background-color: $white;
-    border: 1px solid #ddd;
-    padding: 10px;
+
+.header-color {
+   color: $light_grey_inactive_contrast;
+}
+
+.panel {
+    position: relative;
 }
 .panel-group .panel + .panel {
     margin-top: 10px;
@@ -218,10 +351,80 @@ export default {
 .panel-title {
     cursor: pointer;
 }
-
 .btn-transparent {
     background-color: transparent;
     border: none;
     text-align:left;
+}
+.outline-rules-number {
+    margin-left: 0.625rem;
+    text-align: center;
+    user-select: none;
+    color: $dark_grey;
+    display: inline;
+    padding: 0.275rem 0.875rem;
+    font-size: $font-size-sm;
+    font-family: $font_family_accent;
+    vertical-align: middle;
+    border-radius: 0.688rem;
+    background-color: $light_grey;
+}
+.reset {
+    position: absolute;
+    right: 80px;
+    top: -5px;
+    z-index: 11;
+}
+.number {
+    position: absolute;
+    right: 50px;
+    top: 0;
+    z-index: 10;
+    .rules-number {
+        margin-bottom: 0.5rem;
+        span {
+            margin-left: 0.625rem;
+            text-align: center;
+            user-select: none;
+            color: #ffffff;
+            display: inline;
+            padding: 0.275rem 0.875rem;
+            font-size: $font-size-sm;
+            font-weight: 100;
+            vertical-align: middle;
+            border-radius: 0.688rem;
+            background-color: #3C5F94;
+            border-color: #3C5F94;
+        }
+    }
+}
+.btn-secondary {
+    border-radius: $badge-border-radius;
+}
+hr {
+    background-color: $navbar-light-color;
+    height: 1px;
+    border: none;
+}
+.panel-group hr {
+    border-width: 1px;
+    border-color: $light_grey_active;
+}
+.panel-group div:last-child hr {
+  display: none;
+}
+</style>
+
+<style lang="scss">
+.filter-layer {
+    button, .accordion-body {
+        padding: 0px;
+    }
+    .accordion-collapse {
+        margin-top: 10px;
+    }
+    .ps-3 {
+        padding-left: 0;
+    }
 }
 </style>

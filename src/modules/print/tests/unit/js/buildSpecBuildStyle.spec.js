@@ -1,10 +1,10 @@
-import BuildSpec from "../../../js/buildSpec";
-import Polygon from "ol/geom/Polygon";
-import {Fill, Stroke} from "ol/style";
+import BuildSpec from "@modules/print/js/buildSpec.js";
+import Polygon from "ol/geom/Polygon.js";
+import {Fill, Stroke} from "ol/style.js";
 import Feature from "ol/Feature.js";
 import {expect} from "chai";
 import sinon from "sinon";
-import createTestFeatures from "./testHelper";
+import createTestFeatures from "./testHelper.js";
 
 describe("src/modules/print/utils/buildSpecbuildStyle", function () {
     let buildSpec,
@@ -85,7 +85,7 @@ describe("src/modules/print/utils/buildSpecbuildStyle", function () {
             let mapfishStyleObject = null,
                 styleObject = null;
                 // stylingRule: bewirtschaftungsart='Parkschein, Bewohner mit Ausweis frei_0'
-            const stylingRule = "bewirtschaftungsart=" + polygonFeatures[0].values_.bewirtschaftungsart + "_0";
+            const stylingRule = "bewirtschaftungsart='" + polygonFeatures[0].values_.bewirtschaftungsart + "_0'";
 
             buildSpec.getStylingRules = () => stylingRule;
             buildSpec.getFeatureStyle = () => [style];

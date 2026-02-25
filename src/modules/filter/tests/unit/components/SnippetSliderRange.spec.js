@@ -1,5 +1,5 @@
 import {config, shallowMount} from "@vue/test-utils";
-import SnippetSliderRange from "../../../components/SnippetSliderRange.vue";
+import SnippetSliderRange from "@modules/filter/components/SnippetSliderRange.vue";
 import {expect} from "chai";
 import sinon from "sinon";
 
@@ -135,7 +135,7 @@ describe("src/modules/filter/components/SnippetSliderRange.vue", () => {
                         info: true
                     }});
 
-                    expect(wrapper.find(".titleWrapper").find(".info").exists()).to.be.true;
+                    expect(wrapper.find(".snippetSliderRangeContainer").find(".info").exists()).to.be.true;
                 });
             });
             describe("inputWrapper", () => {
@@ -395,6 +395,7 @@ describe("src/modules/filter/components/SnippetSliderRange.vue", () => {
                     startup: "startup",
                     fixed: true,
                     attrName: "attrName",
+                    attrLabel: "attrName",
                     operatorForAttrName: "AND",
                     operator: "INTERSECTS",
                     value: "value",

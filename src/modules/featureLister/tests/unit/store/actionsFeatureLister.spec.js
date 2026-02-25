@@ -1,8 +1,10 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import actions from "../../../store/actionsFeatureLister";
-import layerCollection from "../../../../../core/layers/js/layerCollection";
-import createLayerAddToTreeModule from "../../../../../shared/js/utils/createLayerAddToTree";
+import actions from "@modules/featureLister/store/actionsFeatureLister.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import createLayerAddToTreeModule from "@shared/js/utils/createLayerAddToTree.js";
+import tabStatus from "../../../constantsTabStatus.js";
+import spatialSelection from "../../../js/getSpatialSelection.js";
 
 describe("src/modules/featureLister/store/actionsFeatureLister", () => {
     let commit, dispatch, rootGetters;
@@ -56,12 +58,15 @@ describe("src/modules/featureLister/store/actionsFeatureLister", () => {
                 {name: "dritterLayer", values_: {id: "789"}, features: [{getAttributesToShow: () => "TestAttributes"}], geometryType: "Point"}
             ]
         );
+
     });
     afterEach(sinon.restore);
 
     describe("clickOnFeature", () => {
         it("handles the click event when clicking in a point-feature in the feature list view", () => {
-            const featureIndex = 1,
+            const row = {
+                    id: "1"
+                },
                 geometry = {
                     getType: () => "Point",
                     getCoordinates: () => [1, 2]
@@ -84,10 +89,10 @@ describe("src/modules/featureLister/store/actionsFeatureLister", () => {
 
             rootGetters = {treeHighlightedFeatures: {active: true}};
 
-            actions.clickOnFeature({state, commit, dispatch, getters, rootGetters}, featureIndex);
+            actions.clickOnFeature({state, commit, dispatch, getters, rootGetters}, row);
             expect(commit.calledOnce).to.be.true;
-            expect(commit.firstCall.args[0]).to.equal("setSelectedFeatureIndex");
-            expect(commit.firstCall.args[1]).to.eql(featureIndex);
+            expect(commit.firstCall.args[0]).to.equal("setSelectedRow");
+            expect(commit.firstCall.args[1]).to.eql(row);
             expect(dispatch.calledThrice).to.be.true;
             expect(dispatch.firstCall.args[0]).to.eql("switchToDetails");
             expect(dispatch.secondCall.args[0]).to.eql("Maps/zoomToCoordinates");
@@ -99,7 +104,9 @@ describe("src/modules/featureLister/store/actionsFeatureLister", () => {
             expect(createLayerAddToTreeStub.firstCall.args[1]).to.be.deep.equals([state.features[1]]);
         });
         it("handles the click event when clicking in a polygon-feature in the feature list view, treeHighlightedFeatures not active", () => {
-            const featureIndex = 1,
+            const row = {
+                    id: "1"
+                },
                 geometry = {
                     getType: () => "Polygon",
                     getExtent: () => [1, 2, 3, 4]
@@ -122,10 +129,10 @@ describe("src/modules/featureLister/store/actionsFeatureLister", () => {
 
             rootGetters = {treeHighlightedFeatures: {active: false}};
 
-            actions.clickOnFeature({state, commit, dispatch, getters, rootGetters}, featureIndex);
+            actions.clickOnFeature({state, commit, dispatch, getters, rootGetters}, row);
             expect(commit.calledOnce).to.be.true;
-            expect(commit.firstCall.args[0]).to.equal("setSelectedFeatureIndex");
-            expect(commit.firstCall.args[1]).to.eql(featureIndex);
+            expect(commit.firstCall.args[0]).to.equal("setSelectedRow");
+            expect(commit.firstCall.args[1]).to.eql(row);
             expect(dispatch.calledThrice).to.be.true;
             expect(dispatch.firstCall.args[0]).to.eql("switchToDetails");
             expect(dispatch.secondCall.args[0]).to.eql("Maps/zoomToCoordinates");
@@ -137,32 +144,54 @@ describe("src/modules/featureLister/store/actionsFeatureLister", () => {
     });
 
     describe("hoverOverFeature", () => {
-        const features = [{erstesFeature: "first", getId: () => "1"}, {zweitesFeature: "second", getId: () => "2"}, {drittesFeature: "third", getId: () => "3"}],
+        const feature1 = {erstesFeature: "first", getId: () => "1", getGeometry: () => ({
+                getType: () => "Point",
+                flatCoordinates: [1, 2]
+            })},
+            feature2 = {zweitesFeature: "second", getId: () => "2", getGeometry: () => ({
+                getType: () => "Polygon"
+            })},
+            feature3 = {drittesFeature: "third", getId: () => "3", getGeometry: () => ({
+                getType: () => "LineString",
+                flatCoordinates: [5, 6, 7, 5]
+            })},
+            features = [feature1, feature2, feature3],
             state = {
                 shownFeatures: 2
-            };
-        let getters = {
-            selectedFeature: () => features[1]
-        };
-
-        it("handles the hover event when hovering over a feature in the feature list view", () => {
-            actions.hoverOverFeature({state, dispatch, getters}, 1);
-            expect(dispatch.calledOnce).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.equal("highlightFeature");
-            expect(dispatch.firstCall.args[1]).to.deep.equal(features[1]);
-        });
-        it("handles the hover event when hovering over a nested feature in the feature list view", () => {
+            },
+            row1 = {
+                id: "1"
+            },
+            row2 = {
+                id: "2"
+            },
+            row3 = {
+                id: "3"
+            },
             getters = {
-                selectedFeature: () => features[2]
+                selectedFeature: (id) => features.find(feature => feature.getId() === id)
             };
-            actions.hoverOverFeature({state, dispatch, getters}, 2);
+
+        it("handles the hover event when hovering over a point feature in the feature list view", () => {
+            actions.hoverOverFeature({state, dispatch, getters}, row1);
             expect(dispatch.calledOnce).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.equal("highlightFeature");
-            expect(dispatch.firstCall.args[1]).to.deep.equal(features[2]);
+            expect(dispatch.firstCall.args[0]).to.equal("Maps/placingPointMarker");
+            expect(dispatch.firstCall.args[1]).to.deep.equal(feature1.getGeometry().flatCoordinates);
+        });
+        it("handles the hover event when hovering over a polygon feature in the feature list view", () => {
+            actions.hoverOverFeature({state, dispatch, getters}, row2);
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equal("Maps/placingPolygonMarker");
+        });
+        it("handles the hover event when hovering over a linestring feature in the feature list view", () => {
+            actions.hoverOverFeature({state, dispatch, getters}, row3);
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equal("Maps/placingPointMarker");
+            expect(dispatch.firstCall.args[1]).to.deep.equal([feature3.getGeometry().flatCoordinates[0], feature3.getGeometry().flatCoordinates[1]]);
         });
     });
 
-    describe("highlightFeature", () => {
+    describe("highlightSelectedFeatures", () => {
         let geometryType = "Point",
             feature, state, getters;
 
@@ -187,7 +216,8 @@ describe("src/modules/featureLister/store/actionsFeatureLister", () => {
                 highlightVectorRulesPointLine
             };
             getters = {
-                getGeometryType: geometryType
+                getGeometryType: geometryType,
+                selectedFeature: () => feature
             };
             rootGetters = {
                 layerConfigById: sinon.stub().returns({styleId: "123"})
@@ -195,65 +225,105 @@ describe("src/modules/featureLister/store/actionsFeatureLister", () => {
         });
 
         it("highlights a point feature depending on its geometryType", () => {
-            actions.highlightFeature({state, dispatch, getters, rootGetters}, feature);
-            expect(dispatch.calledTwice).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.equal("Maps/removeHighlightFeature");
-            expect(dispatch.firstCall.args[1]).to.equal("decrease");
-            expect(dispatch.secondCall.args[0]).to.equal("Maps/highlightFeature");
-            expect(dispatch.secondCall.args[1].type).to.equal("increase");
-            expect(dispatch.secondCall.args[1].type).to.equal("increase");
-            expect(dispatch.secondCall.args[1].styleId).to.equal("123");
+            actions.highlightSelectedFeatures({state, dispatch, getters, rootGetters}, [feature]);
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equal("Maps/highlightFeature");
+            expect(dispatch.firstCall.args[1].type).to.equal("increase");
+            expect(dispatch.firstCall.args[1].styleId).to.equal("123");
         });
         it("highlights a MultiPoint feature depending on its geometryType", () => {
             geometryType = "MultiPoint";
-            actions.highlightFeature({state, dispatch, getters, rootGetters}, feature);
-            expect(dispatch.calledTwice).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.equal("Maps/removeHighlightFeature");
-            expect(dispatch.firstCall.args[1]).to.equal("decrease");
-            expect(dispatch.secondCall.args[0]).to.equal("Maps/highlightFeature");
-            expect(dispatch.secondCall.args[1].styleId).to.equal("123");
+            actions.highlightSelectedFeatures({state, dispatch, getters, rootGetters}, [feature]);
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equal("Maps/highlightFeature");
+            expect(dispatch.firstCall.args[1].type).to.equal("increase");
+            expect(dispatch.firstCall.args[1].styleId).to.equal("123");
         });
         it("highlights a polygon feature depending on its geometryType", () => {
             geometryType = "Polygon";
-            actions.highlightFeature({state, dispatch, getters, rootGetters}, feature);
-            expect(dispatch.calledTwice).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.equal("Maps/removeHighlightFeature");
-            expect(dispatch.firstCall.args[1]).to.equal("decrease");
-            expect(dispatch.secondCall.args[0]).to.equal("Maps/highlightFeature");
-            expect(dispatch.secondCall.args[1].type).to.equal("highlightPolygon");
-            expect(dispatch.secondCall.args[1].styleId).to.equal("123");
+            actions.highlightSelectedFeatures({state, dispatch, getters, rootGetters}, [feature]);
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equal("Maps/highlightFeature");
+            expect(dispatch.firstCall.args[1].type).to.equal("highlightPolygon");
+            expect(dispatch.firstCall.args[1].styleId).to.equal("123");
         });
         it("highlights a line feature depending on its geometryType", () => {
             geometryType = "LineString";
-            actions.highlightFeature({state, dispatch, getters, rootGetters}, feature);
-            expect(dispatch.calledTwice).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.equal("Maps/removeHighlightFeature");
-            expect(dispatch.firstCall.args[1]).to.equal("decrease");
-            expect(dispatch.secondCall.args[0]).to.equal("Maps/highlightFeature");
-            expect(dispatch.secondCall.args[1].type).to.equal("highlightLine");
-            expect(dispatch.secondCall.args[1].styleId).to.equal("123");
+            actions.highlightSelectedFeatures({state, dispatch, getters, rootGetters}, [feature]);
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equal("Maps/highlightFeature");
+            expect(dispatch.firstCall.args[1].type).to.equal("highlightLine");
+            expect(dispatch.firstCall.args[1].styleId).to.equal("123");
+        });
+    });
+
+    describe("filterGfiFeaturesOfLayer", () => {
+        let getSpatialSelectionStub, layer, features, state, rootState;
+
+        beforeEach(() => {
+            layer = {name: "ersterLayer", id: "123", typ: "TEST"};
+            features = [{id: "1"}, {id: "2"}, {id: "3"}];
+            state = {
+                selectedArea: {
+                    type: "Polygon",
+                    coordinates: [
+                        [564000, 5938000],
+                        [565000, 5939000],
+                        [564500, 5938500],
+                        [564000, 5938000]
+                    ]},
+                maxFeatures: 10,
+                layer: layer,
+                gfiFeaturesOfLayer: [{erstesFeature: "first"}, {zweitesFeature: "second"}, {drittesFeature: "third"}]
+            };
+            rootState = {
+                Maps: {
+                    projection: {
+                        getCode: () => "EPSG:25832"
+                    }
+                }
+            };
+            rootGetters = {
+                visibleLayerConfigs: [layer]
+            };
+            getSpatialSelectionStub = sinon.stub(spatialSelection, "getSpatialSelection").resolves(features);
+        });
+        afterEach(() => {
+            getSpatialSelectionStub.restore();
+        });
+
+        it("filters the features of a layer", async () => {
+            await actions.filterGfiFeaturesOfLayer({state, commit, dispatch, rootGetters, rootState});
+
+            expect(commit.calledOnce).to.be.true;
+            expect(commit.firstCall.args[0]).to.equal("setGfiFeaturesOfLayer");
+            expect(commit.firstCall.args[1]).to.deep.equal(features);
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equal("highlightSelectedFeatures");
+            expect(dispatch.firstCall.args[1]).to.equal(features);
         });
     });
 
     describe("switchToList", () => {
         const layer = {name: "ersterLayer", id: "123", features: [{values_: {features: [1, 2]}}], geometryType: "Point"},
             state = {
+                selectedArea: null,
                 maxFeatures: 10,
                 layer: layer,
                 gfiFeaturesOfLayer: [{erstesFeature: "first"}, {zweitesFeature: "second"}, {drittesFeature: "third"}]
-            };
+            },
+            dispatchStub = sinon.stub();
 
-        it("switches to the feature list view", () => {
-            actions.switchToList({state, rootGetters, commit, dispatch}, layer);
-            expect(commit.callCount).to.equal(4);
-            expect(commit.firstCall.args[0]).to.equal("setLayer");
-            expect(commit.firstCall.args[1]).to.equal(layer);
-            expect(commit.secondCall.args[0]).to.equal("setGfiFeaturesOfLayer");
-            expect(commit.thirdCall.args[0]).to.equal("setFeatureCount");
-            expect(commit.getCall(3).args[0]).to.equal("setShownFeatures");
-            expect(commit.getCall(3).args[1]).to.equal(3);
+        dispatchStub.withArgs("processGfiFeatures").resolves();
+
+        it("switches to the feature list view", async () => {
+            await actions.switchToList({state, rootGetters, commit, dispatch}, layer);
+
             expect(dispatch.calledOnce).to.be.true;
-            expect(dispatch.firstCall.args[0]).to.equal("switchBackToList");
+            expect(commit.callCount).to.equal(5);
+            expect(commit.firstCall.args[0]).to.equal("setFeatureCount");
+            expect(commit.secondCall.args[0]).to.equal("setShownFeatures");
+            expect(commit.secondCall.args[1]).to.equal(3);
         });
     });
 
@@ -266,11 +336,11 @@ describe("src/modules/featureLister/store/actionsFeatureLister", () => {
             actions.switchBackToList({state, commit});
             expect(commit.calledThrice).to.be.true;
             expect(commit.firstCall.args[0]).to.equal("setLayerListView");
-            expect(commit.firstCall.args[1]).to.be.false;
+            expect(commit.firstCall.args[1]).to.equal(tabStatus.ENABLED);
             expect(commit.secondCall.args[0]).to.equal("setFeatureDetailView");
-            expect(commit.secondCall.args[1]).to.be.false;
+            expect(commit.secondCall.args[1]).to.equal(tabStatus.ENABLED);
             expect(commit.thirdCall.args[0]).to.equal("setFeatureListView");
-            expect(commit.thirdCall.args[1]).to.be.true;
+            expect(commit.thirdCall.args[1]).to.equal(tabStatus.ACTIVE);
         });
     });
 
@@ -278,7 +348,12 @@ describe("src/modules/featureLister/store/actionsFeatureLister", () => {
     describe("switchToThemes", () => {
         it("switches to the themes tab", () => {
 
-            actions.switchToThemes({commit});
+            actions.switchToThemes({commit, dispatch});
+            expect(dispatch.calledThrice).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.equal("Maps/removeHighlightFeature");
+            expect(dispatch.firstCall.args[1]).to.equal("decrease");
+            expect(dispatch.secondCall.args[0]).to.equal("Maps/removePointMarker");
+            expect(dispatch.thirdCall.args[0]).to.equal("Maps/removePolygonMarker");
             expect(commit.calledOnce).to.be.true;
             expect(commit.firstCall.args[0]).to.equal("resetToThemeChooser");
         });
@@ -287,16 +362,18 @@ describe("src/modules/featureLister/store/actionsFeatureLister", () => {
     describe("switchToDetails", () => {
         it("switches to the details tab", () => {
             const state = {
-                selectedFeatureIndex: 0
+                selectedRow: {
+                    id: "1"
+                }
             };
 
             actions.switchToDetails({state, commit});
             expect(commit.firstCall.args[0]).to.equal("setLayerListView");
-            expect(commit.firstCall.args[1]).to.equal(false);
+            expect(commit.firstCall.args[1]).to.equal(tabStatus.ENABLED);
             expect(commit.secondCall.args[0]).to.equal("setFeatureListView");
-            expect(commit.secondCall.args[1]).to.equal(false);
+            expect(commit.secondCall.args[1]).to.equal(tabStatus.ENABLED);
             expect(commit.thirdCall.args[0]).to.equal("setFeatureDetailView");
-            expect(commit.thirdCall.args[1]).to.equal(true);
+            expect(commit.thirdCall.args[1]).to.equal(tabStatus.ACTIVE);
         });
     });
 

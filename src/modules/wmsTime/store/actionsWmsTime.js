@@ -1,13 +1,16 @@
-import layerCollection from "../../../core/layers/js/layerCollection";
-import {treeSubjectsKey} from "../../../shared/js/utils/constants";
-import store from "../../../app-store";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import {treeSubjectsKey} from "@shared/js/utils/constants.js";
+import store from "@appstore/index.js";
+import {resetRenderListeners} from "@shared/js/utils/resetRenderListeners.js";
 
 export default {
     windowWidthChanged ({commit, dispatch, state, getters, rootGetters}) {
-        commit("setWindowWidth");
+        if (getters.windowWidth !== window.innerWidth) {
+            commit("setWindowWidth");
 
-        if (!getters.minWidth && rootGetters["Modules/LayerSwiper/active"]) {
-            dispatch("toggleSwiper", state.timeSlider.currentLayerId + state.layerAppendix);
+            if (!getters.minWidth && rootGetters["Modules/LayerSwiper/active"]) {
+                dispatch("toggleSwiper", state.timeSlider.currentLayerId + state.layerAppendix);
+            }
         }
     },
     /**
@@ -27,9 +30,6 @@ export default {
                     currentLayerId: visLayer.id,
                     playbackDelay: visLayer.time?.playbackDelay || 1
                 });
-                commit("setTimeSliderDefaultValue", {
-                    currentLayerId: visLayer.id
-                });
                 commit("setVisibility", true);
             }
         });
@@ -41,9 +41,6 @@ export default {
                             active: true,
                             currentLayerId: element.id,
                             playbackDelay: element.time?.playbackDelay || 1
-                        });
-                        commit("setTimeSliderDefaultValue", {
-                            currentLayerId: element.id
                         });
                         commit("setVisibility", true);
                     }
@@ -66,9 +63,6 @@ export default {
                         playing: false
                     });
                     commit("setVisibility", false);
-                    commit("setTimeSliderDefaultValue", {
-                        currentLayerId: ""
-                    });
                 }
             }
         }, {deep: true});
@@ -93,7 +87,8 @@ export default {
         if (rootGetters["Modules/LayerSwiper/active"]) {
             const {name, time, url, level, layers, version, parentId, gfiAttributes, featureCount} = layer.attributes;
 
-            commit("Modules/LayerSwiper/setLayerSwiperSourceLayer", layer, {root: true});
+            commit("Modules/LayerSwiper/setSourceLayerId", id, {root: true});
+            commit("Modules/LayerSwiper/setTargetLayerId", secondId, {root: true});
 
             if (!layerCollection.getLayerById(secondId)) {
                 await dispatch("addLayerToLayerConfig", {
@@ -129,10 +124,13 @@ export default {
                     }]
                 }, {root: true});
             }
-
-            commit("Modules/LayerSwiper/setLayerSwiperTargetLayer", layerCollection.getLayerById(secondId), {root: true});
         }
         else {
+            const targetLayer = layerCollection.getLayerById(secondId),
+                sourceLayer = layerCollection.getLayerById(id);
+
+            resetRenderListeners(targetLayer);
+            resetRenderListeners(sourceLayer);
 
             // If the button of the "original" window is clicked, it is assumed, that the time value selected in the added window is desired to be further displayed.
             if (!id.endsWith(state.layerAppendix)) {
@@ -159,13 +157,14 @@ export default {
                     layer: {
                         id: secondId,
                         visibility: false,
-                        showInLayerTree: false
+                        showInLayerTree: false,
+                        zIndex: layer?.attributes?.zIndex
                     }
                 }]
             }, {root: true});
 
-            commit("Modules/LayerSwiper/setLayerSwiperSourceLayer", null, {root: true});
-            commit("Modules/LayerSwiper/setLayerSwiperTargetLayer", null, {root: true});
+            commit("Modules/LayerSwiper/setSourceLayerId", null, {root: true});
+            commit("Modules/LayerSwiper/setTargetLayerId", null, {root: true});
         }
     }
 };

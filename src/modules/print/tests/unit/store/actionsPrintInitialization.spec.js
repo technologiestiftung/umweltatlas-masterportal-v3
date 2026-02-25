@@ -1,11 +1,11 @@
 import {expect} from "chai";
 import VectorLayer from "ol/layer/Vector.js";
 import sinon from "sinon";
-import store from "../../../../../app-store";
+import store from "@appstore/index.js";
 
-import testAction from "../../../../../../devtools/tests/VueTestUtils";
-import actions from "../../../store/actionsPrintInitialization";
-import Canvas from "../../../js/buildCanvas";
+import testAction from "@devtools/tests/VueTestUtils.js";
+import actions from "@modules/print/store/actionsPrintInitialization.js";
+import Canvas from "@modules/print/js/buildCanvas.js";
 
 const {
     chooseCurrentLayout,
@@ -24,7 +24,8 @@ const {
     getPrintMapSize,
     getPrintMapScales,
     setDpiList,
-    compute3dPrintMask
+    compute3dPrintMask,
+    ensureDpiForPdfInList
 } = actions;
 
 describe("src/modules/print/store/actionsPrintInitialization.js", () => {
@@ -357,7 +358,8 @@ describe("src/modules/print/store/actionsPrintInitialization.js", () => {
                         size: [1348, 864],
                         pixelToCoordinateTransform: [10.583327618336, 0, 0, -10.583327618336, 1104618.7926526342, 7087941.480887591],
                         viewState: {
-                            resolution: 15.874991427504629
+                            resolution: 15.874991427504629,
+                            rotation: 0.5
                         }
                     }
                 },
@@ -383,6 +385,7 @@ describe("src/modules/print/store/actionsPrintInitialization.js", () => {
                     "pixelToCoordinateTransform": evt.frameState.pixelToCoordinateTransform,
                     "resolution": evt.frameState.viewState.resolution,
                     "printMapSize": state.layoutMapInfo,
+                    "rotation": 0.5,
                     "scale": 20000,
                     "context": evt.context
                 };
@@ -486,6 +489,21 @@ describe("src/modules/print/store/actionsPrintInitialization.js", () => {
                         },
                         closePath: () => {
                             return null;
+                        },
+                        save: () => {
+                            return null;
+                        },
+                        restore: () => {
+                            return null;
+                        },
+                        rotate: () => {
+                            return null;
+                        },
+                        rect: () => {
+                            return null;
+                        },
+                        translate: () => {
+                            return null;
                         }
                     },
                     frameState: {
@@ -539,6 +557,18 @@ describe("src/modules/print/store/actionsPrintInitialization.js", () => {
                             return null;
                         },
                         closePath: () => {
+                            return null;
+                        },
+                        restore: () => {
+                            return null;
+                        },
+                        rotate: () => {
+                            return null;
+                        },
+                        save: () => {
+                            return null;
+                        },
+                        translate: () => {
                             return null;
                         }
                     },
@@ -656,6 +686,34 @@ describe("src/modules/print/store/actionsPrintInitialization.js", () => {
                 {type: "getPrintMapSize", payload: undefined, dispatch: true},
                 {type: "getPrintMapScales", payload: undefined, dispatch: true}
             ], {}, done);
+        });
+    });
+    describe("ensureDpiForPdfInList", () => {
+        it("should not change dpiForPdf if in list", done => {
+            const state = {
+                dpiList: [100, 200, 300],
+                dpiForPdf: 200
+            };
+
+            testAction(ensureDpiForPdfInList, undefined, state, {}, [], {}, done);
+        });
+        it("should set dpiForPdf to first item in list, if current dpiForPdf not in list", done => {
+            const state = {
+                dpiList: [100, 300],
+                dpiForPdf: 200
+            };
+
+            testAction(ensureDpiForPdfInList, undefined, state, {}, [
+                {type: "setDpiForPdf", payload: 100, dispatch: true}
+            ], {}, done);
+        });
+        it("should not change dpiForPdf if list is empty", done => {
+            const state = {
+                dpiList: [],
+                dpiForPdf: 200
+            };
+
+            testAction(ensureDpiForPdfInList, undefined, state, {}, [], {}, done);
         });
     });
 });

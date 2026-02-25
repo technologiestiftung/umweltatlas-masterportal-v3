@@ -1,8 +1,9 @@
-import crs from "@masterportal/masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs.js";
 
-import SearchInterface from "./searchInterface";
-import store from "../../../app-store";
-import {uniqueId} from "../../../shared/js/utils/uniqueId";
+import SearchInterface from "./searchInterface.js";
+import store from "@appstore/index.js";
+import {uniqueId} from "@shared/js/utils/uniqueId.js";
+import proj4 from "proj4";
 
 /**
  * The search interface to the bkg geocoder.
@@ -13,7 +14,7 @@ import {uniqueId} from "../../../shared/js/utils/uniqueId";
  * @see {@link https://sg.geodatenzentrum.de/web_public/gdz/dokumentation/deu/geokodierungsdienst.pdf}
  * @param {String} geoSearchServiceId Search service id. Resolved using the rest-services.json file.
  *
- * @param {String} [epsg] EPSG code of the coordinate reference system to use. By default, the value in `portalConfig.map.mapView.epsg` is used.
+ * @param {String} [epsg="EPSG:25832"] EPSG code of the coordinate reference system to use. By default, the value in `portalConfig.map.mapView.epsg` is used.
  * @param {Number[]} [extent=[454591, 5809000, 700000, 6075769]] Coordinate extent in which search algorithms should return.
  * @param {String} [hitTemplate="default"] The template for rendering the hits.
  * @param {Number} [minscore=0.6] Minimum score value that the results must have.
@@ -30,7 +31,7 @@ export default function SearchInterfaceBkg ({geoSearchServiceId, epsg, extent, h
             onHover: ["setMarker"],
             buttons: ["startRouting"]
         },
-        resultEventsSupported = ["setMarker", "zoomToResult", "startRouting"];
+        resultEventsSupported = ["setMarker", "zoomToResult", "startRouting", "highlight3DTileByCoordinates"];
 
     this.checkConfig(resultEvents, resultEventsSupported, searchInterfaceId);
 
@@ -43,7 +44,7 @@ export default function SearchInterfaceBkg ({geoSearchServiceId, epsg, extent, h
 
     this.geoSearchServiceId = geoSearchServiceId;
 
-    this.epsg = epsg;
+    this.epsg = epsg || "EPSG:25832";
     this.extent = extent || [454591, 5809000, 700000, 6075769];
     this.minScore = minScore || 0.6;
     this.resultCount = resultCount || 20;
@@ -124,6 +125,8 @@ SearchInterfaceBkg.prototype.createPossibleActions = function (searchResult) {
         coordinates = crs.transformToMapProjection(mapCollection.getMap("2D"), this.epsg, [parseFloat(coordinates[0]), parseFloat(coordinates[1])]);
     }
 
+    const targetCoordinates = proj4(store.getters["Maps/projection"].getCode(), "EPSG:4326", coordinates);
+
     return {
         setMarker: {
             coordinates: coordinates
@@ -134,6 +137,9 @@ SearchInterfaceBkg.prototype.createPossibleActions = function (searchResult) {
         startRouting: {
             coordinates: coordinates,
             name: searchResult.properties?.text
+        },
+        highlight3DTileByCoordinates: {
+            coordinates: targetCoordinates
         }
     };
 };

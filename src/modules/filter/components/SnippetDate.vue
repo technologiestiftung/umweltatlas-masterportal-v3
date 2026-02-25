@@ -1,6 +1,6 @@
 <script>
-import isObject from "../../../shared/js/utils/isObject";
-import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
+import isObject from "@shared/js/utils/isObject.js";
+import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
 import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnippetType.js";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
@@ -32,7 +32,6 @@ dayjs.extend(customParseFormat);
 * @vue-prop {Number} snippetId - The snippet's id.
 * @vue-prop {Boolean} visible - Shows if snippet is visible.
 *
-* @vue-data {Boolean} disable - Shows if snippet is disabled.
 * @vue-data {String} internalFormat - The internal date format.
 * @vue-data {Boolean} isInitializing - Shows if snippet is initializing.
 * @vue-data {Boolean} isAdjusting - Shows if snippet is adjusting.
@@ -154,7 +153,6 @@ export default {
     emits: ["changeRule", "deleteRule", "setSnippetPrechecked"],
     data () {
         return {
-            disable: true,
             internalFormat: "YYYY-MM-DD",
             isInitializing: true,
             isAdjusting: false,
@@ -235,7 +233,7 @@ export default {
             }
         },
         disabled (value) {
-            this.disable = typeof this.disabled === "boolean" ? value : true;
+            this.isInitializing = typeof value === "boolean" ? value : true;
         }
     },
     mounted () {
@@ -255,7 +253,6 @@ export default {
                 }
                 this.$nextTick(() => {
                     this.isInitializing = false;
-                    this.disable = false;
                     this.emitSnippetPrechecked(this.precheckedIsValid, this.snippetId, this.visible);
                 });
             }
@@ -283,12 +280,10 @@ export default {
                     }
                     this.$nextTick(() => {
                         this.isInitializing = false;
-                        this.disable = false;
                         this.emitSnippetPrechecked(this.precheckedIsValid, this.snippetId, this.visible);
                     });
                 }, err => {
                     this.isInitializing = false;
-                    this.disable = false;
                     this.emitSnippetPrechecked();
                     console.warn(err);
                 }, typeof this.minValue === "undefined" && typeof this.maxValue !== "undefined", typeof this.minValue !== "undefined" && typeof this.maxValue === "undefined", true,
@@ -301,7 +296,6 @@ export default {
                 this.value = this.precheckedIsValid ? momentPrechecked.format(this.internalFormat) : "";
                 this.$nextTick(() => {
                     this.isInitializing = false;
-                    this.disable = false;
                     this.emitSnippetPrechecked(this.precheckedIsValid, this.snippetId, this.visible);
                 });
             }
@@ -335,6 +329,7 @@ export default {
                 startup,
                 fixed: !this.visible,
                 attrName: this.attrName,
+                attrLabel: this.titleText,
                 operatorForAttrName: this.operatorForAttrName,
                 operator: this.securedOperator,
                 format: this.format,
@@ -398,7 +393,6 @@ export default {
     >
         <div
             v-if="info"
-            class="right"
         >
             <SnippetInfo
                 :info="info"
@@ -420,7 +414,8 @@ export default {
                 name="dateInput"
                 :max="maximumValue"
                 :min="minimumValue"
-                :disabled="disable"
+                :disabled="isInitializing"
+                :class="{ disabledClass: disabled }"
                 @focus="startDateChange()"
                 @blur="endDateChange()"
                 @keyup.enter="endDateChange()"
@@ -450,10 +445,6 @@ export default {
         float: left;
         width: 90%;
     }
-    .snippetDateContainer .right {
-        position: absolute;
-        right: 0;
-    }
     input[type="date"]::-webkit-calendar-picker-indicator {
         background: transparent;
         bottom: 0;
@@ -465,5 +456,8 @@ export default {
         right: 0;
         top: 0;
         width: auto;
+        &.disabledClass {
+            color: #9B9A9A;
+        }
     }
 </style>

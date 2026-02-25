@@ -19,6 +19,7 @@
  * @param {Object} [events..openGetFeatureInfo] Specifies that the openGetFeatureInfo action is executed on an interaction with the search result.
  * @param {Object} [events..setMarker] Specifies that the setMarker action is executed on an interaction with the search result.
  * @param {Object} [events..zoomToResult] Specifies that the zoomToResult action is executed on an interaction with the search result.
+ * @param {Object} [events..highlight3DTileByCoordinates] Specifies that the highlight3DTileByCoordinates action is executed on an interaction with the search result.
  * @param {String[]} [events...coordinates] The coordinates of the search result.
  * @param {String} [events...featureId] The ol feature id the search result.
  * @param {String} [events...layerId] The layer id of the search result.

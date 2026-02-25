@@ -1,4 +1,4 @@
-import mutations from "../../../store/mutationsSearchBar";
+import mutations from "@modules/searchBar/store/mutationsSearchBar.js";
 import {expect} from "chai";
 
 const {

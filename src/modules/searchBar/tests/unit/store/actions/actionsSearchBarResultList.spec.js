@@ -1,4 +1,4 @@
-import actions from "../../../../store/actions/actionsSearchBarResultList";
+import actions from "@modules/searchBar/store/actions/actionsSearchBarResultList.js";
 import {expect} from "chai";
 import sinon from "sinon";
 

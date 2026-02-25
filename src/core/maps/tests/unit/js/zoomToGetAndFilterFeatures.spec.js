@@ -1,9 +1,9 @@
 import axios from "axios";
 import {expect} from "chai";
-import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList";
+import rawLayerList from "@masterportal/masterportalapi/src/rawLayerList.js";
 import sinon from "sinon";
 
-import featureProvider from "../../../js/zoomToGetAndFilterFeatures";
+import featureProvider from "@core/maps/js/zoomToGetAndFilterFeatures.js";
 
 const fs = require("fs"),
     exampleFeatureCollection = fs.readFileSync("./src/core/maps/tests/unit/resources/featureCollection.xml", "utf8");

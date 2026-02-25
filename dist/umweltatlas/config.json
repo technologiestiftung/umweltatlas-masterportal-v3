@@ -4,6 +4,12 @@
       "baselayerSwitcher": {
         "active": true
       },
+      "getFeatureInfo": {
+        "showPolygonMarkerForWMS": true,
+        "centerMapToClickPoint": false,
+        "stickyHeader": true,
+        "hideMapMarkerOnVectorHighlight": true
+      },
       "controls": {
         "zoom": true
       },

@@ -1,9 +1,16 @@
-import {RoutingWaypoint} from "../../js/classes/routing-waypoint";
-import {fetchRoutingOrsDirections} from "../../js/directions/routing-ors-directions";
-import Feature from "ol/Feature";
-import LineString from "ol/geom/LineString";
+import {RoutingWaypoint} from "../../js/classes/routing-waypoint.js";
+import {fetchRoutingOrsDirections} from "../../js/directions/routing-ors-directions.js";
+import Feature from "ol/Feature.js";
+import LineString from "ol/geom/LineString.js";
+import Circle from "ol/geom/Circle.js";
+import Point from "ol/geom/Point.js";
 import {toRaw} from "vue";
+import {fromCircle} from "ol/geom/Polygon.js";
 
+/**
+ * The actions for the routing directions.
+ * @module modules/routing/store/directions/actions
+ */
 export default {
     /**
      * Finds the route for the current waypoints.
@@ -18,6 +25,18 @@ export default {
             map = await mapCollection.getMap(rootState.Maps.mode),
             wgs84Coords = await dispatch("getDirectionsCoordinatesWgs84"),
             lineStringFeature = await dispatch("getRouteFeature");
+
+        if (!getters.allHGVRestrictionsValid && state.settings.speedProfile === "HGV") {
+            directionsRouteSource.getFeatures().forEach(feature => feature.getGeometry().setCoordinates([]));
+            commit("setRoutingDirections", null);
+            dispatch("Alerting/addSingleAlert", {
+                category: "error",
+                title: i18next.t("common:modules.routing.errors.titleErrorRouteFetch"),
+                content: i18next.t("common:modules.routing.errors.hgvRestrictionOutOfRange")
+            }, {root: true});
+
+            return;
+        }
 
         commit("setIsLoadingDirections", true);
         await dispatch("resetRoutingDirectionsResults");
@@ -83,7 +102,8 @@ export default {
 
         const directionSettings = await rootState.Modules.Routing.directionsSettings,
             {selectedAvoidSpeedProfileOptions} = getters,
-            avoidPolygons = await dispatch("getAvoidPolygonsWgs84");
+            avoidPolygons = await dispatch("getAvoidPolygonsWgs84"),
+            avoidBorders = selectedAvoidSpeedProfileOptions.find(o => o.id === "BORDERS");
 
         if (directionSettings.type === "ORS") {
             return fetchRoutingOrsDirections({
@@ -95,10 +115,12 @@ export default {
                     {root: true}
                 ),
                 speedProfile: state.settings.speedProfile,
-                avoidSpeedProfileOptions: selectedAvoidSpeedProfileOptions,
+                avoidSpeedProfileOptions: selectedAvoidSpeedProfileOptions.filter(o => o.id !== "BORDERS"),
                 preference: state.settings.preference,
                 avoidPolygons: avoidPolygons,
-                instructions: instructions
+                instructions: instructions,
+                elevation: state.settings.elevation,
+                avoidBorders: avoidBorders
             });
         }
         throw new Error("fetchDirections Type is not configured correctly.");
@@ -213,31 +235,54 @@ export default {
      * @returns {Object} MultiPolygon in wgs84
      */
     async getAvoidPolygonsWgs84 ({state, dispatch}) {
-        const {directionsAvoidSource} = state,
+        const {directionsAvoidSource, directionsAvoidPointSource} = state,
             sourceFeatures = directionsAvoidSource.getFeatures(),
+            avoidPointSourceFeatures = directionsAvoidPointSource.getFeatures(),
             polygonFeature = {type: "MultiPolygon", coordinates: []};
 
+        // get coordinates of avoid areas
         for (const sourceFeature of sourceFeatures) {
-            const sourceCoordinates = sourceFeature.getGeometry().getCoordinates(),
-                wgsPolygon = [];
-
-            for (const coordinates of sourceCoordinates) {
-                const wgsCoordinates = [];
-
-                for (const coordinate of coordinates) {
-                    wgsCoordinates.push(
-                        await dispatch(
-                            "Modules/Routing/transformCoordinatesLocalToWgs84Projection",
-                            coordinate,
-                            {root: true}
-                        )
-                    );
-                }
-                wgsPolygon.push(wgsCoordinates);
+            polygonFeature.coordinates.push(await dispatch("getAvoidCoordinates", sourceFeature.getGeometry()));
+        }
+        // get coordinates of avoid points
+        for (const sourceFeature of avoidPointSourceFeatures) {
+            // if there is no avoid point radius specified, use a radius of
+            // 5 m to construct polygon
+            if (sourceFeature.getGeometry().getRadius() === 0) {
+                sourceFeature.getGeometry().setRadius(5);
             }
-            polygonFeature.coordinates.push(wgsPolygon);
+            const polygonFromCircle = fromCircle(sourceFeature.getGeometry(), 36);
+
+            polygonFeature.coordinates.push(await dispatch("getAvoidCoordinates", polygonFromCircle));
         }
         return polygonFeature;
+    },
+
+    /**
+     * Extract coordinates of avoid areas/polygons and transform to local coordinates
+     * @param {Object} context actions context object.
+     * @param {Array} sourceFeatureGeometry geometry of feature
+     * @returns {Object} wgsPolygon
+     */
+    async getAvoidCoordinates ({dispatch}, sourceFeatureGeometry) {
+        const sourceCoordinates = sourceFeatureGeometry.getCoordinates(),
+            wgsPolygon = [];
+
+        for (const coordinates of sourceCoordinates) {
+            const wgsCoordinates = [];
+
+            for (const coordinate of coordinates) {
+                wgsCoordinates.push(
+                    await dispatch(
+                        "Modules/Routing/transformCoordinatesLocalToWgs84Projection",
+                        coordinate,
+                        {root: true}
+                    )
+                );
+            }
+            wgsPolygon.push(wgsCoordinates);
+        }
+        return wgsPolygon;
     },
 
     /**
@@ -250,9 +295,13 @@ export default {
                 directionsWaypointsLayer,
                 directionsRouteLayer,
                 directionsAvoidLayer,
+                directionsAvoidPointLayer,
+                directionsElevationLayer,
                 directionsWaypointsDrawInteraction,
                 directionsAvoidDrawInteraction,
+                directionsAvoidPointDrawInteraction,
                 directionsAvoidSelectInteraction,
+                directionsAvoidPointSelectInteraction,
                 mapListenerAdded
             } = state,
             map = await mapCollection.getMap(rootState.Maps.mode),
@@ -273,10 +322,14 @@ export default {
         if (!mapListenerAdded) {
             directionsWaypointsDrawInteraction.on("drawend", event => dispatch("onDirectionsWaypointsDrawEnd", event));
             directionsAvoidDrawInteraction.on("drawend", event => dispatch("onDirectionsAvoidDrawEnd", event));
+            directionsAvoidPointDrawInteraction.on("drawend", event => dispatch("onDirectionsAvoidPointDrawEnd", event));
             directionsAvoidSelectInteraction.on("select", event => dispatch("onDirectionsAvoidSelect", event));
+            directionsAvoidPointSelectInteraction.on("select", event => dispatch("onDirectionsAvoidPointSelect", event));
+
 
             dispatch("createDirectionsWaypointsModifyInteractionListener");
             dispatch("createDirectionsAvoidModifyInteractionListener");
+            dispatch("createDirectionsAvoidPointTranslateInteractionListener");
             dispatch("createDirectionsRouteModifyInteractionListener");
             commit("setMapListenerAdded", true);
         }
@@ -292,7 +345,12 @@ export default {
         if (!isLayerAdded(directionsAvoidLayer.get("id"))) {
             dispatch("Maps/addLayer", toRaw(directionsAvoidLayer), {root: true});
         }
-
+        if (!isLayerAdded(directionsAvoidPointLayer.get("id"))) {
+            dispatch("Maps/addLayer", toRaw(directionsAvoidPointLayer), {root: true});
+        }
+        if (!isLayerAdded(directionsElevationLayer.get("id"))) {
+            dispatch("Maps/addLayer", toRaw(directionsElevationLayer), {root: true});
+        }
 
         dispatch("createInteractionFromMapInteractionMode");
     },
@@ -307,7 +365,7 @@ export default {
      * @returns {void}
      */
     reset ({getters, commit, dispatch}) {
-        const {waypoints, directionsRouteSource, directionsAvoidSource} = getters;
+        const {waypoints, directionsRouteSource, directionsAvoidSource, directionsAvoidPointSource} = getters;
 
         if (waypoints.length > 0) {
             for (let i = waypoints.length - 1; i >= 0; i--) {
@@ -319,6 +377,7 @@ export default {
             directionsRouteSource.getFeatures().forEach(feature => feature.getGeometry().setCoordinates([]));
             commit("setRoutingDirections", null);
             directionsAvoidSource.clear();
+            directionsAvoidPointSource.clear();
         }
     },
 
@@ -339,6 +398,9 @@ export default {
         else if (mapInteractionMode === "DELETE_AVOID_AREAS") {
             dispatch("createDirectionsAvoidSelectInteraction");
         }
+        else if (mapInteractionMode === "AVOID_POINTS") {
+            dispatch("createDirectionsAvoidPointDrawInteraction");
+        }
     },
 
     /**
@@ -347,7 +409,7 @@ export default {
      * @returns {void}
      */
     async closeDirections ({state, dispatch}) {
-        const {directionsWaypointsLayer, directionsRouteLayer, directionsAvoidLayer} = state,
+        const {directionsWaypointsLayer, directionsRouteLayer, directionsAvoidLayer, directionsAvoidPointLayer, directionsElevationLayer} = state,
             map = await mapCollection.getMap("2D");
 
         if (!state.keepRoutes) {
@@ -355,6 +417,8 @@ export default {
         }
         map.removeLayer(toRaw(directionsWaypointsLayer));
         map.removeLayer(toRaw(directionsAvoidLayer));
+        map.removeLayer(toRaw(directionsAvoidPointLayer));
+        map.removeLayer(toRaw(directionsElevationLayer));
 
         dispatch("removeMapInteractions");
     },
@@ -367,21 +431,15 @@ export default {
     createDirectionsWaypointsModifyInteractionListener ({state, dispatch}) {
         const {directionsWaypointsModifyInteraction} = state;
 
-        let changedFeature, newCoordinates;
+        let changedFeature;
 
         directionsWaypointsModifyInteraction.on("modifystart", event => {
             event.features.getArray().forEach(feature => {
-                newCoordinates = event.features
-                    .getArray()[0]
-                    .getGeometry()
-                    .getCoordinates();
-
                 feature.getGeometry().once("change", () => {
                     changedFeature = feature;
                 });
             });
         });
-
 
         directionsWaypointsModifyInteraction.on("modifyend", async () => {
             const {waypoints} = state,
@@ -400,7 +458,7 @@ export default {
                 );
 
             waypoint.setDisplayName(
-                geoSearchResult ? geoSearchResult.getDisplayName() : newCoordinates
+                geoSearchResult ? geoSearchResult.getDisplayName() : waypoint.getCoordinates()
             );
             dispatch("findDirections");
         });
@@ -416,6 +474,18 @@ export default {
 
         directionsAvoidModifyInteraction.on("modifyend", async () => {
 
+            dispatch("findDirections");
+        });
+    },
+    /**
+     * Creates event listener to be called when the avoid points are modified
+     * @param {Object} context actions context object.
+     * @returns {void}
+     */
+    createDirectionsAvoidPointTranslateInteractionListener ({state, dispatch}) {
+        const {directionsAvoidPointTranslateInteraction} = state;
+
+        directionsAvoidPointTranslateInteraction.on("translateend", async () => {
             dispatch("findDirections");
         });
     },
@@ -453,6 +523,16 @@ export default {
     },
 
     /**
+     * Define whether a startpoint, endpoint, or waypoint is to be added.
+     * @param {Object} context actions context object.
+     * @param {Number} position new value of addStartEndPoint
+     * @returns {void}
+     */
+    isStartEndInput ({state}, position) {
+        state.addStartEndPoint = position;
+    },
+
+    /**
      * Creates event listener to be called when the user drags the route feature to create a new waypoint.
      * Requests new Directions afterwards.
      * @param {Object} context actions context object.
@@ -460,7 +540,8 @@ export default {
      */
     createDirectionsRouteModifyInteractionListener ({
         state,
-        dispatch
+        dispatch,
+        commit
     }) {
         const {directionsRouteModifyInteraction} = state;
 
@@ -472,6 +553,9 @@ export default {
                     .getCoordinates(),
                 oldLineString = routingDirections.getLineString();
 
+            // set isAwaitingRouteModifyEnd into waiting mode
+            commit("setIsAwaitingRouteModifyEnd", true);
+
             for (let i = 0; i < oldLineString.length; i++) {
                 if (
                     oldLineString[i][0] === newCoordinates[i][0] &&
@@ -479,16 +563,13 @@ export default {
                 ) {
                     continue;
                 }
-                const newCoordinate = newCoordinates[i],
+                const newCoordinate = newCoordinates[i].splice(0, 2),
                     nextIndex = await dispatch(
                         "findWaypointBetweenLineStringIndex",
                         {
                             lineStringIndex: i
                         }
                     ),
-                    waypoint = await dispatch("addWaypoint", {
-                        index: nextIndex + 1
-                    }),
                     wgs84Coordinates = await dispatch(
                         "Modules/Routing/transformCoordinatesLocalToWgs84Projection",
                         newCoordinate,
@@ -500,12 +581,23 @@ export default {
                             coordinates: wgs84Coordinates
                         },
                         {root: true}
-                    );
+                    ),
+                    newFeature = new Feature({
+                        geometry: new Point(newCoordinate)
+                    });
 
-                waypoint.setCoordinates(newCoordinate);
-                waypoint.setDisplayName(geoSearchResult ? geoSearchResult.getDisplayName() : null);
+                await dispatch("addWaypoint", {
+                    index: nextIndex + 1,
+                    feature: newFeature,
+                    displayName: geoSearchResult ? geoSearchResult.getDisplayName() : null
+                });
+                // for some reason the new feature has to be added to source manually
+                state.directionsWaypointsSource.addFeature(newFeature);
                 break;
             }
+            // end waiting mode of isAwaitingRouteModifyEnd
+            commit("setIsAwaitingRouteModifyEnd", false);
+
             dispatch("findDirections");
         });
     },
@@ -520,7 +612,8 @@ export default {
      * @returns {RoutingWaypoint} added waypoint
      */
     addWaypoint ({state}, {index, feature, displayName, coordinates, fromExtern}) {
-        let waypointIndex = index;
+        let waypointIndex = index,
+            waypoint;
 
         if (typeof index !== "number") {
             waypointIndex = state.waypoints.length;
@@ -529,40 +622,51 @@ export default {
             // If feature is set the call comes from the map and we try to find a
             // waypoint without coordinates first before adding it
             const waypointWithoutCoordinates = state.waypoints.find(
-                waypoint => waypoint.getCoordinates().length === 0
+                waypt => waypt.getCoordinates().length === 0
             );
 
-            if (waypointWithoutCoordinates) {
-                waypointWithoutCoordinates.setCoordinates(
-                    feature.getGeometry().getCoordinates()
-                );
+            if (waypointWithoutCoordinates && state.addStartEndPoint === -1) {
+                waypointWithoutCoordinates.setCoordinates(feature.getGeometry().getCoordinates().splice(0, 2));
                 if (displayName) {
                     waypointWithoutCoordinates.setDisplayName(displayName);
                 }
                 // Drawend is called before feature is added to directionsWaypointsSource
-                // We delete the drawn Feature and only copy the Coordinates
-                setTimeout(() => {
-                    state.directionsWaypointsSource.removeFeature(feature);
-                });
+                // We delete the drawn feature and only copy the coordinates
+                state.directionsWaypointsSource.removeFeature(feature);
+
                 return waypointWithoutCoordinates;
             }
         }
-        const waypoint = new RoutingWaypoint({
-            index: waypointIndex,
-            feature,
-            displayName,
-            source: state.directionsWaypointsSource
-        });
+        // set point with input field selected
+        if (feature && state.addStartEndPoint >= 0) {
 
-        if (fromExtern) {
-            waypoint.fromExtern = true;
+            state.waypoints[state.addStartEndPoint].setCoordinates(feature.getGeometry().getCoordinates());
+            state.waypoints[state.addStartEndPoint].setDisplayName(displayName);
+            state.directionsWaypointsSource?.removeFeature(feature);
         }
-        if (coordinates) {
-            waypoint.setCoordinates(coordinates);
+        // if there is no input field selected, set new endpoint
+        else if (state.addStartEndPoint === -1) {
+            waypoint = new RoutingWaypoint({
+                index: waypointIndex,
+                feature,
+                displayName,
+                source: state.directionsWaypointsSource
+            });
         }
+        // reset addStartEndPoint to -1 so the next call is an endpoint or fills an empty field
+        state.addStartEndPoint = -1;
 
-        state.waypoints.splice(waypointIndex, 0, waypoint);
-        // Fix Index on Waypoints after new Waypoint
+        if (waypoint) {
+            if (fromExtern) {
+                waypoint.fromExtern = true;
+            }
+            if (coordinates) {
+                waypoint.setCoordinates(coordinates);
+            }
+
+            state.waypoints.splice(waypointIndex, 0, waypoint);
+        }
+        // Fix index on waypoints after new waypoint
         for (let i = waypointIndex + 1; i < state.waypoints.length; i++) {
             state.waypoints[i].setIndex(i);
         }
@@ -693,7 +797,29 @@ export default {
      */
     async onDirectionsAvoidDrawEnd ({dispatch}) {
         // OpenLayers calls drawend before the feature is added to the source so we wait one iteration
-        setTimeout(() => dispatch("findDirections"), 0);
+        dispatch("findDirections");
+    },
+    /**
+     * Executed when User adds a new point to avoid on the Map
+     * @param {Object} context actions context object.
+     * @param {Object} event OL OnDrawEvent.
+     * @returns {void}
+     */
+    onDirectionsAvoidPointDrawEnd ({state, dispatch}, event) {
+        // set new circle geometry
+        event.feature.setGeometry(new Circle(event.feature.getGeometry().getCoordinates()));
+        // set radius from state
+        event.feature.getGeometry().setRadius(state.settings.avoidRadius > 0 ? state.settings.avoidRadius * 1000 : 5);
+        dispatch("findDirections");
+    },
+    /**
+     * Displays imported avoid areas on the map.
+     * @param {Array} feature Feature-Objekt of a imported avoid area.
+     * @returns {void}
+     */
+    displayImportedAvoidAreas ({dispatch, state}, feature) {
+        state.directionsAvoidSource.addFeature(feature);
+        dispatch("findDirections");
     },
     /**
      * Executed when User adds a new polygon to avoid on the Map
@@ -707,7 +833,21 @@ export default {
         for (const feature of event.selected) {
             directionsAvoidSource.removeFeature(feature);
         }
-        setTimeout(() => dispatch("findDirections"), 0);
+        dispatch("findDirections");
+    },
+    /**
+    * Executed when User removes avoid point
+    * @param {Object} context actions context object.
+    * @param {Object} event OL OnSelectEvent.
+    * @returns {void}
+    */
+    onDirectionsAvoidPointSelect ({state, dispatch}, event) {
+        const {directionsAvoidPointSource} = state;
+
+        for (const feature of event.selected) {
+            directionsAvoidPointSource.removeFeature(feature);
+        }
+        dispatch("findDirections");
     },
 
     /**
@@ -778,6 +918,21 @@ export default {
         dispatch("Maps/addInteraction", directionsAvoidSnapInteraction, {root: true});
     },
     /**
+     * Creates a new draw interaction for points with radius to avoid.
+     * @param {Object} context actions context object.
+     * @returns {void}
+     */
+    createDirectionsAvoidPointDrawInteraction ({state, dispatch}) {
+        dispatch("removeMapInteractions");
+        const {
+            directionsAvoidPointTranslateInteraction,
+            directionsAvoidPointDrawInteraction
+        } = state;
+
+        dispatch("Maps/addInteraction", directionsAvoidPointDrawInteraction, {root: true});
+        dispatch("Maps/addInteraction", directionsAvoidPointTranslateInteraction, {root: true});
+    },
+    /**
      * Removes the draw interaction for polygons to avoid.
      * @param {Object} context actions context object.
      * @returns {void}
@@ -785,15 +940,22 @@ export default {
     removeDirectionsAvoidDrawInteraction ({state, dispatch}) {
         const {
             directionsAvoidModifyInteraction,
+            directionsAvoidPointTranslateInteraction,
             directionsAvoidSnapInteraction,
-            directionsAvoidDrawInteraction
+            directionsAvoidDrawInteraction,
+            directionsAvoidPointDrawInteraction
+
         } = state;
 
         directionsAvoidDrawInteraction.abortDrawing();
+        directionsAvoidPointDrawInteraction;
 
         dispatch("Maps/removeInteraction", directionsAvoidModifyInteraction, {root: true});
+        dispatch("Maps/removeInteraction", directionsAvoidPointTranslateInteraction, {root: true});
         dispatch("Maps/removeInteraction", directionsAvoidSnapInteraction, {root: true});
         dispatch("Maps/removeInteraction", directionsAvoidDrawInteraction, {root: true});
+        dispatch("Maps/removeInteraction", directionsAvoidPointDrawInteraction, {root: true});
+
     },
 
     /**
@@ -803,9 +965,11 @@ export default {
      */
     createDirectionsAvoidSelectInteraction ({state, dispatch}) {
         dispatch("removeMapInteractions");
-        const {directionsAvoidSelectInteraction} = state;
+        const {directionsAvoidSelectInteraction, directionsAvoidPointSelectInteraction} = state;
 
         dispatch("Maps/addInteraction", directionsAvoidSelectInteraction, {root: true});
+        dispatch("Maps/addInteraction", directionsAvoidPointSelectInteraction, {root: true});
+
     },
     /**
      * Removes the select interaction for deletion of avoid areas.
@@ -813,9 +977,11 @@ export default {
      * @returns {void}
      */
     removeDirectionsAvoidSelectInteraction ({state, dispatch}) {
-        const {directionsAvoidSelectInteraction} = state;
+        const {directionsAvoidSelectInteraction, directionsAvoidPointSelectInteraction} = state;
 
         dispatch("Maps/removeInteraction", directionsAvoidSelectInteraction, {root: true});
+        dispatch("Maps/removeInteraction", directionsAvoidPointSelectInteraction, {root: true});
+
     },
     /**
      * Removes the directions interactions.
@@ -826,5 +992,32 @@ export default {
         dispatch("removeDirectionsWaypointsDrawInteraction");
         dispatch("removeDirectionsAvoidDrawInteraction");
         dispatch("removeDirectionsAvoidSelectInteraction");
+    },
+    /**
+     * Remove layer with avoid areas to map.
+     * @param {Object} context actions context object.
+     * @returns {void}
+     */
+    removeAvoidLayer ({state, rootState}) {
+        const {directionsAvoidLayer, directionsAvoidPointLayer} = state,
+            map = mapCollection.getMap(rootState.Maps.mode);
+
+        map.removeLayer(toRaw(directionsAvoidLayer));
+        map.removeLayer(toRaw(directionsAvoidPointLayer));
+    },
+
+    /**
+     * Add layer with avoid areas from map.
+     * @param {Object} context actions context object.
+     * @returns {void}
+     */
+    addAvoidLayer ({state, rootState}) {
+        const {directionsAvoidLayer, directionsAvoidPointLayer} = state,
+            map = mapCollection.getMap(rootState.Maps.mode);
+
+        if (!map.getLayers().getArray().includes(toRaw(directionsAvoidLayer))) {
+            map.addLayer(toRaw(directionsAvoidLayer));
+            map.addLayer(toRaw(directionsAvoidPointLayer));
+        }
     }
 };

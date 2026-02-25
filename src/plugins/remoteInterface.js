@@ -1,8 +1,7 @@
-import store from "../app-store";
-import main from "../main";
+import store from "@appstore/index.js";
 
 export default {
-    install (options) {
+    install (app, options) {
         if (options === undefined || typeof options.postMessageUrl !== "string") {
             console.error("RemoteInterface could not been installed: Param \"postMessageUrl\" missing.");
             return;
@@ -29,7 +28,7 @@ export default {
             }
         });
 
-        main.getApp().config.globalProperties.$remoteInterface = {
+        app.config.globalProperties.$remoteInterface = {
             sendMessage: params => {
                 if (params instanceof Object === false) {
                     console.error("RemoteInterface sendMessage error: Given param is not an Object.");

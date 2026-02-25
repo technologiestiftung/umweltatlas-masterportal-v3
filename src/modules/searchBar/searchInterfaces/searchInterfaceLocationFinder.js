@@ -1,7 +1,7 @@
-import crs from "@masterportal/masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs.js";
 
-import SearchInterface from "./searchInterface";
-import store from "../../../app-store";
+import SearchInterface from "./searchInterface.js";
+import store from "@appstore/index.js";
 
 /**
  * The search interface to the location finder.
@@ -131,9 +131,18 @@ SearchInterfaceLocationFinder.prototype.normalizeResults = function (searchResul
  * @returns {Object[]} The normalized search result.
  */
 SearchInterfaceLocationFinder.prototype.normalizeResult = function (searchResult, extendedData) {
+    const displayName = extendedData?.classDefinition?.displayName;
+    let category = searchResult.type;
+
+    if (displayName) {
+        const translated = i18next.exists(displayName) ? i18next.t(displayName) : displayName;
+
+        category = translated.includes(":") ? translated.split(":")[1] : translated;
+    }
+
     return {
         events: this.normalizeResultEvents(this.resultEvents, searchResult, extendedData),
-        category: searchResult.type,
+        category: category,
         id: "locationFinder_" + searchResult.id,
         icon: extendedData?.classDefinition?.icon || "bi-signpost-2",
         name: searchResult.name

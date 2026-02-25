@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import drawCesiumMask from "../../../js/drawCesiumMask";
+import drawCesiumMask from "@modules/print/js/drawCesiumMask.js";
 describe("drawCesiumMask", () => {
     afterEach(() => {
         sinon.restore();

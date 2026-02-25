@@ -1,11 +1,18 @@
 import {expect} from "chai";
-import {isEmailAddress} from "../../isEmailAddress.js";
+import {isEmailAddress} from "@shared/js/utils/isEmailAddress.js";
 
 describe("src/shared/js/utils/isEmailAddress.js", () => {
     it("detects an email address in an incoming string", () => {
         const incomingString = "example@email.com";
 
         expect(isEmailAddress(incomingString)).to.be.true;
+    });
+
+    it("returns false for invalid or unsupported email values", () => {
+        expect(isEmailAddress({})).to.be.false;
+        expect(isEmailAddress("")).to.be.false;
+        expect(isEmailAddress("a@b.c")).to.be.false;
+        expect(isEmailAddress("a".repeat(255))).to.be.false;
     });
 
     it("detects email addresses in an incoming string with various second level domains", () => {

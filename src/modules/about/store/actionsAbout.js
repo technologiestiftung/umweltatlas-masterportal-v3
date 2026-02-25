@@ -1,4 +1,5 @@
-import getCswRecordById from "../../../shared/js/api/getCswRecordById";
+import getCswRecordById from "@shared/js/api/getCswRecordById.js";
+import packageJson from "../../../../package.json";
 
 /**
  * The actions for the About module
@@ -17,7 +18,7 @@ export default {
     async initializeAboutInfo ({commit, dispatch, state, rootGetters}) {
         let metadata;
 
-        if (state.cswUrl !== null && typeof state.metaId !== "undefined") {
+        if (state.cswUrl !== null && state.cswUrl !== "" && typeof state.metaId !== "undefined") {
             metadata = await getCswRecordById.getRecordById(state.cswUrl, state.metaId);
         }
         // use default csw_url from rest-services.json if csw_url not stated in the specific service
@@ -38,22 +39,27 @@ export default {
             }
         }
 
-        if (typeof metadata === "undefined") {
-            commit("setTitle", "");
-            commit("setAbstractText", i18next.t("common:modules.about.noMetadataLoaded"));
-        }
-        else {
+        if (typeof metadata !== "undefined") {
             commit("setTitle", metadata?.getTitle());
             commit("setAbstractText", metadata?.getAbstract());
-            commit("setContact", metadata?.getContact());
+            if (metadata?.getContact()) {
+                commit("setContact", metadata?.getContact());
+            }
+            else {
+                commit("setContact", metadata?.getPublisher());
+            }
         }
-        commit("setVersion", await dispatch("currentMasterPortalVersionNumber"));
+
+        dispatch("currentMasterportalVersionNumber");
     },
+
     /**
-     * Returns current Master Portal Version Number
+     * Returns current Masterportal Version Number
+     * @param {Object} context.commit the commit
+     * @param {Object} context.state the state
      * @returns {String} Masterportal version number
      */
-    currentMasterPortalVersionNumber () {
-        return require("../../../../package.json").version;
+    currentMasterportalVersionNumber ({commit, state}) {
+        commit("setVersion", state.version === true ? packageJson.version : state.version);
     }
 };

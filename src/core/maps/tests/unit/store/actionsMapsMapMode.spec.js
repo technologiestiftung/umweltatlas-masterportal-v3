@@ -1,14 +1,16 @@
 import {expect} from "chai";
-import Map from "ol/Map";
+import Map from "ol/Map.js";
 import sinon from "sinon";
-import View from "ol/View";
+import View from "ol/View.js";
+import proj4 from "proj4";
 
-import actions from "../../../store/actionsMapsMapMode";
+import actions from "@core/maps/store/actionsMapsMapMode.js";
 
 const {
     changeMapMode,
     activateMap2d,
-    activateMap3d
+    activateMap3d,
+    checkInitial3dCenterPositionChange
 } = actions;
 
 describe("src/core/maps/store/actionsMapsMapMode.js", () => {
@@ -21,6 +23,7 @@ describe("src/core/maps/store/actionsMapsMapMode.js", () => {
         setEnabled3DSpy;
 
     beforeEach(() => {
+        proj4.defs("EPSG:25832", "+title=ETRS89/UTM 32N +proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
         setEnabled3DSpy = sinon.spy();
         commit = sinon.spy();
         dispatch = sinon.spy();
@@ -103,18 +106,104 @@ describe("src/core/maps/store/actionsMapsMapMode.js", () => {
 
     describe("activateMap3d", () => {
         it("should commit 3D to mode", ()=> {
-            activateMap3d({commit, rootState});
+            activateMap3d({commit, dispatch, rootState});
 
+            expect(dispatch.calledOnce).to.be.true;
             expect(commit.calledOnce).to.be.true;
             expect(commit.firstCall.args).to.deep.equals(["setMode", "3D"]);
         });
 
         it("should not commit 3D to mode, if map3d doesn't exist", () => {
             mapCollection.clear();
-            activateMap3d({commit, rootState});
+            activateMap3d({commit, dispatch, rootState});
 
+            expect(dispatch.calledOnce).to.be.true;
             expect(commit.notCalled).to.be.true;
             expect(rootState.portalConfig.map.startingMapMode).to.equals("3D");
+        });
+    });
+    describe.skip("checkInitial3dCenterPositionChange", () => {
+        let rootGetters,
+            warnSpy;
+
+        beforeEach(() => {
+            rootGetters = {
+                "Maps/initialCenter": [1, 2],
+                "Maps/initialZoom": 6,
+                "Maps/center": [2, 3],
+                "Maps/zoom": 6,
+                "Maps/projection": {
+                    getCode: sinon.stub().returns("EPSG:25832")
+                },
+                map3dParameter: {
+                    camera: {
+                        cameraPosition: [1, 2, 3],
+                        offset: ""
+                    }
+                }
+            };
+            warnSpy = sinon.spy();
+            sinon.stub(console, "warn").callsFake(warnSpy);
+        });
+
+        it("with offset with comma, change position", () => {
+            rootGetters.map3dParameter.camera.offset = "-0,5";
+            checkInitial3dCenterPositionChange({commit, dispatch, rootGetters});
+
+            expect(commit.calledOnce).to.be.true;
+            expect(commit.firstCall.args[0]).to.be.equals("useCameraPosition");
+            expect(commit.firstCall.args[1]).to.be.an("Array");
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.be.equals("Maps/setCamera");
+            expect(dispatch.firstCall.args[1]).to.deep.equals(rootGetters.map3dParameter);
+        });
+
+        it("with offset with point, change position", () => {
+            rootGetters.map3dParameter.camera.offset = "-0.5";
+            checkInitial3dCenterPositionChange({commit, dispatch, rootGetters});
+
+            expect(commit.calledOnce).to.be.true;
+            expect(commit.firstCall.args[0]).to.be.equals("useCameraPosition");
+            expect(commit.firstCall.args[1]).to.be.an("Array");
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.be.equals("Maps/setCamera");
+            expect(dispatch.firstCall.args[1]).to.deep.equals(rootGetters.map3dParameter);
+        });
+
+        it("with offset NAN use 0, change position", () => {
+            rootGetters.map3dParameter.camera.offset = "- 0.5";
+            checkInitial3dCenterPositionChange({commit, dispatch, rootGetters});
+
+            expect(warnSpy.calledOnce).to.be.true;
+            expect(commit.calledOnce).to.be.true;
+            expect(commit.firstCall.args[0]).to.be.equals("useCameraPosition");
+            expect(commit.firstCall.args[1]).to.be.an("Array");
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0]).to.be.equals("Maps/setCamera");
+            expect(dispatch.firstCall.args[1]).to.deep.equals(rootGetters.map3dParameter);
+        });
+
+        it("no offset, do not change position", ()=> {
+            checkInitial3dCenterPositionChange({commit, dispatch, rootGetters});
+
+            expect(commit.notCalled).to.be.true;
+            expect(dispatch.notCalled).to.be.true;
+        });
+
+        it("with offset empty string, do not change position", () => {
+            rootGetters.map3dParameter.camera.offset = "";
+            checkInitial3dCenterPositionChange({commit, dispatch, rootGetters});
+
+            expect(commit.notCalled).to.be.true;
+            expect(dispatch.notCalled).to.be.true;
+        });
+
+        it("with offset false, do not change position", () => {
+            rootGetters.map3dParameter.camera.offset = false;
+            checkInitial3dCenterPositionChange({commit, dispatch, rootGetters});
+
+            expect(commit.notCalled).to.be.true;
+            expect(dispatch.notCalled).to.be.true;
         });
     });
 });

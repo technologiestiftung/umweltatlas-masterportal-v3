@@ -1,8 +1,8 @@
 import axios from "axios";
-import {RoutingGeosearchResult} from "../classes/routing-geosearch-result";
-import state from "../../store/stateRouting";
-import store from "../../../../app-store";
-import crs from "@masterportal/masterportalapi/src/crs";
+import {RoutingGeosearchResult} from "../classes/routing-geosearch-result.js";
+import state from "../../store/stateRouting.js";
+import store from "@appstore/index.js";
+import crs from "@masterportal/masterportalapi/src/crs.js";
 
 /**
  * Requests POIs from text from Komoot

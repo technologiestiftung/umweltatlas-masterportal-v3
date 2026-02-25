@@ -1,6 +1,6 @@
-import getNestedValues from "../../getNestedValues.js";
+import getNestedValues from "@shared/js/utils/getNestedValues.js";
 import {expect} from "chai";
-import {treeSubjectsKey} from "../../constants.js";
+import {treeSubjectsKey} from "@shared/js/utils/constants.js";
 
 describe("src/shared/js/utils/getNestedValues.js", () => {
     const starks = {

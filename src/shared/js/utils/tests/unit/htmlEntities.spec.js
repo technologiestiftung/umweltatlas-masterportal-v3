@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import decodeHtmlEntites from "../../htmlEntities";
+import decodeHtmlEntites from "@shared/js/utils/htmlEntities.js";
 
 describe("src/shared/js/utils/htmlEntities", () => {
     it("should decode html entities from a string", () => {

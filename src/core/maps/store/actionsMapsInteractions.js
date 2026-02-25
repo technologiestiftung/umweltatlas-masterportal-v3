@@ -1,10 +1,11 @@
 
-import api from "@masterportal/masterportalapi/src/maps/api";
+import api from "@masterportal/masterportalapi/src/maps/api.js";
 import {unByKey as unlistenByKey} from "ol/Observable.js";
 import {toRaw} from "vue";
-
-import actionsMapsInteractionsZoom from "./actionsMapsInteractionsZoom";
-
+import proj4 from "proj4";
+import actionsMapsInteractionsZoom from "./actionsMapsInteractionsZoom.js";
+import {treeSubjectsKey} from "@shared/js/utils/constants.js";
+import {rawLayerList} from "@masterportal/masterportalapi/src/index.js";
 /**
  * Interactions with the Map, MapView and Scene (3D).
  */
@@ -37,12 +38,19 @@ export default {
      * @param {Function} payload.listener The listener function.
      * @param {String | Function} payload.listenerType Type of the listener. Possible are: "function", "commit" and "dispatch".
      * @param {Boolean} payload.root listener is dispatched or commited with root:true, if listenerType is 'dispatch' or 'commit' and root is true
+     * @param {String} payload.keyForBoundFunctions if listener is a function and has bound this, toString creates everyTime same String as key. Use keyForBoundFunctions to provide a unique key.
      * @returns {void}
      */
-    registerListener ({commit, dispatch}, {type, listener, listenerType = "function", root = false}) {
+    registerListener ({commit, dispatch}, {type, listener, listenerType = "function", root = false, keyForBoundFunctions}) {
+        const listenerKey = keyForBoundFunctions ? keyForBoundFunctions : String(listener);
+
+        if (listenerKey === "function () { [native code] }") {
+            console.warn("Wrong use of 'registerListener' at map for listenerType = 'function', which uses .bind(this): provide 'keyForBoundFunctions'!");
+        }
+
         registeredActions[type] = registeredActions[type] || {};
         registeredActions[type][listenerType] = registeredActions[type][listenerType] || {};
-        registeredActions[type][listenerType][String(listener)] = evt => {
+        registeredActions[type][listenerType][listenerKey] = evt => {
             if (listenerType === "function") {
                 listener(evt);
             }
@@ -54,7 +62,7 @@ export default {
             }
         };
 
-        mapCollection.getMap("2D").on(type, registeredActions[type][listenerType][listener]);
+        mapCollection.getMap("2D").on(type, registeredActions[type][listenerType][listenerKey]);
     },
 
 
@@ -119,6 +127,50 @@ export default {
             rootGetters.map3dParameter.camera = cameraParams;
         }
     },
+    /**
+     * Smoothly flies the 3D camera to a specified viewpoint by transforming input coordinates
+     * from EPSG:25832 (UTM Zone 32N) to EPSG:4326 (WGS84) and adjusting the camera's position
+     * and orientation in the Cesium scene.
+     *
+     * This function uses the Cesium library to fly the camera smoothly to the transformed coordinates.
+     *
+     * @param {Object} context - The Vuex store context.
+     * @param {Number} context.altitude - The altitude of the camera above the ground in meters.
+     * @param {Number} context.heading - The heading (orientation) of the camera in degrees, where 0 is north, and positive values rotate clockwise.
+     * @param {Number} context.tilt - The tilt of the camera in degrees, where 0 points the camera straight down (top-down view) and positive values tilt the camera outward.
+     * @param {Array<Number>} context.center - The center coordinates [x, y] in EPSG:25832 (UTM Zone 32N projection).
+     *
+     * @throws {Error} Throws an error if the coordinate transformation or camera fly operation fails.
+     *
+     * @returns {void} This function does not return a value but updates the Cesium camera position.
+     */
+    flyTo3DCoordinates ({rootGetters}, {altitude, heading, tilt, center}) {
+        const olCesium = mapCollection.getMap("3D"),
+            scene = olCesium.scene_,
+            camera = scene.camera;
+
+        try {
+            const [longitude, latitude] = proj4(rootGetters["Maps/projection"].getCode(), "EPSG:4326", [center[0], center[1]]);
+
+            if (isNaN(longitude) || isNaN(latitude)) {
+                console.warn("Transformation of coordinates failed:", center);
+                return;
+            }
+
+            camera.flyTo({
+                destination: Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude),
+                orientation: {
+                    heading: Cesium.Math.toRadians(heading),
+                    pitch: Cesium.Math.toRadians(tilt),
+                    roll: 0.0
+                },
+                duration: 2.0
+            });
+        }
+        catch (error) {
+            console.error("Error transforming coordinates or flying to destination in 3D mode:", error);
+        }
+    },
 
     /**
      * Sets the center of the current view.
@@ -151,13 +203,16 @@ export default {
      * @param {String} payload.type The event type or array of event types.
      * @param {Function} payload.listener The listener function.
      * @param {String | Function} payload.listenerType Type of the listener. Possible are: "function", "commit" and "dispatch".
+     * @param {String} payload.keyForBoundFunctions if listener is a function and has bound this, toString creates everyTime same String as key. Use keyForBoundFunctions to provide a unique key.
      * @returns {void}
      */
-    unregisterListener (context, {type, listener, listenerType = "function"}) {
+    unregisterListener (context, {type, listener, listenerType = "function", keyForBoundFunctions}) {
         if (typeof type === "string") {
-            if (registeredActions[type] && registeredActions[type][listenerType] && registeredActions[type][listenerType][String(listener)]) {
-                mapCollection.getMap("2D").un(type, registeredActions[type][listenerType][String(listener)]);
-                registeredActions[type][listenerType][String(listener)] = null;
+            const listenerKey = keyForBoundFunctions ? keyForBoundFunctions : String(listener);
+
+            if (registeredActions[type] && registeredActions[type][listenerType] && registeredActions[type][listenerType][listenerKey]) {
+                mapCollection.getMap("2D").un(type, registeredActions[type][listenerType][listenerKey]);
+                registeredActions[type][listenerType][listenerKey] = null;
             }
         }
         else {
@@ -166,22 +221,97 @@ export default {
     },
 
     /**
-     * Activates the selected view point with calling the zoomToCoordinates function and in case of 3D mode additionally it calls setCamera function.
-     * @param {Object} context the vuex context
-     * @param {Object} context.dispatch the dispatch
-     * @param {Object} context.getters the getters
-     * @param {Number} payload.altitude altitude of the view
-     * @param {Number} payload.heading heading of the view
-     * @param {Number} payload.tilt tilt of the view
-     * @param {Number[]} payload.center center of the view
-     * @param {Number} payload.zoom zoom of the view
+     * Activates the selected viewpoint by adjusting the map's view parameters and optionally adding layers to the map.
+     * In 3D mode, also adjusts the camera parameters.
+     *
+     * This function ensures that the necessary layers are present on the map and then adjusts the view (in either 2D or 3D) accordingly.
+     *
+     * @param {Object} context - The Vuex context object.
+     * @param {Object} context.dispatch - Dispatch method for Vuex actions.
+     * @param {Object} context.getters - Vuex getters for accessing store state.
+     * @param {Object} payload - The parameters for the viewpoint.
+     * @param {Array<String>} payload.layerIds - An array of layer IDs to add to the map if not already present.
+     * @param {Number} payload.altitude - The altitude of the camera/viewpoint in 3D mode.
+     * @param {Number} payload.heading - The heading (orientation) of the camera in 3D mode.
+     * @param {Number} payload.tilt - The tilt of the camera in 3D mode.
+     * @param {Array<Number>} payload.center - The center coordinates [x, y] of the viewpoint.
+     * @param {Number} payload.zoom - The zoom level of the map.
+     *
+     * @returns {void}
      */
-    activateViewpoint ({dispatch, getters}, {altitude, heading, tilt, center, zoom}) {
-        dispatch("Maps/zoomToCoordinates", {center, zoom}, {root: true});
-        if (getters.mode === "3D") {
-            dispatch("setCamera", {
-                altitude, heading, tilt
+    activateViewpoint ({dispatch, getters}, {layerIds, altitude, heading, tilt, center, zoom}) {
+        if (Array.isArray(layerIds) && layerIds.length > 0) {
+            layerIds.forEach(layerId => {
+                dispatch("addLayerIfNotPresent", {layerId});
             });
+        }
+
+        if (!Array.isArray(center) || center.length !== 2 || isNaN(center[0]) || isNaN(center[1])) {
+            console.warn("Invalid center coordinates provided:", center);
+            return;
+        }
+
+        if (getters.mode === "2D") {
+            dispatch("Maps/zoomToCoordinates", {center, zoom}, {root: true});
+        }
+        else if (getters.mode === "3D") {
+            dispatch("flyTo3DCoordinates", {altitude, heading, tilt, center});
+        }
+    },
+
+    /**
+     * Ensures that the specified layer is present on the map.
+     *
+     * - If the layer is not yet added, it will be added with visibility: true settings.
+     * - If the layer is already present but not visible, its visibility will be turned on.
+     * - If the layer configuration cannot be found, a warning will be triggered.
+     *
+     * @param {Object} context - The Vuex context object.
+     * @param {Function} context.dispatch - Dispatch method for Vuex actions.
+     * @param {Function} context.getters - Vuex getters for accessing store state.
+     * @param {Function} context.rootGetters - Vuex root getters for accessing root-level state.
+     * @param {Object} payload - Parameters for ensuring layer presence.
+     * @param {string} payload.layerId - The ID of the layer to check or add.
+     *
+     * @returns {void}
+     */
+    addLayerIfNotPresent ({dispatch, getters, rootGetters}, {layerId}) {
+        const layer = getters.getLayerById(layerId),
+            configJsonLayerConfig = rootGetters.layerConfigById(layerId),
+            servicesJsonLayerConfig = rawLayerList.getLayerWhere({id: layerId});
+
+        if (!configJsonLayerConfig && !servicesJsonLayerConfig) {
+            const alertingFailedToFindLayerConfig = {
+                category: "warning",
+                content: i18next.t("common:core.layers.errorHandling.wrongLayerId", {layerId})
+            };
+
+            dispatch("Alerting/addSingleAlert", alertingFailedToFindLayerConfig, {root: true});
+            return;
+        }
+        if (!layer) {
+            if (configJsonLayerConfig) {
+                dispatch("addOrReplaceLayer", {layerId}, {root: true});
+            }
+            else if (servicesJsonLayerConfig) {
+                dispatch("addLayerToLayerConfig", {
+                    layerConfig:
+                    {...servicesJsonLayerConfig, ...{
+                        showInLayerTree: true,
+                        visibility: true
+                    }},
+                    parentKey: treeSubjectsKey
+                }, {root: true});
+            }
+        }
+        else if (!configJsonLayerConfig.visibility) {
+            dispatch("replaceByIdInLayerConfig", {
+                layerId: layerId,
+                layer: {
+                    showInLayerTree: true,
+                    visibility: true
+                }
+            }, {root: true});
         }
     }
 };

@@ -1,8 +1,8 @@
-import Feature from "ol/Feature";
-import initialState from "./stateWfst";
-import {defaultInteractionConfig} from "../constantsWfst";
-import {generateSimpleGetters} from "../../../shared/js/utils/generators";
-import deepCopy from "../../../shared/js/utils/deepCopy";
+import Feature from "ol/Feature.js";
+import initialState from "./stateWfst.js";
+import {defaultInteractionConfig} from "../constantsWfst.js";
+import {generateSimpleGetters} from "@shared/js/utils/generators.js";
+import deepCopy from "@shared/js/utils/deepCopy.js";
 
 const getters = {
     ...generateSimpleGetters(initialState),
@@ -18,8 +18,8 @@ const getters = {
     currentInteractionConfig (state, {currentLayerId}) {
         const configuration = deepCopy(defaultInteractionConfig);
 
-        ["LineString", "Point", "Polygon", "update", "delete"].forEach(val => {
-            const isGeometryConfiguration = ["LineString", "Point", "Polygon"].includes(val);
+        ["LineString", "Point", "Polygon", "MultiPolygon", "update", "multiUpdate", "delete"].forEach(val => {
+            const isGeometryConfiguration = ["LineString", "Point", "Polygon", "MultiPolygon"].includes(val);
             let interactionConfiguration,
                 layerConfiguration = null;
 
@@ -41,7 +41,6 @@ const getters = {
                 configuration[val].available = true;
                 return;
             }
-
             layerConfiguration = interactionConfiguration.find(({layerId}) => layerId === currentLayerId);
             if (layerConfiguration === undefined) {
                 return;
@@ -64,7 +63,7 @@ const getters = {
      * @returns {String} Layer id.
      */
     currentLayerId (state) {
-        return state.layerIds[state.currentLayerIndex];
+        return state.layerInformation[state.currentLayerIndex]?.id;
     },
     /**
      * Gets select disabled status
@@ -106,7 +105,7 @@ const getters = {
      * @returns {Boolean} Interaction Button status
      */
     showInteractionsButtons (state) {
-        return [null, "delete", "update"].includes(state.selectedInteraction);
+        return [null, "delete", "update", "multiUpdate"].includes(state.selectedInteraction);
     }
 };
 

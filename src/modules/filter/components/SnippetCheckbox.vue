@@ -1,5 +1,5 @@
 <script>
-import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
+import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
 import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnippetType.js";
 import SnippetInfo from "./SnippetInfo.vue";
 
@@ -83,7 +83,7 @@ export default {
             checked: false,
             translationKey: "snippetCheckbox",
             operatorWhitelist: [
-                "EQ"
+                "EQ", "NE"
             ]
         };
     },
@@ -205,7 +205,6 @@ export default {
         </div>
         <div
             v-if="info"
-            class="right"
         >
             <SnippetInfo
                 :info="info"
@@ -258,9 +257,5 @@ export default {
             /*margin-bottom: 0;*/
             cursor: pointer;
         }
-    }
-    .snippetCheckboxContainer .right {
-        position: absolute;
-        right: 0;
     }
 </style>

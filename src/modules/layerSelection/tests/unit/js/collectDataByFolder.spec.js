@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import collectDataByFolderModule from "../../../js/collectDataByFolder";
+import collectDataByFolderModule from "@modules/layerSelection/js/collectDataByFolder.js";
 
 describe("src/modules/layerSelection/js/collectDataByFolder.js", () => {
     let rootGetters,

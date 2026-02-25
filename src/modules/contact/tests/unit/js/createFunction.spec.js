@@ -1,6 +1,6 @@
 import {expect} from "chai";
 
-import {createMessage, createSubject, createTicketId} from "../../../js/createFunctions";
+import {createMessage, createSubject, createTicketId} from "@modules/contact/js/createFunctions.js";
 
 describe("src/modules/contact/js/createFunctions", function () {
     describe("createTicketId", function () {

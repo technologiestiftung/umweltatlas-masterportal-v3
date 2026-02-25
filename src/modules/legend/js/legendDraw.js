@@ -1,8 +1,8 @@
 import Feature from "ol/Feature.js";
-import StylePolygon from "@masterportal/masterportalapi/src/vectorStyle/styles/polygon/stylePolygon";
-import {createNominalCircleSegments} from "@masterportal/masterportalapi/src/vectorStyle/styles/point/stylePointNominal";
-import {createSVGStyle} from "@masterportal/masterportalapi/src/vectorStyle/styles/point/stylePointIcon";
-import {convertColor} from "../../../shared/js/utils/convertColor";
+import StylePolygon from "@masterportal/masterportalapi/src/vectorStyle/styles/polygon/stylePolygon.js";
+import {createNominalCircleSegments} from "@masterportal/masterportalapi/src/vectorStyle/styles/point/stylePointNominal.js";
+import {createSVGStyle} from "@masterportal/masterportalapi/src/vectorStyle/styles/point/stylePointIcon.js";
+import {convertColor} from "@shared/js/utils/convertColor.js";
 
 export default {
     /**
@@ -176,7 +176,7 @@ export default {
             strokeWidth = style.polygonStrokeWidth,
             fillOpacity = style.polygonFillColor?.[3] || 0,
             fillHatch = style.polygonFillHatch,
-            strokeOpacity = style.polygonStrokeColor[3] || 0,
+            strokeOpacity = style.polygonStrokeColor?.[3] || 0,
             strokeCap = style.polygonStrokeCap || "round",
             strokeDash = style.polygonStrokeDash?.toString() || "",
             type = style.type ? style.type.toLowerCase() : style.attributes?.type.toLowerCase();
@@ -273,6 +273,9 @@ export default {
             imageName = style.imageName;
         let newLegendObj = legendObj;
 
+        if (style.imageScale !== null && style.imageScale !== undefined) {
+            newLegendObj.imageScale = style.imageScale;
+        }
         if (type === "icon") {
             if (imageName.startsWith("https:")) {
                 newLegendObj.graphic = imageName;
@@ -317,7 +320,7 @@ export default {
         else if (geometryType === "Polygon") {
             legendObj = this.prepareLegendForPolygon(legendObj, style);
         }
-        else if (geometryType === "Cesium") {
+        else if (geometryType === "cesium") {
             legendObj.name = this.prepareNameForCesium(style);
             legendObj = this.prepareLegendForCesium(legendObj, style);
         }

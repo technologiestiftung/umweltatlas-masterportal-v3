@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import legendDraw from "../../../js/legendDraw";
+import legendDraw from "@modules/legend/js/legendDraw.js";
 
 describe("src/modules/legend/js/legendDraw", function () {
 
@@ -244,6 +244,17 @@ describe("src/modules/legend/js/legendDraw", function () {
             result = legendDraw.prepareLegendForPoint({}, style);
             expect(result).to.be.equals("graphic");
         });
+
+        it("prepareLegendForPoint contains imageScale for any given type", function () {
+            const style = {
+                    type: "foo",
+                    imageScale: 0.5
+                },
+                result = legendDraw.prepareLegendForPoint({}, style);
+
+            expect(result.imageScale).to.equal(style.imageScale);
+        });
+
     });
 
     describe("prepare", function () {
@@ -277,7 +288,7 @@ describe("src/modules/legend/js/legendDraw", function () {
 
             sinon.stub(legendDraw, "prepareNameForCesium").returns("NameForCesium");
             sinon.stub(legendDraw, "prepareLegendForCesium").returns("LegendForCesium");
-            result = legendDraw.prepare("Cesium", {}, "name");
+            result = legendDraw.prepare("cesium", {}, "name");
 
             expect(result).to.be.equals("LegendForCesium");
         });

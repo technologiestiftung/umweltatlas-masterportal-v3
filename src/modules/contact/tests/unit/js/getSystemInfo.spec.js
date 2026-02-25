@@ -1,6 +1,6 @@
 import {expect} from "chai";
 
-import getSystemInfo from "../../../js/getSystemInfo";
+import getSystemInfo from "@modules/contact/js/getSystemInfo.js";
 
 describe("src/modules/contact/js/getSystemInfo", function () {
     it("returns values from global variables", function () {

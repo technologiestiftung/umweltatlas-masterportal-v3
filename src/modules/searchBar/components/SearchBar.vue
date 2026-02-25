@@ -43,9 +43,10 @@ export default {
             "type",
             "currentSide"
         ]),
-        ...mapGetters("Menu",
-            {menuCurrentComponent: "currentComponent", previousNavigationEntryText: "previousNavigationEntryText"}
-        ),
+        ...mapGetters("Menu", {
+            menuCurrentComponent: "currentComponent",
+            previousNavigationEntryText: "previousNavigationEntryText"
+        }),
         ...mapGetters([
             "portalConfig"
         ]),
@@ -58,6 +59,7 @@ export default {
             },
             set (searchInput) {
                 this.setSearchInput(searchInput);
+                this.removeHighlight3DTile();
             }
         },
         /**
@@ -150,10 +152,10 @@ export default {
                     this.$refs?.searchInput.blur();
                     if (newVal === "root") {
                         this.setSearchResultsActive(false);
+                        this.setShowAllResults(false);
+                        this.setShowSearchResultsInTree(false);
+                        this.setCurrentActionEvent("");
                         this.navigateBack(this.currentSide);
-                        if (this.side) {
-                            this.switchToRoot(this.side);
-                        }
                     }
                 }
                 if (newVal === "layerSelection" && this.addLayerButtonSearchActive === true) {
@@ -162,6 +164,7 @@ export default {
                 else {
                     this.layerSelectionPlaceHolder = this.placeholder;
                 }
+                this.setGlobalPlaceholder(this.layerSelectionPlaceHolder);
             },
             deep: true
         },
@@ -173,12 +176,22 @@ export default {
                 if (value === "") {
                     this.removePointMarker();
                     this.removePolygonMarker();
+                    this.removeHighlight3DTile();
                 }
                 else {
                     this.checkCurrentComponent(this.currentComponentSide);
+                    this.$nextTick(() => {
+                        document.getElementById("searchInput").focus();
+                    });
                 }
             },
             deep: true
+        },
+        /**
+         * Watcher for value of placeholder.
+         */
+        placeholder (newValue) {
+            this.layerSelectionPlaceHolder = newValue;
         }
     },
     mounted () {
@@ -188,7 +201,6 @@ export default {
         this.initializeModule({configPaths: this.configPaths, type: this.type});
         this.overwriteDefaultValues();
         this.instantiateSearchInterfaces(this.$searchInterfaceAddons);
-        this.focusInput();
     },
     methods: {
         ...mapActions(["initializeModule"]),
@@ -199,13 +211,16 @@ export default {
             "activateActions",
             "startLayerSelectionSearch",
             "checkLayerSelectionSearchConfig",
-            "search"
+            "search",
+            "removeHighlight3DTile"
         ]),
-        ...mapActions("Menu", [
-            "navigateBack"
-        ]),
+        ...mapActions("Menu", ["navigateBack"]),
         ...mapMutations("Modules/SearchBar", [
+            "setGlobalPlaceholder",
             "addSuggestionItem",
+            "setCurrentActionEvent",
+            "setShowAllResults",
+            "setShowSearchResultsInTree",
             "setSearchInput",
             "setSearchResultsActive",
             "setSearchSuggestions",
@@ -215,7 +230,6 @@ export default {
             "switchToRoot",
             "switchToPreviousComponent",
             "setCurrentComponentBySide",
-            "setNavigationHistoryBySide",
             "setCurrentComponentPropsName"
         ]),
         /**
@@ -233,13 +247,6 @@ export default {
             }
         },
         /**
-         * Sets the focus to the searchbar input.
-         * @returns {void}
-         */
-        focusInput () {
-            this.$refs.searchInput.focus();
-        },
-        /**
          * Handles the input action behavior of the search
          * @param {String} currentComponentType Current component type
          * @returns {void}
@@ -247,6 +254,9 @@ export default {
         checkCurrentComponent (currentComponentType) {
             if (currentComponentType === "root") {
                 this.clickAction();
+                if (this.searchInputValue.length >= this.minCharacters) {
+                    this.startSearch();
+                }
             }
             else if (currentComponentType === "layerSelection") {
                 if (this.searchInputValue?.length === 0) {
@@ -272,13 +282,22 @@ export default {
             if (searchInputValue !== undefined) {
                 this.removePointMarker();
                 this.searchResults.forEach(searchResult => {
-                    if (searchResult.category.startsWith("Adresse") || searchResult.category.startsWith("Straße")) {
-                        if (searchInputValue.toLowerCase() === searchResult.name.toLowerCase()) {
+                    const category = searchResult.category.toLowerCase(),
+                        name = searchResult.name.toLowerCase();
+
+                    if (category.includes("adresse") ||
+                        category.includes("address") ||
+                        category.includes("straße")) {
+                        if (searchInputValue.toLowerCase() === name) {
                             this.activateActions({searchResult, actionType: "onClick"});
                         }
                     }
                 });
             }
+        },
+        clearSearch () {
+            this.searchInputValue = "";
+            this.$refs.searchInput.focus();
         }
     }
 };
@@ -295,15 +314,24 @@ export default {
                 class="form-control"
                 :placeholder="$t(layerSelectionPlaceHolder)"
                 :aria-label="$t(layerSelectionPlaceHolder)"
-                @keydown.enter="zoomToAndMarkSearchResult(searchInputValue), startSearch(currentComponentSide)"
+                @keydown.enter="zoomToAndMarkSearchResult(searchInputValue), checkCurrentComponent(currentComponentSide)"
             >
+            <button
+                v-if="searchInputValue"
+                class="btn-icon input-icon reset-button"
+                type="button"
+                aria-label="Clear search"
+                @click="clearSearch"
+            >
+                <i class="bi-x-lg fs-6" />
+            </button>
             <button
                 id="search-button"
                 class="btn btn-primary"
                 :disabled="!searchActivated"
                 :aria-label="$t(placeholder)"
                 type="button"
-                @click="zoomToAndMarkSearchResult(searchInputValue), startSearch(currentComponentSide)"
+                @click="zoomToAndMarkSearchResult(searchInputValue), checkCurrentComponent(currentComponentSide)"
             >
                 <i
                     class="bi-search"
@@ -324,6 +352,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "~variables";
+    .input-group {
+        position: relative;
+    }
     #search-bar {
         #search-button {
             border-top-right-radius: 5px;
@@ -333,6 +364,40 @@ export default {
             color: $placeholder-color;
         }
     }
+    input[type="search"] {
+        -webkit-appearance: none;
+        appearance: none;
+
+        &::-webkit-search-cancel-button {
+        display: none;
+    }
+    }
+    .btn-icon {
+        position: absolute;
+        position: absolute;
+        right: 40px;
+        top: 40%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0);
+        border: none;
+        padding: 5px 0 0 10px;
+        z-index: 5;
+    }
+
+    .input-icon {
+        margin-left: -37px;
+    }
+
+    .reset-button {
+        cursor: pointer;
+    }
+
+    li:hover, li.active {
+        cursor: pointer;
+        background: $light-grey;
+        font-size: $font-size-base;
+    }
+
     .overflowHidden{
         overflow: hidden;
         text-overflow: ellipsis;

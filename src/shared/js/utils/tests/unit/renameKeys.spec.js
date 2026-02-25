@@ -1,5 +1,5 @@
 
-import renameKeys from "../../renameKeys";
+import renameKeys from "@shared/js/utils/renameKeys.js";
 import {expect} from "chai";
 
 describe("renameKeys", function () {

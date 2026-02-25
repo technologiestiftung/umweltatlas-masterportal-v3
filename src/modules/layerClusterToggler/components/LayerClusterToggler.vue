@@ -1,6 +1,6 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
-import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
 
 /**
  * Layer Cluster Toggler

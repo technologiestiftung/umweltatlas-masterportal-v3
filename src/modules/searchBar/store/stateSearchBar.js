@@ -6,6 +6,7 @@
  * @property {String} [currentSide="mainMenu"] Current side of the searchBar.
  * @property {String} [minCharacters=3] Minimum amount of characters required to start a search.
  * @property {String} [placeholder="common:modules.searchBar.placeholder.address"] Input text field placeholder shown when no input has been given yet.
+ * @property {String} [globalPlaceholder="common:modules.searchBar.placeholder.address"] contains the globally used placeholder value.
  * @property {Object} [searchInterfaces={}] The configurations of the search interfaces
  * @property {Number} [suggestionListLength=5] Maximum amount of entries in the suggestion list.
  * @property {Number} [timeout=5000] Timeout for request to a search interface.
@@ -25,15 +26,20 @@
  * @property {String} [showAllResultsSearchInterfaceInstance=""] Deprecated - Search interface instance while all results are shown (relevant for layerSelection search).
  * @property {String} [showAllResultsSearchCategory=""] Deprecated - Search interface category while all results are shown (relevant for layerSelection search).
  * @property {Array} [showAllResultsSearchInterfaceInstances=["elasticSearch", "topicTree"] Search interface instance while all results are shown (relevant for layerSelection search).
- * @property {Boolean} [showInTree=false] Flag to display the layer selection in the layer tree.
+ * @property {Boolean} [showSearchResultsInTree=false] Flag to display the layer selection in the layer tree.
  * @property {Boolean} [searchResultsActive=true] Flag if the search results are active.
- * @property {Object} [iconsByActions= { addLayerToTopicTree: "bi-plus-circle", activateLayerInTopicTree: "bi-eye", highlightFeature: "bi-lightbulb", openGetFeatureInfo: "bi-info-circle", setMarker: "bi-geo-alt-fill", zoomToResult: "bi-zoom-in", startRouting: "bi-signpost-2" }] - contains the icons by action names to display on button
- */
+ * @property {Boolean} [addLayerButtonSearchActive=true] Flag indicating whether the "Add Layer" button search is active.
+ * @property {Object} [iconsByActions= { addLayerToTopicTree: "bi-plus-circle", activateLayerInTopicTree: "bi-eye", highlightFeature: "bi-lightbulb", openGetFeatureInfo: "bi-info-circle", setMarker: "bi-geo-alt-fill", zoomToResult: "bi-zoom-in", startRouting: "bi-signpost-2" }] - contains the icons by action names to display on buttons.
+ * @property {Object} [lastPickedFeatureId=null] The ID of the last feature that was picked or interacted with by the user.
+
+*/
 const state = {
+    coloredHighlighting3D: {},
     configPaths: ["portalConfig.mainMenu.searchBar", "portalConfig.secondaryMenu.searchBar"],
     currentSide: "mainMenu",
     minCharacters: 3,
     placeholder: "common:modules.searchBar.placeholder.address",
+    globalPlaceholder: "common:modules.searchBar.placeholder.address",
     searchInterfaces: [],
     suggestionListLength: 5,
     timeout: 5000,
@@ -61,7 +67,7 @@ const state = {
      */
     showAllResultsSearchCategory: "Thema",
     showAllResultsSearchInterfaceInstances: ["elasticSearch", "topicTree"],
-    showInTree: false,
+    showSearchResultsInTree: false,
     searchResultsActive: true,
     addLayerButtonSearchActive: true,
     iconsByActions: {
@@ -74,7 +80,8 @@ const state = {
         setMarker: "bi-geo-alt-fill",
         zoomToResult: "bi-zoom-in",
         startRouting: "bi-signpost-2"
-    }
+    },
+    lastPickedFeatureId: null
 };
 
 export default state;

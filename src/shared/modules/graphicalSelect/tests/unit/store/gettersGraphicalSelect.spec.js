@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import stateGraphicalSelect from "../../../store/stateGraphicalSelect";
+import stateGraphicalSelect from "@shared/modules/graphicalSelect/store/stateGraphicalSelect.js";
 
 
 describe("src/share-components/graphicalSelect/store/gettersGraphicalSelect", function () {
@@ -20,7 +20,7 @@ describe("src/share-components/graphicalSelect/store/gettersGraphicalSelect", fu
         expect(stateGraphicalSelect.selectionElements).to.be.eql(["Dropdown"]);
     });
     it("returns the geographicValues default value from state", function () {
-        expect(stateGraphicalSelect.geographicValues).to.be.eql(["Box", "Circle", "Polygon"]);
+        expect(stateGraphicalSelect.geographicValues).to.be.eql(["Box", "Circle", "Polygon", "Line"]);
     });
     it("returns the currentValue default value from state", function () {
         expect(stateGraphicalSelect.currentValue).to.be.equal("");

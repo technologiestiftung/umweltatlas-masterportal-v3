@@ -2,10 +2,10 @@ import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
-import crs from "@masterportal/masterportalapi/src/crs";
-import LayerPreviewComponent from "../../../components/LayerPreview.vue";
-import LayerPreview from "../../../store/indexLayerPreview";
-import wmts from "@masterportal/masterportalapi/src/layer/wmts";
+import crs from "@masterportal/masterportalapi/src/crs.js";
+import LayerPreviewComponent from "@shared/modules/layerPreview/components/LayerPreview.vue";
+import LayerPreview from "@shared/modules/layerPreview/store/indexLayerPreview.js";
+import wmts from "@masterportal/masterportalapi/src/layer/wmts.js";
 import axios from "axios";
 
 config.global.mocks.$t = key => key;
@@ -18,6 +18,7 @@ describe("src/modules/layerPreview/components/LayerPreview.vue", () => {
         layerWMTS2,
         WMTSCapabilities,
         layerWMS,
+        layerWMS2,
         layerVectorTile,
         layerGroup,
         getWMTSCapabilitiesStub,
@@ -62,6 +63,20 @@ describe("src/modules/layerPreview/components/LayerPreview.vue", () => {
             singleTile: false,
             tilesize: 20,
             url: "https://wms_url.de"
+        };
+        layerWMS2 = {
+            id: "WMS2",
+            name: "layerWMS2",
+            typ: "WMS",
+            layers: "layers",
+            version: "1.0.0",
+            transparent: false,
+            singleTile: false,
+            tilesize: 20,
+            url: "https://wms_url.de",
+            preview: {
+                src: "https://wms_preview_url.de"
+            }
         };
         layerVectorTile = {
             id: "VectorTile",
@@ -127,6 +142,9 @@ describe("src/modules/layerPreview/components/LayerPreview.vue", () => {
                     }
                     if (id === "WMS") {
                         return layerWMS;
+                    }
+                    if (id === "WMS2") {
+                        return layerWMS2;
                     }
                     if (id === "VectorTile") {
                         return layerVectorTile;
@@ -237,6 +255,24 @@ describe("src/modules/layerPreview/components/LayerPreview.vue", () => {
         expect(warnSpy.notCalled).to.be.true;
     });
 
+    it("render the LayerPreview as a static image preview for layer type WMS", async () => {
+        const props = {
+            layerId: "WMS2"
+        };
+
+        wrapper = shallowMount(LayerPreviewComponent, {
+            global: {
+                plugins: [store]
+            },
+            props: props
+        });
+        await wrapper.vm.$nextTick();
+
+        expect(wrapper.find(".layerPreview").exists()).to.be.true;
+        expect(wrapper.find("img").attributes().src).to.be.equals(layerWMS2.preview.src);
+        expect(warnSpy.notCalled).to.be.true;
+    });
+
     it("do render the LayerPreview for supported layer-typ VectorTile", async () => {
         const props = {
             layerId: "VectorTile"
@@ -259,7 +295,7 @@ describe("src/modules/layerPreview/components/LayerPreview.vue", () => {
         const props = {
                 layerId: "WMTS"
             },
-            expectedURL = "https://tiles.geoservice.dlr.de/service/wmts/rest/eoc:basemap/_empty/EPSG:3857/EPSG:3857:0/0/0?format=image/png";
+            expectedURL = "https://tiles.geoservice.dlr.de/service/wmts/rest/eoc:basemap/_empty/EPSG:3857/" + encodeURIComponent("EPSG:3857:0") + "/0/0?format=image/png";
 
         sinon.stub(LayerPreviewComponent.methods, "getPreviewUrl").returns(layerWMTS.capabilitiesUrl);
         wrapper = shallowMount(LayerPreviewComponent, {
@@ -455,5 +491,34 @@ describe("src/modules/layerPreview/components/LayerPreview.vue", () => {
         expect(warnSpy.notCalled).to.be.true;
     });
 
+    it("do render the LayerPreview with tooltip attributes", async () => {
+        const props = {
+            layerId: "WMS"
+        };
+
+        wrapper = shallowMount(LayerPreviewComponent, {
+            global: {
+                plugins: [store]
+            },
+            props: props
+        });
+        await wrapper.vm.$nextTick();
+
+        expect(wrapper.find(".layerPreview").exists()).to.be.true;
+        expect(wrapper.find(".layerPreview").attributes()).to.deep.equals({
+            "data-v-601392fe": "",
+            role: "button",
+            tabindex: "0",
+            class: "layerPreview",
+            "data-bs-toggle": "tooltip",
+            "data-bs-original-title": "layerWMS",
+            title: "layerWMS"
+        });
+        expect(wrapper.find(".wrapperImg").attributes()).to.deep.equals({
+            "data-v-601392fe": "",
+            class: "wrapperImg",
+            title: ""
+        });
+    });
 
 });

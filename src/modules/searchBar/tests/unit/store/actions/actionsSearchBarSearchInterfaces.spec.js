@@ -1,6 +1,7 @@
-import actions from "../../../../store/actions/actionsSearchBarSearchInterfaces";
+import actions from "@modules/searchBar/store/actions/actionsSearchBarSearchInterfaces.js";
 import {expect} from "chai";
 import sinon from "sinon";
+import store from "@appstore/index.js";
 
 const {
     cleanSearchResults,
@@ -9,6 +10,10 @@ const {
     search
 } = actions;
 
+afterEach(() => {
+    sinon.restore();
+});
+
 describe("src/modules/searchBar/store/actions/actionsSearchBarSearchInterfaces.js", () => {
     let commit,
         dispatch;
@@ -16,6 +21,14 @@ describe("src/modules/searchBar/store/actions/actionsSearchBarSearchInterfaces.j
     beforeEach(() => {
         commit = sinon.spy();
         dispatch = sinon.spy();
+
+        store.getters = {
+            restServiceById: () => sinon.stub()
+        };
+    });
+
+    afterEach(() => {
+        sinon.restore();
     });
 
     describe("instantiateSearchInterfaces", () => {

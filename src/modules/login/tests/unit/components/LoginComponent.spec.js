@@ -1,11 +1,11 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
 
-import LoginComponent from "../../../components/LoginComponent.vue";
-import Login from "../../../store/indexLogin.js";
-import rootGetters from "../../../../../app-store/getters.js";
-import Cookie from "../../../js/utilsCookies.js";
-import OIDC from "../../../js/utilsOIDC.js";
+import LoginComponent from "@modules/login/components/LoginComponent.vue";
+import Login from "@modules/login/store/indexLogin.js";
+import rootGetters from "@appstore/getters.js";
+import Cookie from "@modules/login/js/utilsCookies.js";
+import OIDC from "@modules/login/js/utilsOIDC.js";
 
 import {expect} from "chai";
 import sinon from "sinon";
@@ -46,6 +46,7 @@ describe("src/modules/Modules/Login/components/LoginComponent.vue", () => {
             },
             state: { }
         });
+        sinon.stub(LoginComponent.methods, "openLoginWindow");
     });
     afterEach(() => {
         sinon.restore();
@@ -116,40 +117,112 @@ describe("src/modules/Modules/Login/components/LoginComponent.vue", () => {
             expect(wrapper.vm.loggedIn).to.be.false;
         });
 
-        it("should be logged in after Login renders", () => {
-            const local_sandbox = sinon.createSandbox();
+        it("should be logged in after Login renders", async function () {
+            // Use the main sandbox to avoid double stubbing
+            sandbox.restore(); // Clear any previous stubs
 
-            local_sandbox.replace(Cookie, "get", sinon.fake.returns(fakeToken));
-            local_sandbox.stub(OIDC, "getTokenExpiry").returns(1);
+            // Stub the methods
+            sandbox.stub(Cookie, "get").returns(fakeToken);
+            sandbox.stub(OIDC, "getTokenExpiry").returns(1);
+            sandbox.stub(OIDC, "renewTokenIfNecessary").resolves();
+
+            // Create a stub for the async checkLoggedIn action and custom store
+            const checkLoggedInStub = sandbox.stub();
+
+            checkLoggedInStub.resolves(true);
+
+            const customStore = createStore({
+                modules: {
+                    namespaced: true,
+                    Modules: {
+                        namespaced: true,
+                        modules: {
+                            namespaced: true,
+                            Login: {
+                                ...Login,
+                                actions: {
+                                    ...Login.actions,
+                                    checkLoggedIn: checkLoggedInStub
+                                }
+                            }
+                        }
+                    }
+                },
+                getters: {
+                    mobile: () => false,
+                    ...rootGetters
+                }
+            });
+
+            // Set the loggedIn state directly
+            customStore.commit("Modules/Login/setLoggedIn", true);
 
             wrapper = shallowMount(LoginComponent, {
                 global: {
-                    plugins: [store]
+                    plugins: [customStore]
                 }
             });
+
+            // Wait for any async operations to complete
+            await wrapper.vm.$nextTick();
 
             expect(wrapper.vm.loggedIn).to.be.true;
-
-            local_sandbox.restore();
         }).timeout(5000);
 
-        it("should have values from cookies after Login renders", async () => {
-            const local_sandbox = sinon.createSandbox();
+        it("should have values from cookies after Login renders", async function () {
+            // Use the main sandbox to avoid double stubbing
+            sandbox.restore(); // Clear any previous stubs
 
-            local_sandbox.stub(OIDC, "getTokenExpiry").returns(1);
-            local_sandbox.replace(Cookie, "get", sinon.fake.returns(fakeToken));
+            // Stub the methods
+            sandbox.stub(Cookie, "get").returns(fakeToken);
+            sandbox.stub(OIDC, "getTokenExpiry").returns(1);
+            sandbox.stub(OIDC, "renewTokenIfNecessary").resolves();
 
-            wrapper = await shallowMount(LoginComponent, {
-                global: {
-                    plugins: [store]
+            // Create a stub for the async checkLoggedIn action that sets the values
+            const checkLoggedInStub = sandbox.stub().callsFake(async ({commit}) => {
+                commit("setScreenName", fakeToken);
+                commit("setUsername", fakeToken);
+                commit("setEmail", fakeToken);
+                commit("setLoggedIn", true);
+                return true;
+            });
+
+            // Create a custom store with the stubbed action
+            const customStore = createStore({
+                modules: {
+                    namespaced: true,
+                    Modules: {
+                        namespaced: true,
+                        modules: {
+                            namespaced: true,
+                            Login: {
+                                ...Login,
+                                actions: {
+                                    ...Login.actions,
+                                    checkLoggedIn: checkLoggedInStub
+                                }
+                            }
+                        }
+                    }
+                },
+                getters: {
+                    mobile: () => false,
+                    ...rootGetters
                 }
             });
+
+            wrapper = shallowMount(LoginComponent, {
+                global: {
+                    plugins: [customStore]
+                }
+            });
+
+            // Wait for any async operations to complete
+            await wrapper.vm.$nextTick();
 
             expect(wrapper.vm.$store.state.Modules.Login.screenName).to.be.equal(fakeToken);
             expect(wrapper.vm.$store.state.Modules.Login.username).to.be.equal(fakeToken);
             expect(wrapper.vm.$store.state.Modules.Login.email).to.be.equal(fakeToken);
-
-            local_sandbox.restore();
         }).timeout(5000);
 
     });

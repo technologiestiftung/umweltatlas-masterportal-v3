@@ -1,5 +1,4 @@
 const toolsNotToMigrate = [
-        "compareFeatures",
         "addLayerRemotely",
         "bauforum",
         "boris",
@@ -54,6 +53,7 @@ const toolsNotToMigrate = [
         "modules.tools.info": "modules.info",
         "menu.tools.print": "modules.print.name",
         "modules.searchbar": "modules.searchBar",
+        "mouseHover.infoText": "modules.mouseHover.infoText",
         "translate#common": "common",
         "translate#additional": "additional",
         "\"iconFor\":": "\"iconForward\":", // control "BackForward"

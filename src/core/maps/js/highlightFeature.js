@@ -1,6 +1,6 @@
-import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
-import layerCollection from "../../layers/js/layerCollection";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
+import layerCollection from "../../layers/js/layerCollection.js";
 import {nextTick} from "vue";
 
 export default {
@@ -22,16 +22,68 @@ export default {
             case "viaLayerIdAndFeatureId":
                 dispatch("highlightViaParametricUrl", highlightObject.layerIdAndFeatureId);
                 break;
+            case "highlightMultiPoint":
+            case "highlightPoint":
+                dispatch("highlightPointTypes", highlightObject);
+                break;
             case "highlightPolygon":
             case "highlightMultiPolygon":
                 dispatch("highlightPolygonTypes", highlightObject);
                 break;
             case "highlightLine":
-                dispatch("highlightLine", highlightObject);
+            case "highlightMultiLine":
+                dispatch("highlightLineTypes", highlightObject);
                 break;
             default:
                 console.warn(`Unrecognized highlight type: ${highlightObject.type}`);
                 break;
+        }
+    },
+
+
+    /**
+     * highlights a Point feature
+     * @param {Object} context - The Vuex action context, which includes commit and dispatch among other properties.
+     * @param {Object} highlightObject contains several parameters for feature highlighting
+     * @fires VectorStyle#RadioRequestStyleListReturnModelById
+     * @returns {void}
+     */
+    async highlightPointTypes ({commit, dispatch}, highlightObject) {
+        if (highlightObject.highlightStyle) {
+            const newStyle = highlightObject.highlightStyle,
+                feature = highlightObject.feature,
+                styleObjectPayload = {highlightObject, feature, returnFirst: feature.getGeometry().getType() !== "MultiPoint"},
+                originalStyle = await dispatch("fetchAndApplyStyle", styleObjectPayload) || undefined;
+
+            if (originalStyle) {
+                commit("Maps/addHighlightedFeature", feature, {root: true});
+                commit("Maps/addHighlightedFeatureStyle", feature.getStyle(), {root: true});
+
+                if (Array.isArray(originalStyle)) {
+                    const clonedStyles = originalStyle.map(style => {
+                        const clonedStyle = style.clone();
+
+                        applyStyleProperties(clonedStyle, newStyle);
+                        return clonedStyle;
+                    });
+
+                    feature.setStyle(clonedStyles);
+                }
+                else {
+                    const clonedStyle = originalStyle.clone();
+
+                    applyStyleProperties(clonedStyle, newStyle);
+                    feature.setStyle(clonedStyle);
+                }
+            }
+            else if (highlightObject.layer.id === "importDrawLayer") {
+                const clonedStyle = typeof feature.getStyle() === "object" ? feature.getStyle()?.clone() : undefined;
+
+                dispatch("setHighlightStyleToFeature", {feature, clonedStyle, newStyle});
+            }
+        }
+        else {
+            dispatch("Maps/placingPolygonMarker", highlightObject.feature, {root: true});
         }
     },
 
@@ -47,44 +99,46 @@ export default {
      * @returns {void}
      */
     async highlightPolygonTypes ({commit, dispatch}, highlightObject) {
-        const newStyle = highlightObject.highlightStyle,
-            feature = highlightObject.feature,
-            styleObjectPayload = {highlightObject, feature, returnFirst: feature.getGeometry().getType() !== "MultiPolygon"},
-            originalStyle = await dispatch("fetchAndApplyStyle", styleObjectPayload) || undefined;
+        if (highlightObject.highlightStyle && Object.keys(highlightObject.highlightStyle).length) {
+            const newStyle = highlightObject.highlightStyle,
+                feature = highlightObject.feature,
+                styleObjectPayload = {highlightObject, feature, returnFirst: feature.getGeometry().getType() !== "MultiPolygon"},
+                originalStyle = await dispatch("fetchAndApplyStyle", styleObjectPayload) || undefined;
 
-        if (originalStyle) {
-            commit("Maps/addHighlightedFeature", feature, {root: true});
-            commit("Maps/addHighlightedFeatureStyle", feature.getStyle(), {root: true});
+            if (originalStyle) {
+                commit("Maps/addHighlightedFeature", feature, {root: true});
+                commit("Maps/addHighlightedFeatureStyle", feature.getStyle(), {root: true});
 
-            if (Array.isArray(originalStyle)) {
-                const clonedStyles = originalStyle.map(style => {
-                    const clonedStyle = style.clone();
+                if (Array.isArray(originalStyle)) {
+                    const clonedStyles = originalStyle.map(style => {
+                        const clonedStyle = style.clone();
+
+                        applyStyleProperties(clonedStyle, newStyle);
+                        return clonedStyle;
+                    });
+
+                    feature.setStyle(clonedStyles);
+                }
+                else {
+                    const clonedStyle = originalStyle.clone();
 
                     applyStyleProperties(clonedStyle, newStyle);
-                    return clonedStyle;
-                });
-
-                feature.setStyle(clonedStyles);
+                    feature.setStyle(clonedStyle);
+                }
             }
-            else {
-                const clonedStyle = originalStyle.clone();
+            else if (highlightObject.layer.id === "importDrawLayer") {
+                const clonedStyle = typeof feature.getStyle() === "object" ? feature.getStyle()?.clone() : undefined;
 
-                applyStyleProperties(clonedStyle, newStyle);
-                feature.setStyle(clonedStyle);
+                dispatch("setHighlightStyleToFeature", {feature, clonedStyle, newStyle});
             }
-        }
-        else if (highlightObject.layer.id === "importDrawLayer") {
-            const clonedStyle = typeof feature.getStyle() === "object" ? feature.getStyle()?.clone() : undefined;
-
-            dispatch("setHighlightStyleToFeature", {feature, clonedStyle, newStyle});
         }
         else {
-            dispatch("Maps/placingPolygonMarker", feature, {root: true});
+            dispatch("Maps/placingPolygonMarker", highlightObject.feature, {root: true});
         }
     },
 
     /**
-     * Applies highlighting to a line feature. Similar to highlightPolygon, it clones and applies a provided custom style to the feature if available.
+     * Applies highlighting to a line feature. Similar to highlightPolygonType, it clones and applies a provided custom style to the feature if available.
      * If no custom style is provided, it dispatches an action to place a default line marker.
      *
      * @param {Object} context - The Vuex action context, which includes commit and dispatch methods among others.
@@ -93,24 +147,42 @@ export default {
      * @param {Object} highlightObject.feature - The line feature to be highlighted.
      * @returns {void}
      */
-    async highlightLine ({dispatch}, highlightObject) {
-        const newStyle = highlightObject.highlightStyle,
-            feature = highlightObject.feature,
-            styleObjectPayload = {highlightObject, feature},
-            originalStyle = await dispatch("fetchAndApplyStyle", styleObjectPayload) || undefined;
+    async highlightLineTypes ({commit, dispatch}, highlightObject) {
+        if (highlightObject.highlightStyle) {
+            const newStyle = highlightObject.highlightStyle,
+                feature = highlightObject.feature,
+                styleObjectPayload = {highlightObject, feature, returnFirst: feature.getGeometry().getType() !== "MultiLineString"},
+                originalStyle = await dispatch("fetchAndApplyStyle", styleObjectPayload) || undefined;
 
-        if (originalStyle) {
-            const clonedStyle = Array.isArray(originalStyle) ? originalStyle[0].clone() : originalStyle.clone();
+            if (originalStyle) {
+                commit("Maps/addHighlightedFeature", feature, {root: true});
+                commit("Maps/addHighlightedFeatureStyle", feature.getStyle(), {root: true});
 
-            dispatch("setHighlightStyleToFeature", {feature, clonedStyle, newStyle});
-        }
-        else if (highlightObject.layer.id === "importDrawLayer") {
-            const clonedStyle = typeof feature.getStyle() === "object" ? feature.getStyle()?.clone() : undefined;
+                if (Array.isArray(originalStyle)) {
+                    const clonedStyles = originalStyle.map(style => {
+                        const clonedStyle = style.clone();
 
-            dispatch("setHighlightStyleToFeature", {feature, clonedStyle, newStyle});
+                        applyStyleProperties(clonedStyle, newStyle);
+                        return clonedStyle;
+                    });
+
+                    feature.setStyle(clonedStyles);
+                }
+                else {
+                    const clonedStyle = originalStyle.clone();
+
+                    applyStyleProperties(clonedStyle, newStyle);
+                    feature.setStyle(clonedStyle);
+                }
+            }
+            else if (highlightObject.layer.id === "importDrawLayer") {
+                const clonedStyle = typeof feature.getStyle() === "object" ? feature.getStyle()?.clone() : undefined;
+
+                dispatch("setHighlightStyleToFeature", {feature, clonedStyle, newStyle});
+            }
         }
         else {
-            dispatch("Maps/placingPolygonMarker", feature, {root: true});
+            dispatch("Maps/placingPolygonMarker", highlightObject.feature, {root: true});
         }
     },
 

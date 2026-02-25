@@ -1,10 +1,10 @@
 import {createStore} from "vuex";
 import {expect} from "chai";
 import {config, mount, shallowMount} from "@vue/test-utils";
-import RotationItemComponent from "../../../components/RotationItem.vue";
-import Map from "ol/Map";
+import RotationItemComponent from "@modules/controls/rotation/components/RotationItem.vue";
+import Map from "ol/Map.js";
 import sinon from "sinon";
-import RotationItem from "../../../store/indexRotation";
+import RotationItem from "@modules/controls/rotation/store/indexRotation.js";
 
 config.global.mocks.$t = key => key;
 

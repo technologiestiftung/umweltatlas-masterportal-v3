@@ -1,9 +1,11 @@
 import {GeoJSON} from "ol/format.js";
 import {fromCircle} from "ol/geom/Polygon.js";
-import definitionsGraphicalSelect from "../js/definitionsGraphicalSelect";
+import definitionsGraphicalSelect from "../js/definitionsGraphicalSelect.js";
+import {actionsBuffer} from "./actionsBuffer.js";
 
 
 const actions = {
+    ...actionsBuffer,
     /**
      * Sets listeners for draw interaction events. On "drawend" the selected area is stored as geoJSON in the model-property "selectedAreaGeoJson".
      * @param {Object} dispatch commit vuex element
@@ -23,10 +25,12 @@ const actions = {
         payload.interaction.on("drawend", async function (evt) {
             const geoJson = await dispatch("featureToGeoJson", evt.feature);
 
-            commit("setSelectedAreaGeoJson", geoJson);
-            payload.vm.$parent.$emit("onDrawEnd", geoJson);
+            // For Line type, only the buffered polygon from handleLineDrawEnd should trigger onDrawEnd
+            if (payload.vm.selectedOptionData !== "Line") {
+                commit("setSelectedAreaGeoJson", geoJson);
+                payload.vm.$parent.$emit("onDrawEnd", geoJson);
+            }
         });
-
     },
     /**
     * Converts a feature to a geojson.

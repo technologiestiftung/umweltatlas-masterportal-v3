@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import Layer3dEntities from "../../../js/layer3dEntities";
+import Layer3dEntities from "@core/layers/js/layer3dEntities.js";
 
 describe("src/core/js/layers/layer3dEntities.js", () => {
     let attributes,

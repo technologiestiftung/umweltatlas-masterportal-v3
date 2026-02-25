@@ -1,9 +1,9 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import ContactFormularInput from "./ContactFormularInput.vue";
-import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
-import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
-import FileUpload from "../../../shared/modules/inputs/components/FileUpload.vue";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
+import FileUpload from "@shared/modules/inputs/components/FileUpload.vue";
 
 /**
  * The Contact Form
@@ -92,11 +92,6 @@ export default {
         ...mapMutations("Menu", [
             "setNavigationHistoryBySide"
         ]),
-        triggerClickOnFileInput (event) {
-            if (event.which === 32 || event.which === 13) {
-                this.$refs["upload-input-file"].click();
-            }
-        },
         onInputChange (e) {
             if (e.target.files !== undefined) {
                 this.addFile(e.target.files);
@@ -340,7 +335,6 @@ export default {
                             <div class="accordion-body">
                                 <FileUpload
                                     :id="'attachmentUpload'"
-                                    :keydown="(e) => triggerClickOnFileInput(e)"
                                     :change="(e) => onInputChange(e)"
                                     :drop="(e) => onDrop(e)"
                                 >

@@ -1,14 +1,14 @@
-import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
 import {expect} from "chai";
 import Feature from "ol/Feature.js";
-import Map from "ol/Map";
+import Map from "ol/Map.js";
 import Point from "ol/geom/Point.js";
 import sinon from "sinon";
-import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 import VectorLayer from "ol/layer/Vector.js";
 import VectorSource from "ol/source/Vector.js";
 
-import mapMarker from "../../../js/mapMarker";
+import mapMarker from "@core/maps/js/mapMarker.js";
 
 describe("src/core/js/maps/mapMarker.js", () => {
     let layerPoint,

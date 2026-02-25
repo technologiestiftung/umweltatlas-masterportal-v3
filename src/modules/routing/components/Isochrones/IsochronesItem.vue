@@ -1,9 +1,9 @@
 <script>
 import {mapGetters, mapActions, mapMutations} from "vuex";
-import actions from "../../store/isochrones/actionsIsochrones";
-import mutations from "../../store/isochrones/mutationsIsochrones";
-import * as constants from "../../store/isochrones/constantsIsochrones";
-import * as constantsRouting from "../../store/constantsRouting";
+import actions from "../../store/isochrones/actionsIsochrones.js";
+import mutations from "../../store/isochrones/mutationsIsochrones.js";
+import * as constants from "../../store/isochrones/constantsIsochrones.js";
+import * as constantsRouting from "../../store/constantsRouting.js";
 import RoutingCoordinateInput from "../RoutingCoordinateInput.vue";
 import RoutingSliderInput from "../RoutingSliderInput.vue";
 import RoutingDownload from "../RoutingDownload.vue";
@@ -11,10 +11,13 @@ import IsochronesItemBatchProcessing from "./IsochronesItemBatchProcessing.vue";
 import RoutingBatchProcessingCheckbox from "../RoutingBatchProcessingCheckbox.vue";
 import RoutingSpeedProfileIcon from "../RoutingSpeedProfileIcon.vue";
 import RoutingAvoidFeatures from "../RoutingAvoidFeatures.vue";
+import RoutingRestrictionsInput from "../RoutingRestrictionsInput.vue";
+import IsochronesHoverData from "./IsochronesHoverData.vue";
+import IsochronesLegend from "./IsochronesLegend.vue";
 
 /**
- * DirectionsItemBatchProcessing
- * @module modules/DirectionsItemBatchProcessing
+ * IsochronesItem
+ * @module modules/routing/components/Isochrones/IsochronesItem
  * @vue-data {*} constants - The constants isochrones.
  * @vue-data {*} constantsRouting - The constants routing.
  * @vue-computed {Number} currentValue - The distance/time value for the current active slider.
@@ -30,7 +33,10 @@ export default {
         IsochronesItemBatchProcessing,
         RoutingBatchProcessingCheckbox,
         RoutingAvoidFeatures: RoutingAvoidFeatures,
-        RoutingSpeedProfileIcon
+        RoutingSpeedProfileIcon,
+        RoutingRestrictionsInput,
+        IsochronesHoverData,
+        IsochronesLegend
     },
     data () {
         return {
@@ -53,6 +59,13 @@ export default {
          * @returns {Number} maximum value for the interval slider
          */
         maxIntervalValue () {
+            if (this.settings.intervalOption === "count") {
+                if (this.currentValue <= 1) {
+                    return this.settings.isochronesMethodOption === "TIME" ? this.currentValue : this.currentValue * 10;
+                }
+                return this.currentValue < this.settings.maxInterval ? Math.ceil(this.currentValue) : this.settings.maxInterval;
+            }
+
             return this.currentValue < this.settings.maxInterval ? this.currentValue : this.settings.maxInterval;
         },
 
@@ -62,6 +75,21 @@ export default {
          */
         minIntervalValue () {
             return this.settings.minInterval;
+        },
+
+        /**
+         * Computed number of isochrones based on current settings.
+         * Using Math.ceil to match API behavior that rejects results > 10
+         * @returns {Number} Number of isochrones.
+         */
+        numberOfIsochrones () {
+            if (this.settings.intervalOption === "count") {
+                return this.settings.intervalValue;
+            }
+            if (this.settings.intervalValue === 0) {
+                return Infinity;
+            }
+            return Math.ceil(this.currentValue / this.settings.intervalValue);
         }
     },
 
@@ -96,7 +124,7 @@ export default {
         changeMethodOption (methodOptionId) {
             this.settings.isochronesMethodOption = methodOptionId;
             if (this.currentValue < this.settings.intervalValue) {
-                this.setIntervalValue(this.currentValue);
+                this.setIntervalValue(Math.round(this.currentValue));
             }
         },
         /**
@@ -105,9 +133,31 @@ export default {
          * @returns {void}
          */
         setDistanceValue (distanceValue) {
-            this.settings.distanceValue = distanceValue;
-            if (distanceValue < this.settings.intervalValue) {
-                this.setIntervalValue(distanceValue);
+            if (this.settings.intervalOption === "count") {
+                if (distanceValue > 1) {
+                    if (distanceValue > this.settings.distanceValue) {
+                        this.settings.distanceValue = Math.ceil(distanceValue);
+                    }
+                    else {
+                        this.settings.distanceValue = Math.floor(distanceValue);
+                    }
+
+                    if (distanceValue < this.settings.intervalValue) {
+                        this.setIntervalValue(this.settings.distanceValue);
+                    }
+                }
+                else {
+                    this.settings.distanceValue = distanceValue;
+                    if (distanceValue * 10 < this.settings.intervalValue) {
+                        this.setIntervalValue(this.settings.distanceValue * 10);
+                    }
+                }
+            }
+            else {
+                this.settings.distanceValue = distanceValue;
+                if (distanceValue < this.settings.intervalValue) {
+                    this.setIntervalValue(distanceValue);
+                }
             }
         },
         /**
@@ -256,6 +306,7 @@ export default {
                 :min="settings.minDistance"
                 :max="settings.maxDistance"
                 :disabled="isInputDisabled"
+                :step="settings.intervalOption === 'count' ? 0.1 : 1"
                 unit="km"
                 @input="setDistanceValue($event)"
             />
@@ -274,7 +325,7 @@ export default {
         </template>
 
         <RoutingSliderInput
-            :label="$t('common:modules.routing.isochrones.interval')"
+            :label="settings.intervalOption === 'count' ? $t('common:modules.routing.isochrones.interval.count') : $t('common:modules.routing.isochrones.interval.default')"
             :value="settings.intervalValue"
             :min="minIntervalValue"
             :max="maxIntervalValue"
@@ -284,6 +335,10 @@ export default {
         />
 
         <hr>
+
+        <div v-if="settings.speedProfile === 'HGV'">
+            <RoutingRestrictionsInput />
+        </div>
 
         <RoutingAvoidFeatures
             :settings="settings"
@@ -301,10 +356,13 @@ export default {
                     <button
                         class="btn btn-primary"
                         type="button"
-                        :disabled="waypoint.getCoordinates().length === 0 || isInputDisabled"
+                        :disabled="waypoint.getCoordinates().length === 0 || isInputDisabled || (numberOfIsochrones > 10)"
                         @click="findIsochrones()"
                     >
-                        {{ $t('common:modules.routing.isochrones.calculate') }}
+                        {{ numberOfIsochrones > 10
+                            ? $t('common:modules.routing.isochrones.tooManyIntervalsInline')
+                            : $t('common:modules.routing.isochrones.calculate')
+                        }}
                     </button>
                 </div>
 
@@ -314,25 +372,13 @@ export default {
                 >
                     <hr class="w-100">
 
-                    <span class="mb-2">{{ $t('common:modules.routing.isochrones.legend') }}</span>
-                    <div
-                        v-for="(area, index) of routingIsochrones.getAreas()"
-                        :key="'result-area-' + index"
-                        class="d-flex mb-2 ms-2"
-                    >
-                        <div
-                            class="legend-container px-2"
-                            :style="{backgroundColor: area.getColorRgbString()}"
-                        >
-                            <span>{{ area.getDisplayValue() }}</span>
-                            <span>{{ area.getOptimization() === 'DISTANCE' ? 'km' : 'min' }}</span>
-                        </div>
-                    </div>
+                    <IsochronesLegend />
 
                     <hr class="w-100">
 
                     <RoutingDownload hide-gpx />
                 </div>
+                <IsochronesHoverData v-if="isochronesSettings.attributes.length > 0" />
             </div>
         </template>
     </div>

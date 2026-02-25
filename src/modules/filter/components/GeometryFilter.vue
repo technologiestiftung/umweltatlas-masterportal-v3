@@ -1,9 +1,10 @@
 <script>
-import Draw, {createBox} from "ol/interaction/Draw.js";
-import {createRegularPolygon} from "ol/interaction/Draw";
-import {Fill, Stroke, Style} from "ol/style";
-import {Vector as VectorSource} from "ol/source";
-import {Vector as VectorLayer} from "ol/layer";
+import ButtonGroup from "@shared/modules/buttons/components/ButtonGroup.vue";
+import Draw, {createBox, createRegularPolygon} from "ol/interaction/Draw.js";
+import {Fill, Stroke, Style} from "ol/style.js";
+import FlatButton from "../../../../src/shared/modules/buttons/components/FlatButton.vue";
+import {Vector as VectorSource} from "ol/source.js";
+import {Vector as VectorLayer} from "ol/layer.js";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import OL3Parser from "jsts/org/locationtech/jts/io/OL3Parser.js";
 import {BufferOp} from "jsts/org/locationtech/jts/operation/buffer";
@@ -13,10 +14,11 @@ import {
     Point,
     Polygon,
     MultiPolygon
-} from "ol/geom";
-import isObject from "../../../shared/js/utils/isObject.js";
-import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
-import sortBy from "../../../shared/js/utils/sortBy";
+} from "ol/geom.js";
+import IconButton from "../../../../src/shared/modules/buttons/components/IconButton.vue";
+import isObject from "@shared/js/utils/isObject.js";
+import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
+import sortBy from "@shared/js/utils/sortBy.js";
 
 /**
  * Geometry Filter
@@ -32,7 +34,6 @@ import sortBy from "../../../shared/js/utils/sortBy";
  * @vue-prop {Object|Boolean} filterGeometry - Shows if geometry should be filtered.
  * @vue-prop {Object} geometryFeature - The geometry feature.
  * @vue-prop {Object} initSelectedGeometryIndex - The initial geometry index.
- *
  * @vue-data {Boolean} isActive - Shows if geometry filter is active.
  * @vue-data {Object} buffer - The buffer.
  * @vue-data {Boolean} isBufferInputVisible - Shows if buffer input is visible.
@@ -42,6 +43,11 @@ import sortBy from "../../../shared/js/utils/sortBy";
  */
 export default {
     name: "GeometryFilter",
+    components: {
+        ButtonGroup,
+        IconButton,
+        FlatButton
+    },
     props: {
         circleSides: {
             type: Number,
@@ -73,6 +79,11 @@ export default {
             required: false,
             default: true
         },
+        isActive: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
         strokeColor: {
             type: String,
             required: false,
@@ -102,12 +113,16 @@ export default {
     emits: ["updateGeometrySelectorOptions", "updateFilterGeometry", "updateGeometryFeature"],
     data () {
         return {
-            isActive: false,
             buffer: this.defaultBuffer,
             isBufferInputVisible: false,
             isGeometryVisible: false,
-            selectedGeometryIndex: this.initSelectedGeometryIndex,
-            lastMouseMapInteractionsComponent: ""
+            selectedGeometryIndex: this.initSelectedGeometryIndex === null ? 0 : this.initSelectedGeometryIndex,
+            lastMouseMapInteractionsComponent: "",
+            buttonGroupLevels: [
+                {name: translateKeyWithPlausibilityCheck("common:modules.filter.geometryFilter.geometries", key => this.$t(key))},
+                {name: translateKeyWithPlausibilityCheck("common:modules.filter.geometryFilter.regions", key => this.$t(key))}
+            ],
+            selectedGroup: ""
         };
     },
     computed: {
@@ -121,33 +136,39 @@ export default {
         ])
     },
     watch: {
+        isActive: {
+            handler (val) {
+                if (!val) {
+                    if (this.selectedGroup === "geom" && this.draw instanceof Draw) {
+                        this.draw.setActive(false);
+                        this.selectedGeometryIndex = -10;
+                    }
+                }
+            },
+            deep: true
+        },
+        selectedGroup (newValue) {
+            if (this.draw instanceof Draw) {
+                this.draw.setActive(!(newValue === "addit"));
+            }
+        },
         selectedGeometryIndex (newValue) {
+            if (newValue === -1) {
+                this.reset();
+                return;
+            }
             const selectedGeometry = this.getSelectedGeometry(newValue);
 
             if (this.draw) {
                 this.removeInteraction(this.draw);
             }
-            if (selectedGeometry.type === "additional") {
+            if (selectedGeometry?.type === "additional") {
                 this.layer.getSource().clear();
                 this.update(selectedGeometry.feature, selectedGeometry.type, selectedGeometry.innerPolygon);
                 this.layer.getSource().addFeature(this.feature);
             }
-            else {
-                this.setDrawInteraction(selectedGeometry.type);
-            }
-        },
-        isActive (val) {
-            if (val) {
-                this.lastMouseMapInteractionsComponent = this.currentMouseMapInteractionsComponent;
-                this.setHasMouseMapInteractions(true);
-                this.changeCurrentMouseMapInteractionsComponent({type: this.type, side: this.menuSide});
-            }
-            else {
-                this.setHasMouseMapInteractions(false);
-                this.changeCurrentMouseMapInteractionsComponent({type: this.lastMouseMapInteractionsComponent, side: this.menuSide});
-            }
-            if (this.draw instanceof Draw && this.getSelectedGeometry(this.selectedGeometryIndex)?.type !== "additional") {
-                this.draw.setActive(val);
+            else if (selectedGeometry?.type) {
+                this.setDrawInteraction(selectedGeometry?.type);
             }
         },
         buffer (val) {
@@ -187,8 +208,16 @@ export default {
     created () {
         this.setNonReactiveData();
         this.initializeLayer(this.filterGeometry);
+        this.lastMouseMapInteractionsComponent = this.currentMouseMapInteractionsComponent;
+        this.setHasMouseMapInteractions(true);
+        this.changeCurrentMouseMapInteractionsComponent({type: this.type, side: this.menuSide});
+        if (this.draw instanceof Draw && this.getSelectedGeometry(this.selectedGeometryIndex)?.type !== "additional") {
+            this.draw.setActive(true);
+        }
     },
-
+    mounted () {
+        this.setSelectedGroup(this.buttonGroupLevels[0].name);
+    },
     beforeUnmount () {
         if (this.draw) {
             this.removeInteraction(this.draw);
@@ -202,6 +231,43 @@ export default {
         ...mapMutations("Modules/Filter", ["setHasMouseMapInteractions"]),
         translateKeyWithPlausibilityCheck,
 
+        /**
+         * Sets the selected geometry index
+         * @param {Number} index - The selected geometry index
+         * @returns {void}
+         */
+        setSelectedGeometryIndex (index) {
+            if (this.selectedGeometryIndex === index) {
+                if (this.selectedGroup === "geom") {
+                    if (this.draw instanceof Draw) {
+                        this.draw.setActive(false);
+                    }
+                    this.selectedGeometryIndex = -10;
+                }
+                else {
+                    this.selectedGeometryIndex = -1;
+                }
+                return;
+            }
+            this.selectedGeometryIndex = index;
+        },
+        /**
+         * Sets the selected group
+         * @param {String} grp - The selected group.
+         * @returns {void}
+         */
+        setSelectedGroup (grp) {
+            switch (grp) {
+                case this.$t("common:modules.filter.geometryFilter.geometries"):
+                    this.selectedGroup = "geom";
+                    break;
+                case this.$t("common:modules.filter.geometryFilter.regions"):
+                    this.selectedGroup = "addit";
+                    break;
+                default:
+                    throw new Error(grp + " is invalid");
+            }
+        },
         /**
          * Sets all needed non reactive data.
          * @returns {void}
@@ -288,7 +354,7 @@ export default {
                 this.layer.getSource().clear();
             });
 
-            this.draw.setActive(this.isActive);
+            this.draw.setActive(true);
             this.addInteraction(this.draw);
         },
 
@@ -300,7 +366,25 @@ export default {
         getSelectedGeometry (index) {
             return this.allGeometries[index];
         },
-
+        /**
+         * Returns the corresponding icon.
+         * @param {String} type - The type of the icon.
+         * @returns {string} bootsrap icon class.
+         */
+        getIcon (type) {
+            switch (type) {
+                case "Polygon":
+                    return "bi-octagon";
+                case "Rectangle":
+                    return "bi-square";
+                case "Circle":
+                    return "bi-circle";
+                case "LineString":
+                    return "bi-slash-lg";
+                default:
+                    throw new Error(type + " is invalid");
+            }
+        },
         /**
          * Returns the list of all possible geometries with translations.
          * @returns {Object[]} A list of objects containing type and name of geometries.
@@ -308,10 +392,10 @@ export default {
         getGeometries () {
             const result = [],
                 possibleGeometries = {
-                    "Polygon": this.$t("common:modules.filter.geometryFilter.geometries.polygon"),
-                    "Rectangle": this.$t("common:modules.filter.geometryFilter.geometries.rectangle"),
-                    "Circle": this.$t("common:modules.filter.geometryFilter.geometries.circle"),
-                    "LineString": this.$t("common:modules.filter.geometryFilter.geometries.lineString")
+                    "Polygon": this.$t("common:modules.filter.geometryFilter.geometryTypes.polygon"),
+                    "Rectangle": this.$t("common:modules.filter.geometryFilter.geometryTypes.rectangle"),
+                    "Circle": this.$t("common:modules.filter.geometryFilter.geometryTypes.circle"),
+                    "LineString": this.$t("common:modules.filter.geometryFilter.geometryTypes.lineString")
                 },
                 additionalGeometries = this.prepareAdditionalGeometries(this.additionalGeometries);
 
@@ -488,6 +572,8 @@ export default {
         reset () {
             this.isGeometryVisible = false;
             this.isBufferInputVisible = false;
+            this.selectedGeometryIndex = -1;
+            this.draw?.setActive(false);
             this.layer.getSource().clear();
             this.$emit("updateFilterGeometry", false);
             this.$emit("updateGeometryFeature", undefined);
@@ -520,7 +606,6 @@ export default {
         initializeLayer (filterGeometry) {
             if (isObject(filterGeometry)) {
                 this.isGeometryVisible = true;
-                this.isActive = true;
             }
         }
     }
@@ -529,62 +614,76 @@ export default {
 
 <template lang="html">
     <div id="geometryFilter">
-        <div class="mb-3">
-            <div class="form-check">
-                <input
-                    id="geometryFilterChecked"
-                    v-model="isActive"
-                    class="form-check-input"
-                    type="checkbox"
-                    value=""
-                >
-                <label
-                    class="form-check-label"
-                    for="geometryFilterChecked"
-                >
-                    {{ translateKeyWithPlausibilityCheck("common:modules.filter.geometryFilter.activate", key => $t(key)) }}
-                </label>
+        <div
+            class="col-md-auto mb-3"
+        >
+            <ButtonGroup
+                :buttons="buttonGroupLevels"
+                :pre-checked-value="selectedGroup"
+                group="geoGroups"
+                class="level-switch"
+                @set-selected-button="setSelectedGroup"
+            />
+            <div
+                v-if="selectedGroup === 'addit'"
+                class="mt-3 mb-3 ms-0"
+            >
+                {{ translateKeyWithPlausibilityCheck("common:modules.filter.geometryFilter.selectRegion", key => $t(key)) }}
+            </div>
+            <div
+                v-else
+                class="mt-3 mb-3 ms-0"
+            >
+                {{ translateKeyWithPlausibilityCheck("common:modules.filter.geometryFilter.selectGeometry", key => $t(key)) }}
+            </div>
+            <div
+                class="d-flex flex-wrap bd-highlight mb-3"
+            >
                 <div
-                    id="geometryFilterHelp"
-                    class="form-text"
+                    v-for="(geometry, index) in allGeometries"
+                    :key="index"
                 >
-                    {{ translateKeyWithPlausibilityCheck("common:modules.filter.geometryFilter.help", key => $t(key)) }}
+                    <div
+                        v-if="selectedGroup !== 'addit' && geometry.type !== 'additional'"
+                        class="icon-btn-wrapper flex-column d-flex align-items-center"
+                    >
+                        <IconButton
+                            v-if="selectedGroup !== 'addit' && geometry.type !== 'additional'"
+                            :id="geometry.type"
+                            :key="geometry.type"
+                            :aria="$t('common:modules.filter.geometryFilter.selectGeometry')"
+                            :class-array="[
+                                'btn-primary',
+                                selectedGeometryIndex === index ? 'active' : ''
+                            ]"
+                            :interaction="() => setSelectedGeometryIndex(index)"
+                            :icon="getIcon(geometry.type)"
+                            :label="geometry.name"
+                            class="d-flex align-items-center mx-1 mb-1"
+                        />
+                    </div>
+                    <FlatButton
+                        v-if="selectedGroup === 'addit' && geometry.type === 'additional'"
+                        :text="geometry.name"
+                        :interaction="() => setSelectedGeometryIndex(index)"
+                        :customclass="selectedGeometryIndex === index ? 'active selected me-1 button-primary' : 'me-1 button-primary'"
+                    />
+                </div>
+                <div class="flex-column d-flex trash-btn-wrapper">
+                    <IconButton
+                        :class-array="['btn-primary']"
+                        :aria="$t('common:modules.filter.geometryFilter.delete')"
+                        icon="bi bi-trash"
+                        :interaction="() => reset()"
+                        :label="$t('common:modules.filter.geometryFilter.delete')"
+                    />
                 </div>
             </div>
         </div>
         <div
-            v-if="isActive"
-            class="mb-3"
+            v-if="isBufferInputVisible"
+            class="form-floating mb-3 mt-3"
         >
-            <div class="form-floating">
-                <select
-                    id="geometrySelect"
-                    v-model="selectedGeometryIndex"
-                    class="form-select"
-                >
-                    <option
-                        v-for="(geometry, index) in allGeometries"
-                        :key="index"
-                        :value="index"
-                    >
-                        {{ geometry.name }}
-                    </option>
-                </select>
-                <label for="geometrySelect">
-                    {{ translateKeyWithPlausibilityCheck("common:modules.filter.geometryFilter.selectGeometry", key => $t(key)) }}
-                </label>
-            </div>
-        </div>
-        <div
-            v-if="isActive && isBufferInputVisible"
-            class="mb-3"
-        >
-            <label
-                for="inputLineBuffer"
-                class="form-label"
-            >
-                {{ translateKeyWithPlausibilityCheck("common:modules.filter.geometryFilter.buffer", key => $t(key)) }}
-            </label>
             <input
                 id="inputLineBuffer"
                 v-model="buffer"
@@ -592,24 +691,64 @@ export default {
                 type="number"
                 min="1"
             >
-        </div>
-        <div v-if="isGeometryVisible">
-            <button
-                id="buttonRemoveGeometry"
-                class="btn btn-primary"
-                @click="reset"
+            <label
+                for="inputLineBuffer"
+                class="form-label"
             >
-                {{ translateKeyWithPlausibilityCheck("common:modules.filter.geometryFilter.removeGeometry", key => $t(key)) }}
-            </button>
+                {{ translateKeyWithPlausibilityCheck("common:modules.filter.geometryFilter.buffer", key => $t(key)) }}
+            </label>
         </div>
-        <hr>
     </div>
 </template>
 
 <style lang="scss">
 @import "~variables";
 #geometryFilter {
-    font-size: $font-size-lg;
+
+    .btn-check:checked + .btn {
+        background: $secondary;
+        color: $white;
+        border-color: $secondary;
+        position: relative;
+
+        .loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            text-align: center;
+            align-content: center;
+        }
+    }
+
+    .btn-primary .btn:hover {
+        background: $dark;
+        border-color: $dark;
+    }
+
+    .button-wrapper {
+        &:first-child {
+            .btn {
+                border-top-left-radius: 20px;
+                border-bottom-left-radius: 20px;
+            }
+        }
+
+        &:last-child {
+            .btn {
+                border-top-right-radius: 20px;
+                border-bottom-right-radius: 20px;
+            }
+        }
+    }
+    .form-control:focus ~ label {
+    color: $secondary;
+}
+    .input-label {
+        color: $placeholder-color;
+    }
 
     hr {
         margin-left: -20px;
@@ -620,6 +759,35 @@ export default {
         label {
             margin-top: 3px;
         }
+    }
+    .btn-wrapper {
+        font-family: MasterPortalFont, Arial, sans-serif;
+        font-size: 0.857rem;
+    }
+    .icon-btn-wrapper {
+        width: 62px;
+    }
+    .trash-btn-wrapper {
+        width: 60px;
+    }
+    .button-primary {
+        --bs-btn-color: #001B3D;
+        --bs-btn-bg: #D6E3FF;
+        --bs-btn-border-radius: 16px;
+        --bs-btn-hover-color: #fff;
+        --bs-btn-hover-bg: #001B3D;
+        --bs-btn-active-color: #fff;
+        --bs-btn-active-bg: #151C27;
+        --bs-btn-focus-color: #fff;
+        border-color: var(--bs-btn-hover-border-color);
+    }
+    .button-primary:hover {
+        color: var(--bs-btn-hover-color);
+        background-color: var(--bs-btn-hover-bg);
+        border-color: var(--bs-btn-hover-border-color);
+    }
+    .btn-label {
+        margin-top: $content_space;
     }
 }
 </style>

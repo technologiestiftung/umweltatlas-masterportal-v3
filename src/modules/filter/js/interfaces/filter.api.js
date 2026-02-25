@@ -1,5 +1,5 @@
 import hash from "object-hash";
-import isObject from "../../../../shared/js/utils/isObject";
+import isObject from "@shared/js/utils/isObject.js";
 import openlayerFunctions from "../../utils/openlayerFunctions.js";
 import IntervalRegister from "../../utils/intervalRegister.js";
 import InterfaceWfsIntern from "./interface.wfs.intern.js";
@@ -10,7 +10,7 @@ import InterfaceGeojsonIntern from "./interface.geojson.intern.js";
 import InterfaceGeojsonExtern from "./interface.geojson.extern.js";
 import InterfaceStaIntern from "./interface.sta.intern.js";
 import InterfaceStaExtern from "./interface.sta.extern.js";
-import InterfaceVectorTilesIntern from "./interface.vectortiles.intern";
+import InterfaceVectorTilesIntern from "./interface.vectortiles.intern.js";
 
 /**
  * FilterApi is the api to use in vue environment. It encapsulates the filter interfaces.
@@ -39,7 +39,7 @@ export default class FilterApi {
                     getFeaturesByLayerId: openlayerFunctions.getFeaturesByLayerId,
                     isFeatureInMapExtent: openlayerFunctions.isFeatureInMapExtent,
                     isFeatureInGeometry: openlayerFunctions.isFeatureInGeometry}),
-                oafExtern: new InterfaceOafExtern(),
+                oafExtern: new InterfaceOafExtern({getCurrentExtent: openlayerFunctions.getCurrentExtent}),
                 geojsonIntern: new InterfaceGeojsonIntern(FilterApi.intervalRegister, {
                     getFeaturesByLayerId: openlayerFunctions.getFeaturesByLayerId,
                     isFeatureInMapExtent: openlayerFunctions.isFeatureInMapExtent,
@@ -83,6 +83,7 @@ export default class FilterApi {
             featureNS = layerModel.featureNS,
             url = layerModel.url,
             featureType = layerModel.featureType,
+            version = layerModel.version,
             isSecured = layerModel.isSecured;
 
         if (type === "wfs") {
@@ -91,30 +92,25 @@ export default class FilterApi {
                 extern,
                 layerId,
                 url,
+                version,
                 isSecured,
                 typename: featureType,
                 namespace: featureNS,
                 srsName: openlayerFunctions.getMapProjection(),
-                featureNS: featureNS.substr(0, featureNS.lastIndexOf("/")),
-                featurePrefix: featureNS.substr(featureNS.lastIndexOf("/") + 1),
                 featureTypes: [featureType]
             };
         }
         else if (type === "oaf") {
-            if (!extern) {
-                this.service = {
-                    type,
-                    extern,
-                    layerId,
-                    url,
-                    collection: layerModel.collection,
-                    namespace: featureNS,
-                    limit: typeof layerModel.limit === "undefined" ? 400 : layerModel.limit
-                };
-            }
-            else {
-                onerror(new Error("FilterApi.setServiceByLayerModel: Filtering oaf extern is not supported yet."));
-            }
+            this.service = {
+                type,
+                extern,
+                layerId,
+                url,
+                collection: layerModel.collection,
+                namespace: featureNS,
+                srsName: openlayerFunctions.getMapProjection(),
+                limit: typeof layerModel.limit === "undefined" ? 400 : layerModel.limit
+            };
         }
         else if (type === "geojson") {
             if (!extern) {
@@ -215,6 +211,11 @@ export default class FilterApi {
      * @param {Boolean} [isDate=false] if only from date or dateRange
      * @param {Object[]} rules the rules to restrict the request
      * @param {Number} filterId the filterId
+     * @param {Object} options additional options
+     * @param {Object[]} options.rules the rules to restrict the request
+     * @param {String} options.format the date format
+     * @param {Number} options.filterId the filterId
+     * @param {Object} options.commands the commands
      * @returns {void}
      */
     getMinMax (attrName, onsuccess, onerror, minOnly, maxOnly, isDate, {rules, filterId, format, commands}) {
@@ -237,7 +238,7 @@ export default class FilterApi {
                 onerror(new Error("FilterApi.getMinMax: The connector should be an object and have a function getMinMax."));
             }
         }
-        else if (!Array.isArray(FilterApi.waitingList[cacheKey])) {
+        else if (!Array.isArray(FilterApi.waitingList[cacheKey]) || (this.service.extern && commands.searchInMapExtent)) {
             FilterApi.waitingList[cacheKey] = [];
             FilterApi.waitingList[cacheKey].push({onsuccess, onerror});
             connector.getMinMax(this.service, attrName, result => {
@@ -281,7 +282,7 @@ export default class FilterApi {
                 attrName,
                 filterId].join("."));
 
-        if (Object.prototype.hasOwnProperty.call(FilterApi.cache, cacheKey)) {
+        if (Object.prototype.hasOwnProperty.call(FilterApi.cache, cacheKey) && !(this.service.extern && commands.searchInMapExtent)) {
             if (typeof onsuccess === "function") {
                 onsuccess(FilterApi.cache[cacheKey]);
             }
@@ -291,7 +292,7 @@ export default class FilterApi {
                 onerror(new Error("FilterApi.getUniqueValues: The connector should be an object and have a function getUniqueValues."));
             }
         }
-        else if (!Array.isArray(FilterApi.waitingList[cacheKey])) {
+        else if (!Array.isArray(FilterApi.waitingList[cacheKey]) || (this.service.extern && commands.searchInMapExtent)) {
             FilterApi.waitingList[cacheKey] = [];
             FilterApi.waitingList[cacheKey].push({onsuccess, onerror});
             connector.getUniqueValues(this.service, attrName, result => {

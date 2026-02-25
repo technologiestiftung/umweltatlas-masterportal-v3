@@ -1,9 +1,9 @@
 <script>
 import {mapActions, mapMutations, mapGetters} from "vuex";
 import LayerTreeNode from "./LayerTreeNode.vue";
-import {treeBaselayersKey, treeSubjectsKey} from "../../../shared/js/utils/constants";
-import sortBy from "../../../shared/js/utils/sortBy";
-import ElevatedButton from "../../../shared/modules/buttons/components/ElevatedButton.vue";
+import {treeBaselayersKey, treeSubjectsKey} from "@shared/js/utils/constants.js";
+import sortBy from "@shared/js/utils/sortBy.js";
+import ElevatedButton from "@shared/modules/buttons/components/ElevatedButton.vue";
 
 /**
  * Module to display the layers in menu.
@@ -16,7 +16,7 @@ export default {
         LayerTreeNode
     },
     computed: {
-        ...mapGetters(["allLayerConfigsStructured", "showLayerAddButton", "portalConfig"]),
+        ...mapGetters(["addLayerButton", "allLayerConfigsStructured", "showLayerAddButton", "portalConfig"]),
         ...mapGetters("Modules/LayerTree", ["menuSide"]),
         ...mapGetters("Modules/LayerSelection", {layerSelectionType: "type", layerSelectionName: "name"}),
 
@@ -25,11 +25,18 @@ export default {
          * @returns {String} the button title.
          */
         title () {
-            if (typeof this.portalConfig?.tree?.addLayerButton?.buttonTitle === "string" && this.portalConfig?.tree?.addLayerButton?.buttonTitle !== "") {
-                return this.portalConfig?.tree?.addLayerButton?.buttonTitle;
+            if (typeof this.addLayerButton?.buttonTitle === "string" && this.addLayerButton?.buttonTitle !== "") {
+                return this.addLayerButton?.buttonTitle;
             }
 
             return "common:modules.layerTree.addLayer";
+        },
+        /**
+         * Returns whether the layers should be reversed.
+         * @retruns {Boolean} Layer reverse.
+         */
+        reverseLayer () {
+            return Boolean(this.addLayerButton?.reverseLayer);
         }
     },
     methods: {
@@ -44,12 +51,29 @@ export default {
         sort (configs) {
             return sortBy(configs, (conf) => conf.type !== "folder");
         },
+
+        /**
+         * Reverse all layer configs, also in sub folders.
+         * @param {Object} sublayersConfigs The layer configs.
+         * @returns {Object} The reversed layer configs.
+         */
+        reverseAllLayerConfigs (layerConfigs) {
+            layerConfigs.reverse().forEach(sublayersConfigs => {
+                if (sublayersConfigs.type === "folder") {
+                    this.reverseAllLayerConfigs(sublayersConfigs.elements);
+                }
+            });
+
+            return layerConfigs;
+        },
+
         /**
          * Shows the component LayerSelection and sets it visible.
          * @returns {void}
          */
         showLayerSelection () {
-            const subjectDataLayerConfs = this.sort(this.allLayerConfigsStructured(treeSubjectsKey)),
+            const allLayerConfigsStructured = this.allLayerConfigsStructured(treeSubjectsKey),
+                subjectDataLayerConfs = this.sort(this.reverseLayer ? this.reverseAllLayerConfigs(allLayerConfigsStructured) : allLayerConfigsStructured),
                 baselayerConfs = this.allLayerConfigsStructured(treeBaselayersKey);
 
             this.changeCurrentComponent({type: this.layerSelectionType, side: this.menuSide, props: {name: this.layerSelectionName}});
@@ -84,14 +108,13 @@ export default {
 
 <style lang="scss" scoped>
 @import "~variables";
-    .layer-tre {
-        padding-left: $padding;
-        font-size: $font-size-base;
-        max-height: 350px;
-    }
-
     .sticky {
         position : sticky;
         bottom: 2rem;
+        z-index: 10;
+        pointer-events: none;
+    }
+    #add-layer-btn{
+        pointer-events: auto;
     }
 </style>

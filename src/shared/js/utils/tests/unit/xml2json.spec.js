@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import xml2json from "../../../utils/xml2json";
+import xml2json from "@shared/js/utils/xml2json.js";
 
 describe("src/shared/js/utils/xml2json.js", () => {
     const xmlString = `<book>

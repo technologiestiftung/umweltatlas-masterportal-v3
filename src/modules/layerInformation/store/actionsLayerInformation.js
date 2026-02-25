@@ -1,9 +1,10 @@
-import store from "../../../app-store";
-import getCswRecordById from "../../../shared/js/api/getCswRecordById";
-import sortBy from "../../../shared/js/utils/sortBy";
-import xml2json from "../../../shared/js/utils/xml2json";
-import changeCase from "../../../shared/js/utils/changeCase";
+import store from "@appstore/index.js";
+import getCswRecordById from "@shared/js/api/getCswRecordById.js";
+import sortBy from "@shared/js/utils/sortBy.js";
+import xml2json from "@shared/js/utils/xml2json.js";
+import changeCase from "@shared/js/utils/changeCase.js";
 import axios from "axios";
+import {buildMetaURLs} from "@shared/js/utils/metaUrlHelper.js";
 
 /**
  * The actions for the layerInformation.
@@ -45,27 +46,50 @@ export default {
     },
 
     /**
-     * get the layer Infos that aren't in the store but saved in the object
-     * @param {Object} param.dispatch the dispatch
-     * @param {Object} param.state the state
+     * Retrieves layer metadata that is not yet in the store but is saved in the `layerInfo` object.
+     * This function handles fetching metadata for a specified layer based on its `metaID`.
+     *
+     * - If `metaID` is an array, it will use the `selectedLayerIndex` to determine which layer's metadata to fetch.
+     *   - If the `selectedLayerIndex` is out of bounds, the first layer (index 0) will be used by default.
+     * - If `metaID` is a string, it will be used directly as the metadata ID for a single layer.
+     *
+     * This method also constructs a `metaInfo` object, which includes:
+     * - `metaId`: The metadata ID (from the `metaID` array or directly as a string).
+     * - `cswUrl`: The CSW URL from the store.
+     * - `customMetadata`: Any custom metadata that might be associated with the layer.
+     * - `attributes`: Any additional attributes for the layer.
+     *
+     * This `metaInfo` object is then dispatched with the `getAbstractInfo` action to fetch abstract information related to the metadata.
+     *
+     * @param {Object} param.dispatch - The dispatch function to trigger other actions.
+     * @param {Object} param.state - The state object containing information about the current layer and its metadata.
+     * @param {number} [layerIndex=0] - The index of the layer in the `metaID` array to fetch. Defaults to 0 if not provided or if `metaID` is a string.
      * @returns {void}
      */
     additionalSingleLayerInfo: async function ({dispatch, state}) {
         let metaId;
 
-        if (typeof state.layerInfo.metaID === "string") {
+        if (Array.isArray(state.layerInfo.metaID) && state.layerInfo.metaID.length > 0) {
+            if (state.selectedLayerIndex < state.layerInfo.metaID.length) {
+                metaId = state.layerInfo.metaID[state.selectedLayerIndex];
+            }
+            else {
+                metaId = state.layerInfo.metaID[0];
+            }
+        }
+        else if (typeof state.layerInfo.metaID === "string") {
             metaId = state.layerInfo.metaID;
         }
-        else if (state.layerInfo.metaID) {
-            metaId = state.layerInfo.metaID[0];
+        else {
+            metaId = null;
         }
+
         const cswUrl = state.layerInfo.cswUrl,
             customMetadata = state.layerInfo.customMetadata,
             attributes = state.layerInfo.attributes,
             metaInfo = {metaId, cswUrl, customMetadata, attributes};
 
         dispatch("getAbstractInfo", metaInfo);
-
     },
 
     /**
@@ -80,8 +104,13 @@ export default {
         let metadata;
 
         commit("setDownloadLinks", null);
-        if (metaInfo.cswUrl !== null && typeof metaInfo.metaId !== "undefined") {
-            metadata = await getCswRecordById.getRecordById(metaInfo.cswUrl, metaInfo.metaId);
+        if (metaInfo.cswUrl && typeof metaInfo.metaId !== "undefined" && metaInfo.metaId !== null) {
+            try {
+                metadata = await getCswRecordById.getRecordById(metaInfo.cswUrl, metaInfo.metaId);
+            }
+            catch (error) {
+                console.error(i18next.t("common:modules.layerInformation.noMetadataLoadedConsole"));
+            }
         }
         // use default csw_url from rest-services.json if csw_url not stated in the specific service
         else if (Config.cswId !== null && typeof Config.cswId !== "undefined") {
@@ -166,26 +195,11 @@ export default {
      * @returns {void}
      */
     setMetadataURL ({state, commit, rootGetters}, metaId) {
-        const metaURLs = [],
-            metaDataCatalogueId = state.metaDataCatalogueId;
-        let metaURL = "",
-            service = null;
-
-        service = rootGetters.restServiceById(metaDataCatalogueId);
-
-        if (typeof state.layerInfo.showDocUrl !== "undefined" && state.layerInfo.showDocUrl !== null) {
-            metaURL = state.layerInfo.showDocUrl + metaId;
-        }
-        else if (service !== undefined) {
-            metaURL = service.url + metaId;
-        }
-        else {
-            console.warn("Rest Service with the ID " + metaDataCatalogueId + " is not configured in rest-services.json!");
-        }
-
-        if (metaId !== null && metaId !== "" && metaURLs.indexOf(metaURL) === -1) {
-            metaURLs.push(metaURL);
-        }
+        const metaURLs = buildMetaURLs(metaId, {
+            layerInfo: state.layerInfo,
+            metaDataCatalogueId: state.metaDataCatalogueId,
+            restServiceById: rootGetters.restServiceById
+        });
 
         commit("setMetaURLs", metaURLs);
     },

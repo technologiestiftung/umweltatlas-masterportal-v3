@@ -1,9 +1,9 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import {createStore} from "vuex";
-import Modeler3D from "../../../store/indexModeler3D";
+import Modeler3D from "@modules/modeler3D/store/indexModeler3D.js";
 import {mount, config} from "@vue/test-utils";
-import EntityListComponent from "../../../components/ui/EntityList.vue";
+import EntityListComponent from "@modules/modeler3D/components/ui/EntityList.vue";
 
 config.global.mocks.$t = key => key;
 
@@ -22,6 +22,36 @@ describe("src/modules/modeler3D/components/EntityList.vue", () => {
                 }
             }
         });
+        mapCollection.clear();
+        const entities = {
+                getById: (val) => {
+                    return entities.values.find(x => x.id === val);
+                },
+                values: [],
+                add: (val) => {
+                    entities.values.push(val);
+                    return val;
+                },
+                remove: (val) => {
+                    entities.values.splice(entities.values.indexOf(val), 1);
+                },
+                removeById: (id) => {
+                    entities.remove(entities.getById(id));
+                }
+            },
+            map = {
+                id: "olcs",
+                mode: "3D",
+                getDataSourceDisplay: () => {
+                    return {
+                        defaultDataSource: {
+                            entities: entities
+                        }
+                    };
+                }
+            };
+
+        mapCollection.addMap(map, "3D");
     });
 
     afterEach(() => {

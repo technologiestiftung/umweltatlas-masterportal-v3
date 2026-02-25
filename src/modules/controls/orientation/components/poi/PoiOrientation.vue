@@ -1,10 +1,10 @@
 <script>
 import {mapGetters, mapMutations, mapActions} from "vuex";
-import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList";
-import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
-import mutations from "../../store/mutationsOrientation";
-import {extractEventCoordinates} from "../../../../../shared/js/utils/extractEventCoordinates";
-import svgFactory from "../../../../../shared/js/utils/svgFactory";
+import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
+import mutations from "../../store/mutationsOrientation.js";
+import {extractEventCoordinates} from "@shared/js/utils/extractEventCoordinates.js";
+import svgFactory from "@shared/js/utils/svgFactory.js";
 
 /**
  * Orientation control that allowsthe user to locate themselves on the map.
@@ -71,7 +71,7 @@ export default {
     },
     methods: {
         ...mapMutations("Controls/Orientation", Object.keys(mutations)),
-        ...mapActions("Maps", ["areLayerFeaturesLoaded", "zoomToExtent", "unregisterListener"]),
+        ...mapActions("Maps", ["areLayerFeaturesLoaded", "zoomToExtent"]),
 
         /**
          * Callback when close icon has been clicked.
@@ -79,7 +79,7 @@ export default {
          * @returns {void}
          */
         closeIconTriggered (event) {
-            if (event.type === "click" || event.which === 32 || event.which === 13) {
+            if (event.type === "click" || event.which === 32 || event.which === 13 || event.key === "Escape") {
                 this.hidePoi();
             }
         },
@@ -96,9 +96,12 @@ export default {
                 el.style.display = "block";
                 el.classList.add("show");
                 el.classList.remove("fade");
-                backdrop.style.display = "block";
-                backdrop.classList.add("show");
-                backdrop.classList.remove("fade");
+                if (backdrop) {
+                    backdrop.style.display = "block";
+                    backdrop.classList.add("show");
+                    backdrop.classList.remove("fade");
+                }
+
             }
         },
 
@@ -258,10 +261,12 @@ export default {
 </script>
 
 <template>
-    <button
+    <div
         id="surrounding_vectorfeatures"
         class="modal fade in poi"
-        @keydown.esc="hidePoi"
+        role="dialog"
+        aria-modal="true"
+        tabindex="-1"
     >
         <div class="modal-dialog">
             <div class="modal-content">
@@ -383,7 +388,7 @@ export default {
             has no semantic meaning, and other methods exist for keyboard users to leave
             the backdropped modal dialog.
         -->
-    </button>
+    </div>
 </template>
 
 <style lang="scss" scoped>

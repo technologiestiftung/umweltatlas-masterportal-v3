@@ -1,8 +1,8 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import {ResultType} from "../store/enums";
-import FlatButton from "../../../shared/modules/buttons/components/FlatButton.vue";
-import SliderItem from "../../../shared/modules/slider/components/SliderItem.vue";
+import {ResultType} from "../store/enums.js";
+import FlatButton from "@shared/modules/buttons/components/FlatButton.vue";
+import SliderItem from "@shared/modules/slider/components/SliderItem.vue";
 
 /**
  * Tool to check if a subset of features associated to a target layer are located within or outside an applied radius to all features of a source layer.
@@ -22,6 +22,7 @@ export default {
     data: () => ({resultTypeEnum: ResultType}),
     computed: {
         ...mapGetters("Modules/BufferAnalysis", ["bufferRadius", "selectOptions", "savedUrl"]),
+        ...mapGetters("Modules/ShareView", ["url"]),
         selectedSourceLayer: {
             /**
              * getter for the computed property selectedSourceLayer
@@ -120,7 +121,7 @@ export default {
     },
     methods: {
         ...mapMutations("Modules/BufferAnalysis", ["setSelectOptions", "setInputBufferRadius", "setTimerId", "setResultType", "setSelectedTargetLayer"]),
-        ...mapActions("Modules/BufferAnalysis", ["applyValuesFromSavedUrlBuffer", "applySelectedSourceLayer", "applyBufferRadius", "applySelectedTargetLayer", "buildUrlFromToolState", "initJSTSParser", "loadSelectOptions", "resetModule", "removeGeneratedLayers"]),
+        ...mapActions("Modules/BufferAnalysis", ["applyValuesFromSavedUrlBuffer", "applySelectedSourceLayer", "applyBufferRadius", "applySelectedTargetLayer", "initJSTSParser", "loadSelectOptions", "resetModule", "removeGeneratedLayers"]),
         ...mapActions("Map", ["toggleLayerVisibility"]),
 
         /**
@@ -133,15 +134,6 @@ export default {
                     this.$refs["tool-bufferAnalysis-selectSourceInput"].focus();
                 }
             });
-        },
-        /**
-         * Lets you build and then copy the url to the clipboard.
-         * ToDo: add "link copied" Hinweis
-         * @returns {void}
-         */
-        buildAndCopyUrl () {
-            this.buildUrlFromToolState();
-            navigator.clipboard.writeText(this.savedUrl);
         },
         /**
          * Sets the new selected buffer radius
@@ -171,7 +163,7 @@ export default {
                     :value="layer"
                     :selected="selectOptions[0].name"
                 >
-                    {{ layer.name }}
+                    {{ $t(layer.name) }}
                 </option>
             </select>
             <label for="tool-bufferAnalysis-selectSourceInput">
@@ -243,7 +235,7 @@ export default {
                     :key="layer.id"
                     :value="layer"
                 >
-                    {{ layer.name }}
+                    {{ $t(layer.name) }}
                 </option>
             </select>
             <label for="tool-bufferAnalysis-selectTargetInput">
@@ -258,16 +250,6 @@ export default {
                 :interaction="resetModule"
                 :text="$t('common:modules.bufferAnalysis.clearButton')"
                 :icon="'bi-x-circle'"
-            />
-        </div>
-        <div class="d-flex justify-content-center row form-floating">
-            <FlatButton
-                id="tool-bufferAnalysis-saveButton"
-                :aria-label="$t('common:modules.bufferAnalysis.saveButton')"
-                :interaction="buildAndCopyUrl"
-                :disabled="!selectedSourceLayer || !selectedTargetLayer || !bufferRadius"
-                :text="$t('common:modules.bufferAnalysis.saveButton')"
-                :icon="'bi-clipboard'"
             />
         </div>
     </div>

@@ -1,13 +1,13 @@
 <script>
 import {mapGetters, mapActions, mapMutations} from "vuex";
-import mutations from "../store/mutationsRouting";
-import * as constantsRouting from "../store/constantsRouting";
-import SpinnerItem from "../../../shared/modules/spinner/components/SpinnerItem.vue";
-import store from "../../../app-store/index";
+import mutations from "../store/mutationsRouting.js";
+import * as constantsRouting from "../store/constantsRouting.js";
+import SpinnerItem from "@shared/modules/spinner/components/SpinnerItem.vue";
+import store from "@appstore/index.js";
 
 /**
  * RoutingTemplate
- * @module modules/RoutingTemplate
+ * @module modules/routing/components/RoutingTemplate
  * @vue-data {*} constantsRouting - The constants.
  *
  * @vue-computed {Object} activeRoutingToolOptionComponent - The current component for the active tab.
@@ -23,7 +23,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters("Modules/Routing", ["activeRoutingToolOption", "routingToolOptions", "taskHandler", "filteredRoutingToolOptions"]),
+        ...mapGetters("Modules/Routing", ["activeRoutingToolOption", "taskHandler", "filteredRoutingToolOptions"]),
         ...mapGetters("Modules/Routing/Directions", ["isLoadingDirections"]),
         ...mapGetters("Modules/Routing/Isochrones", ["isLoadingIsochrones"]),
         /**

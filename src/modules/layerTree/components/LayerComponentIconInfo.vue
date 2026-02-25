@@ -1,6 +1,6 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import IconButton from "../../../shared/modules/buttons/components/IconButton.vue";
+import IconButton from "@shared/modules/buttons/components/IconButton.vue";
 
 /**
  * Represents an info button for a layer in the layertree.
@@ -24,7 +24,10 @@ export default {
         }
     },
     computed: {
-        ...mapGetters("Modules/LayerInformation", ["icon"])
+        ...mapGetters("Modules/LayerInformation", ["icon"]),
+        showInfoIcon () {
+            return this.layerConf?.datasets !== false;
+        }
     },
     methods: {
         ...mapActions("Modules/LayerInformation", ["startLayerInformation"]),
@@ -50,6 +53,7 @@ export default {
             :aria="$t('common:modules.layerTree.infosAndLegend')"
             :icon="icon"
             :interaction="() => showLayerInformation()"
+            :style="{ visibility: showInfoIcon ? 'visible' : 'hidden' }"
         />
     </div>
 </template>

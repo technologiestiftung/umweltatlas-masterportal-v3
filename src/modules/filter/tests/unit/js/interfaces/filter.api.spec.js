@@ -1,17 +1,17 @@
 import {expect} from "chai";
 import sinon from "sinon";
 import hash from "object-hash";
-import IntervalRegister from "../../../../utils/intervalRegister";
-import InterfaceWfsIntern from "../../../../js/interfaces/interface.wfs.intern";
-import InterfaceWfsExtern from "../../../../js/interfaces/interface.wfs.extern";
-import InterfaceOafIntern from "../../../../js/interfaces/interface.oaf.intern";
-import InterfaceOafExtern from "../../../../js/interfaces/interface.oaf.extern";
-import InterfaceGeojsonIntern from "../../../../js/interfaces/interface.geojson.intern";
-import InterfaceGeojsonExtern from "../../../../js/interfaces/interface.geojson.extern";
-import InterfaceStaIntern from "../../../../js/interfaces/interface.sta.intern";
-import InterfaceStaExtern from "../../../../js/interfaces/interface.sta.extern";
-import openlayerFunctions from "../../../../utils/openlayerFunctions";
-import FilterApi from "../../../../js/interfaces/filter.api";
+import IntervalRegister from "@modules/filter/utils/intervalRegister.js";
+import InterfaceWfsIntern from "@modules/filter/js/interfaces/interface.wfs.intern.js";
+import InterfaceWfsExtern from "@modules/filter/js/interfaces/interface.wfs.extern.js";
+import InterfaceOafIntern from "@modules/filter/js/interfaces/interface.oaf.intern.js";
+import InterfaceOafExtern from "@modules/filter/js/interfaces/interface.oaf.extern.js";
+import InterfaceGeojsonIntern from "@modules/filter/js/interfaces/interface.geojson.intern.js";
+import InterfaceGeojsonExtern from "@modules/filter/js/interfaces/interface.geojson.extern.js";
+import InterfaceStaIntern from "@modules/filter/js/interfaces/interface.sta.intern.js";
+import InterfaceStaExtern from "@modules/filter/js/interfaces/interface.sta.extern.js";
+import openlayerFunctions from "@modules/filter/utils/openlayerFunctions.js";
+import FilterApi from "@modules/filter/js/interfaces/filter.api.js";
 
 describe("src/modules/filter/interfaces/filter.api.js", () => {
     describe("constructor", () => {
@@ -73,11 +73,37 @@ describe("src/modules/filter/interfaces/filter.api.js", () => {
                         layerId: 0,
                         url: "foo",
                         typename: "bar",
+                        version: undefined,
                         isSecured: undefined,
                         namespace: "foob/boof",
                         srsName: "foo",
-                        featureNS: "foob",
-                        featurePrefix: "boof",
+                        featureTypes: ["bar"]
+                    };
+
+                openlayerFunctions.getMapProjection = sinon.stub().returns("foo");
+                filterApi.setServiceByLayerModel(0, layerModel, false);
+                expect(filterApi.service).to.deep.equal(expected);
+                sinon.restore();
+            });
+            it("should set the version in the wfs service", () => {
+                const filterApi = new FilterApi(0),
+                    layerModel = {
+                        typ: "WFS",
+                        featureNS: "foob/boof",
+                        url: "foo",
+                        featureType: "bar",
+                        version: "2.0.0"
+                    },
+                    expected = {
+                        type: "wfs",
+                        extern: false,
+                        layerId: 0,
+                        url: "foo",
+                        typename: "bar",
+                        version: "2.0.0",
+                        isSecured: undefined,
+                        namespace: "foob/boof",
+                        srsName: "foo",
                         featureTypes: ["bar"]
                     };
 
@@ -103,6 +129,7 @@ describe("src/modules/filter/interfaces/filter.api.js", () => {
                         url: "foo",
                         collection: "wooo",
                         namespace: "foob/boof",
+                        srsName: "foo",
                         limit: 400
                     };
 
@@ -466,6 +493,28 @@ describe("src/modules/filter/interfaces/filter.api.js", () => {
                 filterApi.getUniqueValues("attr", result => {
                     expect(result).to.be.deep.equal(expected);
                 }, undefined, {});
+                sinon.restore();
+            });
+            it("should call onsuccess function and return the expected value, if service is extern and searchInMapExtent is true.", async () => {
+                const filterApi = new FilterApi(0),
+                    connector = {
+                        getMinMax: (service, attrName, success) => {
+                            success("foo");
+                        }
+                    },
+                    expected = "foo";
+
+                sinon.stub(filterApi, "getInterfaceByService").returns(connector);
+                hash.sha1 = sinon.stub().returns(["fow", "bar"].join("."));
+                filterApi.setService({extern: true});
+                FilterApi.cache = {};
+                FilterApi.waitingList["fow.bar"] = [];
+                filterApi.getMinMax("attr", result => {
+                    expect(result).to.be.equal(expected);
+                    expect(FilterApi.cache).to.deep.equal({
+                        "fow.bar": "foo"
+                    });
+                }, undefined, false, false, false, {commands: {searchInMapExtent: true}});
                 sinon.restore();
             });
             it("should push object with onsuccess and onerror if waitinglist with key is already an array", () => {

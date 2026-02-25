@@ -1,6 +1,6 @@
 <script>
-import {convertColor} from "../../../js/utils/convertColor";
-import SliderItem from "../../slider/components/SliderItem.vue";
+import {convertColor} from "@shared/js/utils/convertColor.js";
+import SliderItem from "@shared/modules/slider/components/SliderItem.vue";
 
 /**
  * Shared component that provides buttons for setting the layout of drawings.

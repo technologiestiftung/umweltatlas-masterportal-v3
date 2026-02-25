@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {uniqueId, reset as resetUniqueId} from "../../uniqueId";
+import {uniqueId, reset as resetUniqueId} from "@shared/js/utils/uniqueId.js";
 
 describe("src/shared/js/utils/uniqueId.js", () => {
     beforeEach(() => {

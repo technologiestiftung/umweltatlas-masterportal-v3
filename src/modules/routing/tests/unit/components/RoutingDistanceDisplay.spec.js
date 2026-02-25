@@ -1,10 +1,10 @@
 import {createStore} from "vuex";
 import {expect} from "chai";
 import {config, shallowMount} from "@vue/test-utils";
-import RoutingDistanceDisplayComponent from "../../../components/RoutingDistanceDisplay.vue";
-import mutations from "../../../store/mutationsRouting";
-import actions from "../../../store/actionsRouting";
-import thousandsSeparator from "../../../../../shared/js/utils/thousandsSeparator";
+import RoutingDistanceDisplayComponent from "@modules/routing/components/RoutingDistanceDisplay.vue";
+import mutations from "@modules/routing/store/mutationsRouting.js";
+import actions from "@modules/routing/store/actionsRouting.js";
+import thousandsSeparator from "@shared/js/utils/thousandsSeparator.js";
 
 config.global.mocks.$t = key => key;
 

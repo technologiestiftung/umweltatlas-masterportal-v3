@@ -1,12 +1,16 @@
 import {createStore} from "vuex";
 import {config, shallowMount} from "@vue/test-utils";
-import MenuContainerBody from "../../../components/MenuContainerBody.vue";
+import MenuContainerBody from "@modules/menu/components/MenuContainerBody.vue";
 import {expect} from "chai";
-import MenuNavigation from "../../../components/MenuNavigation.vue";
-import MenuContainerBodyRoot from "../../../components/MenuContainerBodyRoot.vue";
+import MenuNavigation from "@modules/menu/components/MenuNavigation.vue";
+import MenuContainerBodyRoot from "@modules/menu/components/MenuContainerBodyRoot.vue";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
+
+afterEach(() => {
+    sinon.restore();
+});
 
 describe("src/modules/menu/MenuContainerBody.vue", () => {
     let store,
@@ -119,7 +123,8 @@ describe("src/modules/menu/MenuContainerBody.vue", () => {
         menuType = "component";
         const wrapper = shallowMount(MenuContainerBody, {
                 global: {
-                    plugins: [store]
+                    plugins: [store],
+                    stubs: {"keep-alive": false}
                 },
                 propsData: {side: "mainMenu"}
             }),

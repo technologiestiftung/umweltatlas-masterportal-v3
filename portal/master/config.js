@@ -1,5 +1,5 @@
 const Config = {
-    addons: ["bildungsatlas", "dataTable", "dipas", "exampleSearch", "populationRequest", "schulinfo", "solaratlas", "sturmflut", "trafficCount", "trinkwasser", "verkehrsstaerken"],
+    addons: ["exampleControl", "bildungsatlas", "dataTable", "dipas", "exampleSearch", "populationRequest", "schulinfo", "sturmflut", "trafficCount", "trinkwasser", "verkehrsstaerken"],
     ignoredKeys: ["BOUNDEDBY", "SHAPE", "SHAPE_LENGTH", "SHAPE_AREA", "OBJECTID", "GLOBALID", "GEOMETRY", "SHP", "SHP_AREA", "SHP_LENGTH", "GEOM"],
     namedProjections: [
         // ETRS89 UTM
@@ -44,7 +44,8 @@ const Config = {
             pt: "Português",
             ru: "Русский",
             tr: "Türkçe",
-            ua: "Українська"
+            ua: "Українська",
+            nl: "Nederlands"
         },
         fallbackLanguage: "de",
         changeLanguageOnStartWhen: ["querystring", "localStorage", "htmlTag"]

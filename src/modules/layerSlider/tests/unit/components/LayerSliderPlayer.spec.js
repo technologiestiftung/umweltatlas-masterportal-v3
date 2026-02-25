@@ -3,8 +3,8 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import LayerSliderPlayerComponent from "../../../components/LayerSliderPlayer.vue";
-import LayerSlider from "../../../store/indexLayerSlider";
+import LayerSliderPlayerComponent from "@modules/layerSlider/components/LayerSliderPlayer.vue";
+import LayerSlider from "@modules/layerSlider/store/indexLayerSlider.js";
 
 config.global.mocks.$t = key => key;
 
@@ -74,8 +74,8 @@ describe("src/modules/layerSlider/components/LayerSliderPlayer.vue", () => {
             expect(button.attributes("id")).equals(buttonIds[index]);
         });
 
-        expect(wrapper.find("#module-layer-slider-player > div.input-group > label").exists()).to.be.true;
-        expect(wrapper.find("#module-layer-slider-player > div.input-group > input#title").exists()).to.be.true;
+        expect(wrapper.find("#module-layer-slider-player > div.input-group > label[for='title']").exists()).to.be.true;
+        expect(wrapper.findComponent({name: "InputText"}).exists()).to.be.true;
     });
 
     it("renders the input-group button pause if play is clicked", async () => {

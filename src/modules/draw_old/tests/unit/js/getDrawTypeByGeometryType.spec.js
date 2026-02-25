@@ -1,4 +1,4 @@
-import getDrawTypeByGeometryType from "../../../js/getDrawTypeByGeometryType";
+import getDrawTypeByGeometryType from "@modules/draw_old/js/getDrawTypeByGeometryType.js";
 
 import {expect} from "chai";
 

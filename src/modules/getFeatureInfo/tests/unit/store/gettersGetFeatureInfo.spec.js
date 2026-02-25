@@ -1,8 +1,11 @@
 import {expect} from "chai";
-import Feature from "ol/Feature";
-import View from "ol/View";
+import Feature from "ol/Feature.js";
 import sinon from "sinon";
-import getters from "../../../store/gettersGetFeatureInfo";
+import getters from "@modules/getFeatureInfo/store/gettersGetFeatureInfo.js";
+
+afterEach(() => {
+    sinon.restore();
+});
 
 describe("src/modules/getFeatureInfo/store/gettersGetFeatureInfo.js", () => {
 
@@ -12,7 +15,9 @@ describe("src/modules/getFeatureInfo/store/gettersGetFeatureInfo.js", () => {
                 map = {
                     id: "ol",
                     mode: "2D",
-                    view: new View(),
+                    getView: () => ({
+                        getResolution: () => 1
+                    }),
                     forEachFeatureAtPixel: sinon.spy(),
                     getLayers: () => {
                         return {
@@ -48,7 +53,6 @@ describe("src/modules/getFeatureInfo/store/gettersGetFeatureInfo.js", () => {
                     },
                     clickCoordinates: [100, 200],
                     gfiFeatures: [{id: "feature_1"}],
-                    initialMenuSide: "mainMenu",
                     showMarker: true,
                     type: "getFeatureInfo",
                     visible: true
@@ -58,7 +62,6 @@ describe("src/modules/getFeatureInfo/store/gettersGetFeatureInfo.js", () => {
             expect(urlParamsState).to.be.an("object");
             expect(urlParamsState.type).to.be.equals("getFeatureInfo");
             expect(urlParamsState.clickCoordinates).to.be.deep.equals([100, 200]);
-            expect(urlParamsState.initialMenuSide).to.be.equals("mainMenu");
             expect(urlParamsState.showMarker).to.be.true;
             expect(urlParamsState.visible).to.be.true;
             expect(urlParamsState.layerId).to.be.equals("1");

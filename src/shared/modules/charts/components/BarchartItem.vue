@@ -1,7 +1,7 @@
 <script>
 import ChartJs from "chart.js/auto";
-import deepAssign from "../../../js/utils/deepAssign.js";
-import thousandsSeparator from "../../../js/utils/thousandsSeparator.js";
+import deepAssign from "@shared/js/utils/deepAssign.js";
+import thousandsSeparator from "@shared/js/utils/thousandsSeparator.js";
 
 export default {
     name: "BarchartItem",
@@ -17,7 +17,7 @@ export default {
         },
         /**
          * the data for the piechart to hand over to chartJS data attribute
-         * @see https://www.chartjs.org/docs/latest/charts/doughnut.html
+         * @see https://www.chartjs.org/docs/latest/charts/bar.html
          */
         data: {
             type: Object,

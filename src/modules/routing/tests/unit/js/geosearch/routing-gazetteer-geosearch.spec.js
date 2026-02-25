@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import {RoutingGeosearchResult} from "../../../../js/classes/routing-geosearch-result";
-import {fetchRoutingGazetteerGeosearch} from "../../../../js/geosearch/routing-gazetteer-geosearch";
+import {RoutingGeosearchResult} from "@modules/routing/js/classes/routing-geosearch-result.js";
+import {fetchRoutingGazetteerGeosearch} from "@modules/routing/js/geosearch/routing-gazetteer-geosearch.js";
 
 describe("src/modules/routing/js/geosearch/routing-gazeteer-geosearch.js", () => {
     let promise;

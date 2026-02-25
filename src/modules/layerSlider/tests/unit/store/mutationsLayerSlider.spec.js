@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import mutations from "../../../store/mutationsLayerSlider";
+import mutations from "@modules/layerSlider/store/mutationsLayerSlider.js";
 
 const {
     setActiveLayer,

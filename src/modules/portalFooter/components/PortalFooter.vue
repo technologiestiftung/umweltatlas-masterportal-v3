@@ -13,7 +13,7 @@ export default {
         ScaleLine
     },
     computed: {
-        ...mapGetters(["isMobile"]),
+        ...mapGetters(["isMobile", "uiStyle"]),
         ...mapGetters("Modules/PortalFooter", [
             "configPaths",
             "scaleLine",
@@ -27,13 +27,16 @@ export default {
             "mainMenu",
             "secondaryMenu"
         ]),
+        ...mapGetters("Modules/About", [
+            "hideImprintInFooter"
+        ]),
         /**
          * Returns the alias length for relevant device mode.
          * @returns {Number} The alias length for the relevant device mode.
          */
         aliasLength () {
             if (this.isMobile) {
-                return this.urls.filter(url => url.alias_mobil).length;
+                return this.urls.filter(url => url.alias_mobile).length;
             }
 
             return this.urls.filter(url => url.alias).length;
@@ -53,7 +56,6 @@ export default {
             })) {
                 return "secondaryMenu";
             }
-
             return null;
         }
     },
@@ -90,11 +92,12 @@ export default {
 <template lang="html">
     <footer
         id="module-portal-footer"
-        class="portal-footer d-flex px-2 py-1"
+        class="portal-footer px-2 py-1"
+        :class="{ 'portal-footer--with-menu': uiStyle !== 'SIMPLE' }"
     >
         <a
-            v-if="aboutModuleSide"
-            class="impressumLink"
+            v-if="aboutModuleSide && !hideImprintInFooter"
+            class="imprintLink"
             role="button"
             tabindex="0"
             @click="openImprint"
@@ -102,28 +105,30 @@ export default {
         >
             {{ $t("common:modules.about.imprintTitle") }}
         </a>
-        <div
-            v-for="(url, index) in urls"
-            :key="`portal-footer-url-${index}`"
-        >
-            <span>
-                {{ $t(url.bezeichnung) }}
-                <a
-                    :href="url.url"
-                    target="_blank"
-                    class="p-0 footerUrl"
-                >
-                    {{ $t(isMobile ? $t(url.alias_mobile) : $t(url.alias)) }}
-                </a>
-                <span
-                    v-if="index < aliasLength - 1"
-                    class="d-md-inline-block px-2"
-                >
-                    <b
-                        v-html="seperator"
-                    />
+        <div class="footer-links">
+            <template
+                v-for="(url, index) in urls"
+                :key="`portal-footer-url-${index}`"
+            >
+                <span>
+                    {{ $t(url.bezeichnung) }}
+                    <a
+                        :href="url.url"
+                        target="_blank"
+                        class="p-0 footerUrl"
+                    >
+                        {{ $t(isMobile ? $t(url.alias_mobile) : $t(url.alias)) }}
+                    </a>
+                    <span
+                        v-if="index < aliasLength - 1"
+                        class="d-md-inline-block px-2"
+                    >
+                        <b
+                            v-html="seperator"
+                        />
+                    </span>
                 </span>
-            </span>
+            </template>
         </div>
         <span
             class="spacer"
@@ -142,13 +147,13 @@ export default {
         background-color: $menu-background-color;
         box-shadow: 0 -6px 12px $shadow;
         font-family: $font_family_narrow;
-        // font-size: $font-size-sm;
-        font-size: 12px; // todo rem auf welcher Grudnlage 14 oder 16px???
+        font-size: 12px;
         flex-wrap: nowrap;
         margin-top: auto;
         pointer-events: auto;
         position: relative;
         width: 100%;
+        display: flex;
 
         a[target=_blank]{
             color: $secondary;
@@ -162,17 +167,23 @@ export default {
             flex-grow: 1;
         }
 
-        .impressumLink {
+        .imprintLink {
             padding-right: 1rem;
             color: $secondary;
             &:hover{
                 @include primary_action_hover;
             }
         }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+        }
     }
 
     @include media-breakpoint-up(sm)  {
-        .portal-footer {
+        .portal-footer.portal-footer--with-menu {
             left: 47.25px; // width des Menucollapse-Button...
             width: calc( 100% + 94.5px); // zweimal den Menucollapse-Button...
         }

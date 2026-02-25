@@ -1,5 +1,5 @@
 [
-  {
+  
     "id": "ua_stadtstruktur_2015:stadtstruktur_2015",
     "name": "Stadtstruktur 2015",
     "crs": "EPSG:25833",
@@ -45973,6 +45973,1304 @@
     "gfiAttributes": "ignore",
     "singleTile": true,
     "uaEbenenbeschreibung": "Bei den Daten handelt es sich um farbige digitale Orthophotomosaike (DOP). Die Daten liegen für das gesamte Berliner Stadtgebiet im Blattschnitt 2 km x 2 km vor und haben eine Bodenauflösung von 0,20 Meter bei einer Lagegenauigkeit von +/- 0,4 Meter."
+  },
+  {
+    "id": "basemap_raster_grau",
+    "name": "Hintergrundkarte (grau)",
+    "name_lang": "Hintergrundkarte (Web Raster Grau)",
+    "capabilitiesUrl": "https://sgx.geodatenzentrum.de/wmts_basemapde/1.0.0/WMTSCapabilities.xml",
+    "url": "https://sgx.geodatenzentrum.de/wmts_basemapde/1.0.0/",
+    "typ": "WMTS",
+    "tileMatrixSet": "DE_EPSG_25833_ADV",
+    "layers": "de_basemapde_web_raster_grau",
+    "optionsFromCapabilities": true,
+    "crs": "http://www.opengis.net/def/crs/EPSG/0/25833",
+    "legend": [
+      "https://sgx.geodatenzentrum.de/wms_basemapde?format=image/png&layer=de_basemapde_web_raster_grau&sld_version=1.1.0&request=GetLegendGraphic&service=WMS&version=1.1.1&styles="
+    ],
+    "datasets": [
+      {
+        "md_id": "FE1D2837-ABE0-46B5-9821-BB11BAF22531",
+        "rs_id": "https://registry.gdi-de.org/id/de.bund.bkg.csw/68f48957-a20f-3d93-bd62-e59ce6bd99fa",
+        "csw_url": "https://gdk.gdi-de.org/gdi-de/srv/ger/csw",
+        "show_doc_url": "https://gdz.bkg.bund.de/index.php/default/wmts-basemapde-webraster-wmts-basemapde-webraster.html#"
+      }
+    ]
+  }
+]
+30901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_geothermisches_potenzial:ka_geopot_240080_p",
+    "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 80 m Tiefe und 2400 h/a",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "layers": "ka_geopot_240080_p",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "50000",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_11_2017.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_geothermisches_potenzial:kb_geopot_240080_fl",
+    "name": "Spezifische Entzugsleistung in W/m für 80 m Tiefe und 2400 h/a",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "layers": "kb_geopot_240080_fl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_11_2017.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_geothermisches_potenzial:la_geopot_2400100_p",
+    "name": "Bohrungen mit Angabe der spezifischen Entzugsleistung in W/m für 100 m Tiefe und 2400 h/a",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "layers": "la_geopot_2400100_p",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "50000",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_12_2017.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_geothermisches_potenzial:lb_geopot_2400100_fl",
+    "name": "Spezifische Entzugsleistung in W/m für 100 m Tiefe und 2400 h/a",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_geothermisches_potenzial",
+    "typ": "WMS",
+    "layers": "lb_geopot_2400100_fl",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "0f6b8dd9-8cf9-3d5c-8af5-a1d4911ad519",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/geothermisches-potenzial/fortlaufend-aktualisiert/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/wasser/geothermisches-potenzial/karten/02_18_12_2017.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftqualitaet_kfz_ges_so2_1989_2005:kfz_ges_so2_1989",
+    "name": "SO2 Emissionen Kfz-Verkehr 1989",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_kfz_ges_so2_1989_2005",
+    "typ": "WMS",
+    "layers": "kfz_ges_so2_1989",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a52b3e15-3be0-356e-9bfd-fc5a541b3791",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/emissionen/1989-2015/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_09_1_1989.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftqualitaet_kfz_ges_so2_1989_2005:kfz_ges_so2_1994",
+    "name": "SO2 Emissionen Kfz-Verkehr 1994",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_kfz_ges_so2_1989_2005",
+    "typ": "WMS",
+    "layers": "kfz_ges_so2_1994",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a52b3e15-3be0-356e-9bfd-fc5a541b3791",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/emissionen/1989-2015/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_09_2_1994.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftqualitaet_kfz_ges_so2_1989_2005:kfz_ges_so2_2002",
+    "name": "SO2 Emissionen Kfz-Verkehr 2002",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_kfz_ges_so2_1989_2005",
+    "typ": "WMS",
+    "layers": "kfz_ges_so2_2002",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a52b3e15-3be0-356e-9bfd-fc5a541b3791",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/emissionen/1989-2015/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_09_3_2002.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftqualitaet_kfz_ges_so2_1989_2005:kfz_ges_so2_2005",
+    "name": "SO2 Emissionen Kfz-Verkehr 2005",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_kfz_ges_so2_1989_2005",
+    "typ": "WMS",
+    "layers": "kfz_ges_so2_2005",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a52b3e15-3be0-356e-9bfd-fc5a541b3791",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/emissionen/1989-2015/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_09_4_2005.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftqualitaet_ges_so2_1989_2009:ges_so2_1989",
+    "name": "SO2 Emissionen aller Verursacher 1989",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_ges_so2_1989_2009",
+    "typ": "WMS",
+    "layers": "ges_so2_1989",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a52b3e15-3be0-356e-9bfd-fc5a541b3791",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/emissionen/1989-2015/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_06_1_1989.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftqualitaet_ges_so2_1989_2009:ges_so2_1994",
+    "name": "SO2 Emissionen aller Verursacher 1994",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_ges_so2_1989_2009",
+    "typ": "WMS",
+    "layers": "ges_so2_1994",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a52b3e15-3be0-356e-9bfd-fc5a541b3791",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/emissionen/1989-2015/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_06_2_1994.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftqualitaet_ges_so2_1989_2009:ges_so2_2002",
+    "name": "SO2 Emissionen aller Verursacher 2002",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_ges_so2_1989_2009",
+    "typ": "WMS",
+    "layers": "ges_so2_2002",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a52b3e15-3be0-356e-9bfd-fc5a541b3791",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/emissionen/1989-2015/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_06_3_2002.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftqualitaet_ges_so2_1989_2009:ges_so2_2005",
+    "name": "SO2 Emissionen aller Verursacher 2005",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_ges_so2_1989_2009",
+    "typ": "WMS",
+    "layers": "ges_so2_2005",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a52b3e15-3be0-356e-9bfd-fc5a541b3791",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/emissionen/1989-2015/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_06_4_2005.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftqualitaet_haus_so2_1989_2005:haus_so2_1989",
+    "name": "SO2 Emissionen Hausbrand 1989",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_haus_so2_1989_2005",
+    "typ": "WMS",
+    "layers": "haus_so2_1989",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a52b3e15-3be0-356e-9bfd-fc5a541b3791",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/emissionen/1989-2015/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_07_1_1989.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftqualitaet_haus_so2_1989_2005:haus_so2_1994",
+    "name": "SO2 Emissionen Hausbrand 1994",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_haus_so2_1989_2005",
+    "typ": "WMS",
+    "layers": "haus_so2_1994",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a52b3e15-3be0-356e-9bfd-fc5a541b3791",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/emissionen/1989-2015/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_07_2_1994.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftqualitaet_haus_so2_1989_2005:haus_so2_2002",
+    "name": "SO2 Emissionen Hausbrand 2002",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_haus_so2_1989_2005",
+    "typ": "WMS",
+    "layers": "haus_so2_2002",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a52b3e15-3be0-356e-9bfd-fc5a541b3791",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/emissionen/1989-2015/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_07_3_2002.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftqualitaet_haus_so2_1989_2005:haus_so2_2005",
+    "name": "SO2 Emissionen Hausbrand 2005",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_haus_so2_1989_2005",
+    "typ": "WMS",
+    "layers": "haus_so2_2005",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a52b3e15-3be0-356e-9bfd-fc5a541b3791",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/emissionen/1989-2015/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_07_4_2005.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftqualitaet_ind_so2_1989_2004:ind_so2_1989",
+    "name": "SO2 Emissionen Industrie 1989",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_ind_so2_1989_2004",
+    "typ": "WMS",
+    "layers": "ind_so2_1989",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a52b3e15-3be0-356e-9bfd-fc5a541b3791",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/emissionen/1989-2015/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_08_1_1989.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftqualitaet_ind_so2_1989_2004:ind_so2_1994",
+    "name": "SO2 Emissionen Industrie 1994",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_ind_so2_1989_2004",
+    "typ": "WMS",
+    "layers": "ind_so2_1994",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a52b3e15-3be0-356e-9bfd-fc5a541b3791",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/emissionen/1989-2015/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_08_2_1994.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftqualitaet_ind_so2_1989_2004:ind_so2_2002",
+    "name": "SO2 Emissionen Industrie 2002",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_ind_so2_1989_2004",
+    "typ": "WMS",
+    "layers": "ind_so2_2002",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a52b3e15-3be0-356e-9bfd-fc5a541b3791",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/emissionen/1989-2015/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_08_3_2002.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_luftqualitaet_ind_so2_1989_2004:ind_so2_2004",
+    "name": "SO2 Emissionen Industrie 2004",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_luftqualitaet_ind_so2_1989_2004",
+    "typ": "WMS",
+    "layers": "ind_so2_2004",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a52b3e15-3be0-356e-9bfd-fc5a541b3791",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/luft/emissionen/1989-2015/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/luft/entwicklung-der-luftqualitaet/de-karten/03_12_08_4_2005.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_einwohnerdichte_2009:ua_einwohnerdichte_2009",
+    "name": "Einwohnerdichte 2009",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_einwohnerdichte_2009",
+    "typ": "WMS",
+    "layers": "ua_einwohnerdichte_2009",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "39810324-ad5a-36a9-a0a9-3a777a4865f8",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/2009/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/nutzung/einwohnerdichte/2009/de-karten/06_06_2009.pdf"
+    ],
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_staedtebauliche_dichte2019:a_gfz_2019",
+    "name": "Geschossflächenzahl (GFZ) 2019",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_staedtebauliche_dichte2019",
+    "typ": "WMS",
+    "layers": "a_gfz_2019",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e657a27a-1a5b-32c3-b846-92207b56db40",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/staedtebauliche-dichte/2019/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/nutzung/staedtebauliche-dichte/de-karten/06_09_01_2019.pdf"
+    ],
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_staedtebauliche_dichte2019:b_grz_2019",
+    "name": "Grundflächenzahl (GRZ) 2019",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_staedtebauliche_dichte2019",
+    "typ": "WMS",
+    "layers": "b_grz_2019",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "e657a27a-1a5b-32c3-b846-92207b56db40",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/staedtebauliche-dichte/2019/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/nutzung/staedtebauliche-dichte/de-karten/06_09_02_2019.pdf"
+    ],
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_grundwasserguete_2000:a_messstellen",
+    "name": "Messstellen",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "a_messstellen",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserqualitaet/2000/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserqualitaet/de-karten/02_04_8_2003.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_grundwasserguete_2000:b_gewasser",
+    "name": "Gewässer",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "b_gewasser",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserqualitaet/2000/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserqualitaet/de-karten/02_04_8_2003.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_grundwasserguete_2000:c_elek_leitfaehigkeit",
+    "name": "Grundwassergüte elektrische Leitfähigkeit",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "c_elek_leitfaehigkeit",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserqualitaet/2000/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserqualitaet/de-karten/02_04_1_2003.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_grundwasserguete_2000:d_chlor",
+    "name": "Grundwassergüte Chlor",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "d_chlor",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserqualitaet/2000/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserqualitaet/de-karten/02_04_2_2003.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_grundwasserguete_2000:e_sulfat",
+    "name": "Grundwassergüte Sulfat",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "e_sulfat",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserqualitaet/2000/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserqualitaet/de-karten/02_04_3_2003.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_grundwasserguete_2000:f_ammonium",
+    "name": "Grundwassergüte Ammonium",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "f_ammonium",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserqualitaet/2000/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserqualitaet/de-karten/02_04_4_2003.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_grundwasserguete_2000:g_chem_sauerstoffverbrauch",
+    "name": "Grundwassergüte chemischer Sauerstoffverbrauch",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "g_chem_sauerstoffverbrauch",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserqualitaet/2000/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserqualitaet/de-karten/02_04_5_2003.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_grundwasserguete_2000:h_kalium",
+    "name": "Grundwassergüte Kalium",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "h_kalium",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserqualitaet/2000/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserqualitaet/de-karten/02_04_6_2003.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_grundwasserguete_2000:i_ortho_phosphat",
+    "name": "Grundwassergüte Ortho-Phosphat",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "i_ortho_phosphat",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserqualitaet/2000/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserqualitaet/de-karten/02_04_7_2003.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_grundwasserguete_2000:j_bor",
+    "name": "Grundwassergüte Bor",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_grundwasserguete_2000",
+    "typ": "WMS",
+    "layers": "j_bor",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a1f9ff36-9058-33fd-84c6-d4ec441edd54",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserqualitaet/2000/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserqualitaet/de-karten/02_04_8_2003.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_einwohnerdichte_1994:ua_einwohnerdichte_1994",
+    "name": "Einwohnerdichte 1994",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_einwohnerdichte_1994",
+    "typ": "WMS",
+    "layers": "ua_einwohnerdichte_1994",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "a49d98d9-34f1-3f55-875b-01d6469ca8ae",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/einwohnerdichte/1994/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/nutzung/einwohnerdichte/1994/de-karten/06_06_1996.pdf"
+    ],
+    "uaContact": {
+      "name": "Hr. Döllefeld",
+      "tel": "+4930901395360",
+      "email": "manuel.doellefeld@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_wasserhaushalt_2001:gesabfluss_2001",
+    "name": "Gesamtabfluß aus Niederschlägen 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_wasserhaushalt_2001",
+    "typ": "WMS",
+    "layers": "gesabfluss_2001",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "d9fa1254-c3f1-3813-823d-2e4f3026c7a8",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserhaushalt/2001/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/wasser/wasserhaushalt/de-karten/02_13_3_2001.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_wasserhaushalt_2001:oberflaechenabfluss_2001",
+    "name": "Oberflächenabfluß aus Niederschlägen 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_wasserhaushalt_2001",
+    "typ": "WMS",
+    "layers": "oberflaechenabfluss_2001",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "d9fa1254-c3f1-3813-823d-2e4f3026c7a8",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserhaushalt/2001/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/wasser/wasserhaushalt/de-karten/02_13_1_2001.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_wasserhaushalt_2001:verdunstung_2001",
+    "name": "Verdunstung aus Niederschlägen 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_wasserhaushalt_2001",
+    "typ": "WMS",
+    "layers": "verdunstung_2001",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "d9fa1254-c3f1-3813-823d-2e4f3026c7a8",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserhaushalt/2001/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/wasser/wasserhaushalt/de-karten/02_13_5_2001.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_wasserhaushalt_2001:versickerung_2001",
+    "name": "Versickerung aus Niederschlägen 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_wasserhaushalt_2001",
+    "typ": "WMS",
+    "layers": "versickerung_2001",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "d9fa1254-c3f1-3813-823d-2e4f3026c7a8",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserhaushalt/2001/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/wasser/wasserhaushalt/de-karten/02_13_2_2001.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "ua_wasserhaushalt_2001:versickerung_ov_2001",
+    "name": "Versickerung aus Niederschlägen ohne Versiegelung 2001",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_wasserhaushalt_2001",
+    "typ": "WMS",
+    "layers": "versickerung_ov_2001",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "d9fa1254-c3f1-3813-823d-2e4f3026c7a8",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/wasserhaushalt/2001/zusammenfassung/",
+    "uaDownload": [
+      "https://www.berlin.de/umweltatlas/_assets/wasser/wasserhaushalt/de-karten/02_13_4_2001.pdf"
+    ],
+    "uaContact": {
+      "name": "Fr. Haag",
+      "tel": "+4930901395270",
+      "email": "leilah.haag@senstadt.berlin.de"
+    }
+  },
+  {
+    "id": "truedop_2023:truedop_2023",
+    "name": "Digitale farbige TrueOrthophotos 2023 (DOP20RGBI)",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/truedop_2023",
+    "typ": "WMS",
+    "layers": "truedop_2023",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "c68a287b-7ad0-4cc9-87f5-2cffebaf7113",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "ignore",
+    "singleTile": true
   },
   {
     "id": "basemap_raster_grau",

@@ -1,6 +1,6 @@
 
-import {generateSimpleGetters} from "../../../shared/js/utils/generators";
-import stateLayerSlider from "./stateLayerSlider";
+import {generateSimpleGetters} from "@shared/js/utils/generators.js";
+import stateLayerSlider from "./stateLayerSlider.js";
 
 const getters = {
     ...generateSimpleGetters(stateLayerSlider)

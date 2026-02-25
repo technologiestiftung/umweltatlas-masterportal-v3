@@ -1,5 +1,5 @@
-import {generateSimpleMutations} from "../../../js/utils/generators";
-import stateLayerSwiper from "./stateLayerSwiper";
+import {generateSimpleMutations} from "@shared/js/utils/generators.js";
+import stateLayerSwiper from "./stateLayerSwiper.js";
 
 /**
  * The mutations for the LayerSwiper.
@@ -66,26 +66,6 @@ const mutations = {
      */
     setLayerSwiperStyleTop (state, clientY) {
         state.swiper.style.top = clientY + "px";
-    },
-
-    /**
-     * Sets the target layer for the LayerSwiper.
-     * @param {Object} state - The Vuex state object.
-     * @param {Object} layer - The target layer.
-     * @returns {void}
-     */
-    setLayerSwiperTargetLayer (state, layer) {
-        state.targetLayer = layer;
-    },
-
-    /**
-     * Sets the source layer for the LayerSwiper.
-     * @param {Object} state - The Vuex state object.
-     * @param {Object} layer - The source layer.
-     * @returns {void}
-     */
-    setLayerSwiperSourceLayer (state, layer) {
-        state.sourceLayer = layer;
     },
 
     /**

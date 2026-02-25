@@ -1,4 +1,4 @@
-import isObject from "../../../../shared/js/utils/isObject.js";
+import isObject from "@shared/js/utils/isObject.js";
 import axios from "axios";
 import hash from "object-hash";
 

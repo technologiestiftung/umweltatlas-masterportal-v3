@@ -1,6 +1,7 @@
-import source from "../js/measureSource";
-import makeDraw2d from "../js/measureDraw";
-import changeCase from "../../../shared/js/utils/changeCase";
+import source from "../js/measureSource.js";
+import makeDraw2d from "../js/measureDraw.js";
+import makeDraw3d from "../js/measureDraw3d.js";
+import changeCase from "@shared/js/utils/changeCase.js";
 
 export default {
     /**
@@ -27,25 +28,32 @@ export default {
      * interaction created by this tool.
      * @returns {void}
      */
-    createDrawInteraction ({state, dispatch, commit, getters}) {
+    createDrawInteraction ({state, dispatch, commit, getters, rootGetters}) {
         dispatch("removeDrawInteraction");
 
         let interaction = null;
 
-        if (getters.unlisteners.length) {
-            // if unlisteners are registered, this indicates 3D mode was active immediately before
+        if (rootGetters["Maps/mode"] === "3D") {
             dispatch("deleteFeatures");
+            interaction = makeDraw3d();
         }
-        const {selectedGeometry} = state;
+        else {
+            if (getters.unlisteners.length) {
+                // if unlisteners are registered, this indicates 3D mode was active immediately before
+                dispatch("deleteFeatures");
+            }
+            const {selectedGeometry} = state;
 
-        interaction = makeDraw2d(
-            selectedGeometry,
-            feature => commit("addFeature", feature),
-            flag => commit("setIsDrawing", flag),
-            featureId => commit("setFeatureId", featureId),
-            tooltipCoord => commit("setTooltipCoord", tooltipCoord)
-        );
-        dispatch("Maps/addInteraction", interaction, {root: true});
+            interaction = makeDraw2d(
+                {state},
+                selectedGeometry,
+                feature => commit("addFeature", feature),
+                flag => commit("setIsDrawing", flag),
+                featureId => commit("setFeatureId", featureId),
+                tooltipCoord => commit("setTooltipCoord", tooltipCoord)
+            );
+            dispatch("Maps/addInteraction", interaction, {root: true});
+        }
 
         commit("setInteraction", interaction);
     },
@@ -61,7 +69,13 @@ export default {
         if (interaction) {
             interaction.abortDrawing();
 
-            dispatch("Maps/removeInteraction", interaction, {root: true});
+            if (interaction.interaction3d) {
+                // 3d interaction is not directly added to map, but provides its own method
+                interaction.stopInteraction();
+            }
+            else {
+                dispatch("Maps/removeInteraction", interaction, {root: true});
+            }
 
             commit("setInteraction", null);
         }

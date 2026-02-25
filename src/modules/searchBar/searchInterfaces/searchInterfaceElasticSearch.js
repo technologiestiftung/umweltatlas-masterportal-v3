@@ -1,7 +1,7 @@
-import crs from "@masterportal/masterportalapi/src/crs";
+import crs from "@masterportal/masterportalapi/src/crs.js";
 
-import SearchInterface from "./searchInterface";
-import store from "../../../app-store";
+import SearchInterface from "./searchInterface.js";
+import store from "@appstore/index.js";
 
 /**
  * The search interface to the elasticSearch.
@@ -35,7 +35,7 @@ export default function SearchInterfaceElasticSearch ({hitMap, serviceId, epsg, 
             onClick: ["addLayerToTopicTree"],
             buttons: ["showInTree", "showLayerInfo"]
         },
-        resultEventsSupported = ["addLayerToTopicTree", "setMarker", "showInTree", "showLayerInfo", "startRouting", "zoomToResult"];
+        resultEventsSupported = ["addLayerToTopicTree", "setMarker", "showInTree", "showLayerInfo", "startRouting", "zoomToResult", "highlight3DTileByCoordinates"];
 
     this.checkConfig(resultEvents, resultEventsSupported, searchInterfaceId);
     SearchInterface.call(this,
@@ -227,11 +227,12 @@ SearchInterfaceElasticSearch.prototype.getTranslationByType = function (type) {
  * @returns {Object} The possible actions.
  */
 SearchInterfaceElasticSearch.prototype.createPossibleActions = function (searchResult) {
-    let coordinates = this.getResultByPath(searchResult, this.hitMap?.coordinate),
-        layerId = this.getResultByPath(searchResult, this.hitMap?.layerId);
+    const coordinates = this.getResultByPath(searchResult, this.hitMap?.coordinate);
+    let layerId = this.getResultByPath(searchResult, this.hitMap?.layerId),
+        pcsCoordinates;
 
     if (coordinates) {
-        coordinates = crs.transformToMapProjection(mapCollection.getMap("2D"), this.epsg, [parseFloat(coordinates[0]), parseFloat(coordinates[1])]);
+        pcsCoordinates = crs.transformToMapProjection(mapCollection.getMap("2D"), this.epsg, [parseFloat(coordinates[0]), parseFloat(coordinates[1])]);
     }
     if (typeof layerId === "number") {
         layerId = String(layerId);
@@ -243,14 +244,17 @@ SearchInterfaceElasticSearch.prototype.createPossibleActions = function (searchR
             source: this.getResultByPath(searchResult, this.hitMap?.source)
         },
         setMarker: {
-            coordinates: coordinates
+            coordinates: pcsCoordinates
         },
         zoomToResult: {
-            coordinates: coordinates
+            coordinates: pcsCoordinates
         },
         startRouting: {
-            coordinates: coordinates,
+            coordinates: pcsCoordinates,
             name: this.getResultByPath(searchResult, this.hitMap?.name)
+        },
+        highlight3DTileByCoordinates: {
+            coordinates: coordinates
         },
         showInTree: {
             layerId,
@@ -279,11 +283,12 @@ SearchInterfaceElasticSearch.prototype.getResultByPath = function (searchResult,
         else {
             const splittedAttribute = mappingAttribute?.split(".") || [];
 
-            splittedAttribute.forEach(attribute => {
-                if (typeof result[attribute] !== "undefined") {
-                    result = result[attribute];
+            for (const attribute of splittedAttribute) {
+                if (result === null || typeof result !== "object") {
+                    return "";
                 }
-            });
+                result = result[attribute];
+            }
         }
 
         return result;

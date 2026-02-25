@@ -1,5 +1,5 @@
-import {generateSimpleMutations} from "../../../shared/js/utils/generators";
-import stateOpenConfig from "./stateOpenConfig";
+import {generateSimpleMutations} from "@shared/js/utils/generators.js";
+import stateOpenConfig from "./stateOpenConfig.js";
 
 const mutations = {
     ...generateSimpleMutations(stateOpenConfig)

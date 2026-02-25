@@ -1,17 +1,19 @@
 import {GeoJSON, GPX, KML} from "ol/format.js";
-import Circle from "ol/geom/Circle";
-import Style from "ol/style/Style";
-import Fill from "ol/style/Fill";
-import Stroke from "ol/style/Stroke";
-import Icon from "ol/style/Icon";
-import CircleStyle from "ol/style/Circle";
-import Text from "ol/style/Text";
-import {createDrawStyle} from "../../draw_old/js/style/createDrawStyle";
-import isObject from "../../../shared/js/utils/isObject";
-import {createEmpty as createEmptyExtent, extend} from "ol/extent";
-import {uniqueId} from "../../../shared/js/utils/uniqueId.js";
-import layerCollection from "../../../core/layers/js/layerCollection";
-import {treeSubjectsKey} from "../../../shared/js/utils/constants";
+import Circle from "ol/geom/Circle.js";
+import Polygon from "ol/geom/Polygon.js";
+import Style from "ol/style/Style.js";
+import Fill from "ol/style/Fill.js";
+import Stroke from "ol/style/Stroke.js";
+import Icon from "ol/style/Icon.js";
+import CircleStyle from "ol/style/Circle.js";
+import Text from "ol/style/Text.js";
+import {createDrawStyle} from "../../draw_old/js/style/createDrawStyle.js";
+import isObject from "@shared/js/utils/isObject.js";
+import {createEmpty as createEmptyExtent, extend} from "ol/extent.js";
+import {uniqueId} from "@shared/js/utils/uniqueId.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import {treeSubjectsKey} from "@shared/js/utils/constants.js";
+import {supportedFiletypes} from "../utils/supportedFiletypes.js";
 
 const defaultFont = "16px Arial",
     supportedFormats = {
@@ -28,7 +30,7 @@ const defaultFont = "16px Arial",
                     rotation: 0,
                     scale: 1,
                     size: [16, 16],
-                    src: `${window.location.origin}/src/assets/img/tools/draw/circle_blue.svg`
+                    src: window.location.origin.includes("localhost") ? `${window.location.origin}/src/assets/img/tools/draw/circle_blue.svg` : `${window.location.origin}/img/tools/draw/circle_blue.svg`
                 }),
                 text: new Text({
                     fill: new Fill({
@@ -49,14 +51,11 @@ const defaultFont = "16px Arial",
  * @param {String} selectedFiletype - The name of type of file. This represents a key of supportedFiletypes
  * and defines, how the format will be chosen. Either directly if it matches an available format and
  * supported file type. Or automatically, when set to "auto".
- * @param {Object} supportedFiletypes - Object of supported file types. This has to include a regex for each
- * file type, that will be used to determine the filetype when selectedFiletype is "auto". The defaults are
- * defined in state and may be overridden in config.
  * @param {Object} availableFormats - Object of available formats provided by Openlayers. These are hardcoded
  * in this file and this is only a param for the sake of avoiding global variables.
  * @returns {Object|Boolean} Returns the chosen openlayers format object or false on error.
  */
-function getFormat (filename, selectedFiletype, supportedFiletypes, availableFormats) {
+function getFormat (filename, selectedFiletype, availableFormats) {
     if (selectedFiletype !== "auto") {
         if (availableFormats[selectedFiletype] === undefined) {
             console.warn("File import tool: Selected filetype \"" + selectedFiletype + "\" has no OL Format defined for it.");
@@ -207,7 +206,7 @@ export default {
         const
             vectorLayer = datasrc.layer,
             fileName = datasrc.filename,
-            format = getFormat(fileName, state.selectedFiletype, state.supportedFiletypes, supportedFormats),
+            format = getFormat(fileName, state.selectedFiletype, supportedFormats),
             crsPropName = getCrsPropertyName(datasrc.raw);
 
         let
@@ -296,7 +295,7 @@ export default {
             });
 
             Object.keys(feature.getProperties()).forEach((key) => {
-                if (["isOuterCircle", "drawState", "fromDrawTool", "invisibleStyle", "styleId", "source", "attributes", "isVisible", "isGeoCircle", "geoCircleCenter", "geoCircleRadius"].indexOf(key) >= 0) {
+                if (["isOuterCircle", "drawState", "fromDrawTool", "invisibleStyle", "styleId", "source", "attributes", "isVisible", "isGeoCircle", "geoCircleCenter", "geoCircleRadius", "isSquare", "squareCoords"].indexOf(key) >= 0) {
 
                     if (key !== "attributes" && key !== "drawState" && key !== "invisibleStyle" && key !== "masterportal_attributes") {
                         // transform "true" or "false" from KML to Boolean
@@ -323,6 +322,23 @@ export default {
                     circleRadius = parseFloat(feature.get("masterportal_attributes").geoCircleRadius);
 
                 feature.setGeometry(new Circle(circleCenter, circleRadius));
+            }
+            if (feature.get("masterportal_attributes").isSquare) {
+                let coords = feature.get("masterportal_attributes").squareCoords;
+
+                if (typeof coords === "string") {
+                    try {
+                        coords = JSON.parse(coords);
+                    }
+                    catch (e) {
+                        console.error("Failed to parse squareCoords:", e);
+                        coords = null;
+                    }
+                }
+
+                if (Array.isArray(coords)) {
+                    feature.setGeometry(new Polygon([coords]));
+                }
             }
             if ((/true/).test(feature.get("masterportal_attributes").fromDrawTool) && feature.get("name") && feature.getGeometry().getType() === "Point") {
                 const style = feature.getStyleFunction()(feature).clone();
@@ -428,7 +444,7 @@ export default {
     importGeoJSON ({state, dispatch, rootGetters, commit}, datasrc) {
         const vectorLayer = datasrc.layer,
             fileName = datasrc.filename,
-            format = getFormat(fileName, state.selectedFiletype, state.supportedFiletypes, supportedFormats),
+            format = getFormat(fileName, state.selectedFiletype, supportedFormats),
             fileDataProjection = getCrsPropertyName(datasrc.raw);
 
         let
@@ -486,7 +502,7 @@ export default {
                     defaultPointSize = 16,
                     defaultStrokeWidth = 1,
                     defaultCircleRadius = 300,
-                    geometryType = feature ? feature.getGeometry().getType() : "Cesium";
+                    geometryType = feature ? feature.getGeometry().getType() : "cesium";
 
                 if (geometryType === "Point" || geometryType === "MultiPoint") {
                     style = createDrawStyle(defaultColor, defaultColor, geometryType, defaultPointSize, 1, 1);
@@ -521,6 +537,17 @@ export default {
                         }),
                         circleRadius: defaultCircleRadius,
                         colorContour: defaultColor
+                    });
+                }
+                else if (geometryType === "Square") {
+                    style = new Style({
+                        stroke: new Stroke({
+                            color: defaultColor,
+                            width: defaultStrokeWidth
+                        }),
+                        fill: new Fill({
+                            color: defaultFillColor
+                        })
                     });
                 }
                 else {
@@ -592,8 +619,19 @@ export default {
                     outerColorContour: drawState.outerColorContour
                 });
             }
+            else if (drawState?.drawType.geometry === "Square") {
+                style = new Style({
+                    stroke: new Stroke({
+                        color: drawState.colorContour,
+                        width: drawState.strokeWidth
+                    }),
+                    fill: new Fill({
+                        color: drawState.color
+                    })
+                });
+            }
             else if (!drawState && customStyles) {
-                const geometryType = feature ? feature.getGeometry().getType() : "Cesium",
+                const geometryType = feature ? feature.getGeometry().getType() : "cesium",
                     featureAttribute = feature.get(customStyles[0].attribute),
                     featureColor = customStyles.find(attribute => {
                         return attribute.attributeValue === featureAttribute || attribute.attributeValue === "none";
@@ -638,6 +676,17 @@ export default {
                         colorContour: featureColor
                     });
                 }
+                else if (geometryType === "Square") {
+                    style = new Style({
+                        stroke: new Stroke({
+                            color: defaultStrokeColor,
+                            width: defaultStrokeWidth
+                        }),
+                        fill: new Fill({
+                            color: featureColor
+                        })
+                    });
+                }
 
                 feature.set("styleId", featureAttribute);
             }
@@ -660,7 +709,7 @@ export default {
                 masterportal_attributes.invisibleStyle = feature.getProperties().invisibleStyle;
 
                 Object.keys(feature.getProperties()).forEach((key) => {
-                    if (["isOuterCircle", "drawState", "fromDrawTool", "invisibleStyle", "styleId", "source", "attributes", "isVisible", "isGeoCircle", "geoCircleCenter", "geoCircleRadius"].indexOf(key) >= 0) {
+                    if (["isOuterCircle", "drawState", "fromDrawTool", "invisibleStyle", "styleId", "source", "attributes", "isVisible", "isGeoCircle", "geoCircleCenter", "geoCircleRadius", "isSquare", "squareCoords"].indexOf(key) >= 0) {
 
                         if (key !== "attributes" && key !== "drawState" && key !== "invisibleStyle") {
                             masterportal_attributes[key] = feature.get(key);
@@ -705,7 +754,11 @@ export default {
                 // Transformation here is necessary because all other geometries have already been transformed within "format.readFeatures(..."
                 feature.getGeometry().transform(fileDataProjection, rootGetters["Maps/projectionCode"]);
             }
+            if (feature.get("masterportal_attributes").isSquare) {
+                const coords = feature.get("masterportal_attributes").squareCoords;
 
+                feature.setGeometry(new Polygon([coords]));
+            }
             feature.set("source", fileName);
             // set a feature id just in case the feature has an id that is already set on a previously imported feature
             feature.setId(state.geojsonFeatureId);

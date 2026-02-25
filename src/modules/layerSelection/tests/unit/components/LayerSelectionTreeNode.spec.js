@@ -3,7 +3,7 @@ import {config, shallowMount} from "@vue/test-utils";
 import {expect} from "chai";
 import sinon from "sinon";
 
-import LayerSelectionTreeNode from "../../../components/LayerSelectionTreeNode.vue";
+import LayerSelectionTreeNode from "@modules/layerSelection/components/LayerSelectionTreeNode.vue";
 
 config.global.mocks.$t = key => key;
 
@@ -25,7 +25,8 @@ describe("src/modules/layerSelection/components/LayerSelectionTreeNode.vue", () 
         propsData = {
             conf: layer,
             showSelectAllCheckBox: false,
-            selectAllConfigs: []
+            selectAllConfigs: [],
+            areFoldersSelectable: false
         };
         store = createStore({
             modules: {
@@ -75,6 +76,54 @@ describe("src/modules/layerSelection/components/LayerSelectionTreeNode.vue", () 
         expect(wrapper.findAll("layer-stub").length).to.be.equals(0);
         expect(wrapper.find("select-all-check-box-stub ").exists()).to.be.false;
     });
+    it("renders a folder with checkbox", () => {
+        propsData = {
+            conf: {
+                name: "Titel Ebene 1",
+                description: "description",
+                type: "folder",
+                isFolderSelectable: true,
+                elements: [layer]
+            },
+            areFoldersSelectable: true
+        };
+        wrapper = shallowMount(LayerSelectionTreeNode, {
+            global: {
+                plugins: [store]
+            },
+            propsData
+        });
+
+        expect(wrapper.find("#layer-selection-treenode-TitelEbene1").exists()).to.be.true;
+        expect(wrapper.find(".layer-selection-treenode-folder-container").exists()).to.be.true;
+        expect(wrapper.find("folder-check-box-stub").exists()).to.be.true;
+        expect(wrapper.find("light-button-stub").exists()).to.be.true;
+        expect(wrapper.findAll("layer-stub").length).to.be.equals(0);
+    });
+    it("renders a folder without checkbox", () => {
+        propsData = {
+            conf: {
+                name: "Titel Ebene 1",
+                description: "description",
+                type: "folder",
+                isFolderSelectable: false,
+                elements: [layer]
+            },
+            areFoldersSelectable: false
+        };
+        wrapper = shallowMount(LayerSelectionTreeNode, {
+            global: {
+                plugins: [store]
+            },
+            propsData
+        });
+
+        expect(wrapper.find("#layer-selection-treenode-TitelEbene1").exists()).to.be.true;
+        expect(wrapper.find(".layer-selection-treenode-folder-container").exists()).to.be.true;
+        expect(wrapper.find("folder-check-box-stub").exists()).to.be.false;
+        expect(wrapper.find("light-button-stub").exists()).to.be.true;
+        expect(wrapper.findAll("layer-stub").length).to.be.equals(0);
+    });
     it("renders a select all checkbox and one layer", () => {
         propsData = {
             conf: layer,
@@ -92,4 +141,50 @@ describe("src/modules/layerSelection/components/LayerSelectionTreeNode.vue", () 
         expect(wrapper.findAll("layer-stub").length).to.be.equals(1);
     });
 
+    describe("methods", () => {
+        beforeEach(() => {
+            const folderConfig = {
+                name: "Folder",
+                type: "folder",
+                elements: [
+                    {id: "1", name: "Layer 1", layerSequence: 2},
+                    {id: "2", name: "Layer 2", layerSequence: 1},
+                    {id: "3", name: "Layer 3"}
+                ]
+            };
+
+            propsData = {
+                conf: folderConfig,
+                showSelectAllCheckBox: false,
+                selectAllConfigs: []
+            };
+
+            wrapper = shallowMount(LayerSelectionTreeNode, {
+                global: {
+                    plugins: [store]
+                },
+                propsData
+            });
+
+            wrapper.vm.folderClicked();
+        });
+        it("folderClicked - emits showNode with the folder name and the folder elements", () => {
+            expect(wrapper.emitted().showNode).to.have.lengthOf(1);
+            expect(wrapper.emitted().showNode[0]).to.deep.equal([
+                "Folder",
+                [
+                    {id: "2", name: "Layer 2", layerSequence: 1, zIndex: 2},
+                    {id: "1", name: "Layer 1", layerSequence: 2, zIndex: 1},
+                    {id: "3", name: "Layer 3", zIndex: 0}
+                ]
+            ]);
+        });
+        it("folderClicked - sorts elements by layerSequence, if layerSequence is present", () => {
+            expect(wrapper.vm.conf.elements).to.deep.equal([
+                {id: "2", name: "Layer 2", layerSequence: 1, zIndex: 2},
+                {id: "1", name: "Layer 1", layerSequence: 2, zIndex: 1},
+                {id: "3", name: "Layer 3", zIndex: 0}
+            ]);
+        });
+    });
 });

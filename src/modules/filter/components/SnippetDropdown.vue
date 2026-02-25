@@ -1,18 +1,18 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import Multiselect from "vue-multiselect";
-import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
-import {translateKeyWithPlausibilityCheck} from "../../../shared/js/utils/translateKeyWithPlausibilityCheck.js";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
+import {translateKeyWithPlausibilityCheck} from "@shared/js/utils/translateKeyWithPlausibilityCheck.js";
 import getIconListFromLegendModule from "../utils/getIconListFromLegend.js";
 import {getDefaultOperatorBySnippetType} from "../utils/getDefaultOperatorBySnippetType.js";
 import splitListWithDelimiter from "../utils/splitListWithDelimiter.js";
-import isObject from "../../../shared/js/utils/isObject";
+import isObject from "@shared/js/utils/isObject.js";
 import SnippetInfo from "./SnippetInfo.vue";
-import localeCompare from "../../../shared/js/utils/localeCompare";
+import localeCompare from "@shared/js/utils/localeCompare.js";
 import openlayerFunctions from "../utils/openlayerFunctions.js";
-import layerFactory from "../../../core/layers/js/layerFactory";
-import layerCollection from "../../../core/layers/js/layerCollection";
-import mutations from "../store/mutationsFilter";
+import layerFactory from "@core/layers/js/layerFactory.js";
+import layerCollection from "@core/layers/js/layerCollection.js";
+import mutations from "../store/mutationsFilter.js";
 
 /**
 * Snippet Dropdown
@@ -47,7 +47,6 @@ import mutations from "../store/mutationsFilter";
 * @vue-prop {String} value - The value for a date.
 * @vue-prop {Boolean} visible - Shows if snippet is visible.
 *
-* @vue-data {Boolean} disable - Shows if snippet is disabled.
 * @vue-data {Boolean} isInitializing - Shows if snippet is initializing.
 * @vue-data {Boolean} isAdjusting - Shows if snippet is adjusting.
 * @vue-data {Array} dropdownValue - The list of values for the dropdown.
@@ -192,6 +191,11 @@ export default {
             required: false,
             default: 20000
         },
+        outOfZoom: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
         placeholder: {
             type: String,
             required: false,
@@ -201,6 +205,11 @@ export default {
             type: [Array, String],
             required: false,
             default: undefined
+        },
+        preventUniqueValueRequest: {
+            type: Boolean,
+            required: false,
+            default: false
         },
         renderIcons: {
             type: [String, Object],
@@ -213,6 +222,11 @@ export default {
             default: () => {
                 return [];
             }
+        },
+        searchInMapExtent: {
+            type: Boolean,
+            required: false,
+            default: false
         },
         snippetId: {
             type: Number,
@@ -235,10 +249,9 @@ export default {
             default: true
         }
     },
-    emits: ["changeRule", "deleteRule", "setSnippetPrechecked"],
+    emits: ["changeRule", "deleteRule", "setSnippetPrechecked", "registerUniqueValueOnMove"],
     data () {
         return {
-            disable: true,
             isInitializing: true,
             isAdjusting: false,
             dropdownValue: [],
@@ -256,11 +269,15 @@ export default {
             ],
             source: "",
             allValues: false,
-            noChangeCounter: 0
+            noChangeCounter: 0,
+            searchedResult: undefined,
+            selectedValue: undefined,
+            isLoading: true,
+            focused: false
         };
     },
     computed: {
-        ...mapGetters("Modules/Filter", ["preventAdjust"]),
+        ...mapGetters("Modules/Filter", ["closeDropdownOnSelect", "onValueDeselect", "preventAdjust"]),
         ariaLabelDropdown () {
             return this.$t("common:modules.filter.ariaLabel.dropdown", {param: this.attrName});
         },
@@ -287,6 +304,8 @@ export default {
         },
         dropdownValueComputed () {
             let dropdownValue = [];
+
+            this.getDropdownValueForList();
 
             if (!Array.isArray(this.value)) {
                 if (Array.isArray(this.dropdownValue)) {
@@ -426,7 +445,12 @@ export default {
             });
         },
         disabled (value) {
-            this.disable = typeof value === "boolean" ? value : true;
+            if (typeof this.selectedValue === "undefined") {
+                this.isLoading = typeof value === "boolean" ? value : true;
+            }
+            else {
+                this.isLoading = false;
+            }
         },
         legendsInfo: {
             handler (value) {
@@ -435,6 +459,16 @@ export default {
                 }
             },
             deep: true
+        },
+        onValueDeselect ({filterId, snippetId, value}) {
+            if (filterId === this.filterId && snippetId === this.snippetId) {
+                const indexOfValue = this.dropdownSelected.indexOf(value);
+
+                if (indexOfValue === -1) {
+                    return;
+                }
+                this.dropdownSelected.splice(indexOfValue, 1);
+            }
         }
     },
     created () {
@@ -443,13 +477,14 @@ export default {
     mounted () {
         this.$nextTick(() => {
             this.initializeIcons();
+            this.$emit("registerUniqueValueOnMove", this.snippetId, this.gatherUniqueValues);
 
             if (!this.visible) {
                 this.dropdownValue = Array.isArray(this.prechecked) ? this.prechecked : [];
                 this.dropdownSelected = this.getInitialDropdownSelected(this.prechecked, this.dropdownValue, this.multiselect);
                 this.$nextTick(() => {
                     this.isInitializing = false;
-                    this.disable = false;
+                    this.isLoading = false;
                     this.emitSnippetPrechecked();
                 });
             }
@@ -458,35 +493,12 @@ export default {
                 this.dropdownSelected = this.getInitialDropdownSelected(this.prechecked, this.dropdownValue, this.multiselect);
                 this.$nextTick(() => {
                     this.isInitializing = false;
-                    this.disable = false;
+                    this.isLoading = false;
                     this.emitSnippetPrechecked(this.prechecked, this.snippetId, this.visible);
                 });
             }
             else if (this.api && this.autoInit !== false) {
-                this.$nextTick(() => {
-                    this.api.getUniqueValues(this.attrName, list => {
-                        this.$nextTick(() => {
-                            this.dropdownValue = this.splitListWithDelimiter(list, this.delimiter);
-                            this.dropdownSelected = this.getInitialDropdownSelected(this.prechecked, this.dropdownValue, this.multiselect);
-                            this.$nextTick(() => {
-                                this.isInitializing = false;
-                                this.disable = false;
-                                this.emitSnippetPrechecked(this.prechecked, this.snippetId, this.visible);
-                                if (this.showAllValues && this.prechecked === "all") {
-                                    this.allValues = this.dropdownSelected;
-                                }
-                            });
-                        });
-                    }, error => {
-                        this.disable = false;
-                        this.isInitializing = false;
-                        this.emitSnippetPrechecked();
-                        console.warn(error);
-                    }, {rules: this.fixedRules, filterId: this.filterId, commands: {
-                        filterGeometry: this.filterGeometry,
-                        geometryName: this.filterGeometryName
-                    }});
-                });
+                this.gatherUniqueValues();
             }
             else {
                 this.dropdownValue = [];
@@ -496,7 +508,7 @@ export default {
                 }
                 this.$nextTick(() => {
                     this.isInitializing = false;
-                    this.disable = false;
+                    this.isLoading = false;
                     this.emitSnippetPrechecked(this.prechecked, this.snippetId, this.visible);
                 });
             }
@@ -533,6 +545,44 @@ export default {
          */
         emitSnippetPrechecked (prechecked, snippetId, visible) {
             this.$emit("setSnippetPrechecked", visible && (Array.isArray(prechecked) && prechecked.length || prechecked === "all") ? snippetId : false);
+        },
+        /**
+         * Gathers the unique values.
+         * @returns {void}
+         */
+        gatherUniqueValues () {
+            if (this.preventUniqueValueRequest) {
+                this.isInitializing = false;
+                this.isLoading = false;
+                return;
+            }
+            this.$nextTick(() => {
+                this.isInitializing = true;
+                this.isLoading = true;
+                this.api.getUniqueValues(this.attrName, list => {
+                    this.$nextTick(() => {
+                        this.dropdownValue = this.splitListWithDelimiter(list, this.delimiter);
+                        this.dropdownSelected = this.getInitialDropdownSelected(this.prechecked, this.dropdownValue, this.multiselect);
+                        this.$nextTick(() => {
+                            this.isInitializing = false;
+                            this.isLoading = false;
+                            this.emitSnippetPrechecked(this.prechecked, this.snippetId, this.visible);
+                            if (this.showAllValues && this.prechecked === "all") {
+                                this.allValues = this.dropdownSelected;
+                            }
+                        });
+                    });
+                }, error => {
+                    this.isLoading = false;
+                    this.isInitializing = false;
+                    this.emitSnippetPrechecked();
+                    console.warn(error);
+                }, {rules: this.fixedRules, filterId: this.filterId, commands: {
+                    filterGeometry: this.filterGeometry,
+                    geometryName: this.filterGeometryName,
+                    searchInMapExtent: this.searchInMapExtent
+                }});
+            });
         },
         /**
          * Returns the selected values based on prechecked.
@@ -694,6 +744,7 @@ export default {
                 startup,
                 fixed: !this.visible,
                 attrName: this.attrName,
+                attrLabel: this.titleText,
                 operatorForAttrName: this.operatorForAttrName,
                 operator: this.securedOperator,
                 delimiter: this.delimiter,
@@ -796,6 +847,104 @@ export default {
                 return;
             }
             this.source = source;
+        },
+        /**
+         * Gets the searched result list according to the input text.
+         * @param {String} text The input text.
+         * @returns {void}
+         */
+        getSearchedResult (text) {
+            if (!Array.isArray(this.dropdownValueComputed) || !this.dropdownValueComputed.length) {
+                return;
+            }
+
+            if (text === "") {
+                this.searchedResult = undefined;
+                return;
+            }
+
+            const hasSelectAll = this.dropdownValueComputed.some((value) => typeof value === "object"),
+                lowerCaseText = text.toLowerCase();
+
+            this.searchedResult = hasSelectAll
+                ? this.dropdownValueComputed.map(
+                    (entry) => ({
+                        ...entry,
+                        list: entry.list.filter(value => value.toLowerCase().includes(lowerCaseText))
+                    })
+                )
+                : this.dropdownValueComputed.filter(value => value.toLowerCase().includes(lowerCaseText));
+        },
+
+        /**
+         * Sets the current selected value.
+         * @param {String|Array|Object} val The selected option.
+         * @returns {void}
+         */
+        onSelect (val) {
+            this.selectedValue = val;
+        },
+        /**
+         * Toggles the open state of a multiselect component referenced by `refName`.
+         * If the dropdown is open, it will be closed (deactivated), otherwise it will be opened (activated).
+         * After opening, the search input inside the multiselect is focused.
+         *
+         * @param {string} refName - The reference name of the multiselect component.
+         * @returns {void}
+         */
+        toggle (refName) {
+            (this.focused ? this.close : this.open)(refName);
+        },
+
+        /**
+         * Closes the multiselect component referenced by `refName`.
+         * @param {String} refName The key for the ref.
+         * @returns {void}
+         */
+        close (refName) {
+            const multiselectRef = this.$refs[refName];
+
+            if (!multiselectRef) {
+                return;
+            }
+            multiselectRef.deactivate();
+        },
+
+        /**
+         * Opens the multiselect component referenced by `refName` by focusing its search input.
+         * @param {String} refName The key of the ref.
+         * @returns {void}
+         */
+        open (refName) {
+            if (this.focused) {
+                return;
+            }
+            const multiselectRef = this.$refs[refName];
+
+            if (!multiselectRef) {
+                return;
+            }
+
+            multiselectRef.activate();
+            this.$nextTick(() => {
+                const input = multiselectRef.$refs.search;
+
+                if (input) {
+                    input.focus();
+                }
+            });
+        },
+        /**
+         * Handles the keydown event for the space key to open the dropdown.
+         * @param {Event} e The keydown event.
+         * @returns {void}
+         */
+        handleKeydownSpace (e) {
+            if (this.focused) {
+                return;
+            }
+            e.preventDefault();
+            this.open("dropdown");
         }
     }
 };
@@ -804,17 +953,8 @@ export default {
 <template>
     <div
         v-show="visible"
-        class="snippetDropdownContainer"
+        :class="['snippetDropdownContainer', outOfZoom ? 'disabledClass' : '']"
     >
-        <div
-            v-if="info"
-            class="right"
-        >
-            <SnippetInfo
-                :info="info"
-                :translation-key="translationKey"
-            />
-        </div>
         <div
             v-if="display === 'default'"
             class="snippetDefaultContainer"
@@ -830,49 +970,121 @@ export default {
             </div>
             <div
                 ref="selectBoxContainer"
-                class="filter-select-box-container"
+                class="filter-select-box-container d-flex justify-content-between align-items-center"
             >
-                <Multiselect
-                    :id="'snippetSelectBox-' + snippetId"
-                    v-model="dropdownSelected"
-                    :aria-label="ariaLabelDropdown"
-                    :options="dropdownValueComputed"
-                    name="select-box"
-                    :disabled="disable"
-                    :multiple="multiselect"
-                    :placeholder="placeholder"
-                    :show-labels="false"
-                    open-direction="auto"
-                    :options-limit="optionsLimit"
-                    :hide-selected="hideSelected"
-                    :allow-empty="allowEmptySelection"
-                    :close-on-select="true"
-                    :clear-on-select="false"
-                    :loading="disable"
-                    :group-select="multiselect && addSelectAll"
-                    :group-values="(multiselect && addSelectAll) ? 'list' : ''"
-                    :group-label="(multiselect && addSelectAll) ? 'selectAllTitle' : ''"
-                    @remove="setCurrentSource('dropdown')"
+                <div
+                    class="mutiselect-click-wrapper"
+                    style="width:100%"
+                    role="button"
+                    tabindex="0"
+                    @click.stop="toggle('dropdown')"
+                    @mousedown.prevent
+                    @keydown.tab.stop
+                    @keydown.space="handleKeydownSpace"
                 >
-                    <template #caret>
-                        <div
-                            class="multiselect__select"
-                        >
-                            <i class="bi bi-chevron-down" />
-                        </div>
-                    </template>
+                    <Multiselect
+                        :id="'snippetSelectBox-' + snippetId"
+                        ref="dropdown"
+                        v-model="dropdownSelected"
+                        :aria-label="ariaLabelDropdown"
+                        :options="typeof searchedResult !== 'undefined' ? searchedResult : dropdownValueComputed"
+                        name="select-box"
+                        :disabled="isLoading"
+                        :multiple="multiselect"
+                        :placeholder="placeholder"
+                        :show-labels="false"
+                        open-direction="auto"
+                        :options-limit="optionsLimit"
+                        :hide-selected="hideSelected"
+                        :allow-empty="allowEmptySelection"
+                        :close-on-select="typeof closeDropdownOnSelect === 'boolean' ? closeDropdownOnSelect: true"
+                        :clear-on-select="false"
+                        :loading="isLoading"
+                        :group-select="multiselect && addSelectAll"
+                        :group-values="(multiselect && addSelectAll) ? 'list' : ''"
+                        :group-label="(multiselect && addSelectAll) ? 'selectAllTitle' : ''"
+                        :internal-search="false"
+                        :tabindex="-1"
+                        @search-change="getSearchedResult"
+                        @remove="setCurrentSource('dropdown')"
+                        @select="onSelect"
+                        @open="focused = true"
+                        @close="focused = false"
+                    >
+                        <template #tag="{ option, remove }">
+                            <button
+                                class="multiselect__tag"
+                                :class="option.code"
+                                @click="remove(option)"
+                                @keydown.enter="remove(option)"
+                                @keydown.space.prevent="remove(option)"
+                            >
+                                {{ option }}
+                                <i class="bi bi-x" />
+                            </button>
+                        </template>
+                        <template #caret>
+                            <div
+                                class="multiselect__select"
+                            >
+                                <i
+                                    class="bi bi-chevron-down"
+                                    :class="[focused ? 'rotate' : '']"
+                                />
+                            </div>
+                        </template>
 
-                    <template #noOptions>
-                        <span>
-                            {{ emptyList }}
-                        </span>
-                    </template>
-                    <template #noResult>
-                        <span>
-                            {{ noElements }}
-                        </span>
-                    </template>
-                </Multiselect>
+                        <template #noOptions>
+                            <span>
+                                {{ emptyList }}
+                            </span>
+                        </template>
+                        <template #noResult>
+                            <span>
+                                {{ noElements }}
+                            </span>
+                        </template>
+                        <template
+                            v-if="anyIconExists()"
+                            #singleLabel="props"
+                        >
+                            <img
+                                class="option__image"
+                                :src="iconList[props.option]"
+                                :alt="iconList[props.option]"
+                            >
+                            <span class="option__desc">
+                                <span
+                                    class="option__title"
+                                >{{ props.option }}
+                                </span>
+                            </span>
+                        </template>
+                        <template
+                            v-if="anyIconExists()"
+                            #option="props"
+                        >
+                            <img
+                                class="option__image"
+                                :src="iconList[props.option]"
+                                :alt="props.option"
+                            >
+                            <span class="option__desc">
+                                <span class="option__title">
+                                    {{ props.option }}
+                                </span>
+                            </span>
+                        </template>
+                    </Multiselect>
+                </div>
+                <div
+                    v-if="info"
+                >
+                    <SnippetInfo
+                        :info="info"
+                        :translation-key="translationKey"
+                    />
+                </div>
             </div>
         </div>
         <div
@@ -926,7 +1138,7 @@ export default {
                             v-model="dropdownSelected"
                             :aria-label="ariaLabelCheckbox"
                             class="checkbox"
-                            :disabled="disable"
+                            :disabled="isLoading"
                             type="checkbox"
                             :value="val"
                             tabindex="0"
@@ -938,7 +1150,7 @@ export default {
                             v-model="dropdownSelected[0]"
                             :aria-label="ariaLabelRadio"
                             class="radio"
-                            :disabled="disable"
+                            :disabled="isLoading"
                             type="radio"
                             :value="val"
                             tabindex="0"
@@ -970,7 +1182,7 @@ export default {
     .filter-select-box-container .multiselect .multiselect__spinner:after, .multiselect__spinner:before {
         position: absolute;
         content: "";
-        top: 50%;
+        top: 40%;
         left: 50%;
         margin: 0px 0 0 0px;
         width: 16px;
@@ -986,13 +1198,19 @@ export default {
     .filter-select-box-container .multiselect .multiselect__option {
         display: block;
         min-height: 16px;
-        line-height: 8px;
+        line-height: 20px;
         text-decoration: none;
         text-transform: none;
         position: relative;
         cursor: pointer;
         white-space: nowrap;
         padding: 10px 12px;
+    }
+    .filter-select-box-container .multiselect .multiselect__option .option__image {
+        float: left;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
     }
     .filter-select-box-container .multiselect .multiselect__option--highlight {
         background: $secondary;
@@ -1005,17 +1223,30 @@ export default {
     .filter-select-box-container .multiselect .multiselect__tag {
         position: relative;
         display: inline-block;
-        padding: 4px 26px 4px 10px;
-        border-radius: 10px;
+        padding: 4px 10px 4px 10px;
+        border-radius: 50px;
         margin-right: 15px;
-        color: $white;
+        color: $black;
         line-height: 1;
-        background: $secondary;
+        background: $light_blue;
         margin-bottom: 5px;
         white-space: nowrap;
         overflow: hidden;
         max-width: 100%;
         text-overflow: ellipsis;
+        border: none;
+    }
+    .filter-select-box-container .multiselect .multiselect__tag:hover {
+        background: $dark_blue;
+            color: $white;
+    }
+    .disabledClass {
+        .filter-select-box-container .multiselect .multiselect__tag {
+            background: #9B9A9A;
+        }
+        .filter-select-box-container .multiselect__select i{
+            color: #9B9A9A;
+        }
     }
     .filter-select-box-container .multiselect .multiselect__tags:focus-within {
         border-color: $light_blue;
@@ -1028,20 +1259,23 @@ export default {
     }
     .filter-select-box-container .multiselect .multiselect__tag-icon::after {
         content: "\D7";
-        color: $light_grey;
+        color: $black;
         font-size: $font_size_big;
     }
     .filter-select-box-container .multiselect .multiselect__tag-icon:hover {
-        background: $light_blue;
+        background: $primary;
+    }
+    .filter-select-box-container .multiselect .multiselect__tag-icon:hover:after {
+        color: $black;
     }
     .filter-select-box-container .multiselect .multiselect__placeholder {
-        color: $light_grey;
+        color: $placeholder-color;
         display: inline-block;
         margin-bottom: 0;
         padding-top: 0;
     }
     .filter-select-box-container .multiselect .multiselect__tag-icon:focus, .multiselect__tag-icon:hover {
-        background: $light_grey;
+        background: $white;
     }
     .filter-select-box-container .multiselect__select {
         transform: none;
@@ -1055,7 +1289,7 @@ export default {
         font-size: $font_size_sm;
         -webkit-text-stroke: 1px;
         display: inline-block;
-        padding-top: 60%;
+        padding-top: 50%;
     }
     .filter-select-box-container .multiselect--active {
         color: $black;
@@ -1066,9 +1300,8 @@ export default {
         box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075), 0 0 0 0.25rem rgba(13, 110, 253, 0.05);
     }
     .filter-select-box-container .multiselect .multiselect__tags {
-        min-height: 40px;
+        min-height: 50px;
         font-size: $font-size-base;
-        line-height: 40px;
         color: $dark_grey;
         background-color: $white;
         background-image: none;
@@ -1077,6 +1310,10 @@ export default {
         box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
         -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
         transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+        padding-top: 15px;
+    }
+    .filter-select-box-container .multiselect .option__desc {
+        padding-left: 5%;
     }
     .multiselect__option--selected {
         font-family: $font_family_accent;
@@ -1146,8 +1383,17 @@ export default {
         clear: left;
         width: 100%;
     }
-    .panel .snippetDropdownContainer .right, .snippetDropdownContainer .right {
-        position: absolute;
-        right: 0;
+    .multiselect__select .bi.bi-chevron-down {
+        transition: transform 0.25s ease-out;
+        transform-origin: 0.5rem 1.3rem;
+    }
+    .rotate {
+        transform: rotate(180deg);
+    }
+    .mutiselect-click-wrapper {
+        border-radius: 5px;
+    }
+    .mutiselect-click-wrapper:focus {
+        outline: 1px solid #001B3D;
     }
 </style>

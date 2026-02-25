@@ -1,5 +1,5 @@
 <script>
-import {minMessageLength} from "../store/constantsContact";
+import {minMessageLength} from "../store/constantsContact.js";
 
 /**
  * The Contact Form Input

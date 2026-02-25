@@ -1,11 +1,12 @@
 import {createStore} from "vuex";
 import {config, shallowMount, mount} from "@vue/test-utils";
-import LayerPillsComponent from "../../../components/LayerPills.vue";
+import LayerPillsComponent from "@modules/layerPills/components/LayerPills.vue";
 import {expect} from "chai";
 import sinon from "sinon";
 
 config.global.mocks.$t = key => key;
 
+let observeSpy, disconnectSpy, ResizeObserverStub;
 
 describe("src/modules/LayerPills.vue", () => {
     let store,
@@ -18,9 +19,49 @@ describe("src/modules/LayerPills.vue", () => {
         initializeModuleSpy,
         replaceByIdInLayerConfigSpy,
         setVisibleSubjectDataLayersSpy,
-        startLayerInformationSpy;
+        startLayerInformationSpy,
+        resizeObserver;
+
+    /**
+     * Creates a shallow mounted Wrapper for the component
+     * @param {*} props the props to include
+     * @returns {object} the shallow mounted Wrapper
+     */
+    function createWrapper (props) {
+        return shallowMount(LayerPillsComponent, {
+            components: {
+                IconButton: {
+                    name: "IconButton",
+                    template: "<button>Hier</button>"
+                }
+            },
+            global: {
+                plugins: [store]
+            },
+            props: {
+                ...props
+            }
+        });
+    }
+
+    before(() => {
+        resizeObserver = global.resizeObserver;
+    });
+
+    after(() => {
+        global.resizeObserver = resizeObserver;
+    });
 
     beforeEach(() => {
+        observeSpy = sinon.spy();
+        disconnectSpy = sinon.spy();
+        ResizeObserverStub = sinon.stub();
+        ResizeObserverStub.returns({
+            observe: observeSpy,
+            unobserve: sinon.spy(),
+            disconnect: disconnectSpy
+        });
+        global.ResizeObserver = ResizeObserverStub;
         active = true;
         visibleSubjectDataLayers = [{
             name: "layer1"
@@ -50,12 +91,19 @@ describe("src/modules/LayerPills.vue", () => {
                                 mobileOnly: () => mobileOnly,
                                 configPaths: () => ["portalConfig.map.layerPills"],
                                 type: () => "layerPills",
-                                visibleSubjectDataLayers: () => visibleSubjectDataLayers
+                                visibleSubjectDataLayers: () => visibleSubjectDataLayers,
+                                hidden: () => false
                             },
                             mutations: {
                                 setActive: sinon.stub(),
                                 setMobileOnly: sinon.stub(),
                                 setVisibleSubjectDataLayers: setVisibleSubjectDataLayersSpy
+                            }
+                        },
+                        LayerTree: {
+                            namespaced: true,
+                            getters: {
+                                layerTreeSortedLayerConfigs: () => () => visibleLayers
                             }
                         },
                         LayerInformation: {
@@ -70,6 +118,15 @@ describe("src/modules/LayerPills.vue", () => {
                     namespaced: true,
                     getters: {
                         mode: () => "2D"
+                    }
+                },
+                Menu: {
+                    namespaced: true,
+                    getters: {
+                        currentSecondaryMenuWidth: () => 25,
+                        currentMainMenuWidth: () => 25,
+                        mainExpanded: () => true,
+                        secondaryExpanded: () => true
                     }
                 }
             },
@@ -90,37 +147,63 @@ describe("src/modules/LayerPills.vue", () => {
     });
 
     afterEach(() => {
+        if (wrapper) {
+            wrapper.unmount();
+        }
         sinon.restore();
+    });
+
+    describe("functionality and lifecycle and resizeObserver", () => {
+        it("should initialize module and set layers on created", () => {
+            wrapper = createWrapper();
+            expect(initializeModuleSpy.calledOnce).to.be.true;
+            expect(setVisibleSubjectDataLayersSpy.calledOnce).to.be.true;
+        });
+
+        it("should set up ResizeObserver and observe container on mounted", () => {
+            wrapper = mount(LayerPillsComponent, {
+                global: {
+                    plugins: [store]
+                },
+                attachTo: document.body
+            });
+            expect(ResizeObserverStub.calledOnce).to.be.true;
+            expect(observeSpy.calledOnce).to.be.true;
+        });
+
+        it("should disconnect ResizeObserver on beforeUnmount", () => {
+            wrapper = mount(LayerPillsComponent, {
+                global: {
+                    plugins: [store]
+                },
+                attachTo: document.body
+            });
+            wrapper.unmount();
+            wrapper = null;
+            expect(disconnectSpy.calledOnce).to.be.true;
+        });
+        it("should call setToggleButtonVisibility when ResizeObserver fires", async () => {
+            wrapper = createWrapper();
+            const stub = sinon.stub(wrapper.vm, "setToggleButtonVisibility"),
+                callbackArg = ResizeObserverStub.firstCall.args[0];
+
+            callbackArg();
+            await wrapper.vm.$nextTick();
+            expect(stub.calledOnce).to.be.true;
+            stub.restore();
+        });
     });
 
     describe("renders or does not render div", () => {
         it("renders div", () => {
-            wrapper = shallowMount(LayerPillsComponent, {
-                components: {
-                    IconButton: {
-                        name: "IconButton",
-                        template: "<button>Hier</button>"
-                    }
-                },
-                global: {
-                    plugins: [store]
-                }});
+            wrapper = createWrapper();
             expect(wrapper.find("#layer-pills").exists()).to.be.true;
         });
 
         it("no visibleSubjectDataLayers", () => {
             visibleSubjectDataLayers = [];
 
-            wrapper = shallowMount(LayerPillsComponent, {
-                components: {
-                    IconButton: {
-                        name: "IconButton",
-                        template: "<button>Hier</button>"
-                    }
-                },
-                global: {
-                    plugins: [store]
-                }});
+            wrapper = createWrapper();
 
             expect(wrapper.find("#layer-pills").exists()).to.be.false;
         });
@@ -128,84 +211,21 @@ describe("src/modules/LayerPills.vue", () => {
         it("should not exist if active false", () => {
             active = false;
 
-            wrapper = shallowMount(LayerPillsComponent, {
-                components: {
-                    IconButton: {
-                        name: "IconButton",
-                        template: "<button>Hier</button>"
-                    }
-                },
-                global: {
-                    plugins: [store]
-                }});
+            wrapper = createWrapper();
             expect(wrapper.find("#layer-pills").exists()).to.be.false;
         });
 
         it("should set class if mobileOnly true", () => {
             mobileOnly = true;
 
-            wrapper = shallowMount(LayerPillsComponent, {
-                components: {
-                    IconButton: {
-                        name: "IconButton",
-                        template: "<button>Hier</button>"
-                    }
-                },
-                global: {
-                    plugins: [store]
-                }});
+            wrapper = createWrapper();
             expect(wrapper.find("#layer-pills").classes()).to.contain("mobileOnly");
-        });
-    });
-
-    describe("left scroll disabled", () => {
-        it("left scroll is disabled", () => {
-            wrapper = mount(LayerPillsComponent, {
-                components: {
-                    IconButton: {
-                        name: "IconButton",
-                        template: "<button>Hier</button>"
-                    }
-                },
-                global: {
-                    plugins: [store]
-                }});
-            expect(wrapper.find("#layerpills-left-button").attributes().style).to.include("visibility: hidden");
-        });
-    });
-    describe("right scroll enabled", () => {
-        it("right scroll is enabled", async () => {
-
-            wrapper = mount(LayerPillsComponent, {
-                components: {
-                    IconButton: {
-                        name: "IconButton",
-                        template: "<button>Hier</button>"
-                    }
-                },
-                global: {
-                    plugins: [store]
-                }});
-
-            wrapper.vm.$el.offsetWidth = 400;
-            wrapper.vm.$el.scrollWidth = 500;
-
-            wrapper.vm.$nextTick(function () {
-                expect(wrapper.find("#layerpills-right-button").attributes().style).to.be.undefined;
-            });
-
         });
     });
 
     describe("close layerPill", () => {
         it("count close-buttons", () => {
-            wrapper = shallowMount(LayerPillsComponent, {
-                components: {
-                    IconButton: {
-                        name: "IconButton",
-                        template: "<button>Hier</button>"
-                    }
-                },
+            wrapper = mount(LayerPillsComponent, {
                 global: {
                     plugins: [store]
                 }});
@@ -216,16 +236,7 @@ describe("src/modules/LayerPills.vue", () => {
 
     describe("method testing", () => {
         it("setVisibleLayers", () => {
-            wrapper = shallowMount(LayerPillsComponent, {
-                components: {
-                    IconButton: {
-                        name: "IconButton",
-                        template: "<button>Hier</button>"
-                    }
-                },
-                global: {
-                    plugins: [store]
-                }});
+            wrapper = createWrapper();
 
             expect(setVisibleSubjectDataLayersSpy.calledOnce).to.be.true;
             expect(setVisibleSubjectDataLayersSpy.firstCall.args[1]).to.deep.equal(visibleLayers);
@@ -238,16 +249,7 @@ describe("src/modules/LayerPills.vue", () => {
                 {id: 3, name: "layer4", typ: "WFS"}
             ];
 
-            wrapper = shallowMount(LayerPillsComponent, {
-                components: {
-                    IconButton: {
-                        name: "IconButton",
-                        template: "<button>Hier</button>"
-                    }
-                },
-                global: {
-                    plugins: [store]
-                }});
+            wrapper = createWrapper();
             wrapper.vm.setVisibleLayers(visibleLayers3D2D, "2D");
 
             expect(setVisibleSubjectDataLayersSpy.calledTwice).to.be.true;
@@ -258,16 +260,7 @@ describe("src/modules/LayerPills.vue", () => {
         });
 
         it("removeLayerFromVisibleLayers shall call replaceByIdInLayerConfig", () => {
-            wrapper = shallowMount(LayerPillsComponent, {
-                components: {
-                    IconButton: {
-                        name: "IconButton",
-                        template: "<button>Hier</button>"
-                    }
-                },
-                global: {
-                    plugins: [store]
-                }});
+            wrapper = createWrapper();
             wrapper.vm.removeLayerFromVisibleLayers(visibleLayers[0], "2D");
 
             expect(replaceByIdInLayerConfigSpy.calledOnce).to.be.true;
@@ -282,162 +275,46 @@ describe("src/modules/LayerPills.vue", () => {
             });
         });
 
-        it("shall set scrolled and showRightbutton by moveLayerPills - scroll right", () => {
-            const scrollLeft = 1000,
-                scrollBySpy = sinon.spy();
-
-            wrapper = shallowMount(LayerPillsComponent, {
-                components: {
-                    IconButton: {
-                        name: "IconButton",
-                        template: "<button>Hier</button>"
-                    }
-                },
-                global: {
-                    plugins: [store]
-                }});
-            wrapper.vm.$el.scrollBy = scrollBySpy;
-            wrapper.vm.$el.scrollWidth = 500;
-            wrapper.vm.$el.scrollLeft = scrollLeft;
-            wrapper.vm.moveLayerPills("right");
-
-            expect(wrapper.vm.scrolled).to.equal(scrollLeft + 158);
-            expect(wrapper.vm.showRightbutton).to.be.false;
-            expect(scrollBySpy.calledOnce).to.be.true;
-        });
-
-        it("shall set scrolled by moveLayerPills - scroll left", () => {
-            const scrollLeft = 1000,
-                scrollBySpy = sinon.spy();
-
-            wrapper = shallowMount(LayerPillsComponent, {
-                components: {
-                    IconButton: {
-                        name: "IconButton",
-                        template: "<button>Hier</button>"
-                    }
-                },
-                global: {
-                    plugins: [store]
-                }});
-            wrapper.vm.$el.scrollBy = scrollBySpy;
-            wrapper.vm.$el.scrollWidth = 500;
-            wrapper.vm.$el.scrollLeft = scrollLeft;
-            wrapper.vm.moveLayerPills("left");
-
-            expect(wrapper.vm.scrolled).to.equal(scrollLeft - 158);
-            expect(scrollBySpy.calledOnce).to.be.true;
-        });
-
-        it("sets showRightbutton to true if needed", () => {
-            wrapper = shallowMount(LayerPillsComponent, {
-                components: {
-                    IconButton: {
-                        name: "IconButton",
-                        template: "<button>Hier</button>"
-                    }
-                },
-                global: {
-                    plugins: [store]
-                }});
-
-            wrapper.vm.$el.offsetWidth = 400;
-            wrapper.vm.$el.scrollWidth = 500;
-
-            wrapper.vm.$nextTick(function () {
-                expect(wrapper.vm.showRightbutton).to.be.true;
+        it("does not show toggle button when there is enough space", async () => {
+            wrapper = mount(LayerPillsComponent, {
+                global: {plugins: [store]},
+                attachTo: document.body
             });
+
+            const container = wrapper.find("#layer-pills").element;
+
+            sinon.stub(container, "querySelectorAll").returns([{offsetWidth: 100}]);
+            sinon.stub(container, "querySelector").returns({offsetWidth: 50});
+            Object.defineProperty(container, "clientWidth", {value: 400});
+
+            await wrapper.vm.$nextTick();
+            wrapper.vm.setToggleButtonVisibility();
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.vm.showToggleButton).to.be.false;
         });
 
-        it("sets showRightbutton to false if not needed", () => {
-            wrapper = shallowMount(LayerPillsComponent, {
-                components: {
-                    IconButton: {
-                        name: "IconButton",
-                        template: "<button>Hier</button>"
-                    }
-                },
-                global: {
-                    plugins: [store]
-                }});
+        it("shows toggle button when pills overflow container", async () => {
+            visibleSubjectDataLayers = [{name: "l1"}, {name: "l2"}];
 
-            wrapper.vm.$el.offsetWidth = 500;
-            wrapper.vm.$el.scrollWidth = 500;
-
-            wrapper.vm.$nextTick(function () {
-                expect(wrapper.vm.showRightbutton).to.be.false;
+            wrapper = mount(LayerPillsComponent, {
+                global: {plugins: [store]},
+                attachTo: document.body
             });
-        });
 
-        it("establishes a ResizeObserver if active", () => {
-            const observer = global.ResizeObserver;
-            let observed = false;
+            const container = wrapper.vm.$refs.layerPillsContainer,
 
-            /**
-             * sets observed value to be tested
-             * @returns {void}
-             */
-            class ResizeObserver {
-                /**
-                 * sets observed value if observed
-                 * @returns {void}
-                 */
-                observe () {
-                    observed = true;
-                }
-            }
+                queryStub = sinon.stub(container, "querySelectorAll");
 
-            global.ResizeObserver = ResizeObserver;
+            queryStub.withArgs(".nav-item").returns([{offsetWidth: 150}]);
+            queryStub.withArgs(".nav-pills").returns([{
+                getBoundingClientRect: () => ({width: 100})
+            }]);
+            wrapper.vm.setToggleButtonVisibility();
 
-            wrapper = shallowMount(LayerPillsComponent, {
-                components: {
-                    IconButton: {
-                        name: "IconButton",
-                        template: "<button>Hier</button>"
-                    }
-                },
-                global: {
-                    plugins: [store]
-                }});
+            await wrapper.vm.$nextTick();
 
-            expect(observed).to.be.true;
-            global.ResizeObserver = observer;
-        });
-
-        it("doesn't establish a ResizeObserver if not active", () => {
-            const observer = global.ResizeObserver;
-            let observed = false;
-
-            active = false;
-            /**
-             * sets observed value to be tested
-             * @returns {void}
-             */
-            class ResizeObserver {
-                /**
-                 * sets observed value if observed
-                 * @returns {void}
-                 */
-                observe () {
-                    observed = true;
-                }
-            }
-
-            global.ResizeObserver = ResizeObserver;
-
-            wrapper = shallowMount(LayerPillsComponent, {
-                components: {
-                    IconButton: {
-                        name: "IconButton",
-                        template: "<button>Hier</button>"
-                    }
-                },
-                global: {
-                    plugins: [store]
-                }});
-
-            expect(observed).to.be.false;
-            global.ResizeObserver = observer;
+            expect(wrapper.vm.showToggleButton).to.be.true;
         });
 
         it("showLayerInformationInMenu layerConf with datasets calls startLayerInformation", () => {
@@ -445,16 +322,7 @@ describe("src/modules/LayerPills.vue", () => {
                 datasets: []
             };
 
-            wrapper = shallowMount(LayerPillsComponent, {
-                components: {
-                    IconButton: {
-                        name: "IconButton",
-                        template: "<button>Hier</button>"
-                    }
-                },
-                global: {
-                    plugins: [store]
-                }});
+            wrapper = createWrapper();
 
             wrapper.vm.showLayerInformationInMenu(layerConf);
 
@@ -465,16 +333,7 @@ describe("src/modules/LayerPills.vue", () => {
             const layerConf = {
             };
 
-            wrapper = shallowMount(LayerPillsComponent, {
-                components: {
-                    IconButton: {
-                        name: "IconButton",
-                        template: "<button>Hier</button>"
-                    }
-                },
-                global: {
-                    plugins: [store]
-                }});
+            wrapper = createWrapper();
 
             wrapper.vm.showLayerInformationInMenu(layerConf);
 
@@ -485,18 +344,9 @@ describe("src/modules/LayerPills.vue", () => {
 
     describe("tooltip of anchor", () => {
         it("anchors should have the correct tooltip", () => {
-            wrapper = shallowMount(LayerPillsComponent, {
-                components: {
-                    IconButton: {
-                        name: "IconButton",
-                        template: "<button>Hier</button>"
-                    }
-                },
-                global: {
-                    plugins: [store]
-                }});
+            wrapper = createWrapper();
 
-            wrapper.findAll("li.nav-item a").forEach((element, index) => {
+            wrapper.findAll("li.nav-item button").forEach((element, index) => {
                 expect(element.attributes()).to.own.include({"data-bs-toggle": "tooltip"});
                 expect(element.attributes()).to.own.include({"data-bs-placement": "bottom"});
                 expect(element.attributes()).to.own.include({"data-bs-custom-class": "custom-tooltip"});
@@ -506,65 +356,53 @@ describe("src/modules/LayerPills.vue", () => {
     });
 
     describe("watcher", () => {
-        it("visibleSubjectDataLayerConfigs with no oldValue", () => {
-            const newValue = [{
-                    id: "id"
-                }],
-                setVisibleLayersSpy = sinon.spy(LayerPillsComponent.methods, "setVisibleLayers");
+        it("calls setVisibleLayers when visibleSubjectDataLayerConfigs changes", () => {
+            let initialSorted = null,
+                expectedLayers = null;
 
-            store.commit("setVisibleSubjectDataLayerConfigs", []);
-            wrapper = shallowMount(LayerPillsComponent, {
-                components: {
-                    IconButton: {
-                        name: "IconButton",
-                        template: "<button>Hier</button>"
-                    }
-                },
-                global: {
-                    plugins: [store]
-                }});
+            const setVisibleLayersSpy = sinon.spy(LayerPillsComponent.methods, "setVisibleLayers"),
+                newValue = [{id: 0}];
+
+            wrapper = createWrapper();
+
             wrapper.vm.$options.watch.visibleSubjectDataLayerConfigs.handler.call(wrapper.vm, newValue, []);
-            // called once on mounted and once on watcher call
+
             expect(setVisibleLayersSpy.calledTwice).to.be.true;
-            expect(setVisibleLayersSpy.firstCall.args[0]).to.be.deep.equals([]);
-            expect(setVisibleLayersSpy.firstCall.args[1]).to.be.equals("2D");
-            expect(setVisibleLayersSpy.firstCall.args[2]).to.be.equals(undefined);
-            expect(setVisibleLayersSpy.secondCall.args[0]).to.be.deep.equals(newValue);
-            expect(setVisibleLayersSpy.secondCall.args[1]).to.be.equals("2D");
-            expect(setVisibleLayersSpy.secondCall.args[2]).to.be.deep.equals(newValue);
+
+            initialSorted = wrapper.vm.layerTreeSortedLayerConfigs().filter(
+                l => wrapper.vm.visibleSubjectDataLayerConfigs.some(n => n.id === l.id)
+            );
+
+            expect(setVisibleLayersSpy.firstCall.args[0]).to.deep.equal(initialSorted);
+            expect(setVisibleLayersSpy.firstCall.args[1]).to.equal("2D");
+
+            expectedLayers = wrapper.vm.layerTreeSortedLayerConfigs();
+
+            expect(setVisibleLayersSpy.secondCall.args[0]).to.deep.equal(expectedLayers);
+            expect(setVisibleLayersSpy.secondCall.args[1]).to.equal("2D");
         });
 
-        it("visibleSubjectDataLayerConfigs with oldValue", () => {
-            const old1 = {
-                    id: "old1"
-                },
-                newValue = [{
-                    id: "id"
-                },
-                old1],
-                oldValue = [old1],
-                setVisibleLayersSpy = sinon.spy(LayerPillsComponent.methods, "setVisibleLayers");
+        it("visibleSubjectDataLayerConfigs triggers setVisibleLayers correctly", () => {
+            let initialSorted = null,
+                expectedLayers = null;
 
-            store.commit("setVisibleSubjectDataLayerConfigs", []);
-            wrapper = shallowMount(LayerPillsComponent, {
-                components: {
-                    IconButton: {
-                        name: "IconButton",
-                        template: "<button>Hier</button>"
-                    }
-                },
-                global: {
-                    plugins: [store]
-                }});
-            wrapper.vm.$options.watch.visibleSubjectDataLayerConfigs.handler.call(wrapper.vm, newValue, oldValue);
-            // called once on mounted and once on watcher call
+            const setVisibleLayersSpy = sinon.spy(LayerPillsComponent.methods, "setVisibleLayers"),
+                newValue = [{id: 0}];
+
+            wrapper = createWrapper();
+
+            wrapper.vm.$options.watch.visibleSubjectDataLayerConfigs.handler.call(wrapper.vm, newValue);
+
+            initialSorted = wrapper.vm.layerTreeSortedLayerConfigs().filter(
+                l => wrapper.vm.visibleSubjectDataLayerConfigs.some(n => n.id === l.id)
+            );
+            expectedLayers = wrapper.vm.layerTreeSortedLayerConfigs();
+
             expect(setVisibleLayersSpy.calledTwice).to.be.true;
-            expect(setVisibleLayersSpy.firstCall.args[0]).to.be.deep.equals([]);
-            expect(setVisibleLayersSpy.firstCall.args[1]).to.be.equals("2D");
-            expect(setVisibleLayersSpy.firstCall.args[2]).to.be.equals(undefined);
-            expect(setVisibleLayersSpy.secondCall.args[0]).to.be.deep.equals(newValue);
-            expect(setVisibleLayersSpy.secondCall.args[1]).to.be.equals("2D");
-            expect(setVisibleLayersSpy.secondCall.args[2]).to.be.deep.equals([newValue[0]]);
+            expect(setVisibleLayersSpy.firstCall.args[0]).to.deep.equal(initialSorted);
+            expect(setVisibleLayersSpy.firstCall.args[1]).to.equal("2D");
+            expect(setVisibleLayersSpy.secondCall.args[0]).to.deep.equal(expectedLayers);
+            expect(setVisibleLayersSpy.secondCall.args[1]).to.equal("2D");
         });
 
         it("mode change shall call setVisibleLayers", () => {
@@ -576,16 +414,7 @@ describe("src/modules/LayerPills.vue", () => {
                 setVisibleLayersSpy = sinon.spy(LayerPillsComponent.methods, "setVisibleLayers");
 
             store.commit("setVisibleSubjectDataLayerConfigs", visibleSubjectDataLayerConfigs);
-            wrapper = shallowMount(LayerPillsComponent, {
-                components: {
-                    IconButton: {
-                        name: "IconButton",
-                        template: "<button>Hier</button>"
-                    }
-                },
-                global: {
-                    plugins: [store]
-                }});
+            wrapper = createWrapper();
             wrapper.vm.$options.watch.mode.call(wrapper.vm, "3D");
             // called once on mounted and once on watcher call
             expect(setVisibleLayersSpy.calledTwice).to.be.true;
@@ -593,5 +422,44 @@ describe("src/modules/LayerPills.vue", () => {
             expect(setVisibleLayersSpy.secondCall.args[1]).to.be.equals("3D");
         });
 
+    });
+    describe("menus", () => {
+        it.skip("should call setToggleButtonVisibility on mount and whenever combinedMenuWidthState changes", async () => {
+            const stubSetToggleButtonVisibility = sinon.stub(LayerPillsComponent.methods, "setToggleButtonVisibility");
+
+            wrapper = createWrapper();
+            expect(stubSetToggleButtonVisibility.calledOnce).to.be.true;
+            store.hotUpdate({
+                modules: {
+                    Menu: {
+                        namespaced: true,
+                        getters: {
+                            currentMainMenuWidth: () => 20,
+                            currentSecondaryMenuWidth: () => 30
+                        }
+                    }
+                }
+            });
+            await wrapper.vm.$nextTick();
+
+            expect(stubSetToggleButtonVisibility.calledTwice).to.be.true;
+
+            store.hotUpdate({
+                modules: {
+                    Menu: {
+                        namespaced: true,
+                        getters: {
+                            currentMainMenuWidth: () => 15,
+                            currentSecondaryMenuWidth: () => 0
+                        }
+                    }
+                }
+            });
+
+            await wrapper.vm.$nextTick();
+
+            expect(stubSetToggleButtonVisibility.calledThrice).to.be.true;
+            stubSetToggleButtonVisibility.restore();
+        });
     });
 });

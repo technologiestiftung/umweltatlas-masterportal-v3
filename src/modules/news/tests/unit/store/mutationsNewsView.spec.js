@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import mutations from "../../../store/mutationsNewsView";
+import mutations from "@modules/news/store/mutationsNewsView.js";
 
 const {addNews} = mutations;
 

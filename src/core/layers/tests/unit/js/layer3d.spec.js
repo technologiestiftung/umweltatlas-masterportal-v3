@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import sinon from "sinon";
-import Layer3d from "../../../js/layer3d";
-import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle";
+import Layer3d from "@core/layers/js/layer3d.js";
+import createStyle from "@masterportal/masterportalapi/src/vectorStyle/createStyle.js";
 import styleList from "@masterportal/masterportalapi/src/vectorStyle/styleList.js";
 
 describe("src/core/js/layers/layer3d.js", () => {
