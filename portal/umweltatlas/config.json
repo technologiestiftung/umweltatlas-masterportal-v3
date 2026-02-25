@@ -12121,184 +12121,184 @@
             }
           ]
         },
+{
+  "name": "Raumbezug (ISU5/ISU50)",
+  "type": "folder",
+  "elements": [
+    {
+      "name": "ISU5",
+      "type": "folder",
+      "elements": [
         {
-          "name": "Raumbezug (ISU5/ISU50)",
+          "name": "ab 2021",
           "type": "folder",
           "elements": [
             {
-              "name": "ISU5",
+              "name": "2024",
               "type": "folder",
               "elements": [
                 {
-                  "name": "ab 2021",
-                  "type": "folder",
-                  "elements": [
-                    {
-                      "name": "2024",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "isu5:a_isu5_2024_ua_doku",
-                          "name": "Änderungen an ISU-Flächen - Fortschreibung 2024 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug - ab 2021)"
-                        },
-                        {
-                          "id": "isu5:b_isu5_2024",
-                          "name": "Haupt-, Teil- und Metablöcke sowie Straßenflächen 2024 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug - ab 2021)"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "2023",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "isu5:a_isu5_2023_doku",
-                          "name": "Änderungen an ISU-Flächen - Fortschreibung 2023 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug - ab 2021)"
-                        },
-                        {
-                          "id": "isu5:b_isu5_2023",
-                          "name": "Haupt-, Teil- und Metablöcke sowie Straßenflächen 2023 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug - ab 2021)"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "2022",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "isu5:a_isu5_2022_doku",
-                          "name": "Änderungen an ISU-Flächen - Fortschreibung 2022 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug - ab 2021)"
-                        },
-                        {
-                          "id": "isu5:b_isu5_2022",
-                          "name": "Haupt-, Teil- und Metablöcke sowie Straßenflächen 2022 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug - ab 2021)"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "2021",
-                      "type": "folder",
-                      "elements": [
-                        {
-                          "id": "isu5:a_isu5_2021_doku",
-                          "name": "Änderungen an ISU-Flächen - Fortschreibung 2021 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug - ab 2021)"
-                        },
-                        {
-                          "id": "isu5:b_isu5_2021",
-                          "name": "Haupt-, Teil- und Metablöcke sowie Straßenflächen 2021 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug - ab 2021)"
-                        }
-                      ]
-                    }
-                  ]
+                  "id": "isu5:b_isu5_2024",
+                  "name": "Haupt-, Teil- und Metablöcke sowie Straßenflächen 2024 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug - ab 2021)"
                 },
                 {
-                  "name": "2020",
-                  "type": "folder",
-                  "elements": [
-                    {
-                      "id": "isu5_2020:isu5_2020_block",
-                      "name": "Haupt-, Teil- und Metablöcke sowie Straßenflächen 2020 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug 2020 (Umweltatlas))"
-                    },
-                    {
-                      "id": "isu5_2020:isu5_2020_doku",
-                      "name": "Änderungen an ISU-Flächen - Fortschreibung 2020 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug 2020 (Umweltatlas))"
-                    }
-                  ]
-                },
-                {
-                  "name": "2015",
-                  "type": "folder",
-                  "elements": [
-                    {
-                      "id": "isu5_2015:isu5_2015_block",
-                      "name": "Block- und Blockteilflächen 2015 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug 2015 (Umweltatlas))"
-                    },
-                    {
-                      "id": "isu5_2015:isu5_2015_str",
-                      "name": "Straßenflächen 2015 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug 2015 (Umweltatlas))"
-                    }
-                  ]
-                },
-                {
-                  "name": "2010",
-                  "type": "folder",
-                  "elements": [
-                    {
-                      "id": "isu5_2010:isu5_2010",
-                      "name": "Blöcke und Teilblöcke 2010 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug 2010 (Umweltatlas))"
-                    }
-                  ]
-                },
-                {
-                  "name": "2005",
-                  "type": "folder",
-                  "elements": [
-                    {
-                      "id": "isu5_2005:isu5_2005",
-                      "name": "Blöcke und Teilblöcke 2005 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug 2005 (Umweltatlas))"
-                    }
-                  ]
+                  "id": "isu5:a_isu5_2024_ua_doku",
+                  "name": "Änderungen an ISU-Flächen - Fortschreibung 2024 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug - ab 2021)"
                 }
               ]
             },
             {
-              "name": "ISU50",
+              "name": "2023",
               "type": "folder",
               "elements": [
                 {
-                  "name": "2015",
-                  "type": "folder",
-                  "elements": [
-                    {
-                      "id": "isu50_2015:isu50_2015",
-                      "name": "Blöcke und Teilblöcke 2015 (Informationssystem Stadt und Umwelt (ISU50) - Raumbezug 2015 (Umweltatlas))"
-                    }
-                  ]
+                  "id": "isu5:b_isu5_2023",
+                  "name": "Haupt-, Teil- und Metablöcke sowie Straßenflächen 2023 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug - ab 2021)"
                 },
                 {
-                  "name": "2010",
-                  "type": "folder",
-                  "elements": [
-                    {
-                      "id": "isu50_2010:isu50_2010",
-                      "name": "Blöcke und Teilblöcke 2010 (Informationssystem Stadt und Umwelt (ISU50) - Raumbezug 2010 (Umweltatlas))"
-                    }
-                  ]
+                  "id": "isu5:a_isu5_2023_doku",
+                  "name": "Änderungen an ISU-Flächen - Fortschreibung 2023 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug - ab 2021)"
+                }
+              ]
+            },
+            {
+              "name": "2022",
+              "type": "folder",
+              "elements": [
+                {
+                  "id": "isu5:b_isu5_2022",
+                  "name": "Haupt-, Teil- und Metablöcke sowie Straßenflächen 2022 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug - ab 2021)"
                 },
                 {
-                  "name": "2005",
-                  "type": "folder",
-                  "elements": [
-                    {
-                      "id": "isu50_2005:isu50_2005",
-                      "name": "Blöcke und Teilblöcke 2005 (Informationssystem Stadt und Umwelt (ISU50) - Raumbezug 2005 (Umweltatlas))"
-                    }
-                  ]
+                  "id": "isu5:a_isu5_2022_doku",
+                  "name": "Änderungen an ISU-Flächen - Fortschreibung 2022 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug - ab 2021)"
+                }
+              ]
+            },
+            {
+              "name": "2021",
+              "type": "folder",
+              "elements": [
+                {
+                  "id": "isu5:b_isu5_2021",
+                  "name": "Haupt-, Teil- und Metablöcke sowie Straßenflächen 2021 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug - ab 2021)"
                 },
                 {
-                  "name": "2001",
-                  "type": "folder",
-                  "elements": [
-                    {
-                      "id": "isu50_2001:isu50_2001",
-                      "name": "Blöcke und Teilblöcke 2001 (Informationssystem Stadt und Umwelt (ISU50) - Raumbezug 2001 (Umweltatlas))"
-                    }
-                  ]
-                },
-                {
-                  "name": "1990",
-                  "type": "folder",
-                  "elements": [
-                    {
-                      "id": "isu50_1990:isu50_1990",
-                      "name": "Blöcke und Teilblöcke 1990 (Informationssystem Stadt und Umwelt (ISU50) - Raumbezug 1990 (Umweltatlas))"
-                    }
-                  ]
+                  "id": "isu5:a_isu5_2021_doku",
+                  "name": "Änderungen an ISU-Flächen - Fortschreibung 2021 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug - ab 2021)"
                 }
               ]
             }
           ]
         },
+        {
+          "name": "2020",
+          "type": "folder",
+          "elements": [
+            {
+              "id": "isu5_2020:isu5_2020_doku",
+              "name": "Änderungen an ISU-Flächen - Fortschreibung 2020 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug 2020 (Umweltatlas))"
+            },
+            {
+              "id": "isu5_2020:isu5_2020_block",
+              "name": "Haupt-, Teil- und Metablöcke sowie Straßenflächen 2020 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug 2020 (Umweltatlas))"
+            }
+          ]
+        },
+        {
+          "name": "2015",
+          "type": "folder",
+          "elements": [
+            {
+              "id": "isu5_2015:isu5_2015_str",
+              "name": "Straßenflächen 2015 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug 2015 (Umweltatlas))"
+            },
+            {
+              "id": "isu5_2015:isu5_2015_block",
+              "name": "Block- und Blockteilflächen 2015 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug 2015 (Umweltatlas))"
+            }
+          ]
+        },
+        {
+          "name": "2010",
+          "type": "folder",
+          "elements": [
+            {
+              "id": "isu5_2010:isu5_2010",
+              "name": "Blöcke und Teilblöcke 2010 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug 2010 (Umweltatlas))"
+            }
+          ]
+        },
+        {
+          "name": "2005",
+          "type": "folder",
+          "elements": [
+            {
+              "id": "isu5_2005:isu5_2005",
+              "name": "Blöcke und Teilblöcke 2005 (Informationssystem Stadt und Umwelt (ISU5) - Raumbezug 2005 (Umweltatlas))"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ISU50",
+      "type": "folder",
+      "elements": [
+        {
+          "name": "2015",
+          "type": "folder",
+          "elements": [
+            {
+              "id": "isu50_2015:isu50_2015",
+              "name": "Blöcke und Teilblöcke 2015 (Informationssystem Stadt und Umwelt (ISU50) - Raumbezug 2015 (Umweltatlas))"
+            }
+          ]
+        },
+        {
+          "name": "2010",
+          "type": "folder",
+          "elements": [
+            {
+              "id": "isu50_2010:isu50_2010",
+              "name": "Blöcke und Teilblöcke 2010 (Informationssystem Stadt und Umwelt (ISU50) - Raumbezug 2010 (Umweltatlas))"
+            }
+          ]
+        },
+        {
+          "name": "2005",
+          "type": "folder",
+          "elements": [
+            {
+              "id": "isu50_2005:isu50_2005",
+              "name": "Blöcke und Teilblöcke 2005 (Informationssystem Stadt und Umwelt (ISU50) - Raumbezug 2005 (Umweltatlas))"
+            }
+          ]
+        },
+        {
+          "name": "2001",
+          "type": "folder",
+          "elements": [
+            {
+              "id": "isu50_2001:isu50_2001",
+              "name": "Blöcke und Teilblöcke 2001 (Informationssystem Stadt und Umwelt (ISU50) - Raumbezug 2001 (Umweltatlas))"
+            }
+          ]
+        },
+        {
+          "name": "1990",
+          "type": "folder",
+          "elements": [
+            {
+              "id": "isu50_1990:isu50_1990",
+              "name": "Blöcke und Teilblöcke 1990 (Informationssystem Stadt und Umwelt (ISU50) - Raumbezug 1990 (Umweltatlas))"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+},
         {
           "name": "Luftbilder",
           "type": "folder",
