@@ -401,7 +401,7 @@ export default {
                                     v-else
                                     class="mp-menu-navigation-link bold no-link"
                                 >
-                                    {{ $t(lastFolderName) }}
+                                    {{ lastFolderName }}
                                 </h6>
                             </li>
                         </ol>

@@ -106,7 +106,7 @@ export default {
             />
             <LightButton
                 :interaction="folderClicked"
-                :text="$t(conf.name)"
+                :text="conf.name"
                 icon="bi-folder"
                 icon-end="bi-chevron-right"
                 customclass="w-100 layer-selection-folder"
