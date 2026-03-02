@@ -82,7 +82,7 @@ export default {
                     customclasstitle
                 ]"
             >
-                {{ decodeHtmlEntites(text) }}
+                {{ decodeHtmlEntites(text.includes(':') ? $t(text) : text) }}
             </span>
             <span
                 v-if="description"
