@@ -1,4 +1,35 @@
 [
+{
+  "id": "Basemap",
+  "name": "common:modules.layerName.basemap",
+  "epsg": "EPSG:3857",
+  "url": "https://sgx.geodatenzentrum.de/gdz_basemapde_vektor/tiles/v2/bm_web_de_3857/{z}/{x}/{y}.pbf",
+  "typ": "VectorTile",
+  "zDirection": 2,
+  "transparency": 0,
+  "legend": false,
+  "gfiAttributes": "ignore",
+  "gfiTheme": "default",
+  "datasets": [
+    {
+      "md_id": "basemap_bkg.xml",
+      "csw_url": "resources/data/metadata/basemap_bkg.xml",
+      "show_doc_url": "resources/data/metadata/",
+      "md_name": "common:modules.layerName.basemap"
+    }
+  ],
+  "vtStyles": [
+    {
+      "id": "basemap_style",
+      "name": "Basemap",
+      "url": "resources/basemap_style.json",
+      "defaultStyle": true
+    }
+  ],
+  "preview": {
+    "src": "./resources/img/vectortile_preview.png"
+  }
+},
   {
     "id": "ua_fischfauna_2022:a_fischfauna2022_fischsymbol",
     "name": "Fischsymbol",
