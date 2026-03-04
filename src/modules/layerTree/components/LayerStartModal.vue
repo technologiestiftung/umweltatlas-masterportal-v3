@@ -130,7 +130,7 @@ export default {
                    <span></span></span>
                 </h2>
                 <p class="info-text mb-3">
-                Die Katenanwendung des Umweltatlas Berlin ist das Portal für raumbezogenen Umweltdaten der Hauptstadt und die kartenzentrierte Erweiterung
+                Die Kartenanwendung des Umweltatlas Berlin ist das Portal für raumbezogenen Umweltdaten der Hauptstadt und die kartenzentrierte Erweiterung
                 des
                 <a href="https://www.berlin.de/umweltatlas/" target="_blank"
                     >Umweltatlas Berlin</a
