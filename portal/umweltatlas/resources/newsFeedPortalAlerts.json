@@ -8,8 +8,8 @@
   "alerts": {
     "wartungsarbeiten": {
       "displayClass": "info",
-      "category": "Langjährige Entwicklung ausgewählter Klimaparameter",
-      "content": "Die Stationsauswertungen ausgewählter DWD-Messstationen in Berlin und Potsdam wurde aktualisiert. Sie dienten auch der Klimamodellierung 2022. <a href='https://www.berlin.de/umweltatlas/klima/entwicklung-von-klimaparametern/2022/zusammenfassung/' target='_blank' rel='noopener'>Weitere Informationen</a>",
+      "category": "Grundwasserneubildung",
+      "content": "Die Karte zur Grundwasserneubildung wurde auf den Stand 2022 aktualisiert. <a href='https://www.berlin.de/umweltatlas/wasser/grundwasserneubildung/2022/zusammenfassung/' target='_blank' rel='noopener'>Weitere Informationen</a>",
       "displayFrom": false,
       "displayUntil": false,
       "mustBeConfirmed": false,
@@ -23,8 +23,8 @@
     },
     "wartungsarbeiten2": {
       "displayClass": "info",
-      "category": "Biotoptypen",
-      "content": "Die Daten zu Biotoptypen wurden auf den Stand 2024 aktualisiert. <a href='https://www.berlin.de/umweltatlas/biotope/biotoptypen/2024/zusammenfassung/' target='_blank' rel='noopener'>Weitere Informationen</a>",
+      "category": "Stadtstruktur",
+      "content": "Die Daten zur Stadtstruktur wurden auf den Stand 2024 aktualisiert. <a href='https://www.berlin.de/umweltatlas/nutzung/stadtstruktur/ab-2021/zusammenfassung/' target='_blank' rel='noopener'>Weitere Informationen</a>",
       "displayFrom": false,
       "displayUntil": false,
       "mustBeConfirmed": false,
@@ -38,8 +38,8 @@
     },
     "wartungsarbeiten3": {
       "displayClass": "info",
-      "category": "Wasserhaushalt",
-      "content": "Die Karten zum Wasserhaushalt wurden auf den Stand 2022 aktualisiert. <a href='https://www.berlin.de/umweltatlas/wasser/wasserhaushalt/2022/zusammenfassung/' target='_blank' rel='noopener'>Weitere Informationen</a>",
+      "category": "Flächennutzung",
+      "content": "Die Daten zur Flächennutzung wurden auf den Stand 2024 aktualisiert. <a href='https://www.berlin.de/umweltatlas/nutzung/flaechennutzung/ab-2021/zusammenfassung/' target='_blank' rel='noopener'>Weitere Informationen</a>",
       "displayFrom": false,
       "displayUntil": false,
       "mustBeConfirmed": false,
