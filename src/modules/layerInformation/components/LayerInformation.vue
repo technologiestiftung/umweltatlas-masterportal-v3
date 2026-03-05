@@ -477,7 +477,7 @@ export default {
                     </a>
                 </span>
                 <p class="ua-break-two" v-if="uaData.uaGdiURL">
-                    Weiter Metadaten zu diesem Datensatz, wie z.B. Nutzungsbedingungen, finden Sie in der 
+                    Weitere Metadaten zu diesem Datensatz, wie z.B. Nutzungsbedingungen, finden Sie in der 
                     <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL target="_blank">Geodatensuche</a>
                 </p>
             </span>
