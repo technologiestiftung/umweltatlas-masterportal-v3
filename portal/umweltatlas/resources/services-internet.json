@@ -4658,6 +4658,122 @@
     "uaEbenenbeschreibung": "Digitale Orthophotos für das gesamte Berliner Stadtgebiet mit einer Bodenauflösung von 0,20 m im Blattschnitt 2 km x 2 km."
   },
   {
+    "id": "ua_solarpotenzial_solarrechner:a_verschattung",
+    "name": "Verschattung",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_solarpotenzial_solarrechner",
+    "typ": "WMS",
+    "layers": "a_verschattung",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "d721672d-e309-4fcf-8159-92e405637d1a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "ignore",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/energie/solaranlagen/fortlaufend-aktualisiert/zusammenfassung/",
+    "uaContact": {
+      "name": "Hr. Hartbecke",
+      "tel": "(030)90139-5337",
+      "email": "lukas.hartbecke@senstadt.berlin.de"
+    },
+    "uaEbenenbeschreibung": "Die Ebene stellt dar, wie häufig die Dachflächen der Berliner Gebäude im Jahresverlauf verschattet sind. Sie ermöglicht damit eine Einschätzung der Eignung für die Installation von Solaranlagen hinsichtlich der Sonneneinstrahlung auf Dachflächen."
+  },
+  {
+    "id": "ua_solarpotenzial_solarrechner:b_dachstruktur",
+    "name": "Dachstruktur",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_solarpotenzial_solarrechner",
+    "typ": "WMS",
+    "layers": "b_dachstruktur",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "d721672d-e309-4fcf-8159-92e405637d1a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "ignore",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/energie/solaranlagen/fortlaufend-aktualisiert/zusammenfassung/",
+    "uaContact": {
+      "name": "Hr. Hartbecke",
+      "tel": "(030)90139-5337",
+      "email": "lukas.hartbecke@senstadt.berlin.de"
+    },
+    "uaEbenenbeschreibung": "Die Ebene stellt die Dachstruktur der Gebäude dar."
+  },
+  {
+    "id": "ua_solarpotenzial_solarrechner:c_gebaeude",
+    "name": "Gebäude",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_solarpotenzial_solarrechner",
+    "typ": "WMS",
+    "layers": "c_gebaeude",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "d721672d-e309-4fcf-8159-92e405637d1a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "11000",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/energie/solaranlagen/fortlaufend-aktualisiert/zusammenfassung/",
+    "uaContact": {
+      "name": "Hr. Hartbecke",
+      "tel": "(030)90139-5337",
+      "email": "lukas.hartbecke@senstadt.berlin.de"
+    },
+    "uaEbenenbeschreibung": "Gebäudeumrisse. Über den eingebetteten Link kann der Solarrechner Berlin zum Gebäude gestartet werden. Dort lassen sich eine Detailanalyse und eine Wirtschaftlichkeitsberechnung durchführen."
+  },
+  {
+    "id": "ua_solarpotenzial_solarrechner:d_photovoltaik_potenzial",
+    "name": "Photovoltaik-Potenzial",
+    "crs": "EPSG:25833",
+    "url": "https://gdi.berlin.de/services/wms/ua_solarpotenzial_solarrechner",
+    "typ": "WMS",
+    "layers": "d_photovoltaik_potenzial",
+    "legend": true,
+    "datasets": [
+      {
+        "md_id": "d721672d-e309-4fcf-8159-92e405637d1a",
+        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
+      }
+    ],
+    "format": "image/png",
+    "version": "1.3.0",
+    "transparent": true,
+    "gfiAttributes": "showAll",
+    "featureCount": "10",
+    "gfiTheme": "default",
+    "infoFormat": "application/json",
+    "maxScale": "11000",
+    "singleTile": true,
+    "uaInfoURL": "https://www.berlin.de/umweltatlas/energie/solaranlagen/fortlaufend-aktualisiert/zusammenfassung/",
+    "uaContact": {
+      "name": "Hr. Hartbecke",
+      "tel": "(030)90139-5337",
+      "email": "lukas.hartbecke@senstadt.berlin.de"
+    },
+    "uaEbenenbeschreibung": "Die Ebene bildet die Photovoltaik-Potenziale auf den Dachflächen der Berliner Gebäude ab. Im Informationsfenster jedes Gebäudes wird eine erste Einschätzung des Photovoltaik-Potenzials dargestellt."
+  },
+  {
     "id": "ua_einwohnerdichte_2011:ua_einwohnerdichte_2011",
     "name": "Einwohnerdichte 2011",
     "crs": "EPSG:25833",
@@ -5188,130 +5304,6 @@
       "email": "leilah.haag@senstadt.berlin.de"
     },
     "uaEbenenbeschreibung": "Darstellung der Archivfunktion der Böden für die Naturgeschichte auf Block- und Blockteilflächen-Basis, 1 : 5.000, Stand 2010."
-  },
-  {
-    "id": "ua_gebaeude_vegetationshoehen_2009_2010:sp_06_10geb_phase1_2010",
-    "name": "Gebäudehöhen (Phase 1) 2012 (Umweltatlas)",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_gebaeude_vegetationshoehen_2009_2010",
-    "typ": "WMS",
-    "layers": "sp_06_10geb_phase1_2010",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "8dd391cd-8b79-3cd4-bd73-1f842d7f0d27",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "maxScale": "5000",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/gebaeudehoehen/2012/zusammenfassung/",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Erfassung der Gebäudehöhen in Berlin (Auswertungsphase 1), Gebäudedaten 31.06.2012, Zeitpunkt der Befliegung: 23.09.2010"
-  },
-  {
-    "id": "ua_gebaeude_vegetationshoehen_2009_2010:sp_06_10geb_phase2_2009",
-    "name": "Gebäudehöhen (Phase 2) 2012 (Umweltatlas)",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_gebaeude_vegetationshoehen_2009_2010",
-    "typ": "WMS",
-    "layers": "sp_06_10geb_phase2_2009",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "8dd391cd-8b79-3cd4-bd73-1f842d7f0d27",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "maxScale": "5000",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/gebaeudehoehen/2012/zusammenfassung/",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Erfassung der Gebäudehöhen in Berlin (Auswertungsphase 2), Gebäudedaten Berlin 31.06.2012, Gebäudedaten Brandenburg 31.10.2013, Zeitpunkt der Befliegung: 24.08.2009"
-  },
-  {
-    "id": "ua_gebaeude_vegetationshoehen_2009_2010:sp_06_10veg_phase1_2010",
-    "name": "Vegetationshöhen (Phase 1) 2010 (Umweltatlas)",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_gebaeude_vegetationshoehen_2009_2010",
-    "typ": "WMS",
-    "layers": "sp_06_10veg_phase1_2010",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "8dd391cd-8b79-3cd4-bd73-1f842d7f0d27",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "maxScale": "5000",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/gebaeudehoehen/2012/zusammenfassung/",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Erfassung der Vegetationshöhen in Berlin (Auswertungsphase 1), Zeitpunkt der Befliegung: 23.09.2010"
-  },
-  {
-    "id": "ua_gebaeude_vegetationshoehen_2009_2010:sp_06_10veg_phase2_2009",
-    "name": "Vegetationshöhen (Phase 2) 2009 (Umweltatlas)",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_gebaeude_vegetationshoehen_2009_2010",
-    "typ": "WMS",
-    "layers": "sp_06_10veg_phase2_2009",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "8dd391cd-8b79-3cd4-bd73-1f842d7f0d27",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "maxScale": "5000",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/gebaeudehoehen/2012/zusammenfassung/",
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Erfassung der Vegetationshöhen in Berlin (Auswertungsphase 2), Zeitpunkt der Befliegung: 24.08.2009"
   },
   {
     "id": "ua_grundwassertemperatur_2020:aa_gwtemp20_2020_mess",
@@ -11558,654 +11550,6 @@
       "email": "leilah.haag@senstadt.berlin.de"
     },
     "uaEbenenbeschreibung": "Gewässer haben am Tag eine Kühlfunktion in ihrem \r\nnäheren Umfeld und dienen als Luftleit- und Ventilationsbahnen \r\ninsbesondere bei austauschstärkeren Wetterlagen"
-  },
-  {
-    "id": "ua_klimawandel_2015:a_som_zun_2011_2040",
-    "name": "Zunahme der Sommertage pro Jahr im Vergleich 1981-2010 zu 2011-2040",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2015",
-    "typ": "WMS",
-    "layers": "a_som_zun_2011_2040",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "351bf577-468f-3f6f-9be0-077c3ad51d7b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2015/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_1_sommertage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_2_sommertage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_3_sommertage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_4_sommertage_2015.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Zunahme der Sommertage pro Jahr im Vergleich 1981-2010 zu 2011-2040 (Temperaturmaximum >= 25°C)"
-  },
-  {
-    "id": "ua_klimawandel_2015:b_som_zun_2041_2070",
-    "name": "Zunahme der Sommertage pro Jahr im Vergleich 1981-2010 zu 2041-2070",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2015",
-    "typ": "WMS",
-    "layers": "b_som_zun_2041_2070",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "351bf577-468f-3f6f-9be0-077c3ad51d7b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2015/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_1_sommertage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_2_sommertage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_3_sommertage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_4_sommertage_2015.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Zunahme der Sommertage pro Jahr im Vergleich 1981-2010 zu 2041-2070 (Temperaturmaximum >= 25°C)"
-  },
-  {
-    "id": "ua_klimawandel_2015:c_som_anz_2011_2040",
-    "name": "Mittlere jährliche Anzahl der Sommertage für den Zeitraum 2011-2040",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2015",
-    "typ": "WMS",
-    "layers": "c_som_anz_2011_2040",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "351bf577-468f-3f6f-9be0-077c3ad51d7b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2015/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_1_sommertage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_2_sommertage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_3_sommertage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_4_sommertage_2015.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Mittlere jährliche Anzahl der Sommertage für den Zeitraum 2011-2040 (Temperaturmaximum >= 25°C)"
-  },
-  {
-    "id": "ua_klimawandel_2015:d_som_anz_2041_2070",
-    "name": "Mittlere jährliche Anzahl der Sommertage für den Zeitraum 2041-2070",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2015",
-    "typ": "WMS",
-    "layers": "d_som_anz_2041_2070",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "351bf577-468f-3f6f-9be0-077c3ad51d7b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2015/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_1_sommertage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_2_sommertage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_3_sommertage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_4_sommertage_2015.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Mittlere jährliche Anzahl der Sommertage für den Zeitraum 2041-2070 (Temperaturmaximum >= 25°C)"
-  },
-  {
-    "id": "ua_klimawandel_2015:e_Sommertage_2011_2040",
-    "name": "Raster: mittlere jährliche Anzahl der Sommertage für den Zeitraum 2011-2040",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2015",
-    "typ": "WMS",
-    "layers": "e_Sommertage_2011_2040",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "351bf577-468f-3f6f-9be0-077c3ad51d7b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2015/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_1_sommertage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_2_sommertage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_3_sommertage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_4_sommertage_2015.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Raster: mittlere jährliche Anzahl der Sommertage für den Zeitraum 2011-2040 (Temperaturmaximum >= 25°C)"
-  },
-  {
-    "id": "ua_klimawandel_2015:f_Sommertage_2041_2070",
-    "name": "Raster: mittlere jährliche Anzahl der Sommertage für den Zeitraum 2041-2070",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2015",
-    "typ": "WMS",
-    "layers": "f_Sommertage_2041_2070",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "351bf577-468f-3f6f-9be0-077c3ad51d7b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2015/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_1_sommertage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_2_sommertage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_3_sommertage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_01_4_sommertage_2015.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Raster: mittlere jährliche Anzahl der Sommertage für den Zeitraum 2041-2070 (Temperaturmaximum >= 25°C)"
-  },
-  {
-    "id": "ua_klimawandel_2015:a_hitz_zun_2011_2040",
-    "name": "Zunahme der Hitzetage pro Jahr im Vergleich 1981-2010 zu 2011-2040",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2015",
-    "typ": "WMS",
-    "layers": "a_hitz_zun_2011_2040",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "351bf577-468f-3f6f-9be0-077c3ad51d7b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2015/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_1_hitzetage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_2_hitzetage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_3_hitzetage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_4_hitzetage_2015.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Zunahme der Hitzetage pro Jahr im Vergleich 1981-2010 zu 2011-2040 (Temperaturmaximum >= 30°C)"
-  },
-  {
-    "id": "ua_klimawandel_2015:b_hitz_zun_2041_2070",
-    "name": "Zunahme der Hitzetage pro Jahr im Vergleich 1981-2010 zu 2041-2070",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2015",
-    "typ": "WMS",
-    "layers": "b_hitz_zun_2041_2070",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "351bf577-468f-3f6f-9be0-077c3ad51d7b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2015/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_1_hitzetage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_2_hitzetage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_3_hitzetage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_4_hitzetage_2015.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Zunahme der Hitzetage pro Jahr im Vergleich 1981-2010 zu 2041-2070 (Temperaturmaximum >= 30°C)"
-  },
-  {
-    "id": "ua_klimawandel_2015:c_hitz_anz_2011_2040",
-    "name": "Mittlere jährliche Anzahl der Hitzetage für den Zeitraum 2011-2040",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2015",
-    "typ": "WMS",
-    "layers": "c_hitz_anz_2011_2040",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "351bf577-468f-3f6f-9be0-077c3ad51d7b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2015/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_1_hitzetage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_2_hitzetage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_3_hitzetage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_4_hitzetage_2015.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Mittlere jährliche Anzahl der Hitzetage für den Zeitraum 2011-2040 (Temperaturmaximum >= 30°C)"
-  },
-  {
-    "id": "ua_klimawandel_2015:d_hitz_anz_2041_2070",
-    "name": "Mittlere jährliche Anzahl der Hitzetage für den Zeitraum 2041-2070",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2015",
-    "typ": "WMS",
-    "layers": "d_hitz_anz_2041_2070",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "351bf577-468f-3f6f-9be0-077c3ad51d7b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2015/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_1_hitzetage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_2_hitzetage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_3_hitzetage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_4_hitzetage_2015.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Mittlere jährliche Anzahl der Hitzetage für den Zeitraum 2041-2070 (Temperaturmaximum >= 30°C)"
-  },
-  {
-    "id": "ua_klimawandel_2015:e_Hitzetage_2011_2040",
-    "name": "Raster: mittlere jährliche Anzahl der Hitzetage für den Zeitraum 2011-2040",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2015",
-    "typ": "WMS",
-    "layers": "e_Hitzetage_2011_2040",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "351bf577-468f-3f6f-9be0-077c3ad51d7b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2015/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_1_hitzetage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_2_hitzetage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_3_hitzetage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_4_hitzetage_2015.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Raster: mittlere jährliche Anzahl der Hitzetage für den Zeitraum 2011-2040 (Temperaturmaximum >= 30°C)"
-  },
-  {
-    "id": "ua_klimawandel_2015:f_Hitzetage_2041_2070",
-    "name": "Raster: mittlere jährliche Anzahl der Hitzetage für den Zeitraum 2041-2070",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2015",
-    "typ": "WMS",
-    "layers": "f_Hitzetage_2041_2070",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "351bf577-468f-3f6f-9be0-077c3ad51d7b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2015/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_1_hitzetage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_2_hitzetage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_3_hitzetage_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_02_4_hitzetage_2015.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Raster: mittlere jährliche Anzahl der Hitzetage für den Zeitraum 2041-2070 (Temperaturmaximum >= 30°C)"
-  },
-  {
-    "id": "ua_klimawandel_2015:a_trop_zun_2011_2040",
-    "name": "Zunahme der Tropennächte pro Jahr im Vergleich 1981-2010 zu 2011-2040",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2015",
-    "typ": "WMS",
-    "layers": "a_trop_zun_2011_2040",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "351bf577-468f-3f6f-9be0-077c3ad51d7b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2015/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_1_tropennaechte_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_2_tropennaechte_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_3_tropennaechte_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_4_tropennaechte_2015.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Zunahme der Tropennächte pro Jahr im Vergleich 1981-2010 zu 2011-2040 (Temperaturminimum >= 20°C)"
-  },
-  {
-    "id": "ua_klimawandel_2015:b_trop_zun_2041_2070",
-    "name": "Zunahme der Tropennächte pro Jahr im Vergleich 1981-2010 zu 2041-2070",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2015",
-    "typ": "WMS",
-    "layers": "b_trop_zun_2041_2070",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "351bf577-468f-3f6f-9be0-077c3ad51d7b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2015/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_1_tropennaechte_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_2_tropennaechte_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_3_tropennaechte_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_4_tropennaechte_2015.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Zunahme der Tropennächte pro Jahr im Vergleich 1981-2010 zu 2041-2070 (Temperaturminimum >= 20°C)"
-  },
-  {
-    "id": "ua_klimawandel_2015:c_trop_anz_2011_2040",
-    "name": "Mittlere jährliche Anzahl der Tropennächte für den Zeitraum 2011-2040",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2015",
-    "typ": "WMS",
-    "layers": "c_trop_anz_2011_2040",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "351bf577-468f-3f6f-9be0-077c3ad51d7b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2015/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_1_tropennaechte_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_2_tropennaechte_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_3_tropennaechte_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_4_tropennaechte_2015.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Mittlere jährliche Anzahl der Tropennächte für den Zeitraum 2011-2040 (Temperaturminimum >= 20°C)"
-  },
-  {
-    "id": "ua_klimawandel_2015:d_trop_anz_2041_2070",
-    "name": "Mittlere jährliche Anzahl der Tropennächte für den Zeitraum 2041-2070",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2015",
-    "typ": "WMS",
-    "layers": "d_trop_anz_2041_2070",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "351bf577-468f-3f6f-9be0-077c3ad51d7b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2015/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_1_tropennaechte_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_2_tropennaechte_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_3_tropennaechte_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_4_tropennaechte_2015.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Mittlere jährliche Anzahl der Tropennächte für den Zeitraum 2041-2070 (Temperaturminimum >= 20°C)"
-  },
-  {
-    "id": "ua_klimawandel_2015:e_Tropennaechte_2011_2040",
-    "name": "Raster: mittlere jährliche Anzahl der Tropennächte für den Zeitraum 2011-2040",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2015",
-    "typ": "WMS",
-    "layers": "e_Tropennaechte_2011_2040",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "351bf577-468f-3f6f-9be0-077c3ad51d7b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2015/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_1_tropennaechte_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_2_tropennaechte_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_3_tropennaechte_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_4_tropennaechte_2015.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Raster: mittlere jährliche Anzahl der Tropennächte für den Zeitraum 2011-2040 (Temperaturminimum >= 20°C)"
-  },
-  {
-    "id": "ua_klimawandel_2015:f_Tropennaechte_2041_2070",
-    "name": "Raster: mittlere jährliche Anzahl der Tropennächte für den Zeitraum 2041-2070",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_klimawandel_2015",
-    "typ": "WMS",
-    "layers": "f_Tropennaechte_2041_2070",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "351bf577-468f-3f6f-9be0-077c3ad51d7b",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/klima/klimawandel/2015/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_1_tropennaechte_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_2_tropennaechte_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_3_tropennaechte_2015.pdf",
-      "https://www.berlin.de/umweltatlas/_assets/klima/klimawandel/de-karten/04_12_03_4_tropennaechte_2015.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Raster: mittlere jährliche Anzahl der Tropennächte für den Zeitraum 2041-2070 (Temperaturminimum >= 20°C)"
   },
   {
     "id": "ua_grundwassergl_2007:aa_wassk_peg_bru_wassgeb_pkt",
@@ -29640,237 +28984,6 @@
     "uaEbenenbeschreibung": "Digitale Orthophotos für das gesamte Berliner Stadtgebiet mit einer Bodenauflösung von 0,20 m im Blattschnitt 2 km x 2 km."
   },
   {
-    "id": "ua_boden_archivfkt_2020:archiv2020",
-    "name": "Archivfunktion der Böden für die Naturgeschichte 2020",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_boden_archivfkt_2020",
-    "typ": "WMS",
-    "layers": "archiv2020",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "35c5a667-b395-4c22-8d52-30c6ad299eda",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionen/2020/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionen/de-karten/01_12_05_2020.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Archivfunktion der Böden für die Naturgeschichte auf Block- und Blockteilflächen-Basis, 1 : 5.000, Stand 2020."
-  },
-  {
-    "id": "ua_boden_vpot_2020:vpot2020",
-    "name": "Verdunstungspotenzial der Böden auf Grundlage der Bodeneigenschaften 2020",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_boden_vpot_2020",
-    "typ": "WMS",
-    "layers": "vpot2020",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "35c5a667-b395-4c22-8d52-30c6ad299eda",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionen/2020/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionen/de-karten/01_12_7_1_2020.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Verdunstungspotenzial der Böden auf Grundlage der Bodeneigenschaften auf Block- und Blockteilflächen-Basis, 1 : 5.000, Stand 2020."
-  },
-  {
-    "id": "ua_boden_bklmv_2020:bklmv2020",
-    "name": "Kühlleistung der Böden mit Berücksichtigung der Versiegelung 2020",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_boden_bklmv_2020",
-    "typ": "WMS",
-    "layers": "bklmv2020",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "35c5a667-b395-4c22-8d52-30c6ad299eda",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionen/2020/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionen/de-karten/01_12_7_3_2020.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Kühlleistung der Böden mit Berücksichtigung der Versiegelung (Verdunstung und Kühlenergie) auf Grundlage der Bodeneigenschaften auf Block- und Blockteilflächen-Basis, 1 : 5.000, Stand 2020."
-  },
-  {
-    "id": "ua_boden_lebensfkt_2020:lebens2020",
-    "name": "Lebensraumfunktion für naturnahe und seltene Pflanzengesellschaften der Böden 2020",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_boden_lebensfkt_2020",
-    "typ": "WMS",
-    "layers": "lebens2020",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "35c5a667-b395-4c22-8d52-30c6ad299eda",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionen/2020/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionen/de-karten/01_12_01_2020.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Lebensraumfunktion der Böden für naturnahe und seltene Pflanzengesellschaften der Böden auf Block- und Blockteilflächen-Basis, 1 : 5.000, Stand 2020."
-  },
-  {
-    "id": "ua_boden_bklov_2020:bklov2020",
-    "name": "Kühlleistung der Böden ohne Berücksichtigung der Versiegelung 2020",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_boden_bklov_2020",
-    "typ": "WMS",
-    "layers": "bklov2020",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "35c5a667-b395-4c22-8d52-30c6ad299eda",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionen/2020/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionen/de-karten/01_12_7_2_2020.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Kühlleistung der Böden ohne Berücksichtigung der Versiegelung (Verdunstung und Kühlenergie) auf Grundlage der Bodeneigenschaften auf Block- und Blockteilflächen-Basis, 1 : 5.000, Stand 2020."
-  },
-  {
-    "id": "ua_boden_leist_2020:leist2020",
-    "name": "Leistungsfähigkeit der Böden 2020",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_boden_leist_2020",
-    "typ": "WMS",
-    "layers": "leist2020",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "35c5a667-b395-4c22-8d52-30c6ad299eda",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionen/2020/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionen/de-karten/01_12_06_2020.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Leistungsfähigkeit der Böden zur Erfüllung der natürlichen Bodenfunktion und der Archivfunktion auf Block- und Blockteilflächen-Basis, 1 : 5.000, Stand 2020."
-  },
-  {
-    "id": "ua_boden_regelfkt_2020:regel2020",
-    "name": "Regelungsfunktion für den Wasserhaushalt der Böden 2020",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_boden_regelfkt_2020",
-    "typ": "WMS",
-    "layers": "regel2020",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "35c5a667-b395-4c22-8d52-30c6ad299eda",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionen/2020/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionen/de-karten/01_12_04_2020.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Regelungsfunktion für den Wasserhaushalt der Böden auf Block- und Blockteilflächen-Basis, 1 : 5.000, Stand 2020."
-  },
-  {
     "id": "ua_boden_bodplan_2020:bodplan2020",
     "name": "Planungshinweise zum Bodenschutz 2020",
     "crs": "EPSG:25833",
@@ -29902,72 +29015,6 @@
       "email": "leilah.haag@senstadt.berlin.de"
     },
     "uaEbenenbeschreibung": "Darstellung der unterschiedlichen Wertigkeit der Flächen hinsichtlich der Anforderungen des vorsorgenden Bodenschutzes auf Block- und Blockteilflächen-Basis, 1 : 5.000, Stand 2020."
-  },
-  {
-    "id": "ua_boden_pufffkt_2020:puff2020",
-    "name": "Puffer- und Filterfunktion der Böden 2020",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_boden_pufffkt_2020",
-    "typ": "WMS",
-    "layers": "puff2020",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "35c5a667-b395-4c22-8d52-30c6ad299eda",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionen/2020/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionen/de-karten/01_12_03_2020.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Puffer- und Filterfunktion der Böden auf Block- und Blockteilflächen-Basis, 1 : 5.000, Stand 2020."
-  },
-  {
-    "id": "ua_boden_ertragfkt_2020:ertrag2020",
-    "name": "Ertragsfunktion der Böden für Kulturpflanzen 2020",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_boden_ertragfkt_2020",
-    "typ": "WMS",
-    "layers": "ertrag2020",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "35c5a667-b395-4c22-8d52-30c6ad299eda",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodenfunktionen/2020/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/boden/bodenfunktionen/de-karten/01_12_02_2020.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Ertragsfunktion der Böden für Kulturpflanzen auf Block- und Blockteilflächen-Basis, 1 : 5.000, Stand 2020."
   },
   {
     "id": "truedop_2013:truedop_2013",
@@ -32023,36 +31070,6 @@
       "email": "leilah.haag@senstadt.berlin.de"
     },
     "uaEbenenbeschreibung": "Darstellung der Gewässer, befischt und nicht befischt."
-  },
-  {
-    "id": "ua_grundwassergl_2005:grundwassergleichen_mai2005",
-    "name": "Grundwassergleichen 2005",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_grundwassergl_2005",
-    "typ": "WMS",
-    "layers": "grundwassergleichen_mai2005",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "66521c6e-75c2-3aa2-8351-31bd6e585d84",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "ignore",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/wasser/grundwasserhoehen/2005/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/wasser/grundwasserhoehen/2005/karten/02_12_2005.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Grundwassergleichenkarte des Hauptgrundwasserleiters für den Mai 2005"
   },
   {
     "id": "ua_grundwassergl_2019:aa_wassk_peg_bru_wassgeb_pkt",
@@ -39727,39 +38744,6 @@
     "uaEbenenbeschreibung": "Darstellung der Bodenarten auf Block- und Blockteilflächen-Basis, 1 : 50.000, Stand 1990."
   },
   {
-    "id": "ua_bodengesellschaften_1990:bodengesellschaften1990",
-    "name": "Bodengesellschaften 1990",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_bodengesellschaften_1990",
-    "typ": "WMS",
-    "layers": "bodengesellschaften1990",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "6b5bb796-2c6e-38ba-a0f4-1ce50a4bfb67",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/bodengesellschaften/1990/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/boden/bodengesellschaften/karten/01_01_1998.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Darstellung von insgesamt 70 Bodengesellschaften unversiegelter Böden, Konzeptkarte ermittelt aus Bodenuntersuchungen und Nutzungsarten, unter Verwendung diverser anderer Kartengrundlagen, auf Block- und Blockteilflächen-Basis, 1 : 50.000, Stand 1990."
-  },
-  {
     "id": "ua_luftqualitaet_ind_pm2_5_2008:ind_pm2_5_2008",
     "name": "PM2,5 Emissionen Industrie 2008",
     "crs": "EPSG:25833",
@@ -41047,39 +40031,6 @@
     "uaEbenenbeschreibung": "Die Karte bildet die Photovoltaik-Potenziale der Berliner Gebäude ab."
   },
   {
-    "id": "ua_gk25:gk25",
-    "name": "Geologische Karte 1 : 25.000",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_gk25",
-    "typ": "WMS",
-    "layers": "gk25",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "3cfed238-c727-3aed-af05-1f5af472cb5d",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/boden/geologische-karte/1937/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/boden/geologische-karte/karte/01_20_1937.pdf"
-    ],
-    "uaContact": {
-      "name": "Fr. Haag",
-      "tel": "+4930901395270",
-      "email": "leilah.haag@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Geologische Karte 1 : 25.000"
-  },
-  {
     "id": "ua_wasserhaushalt_2017:gesabf2017",
     "name": "Gesamtabfluss aus Niederschlägen 2017",
     "crs": "EPSG:25833",
@@ -42108,138 +41059,6 @@
       "email": "leilah.haag@senstadt.berlin.de"
     },
     "uaEbenenbeschreibung": "Ertragsfunktion der Böden für Kulturpflanzen auf Block- und Blockteilflächen-Basis, 1:5.000, Stand 2005."
-  },
-  {
-    "id": "ua_flaechennutzung_2010:gruen_und_freiflaechenbestand_2010",
-    "name": "Grün- und Freiflächenbestand 2010",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2010",
-    "typ": "WMS",
-    "layers": "gruen_und_freiflaechenbestand_2010",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "fe2a6593-d521-4f51-aa21-1a7eaaf10b96",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/flaechennutzung/2010/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_02_2010.pdf"
-    ],
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Darstellung des Grün- und freiflächenbestandes Berlins in 11 Kategorien auf Grundlage der digitalen Teilblockkarte 1:5000 (ISU5) des ISU (Informationssystem Stadt und Umwelt), Sachdatenstand 31.12.2010"
-  },
-  {
-    "id": "ua_flaechennutzung_2010:reale_nutzung_2010",
-    "name": "Reale Nutzung 2010",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2010",
-    "typ": "WMS",
-    "layers": "reale_nutzung_2010",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "fe2a6593-d521-4f51-aa21-1a7eaaf10b96",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/flaechennutzung/2010/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_01_1_2010.pdf"
-    ],
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Darstellung der realen Nutzung der bebauten Flächen und der Grün- und Freiflächennutzung auf Grundlage der digitalen Teilblockkarte 1 : 5.000 (ISU5). Bei Flächen mit einer Doppelnutzung wird die bauliche Nutzung dargestellt. Sachdatenstand 31.12.2010"
-  },
-  {
-    "id": "ua_flaechennutzung_2010:reale_nutzung_der_bebauten_flaechen_2010",
-    "name": "Reale Nutzung der bebauten Flächen 2010",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2010",
-    "typ": "WMS",
-    "layers": "reale_nutzung_der_bebauten_flaechen_2010",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "fe2a6593-d521-4f51-aa21-1a7eaaf10b96",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/flaechennutzung/2010/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_01_2010.pdf"
-    ],
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Darstellung der realen Flächenutzung der bebauten Flächen Berlins in 10 Kategorien auf Grundlage der digitalen Teilblockkarte 1:5000 (ISU5) des ISU (Informationssystem Stadt und Umwelt), Sachdatenstand 31.12.2010"
-  },
-  {
-    "id": "ua_flaechennutzung_2010:reale_nutzung_und_vegetationsbedeckung_2010",
-    "name": "Reale Nutzung und Vegetationsbedeckung 2010",
-    "crs": "EPSG:25833",
-    "url": "https://gdi.berlin.de/services/wms/ua_flaechennutzung_2010",
-    "typ": "WMS",
-    "layers": "reale_nutzung_und_vegetationsbedeckung_2010",
-    "legend": true,
-    "datasets": [
-      {
-        "md_id": "fe2a6593-d521-4f51-aa21-1a7eaaf10b96",
-        "csw_url": "https://gdi.berlin.de/geonetwork/srv/ger/csw"
-      }
-    ],
-    "format": "image/png",
-    "version": "1.3.0",
-    "transparent": true,
-    "gfiAttributes": "showAll",
-    "featureCount": "10",
-    "gfiTheme": "default",
-    "infoFormat": "application/json",
-    "singleTile": true,
-    "uaInfoURL": "https://www.berlin.de/umweltatlas/nutzung/flaechennutzung/2010/zusammenfassung/",
-    "uaDownload": [
-      "https://www.berlin.de/umweltatlas/_assets/nutzung/flaechennutzung/de-karten/06_02_1_2010.pdf"
-    ],
-    "uaContact": {
-      "name": "Hr. Döllefeld",
-      "tel": "+4930901395360",
-      "email": "manuel.doellefeld@senstadt.berlin.de"
-    },
-    "uaEbenenbeschreibung": "Darstellung der realen Nutzung der bebauten Flächen und der Grün- und Freiflächennutzung auf Grundlage der digitalen Teilblockkarte 1 : 5.000 (ISU5). Bei Flächen mit Doppelnutzung wird die Grün- und Freiflächennutzung dargestellt. Sachdatenstand 31.12.2010"
   },
   {
     "id": "ua_grundwassergl_2004:grundwassergleichen_mai2004",
