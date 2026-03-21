@@ -119,9 +119,14 @@ export default {
         min-width: 35px;
         max-width: 35px;
         height: 100%;
+        margin-right: 0.4rem;
 
         &.bi-share {
-            font-size: 0.1rem;
+            transform: scale(0.85);
+        }
+
+        &.bi-info-circle {
+            transform: scale(1.12);
         }
     }
     .light-btn-icon:last-child {
