@@ -130,11 +130,12 @@ export default {
                    <span></span></span>
                 </h2>
                 <p class="info-text mb-3">
-                Die Kartenanwendung des Umweltatlas Berlin ist das Portal für raumbezogenen Umweltdaten der Hauptstadt und die kartenzentrierte Erweiterung
+                Willkommen im Kartenviewer für raumbezogenen Umweltdaten der Hauptstadt. Dieses Portal ist die kartenzentrierte Erweiterung
                 des
                 <a href="https://www.berlin.de/umweltatlas/" target="_blank"
                     >Umweltatlas Berlin</a
-                >.  Entdecke Informationen und Karten zu diesen Themenbereichen:
+                >.</p>
+                <p class="info-text mb-3">  Entdecke diese Themenbereiche:
             </p>
                 <template
                     v-for="(conf, idx) in subjects"
@@ -186,7 +187,6 @@ export default {
 
     #start-modal-content{
         position: relative;
-        background-color: #f7f7f7;
         padding: 60px;
         width: 800px;
         max-width: 90%;
@@ -194,9 +194,9 @@ export default {
         background-color: white;
         max-height: 80%;
         overflow: auto;
-        overflow-x: auto;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         overflow-x: hidden;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
     @media (max-width: 450px) {
@@ -212,8 +212,8 @@ export default {
 
     .close-button{
         position: absolute;
-        top: 10px;
-        right: 10px;
+        top: 20px;
+        right: 20px;
         border: none;
         background: none;
         font-size: 20px;
@@ -248,6 +248,7 @@ export default {
                 color: white;
                 font-size: 17px;
                 padding: 3px 10px;
+                border-top-left-radius: 3px;
 
                 span {
                     font-size: 25px;
@@ -256,19 +257,22 @@ export default {
 
             img {
                 width: 100%;
-                // max-height: 150px;
+                border-radius: 3px;
             }
         }
 
         .img-copyright {
             text-align: left;
-            font-size: 12px;
+            font-size: 11px;
             color: #999;
+            margin-top: 6px;
+            margin-bottom: 0;
         }
 
-        p.info {
+        p.info-text {
             font-size: 15px;
             color: #333333;
+            margin-bottom: 30px;
         }
 
         button {
@@ -286,11 +290,9 @@ export default {
         }
 
         button:hover {
-            border-color: $dark_green;
             .img-text {
-                background-color: $dark_green;
-                background-color: #000;
-
+                background-color: $light_blue;
+                color: $secondary;
             }
         }
     }
