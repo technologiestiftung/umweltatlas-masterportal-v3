@@ -110,13 +110,13 @@ export default {
     display: flex;
 
     i {
-        max-width: 35px;
+        width: 35px;
+        min-width: 35px;
         font-size: 1.3rem;
-        padding-left: 10px;
-        padding-right: 10px;
-        padding-top: 2px;
-        padding-bottom: 2px;
-        vertical-align: middle;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 10px;
     }
 }
 
