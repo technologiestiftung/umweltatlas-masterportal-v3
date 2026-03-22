@@ -246,6 +246,21 @@
             background-repeat: no-repeat;
         }
 
+        /* Optimise Logo and Title Wrapping */
+        .mp-menu-logo {
+            flex-wrap: nowrap !important;
+            align-items: flex-start !important;
+        }
+        .mp-menu-logo img {
+            /* Verschiebe Icon ganz leicht nach oben */
+            margin-top: 0 !important;
+            transform: translateY(-7px) !important;
+        }
+        .mp-menu-logo h1 {
+            /* Text darf NICHT innerhalb des Wortes umbrechen (also kein Umw-elta-tlas) */
+            overflow-wrap: normal !important;
+            word-wrap: normal !important;
+            word-break: normal !important;
             hyphens: none !important;
             white-space: normal !important;
             line-height: 1.1 !important;
