@@ -1,72 +1,52 @@
-# Masterportal
+# Umweltatlas Berlin - Masterportal v3
 
-The Masterportal is a tool-kit to create geo web applications based on [OpenLayers](https://openlayers.org), [Vue.js](https://vuejs.org/) and [Cesium](https://cesium.com/platform/cesiumjs/) for 3D functionality. The Masterportal is Open Source Software published under the [MIT License](https://bitbucket.org/geowerkstatt-hamburg/masterportal/src/dev/License.txt).
+This repository contains the customized version 3 of the [Masterportal](https://bitbucket.org/geowerkstatt-hamburg/masterportal) for the **[Umweltatlas Berlin](https://www.berlin.de/umweltatlas/)** (Environmental Atlas of Berlin).
 
-The Masterportal is a project by [Geowerkstatt Hamburg](https://www.hamburg.de/geowerkstatt/).
+The Umweltatlas is a metadata portal for spatially-referenced environmental data. This web application serves as a [map-centric entry point](https://gdi.berlin.de/viewer/umweltatlas/karten/) to interact with this data.
 
-## MasterPortal Version 3
+The Masterportal is an open-source tool-kit for creating geo web applications based on [OpenLayers](https://openlayers.org) and [Vue.js](https://vuejs.org/). This repository takes the upstream Masterportal code and applies specific customizations—like custom Vue components, heavily redesigned layer information modals, custom branding, and automated data service updates—to fit the requirements of the Umweltatlas Berlin.
 
-After more than two years of refactorings we can proudly present the new major Release Masterportal 3.0.0! We completely removed backbonejs and jquery, moved to vue3 and vuex4 and rewrote the application-core. We redesigned the UI to match all the different usecases and usergroups. We have nearly all modules and tools working but still some work to do. Features still to be added/moved to the new version are the following:
+## Development and Setup
 
-* New Draw Module
-* Different AddOns
-* Theming
-* Touchtable-UI
-* ...
+**Requirements:**
+- Node.js (Version `22.19.0`)
 
-To try out the new version just checkout this tag and run "npm install" and "npm start". You'll find working configs under "portal" as usual.
+**Installation & Local Server:**
+```bash
+npm install
+npm run start
+```
+The local development server will start, allowing you to preview the application at `https://localhost:9001/portal/umweltatlas/`.
 
-Please be aware of the following:
+**Building for Production:**
+```bash
+npm run build
+```
+The compiled files will be located in the `dist/` folder. The portal should be deployed pointing to the `dist/umweltatlas` directory.
 
-**We appreciate hints, feedback and communication of bugs! Please use the Issuetracker and tag your issue with "v3.x.x"**
+## Documentation and Customizations
 
-## Roadmap
-Our further Roadmap is to work further on Masterportal Version 3. Support and bug fixing ended for V2.x in the end of 2024.
-### Masterportal 3.x
-* 01.10.2026: New LTS Release MP (Including functionality based on v3.27.0)
-### Masterportal Releases
-#### Monthly Releases
-We release a minor version on the first Wednesday of every month.
-##### LTS
-LTS release status is "long-term support", which typically guarantees that only critical bugs in functionality or security will be fixed for a total of 12 months and will be released in patch versions.
-New LTS minor versions (based on the current version 3 development branch) are released annually on the first Wednesday in October.
-### Masterportal Release Schedule
-<p align="center">
-  <img src="./docs/_media/Masterportal-TimeSchedule.svg" alt="Release plan"/>
-</p>
+This repository contains minimal invasive changes to the upstream Masterportal code to prevent merge conflicts during future updates. Detailed information about the specific adaptations and configurations made for the Umweltatlas can be found in the following dedicated documentation files:
 
-### Support for MP 2.x and MP 3.x
-* MP 2.x Version is since 31.12.2024 not longer officially supported.
-* Pull requests for function enhancements and new developments have to be on v3.x.x basis.
+* 📖 **[UA_DOCS_Anpassungen.md](./UA_DOCS_Anpassungen.md)**
+  Contains instructions for configuring the portal (`config.json`), managing server deployments, updating geospatial services automatically via GitHub actions, editing UI texts (`common.json`), and managing the news feed.
 
+* ⚙️ **[UA_DOCS_Tech.md](./UA_DOCS_Tech.md)**
+  Covers in-depth technical details about the build process, the exact Vue components that were introduced or modified (e.g., `LayerStartModal`, `UrlInput`, and the completely overhauled `LayerInformation`), CSS/UI adjustments, and how the codebase routinely syncs with the upstream Masterportal repository.
 
-## User section
+## Upstream Documentation
 
-* [Download](https://bitbucket.org/geowerkstatt-hamburg/masterportal/downloads/)
-* [Quick start for users](./docs/Setup/setup.md)
-* [User documentation](./docs/User/About.md)
-* [User documentation online](https://www.masterportal.org/dokumentation)
-* [Community board (User forum)](https://discourse.opencode.de/t/ueber-die-kategorie-masterportal-projekt-413/1691)
-* [Former Community board (User forum is closed - read only!)](https://trello.com/c/qajdXkMa/110-willkommen)
+For broad, non-Umweltatlas-specific information regarding the Masterportal core framework, please refer to the official Masterportal resources:
+* [Masterportal Documentation](https://www.masterportal.org/dokumentation)
+* [Quick Start for Users](./docs/Setup/setup.md)
+* [Developer Documentation](./docs/Dev/About.md)
 
-## Developer section
-### Community
-* [Issue tracker](https://bitbucket.org/geowerkstatt-hamburg/masterportal/issues?status=new&status=open&status=submitted&is_spam=!spam)
-* [Community board (User forum)](https://discourse.opencode.de/t/ueber-die-kategorie-masterportal-projekt-413/1691)
-* [Former Community board (User forum is closed - read only!)](https://trello.com/c/qajdXkMa/110-willkommen)
-### Contributing
-* Contributors to the Masterportal are expected to act respectfully toward others in accordance with the [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) for open source projects.
-* Follow our [Developer documentation](./docs/Dev/About.md)
-* First steps in the code: [Tutorial 01: Creating a new module (Scale switcher)](./docs/Dev/Tutorials/tutorial.md)
+---
+## Credits & Data Responsibility
 
-#### Pull requests
-* Your pull request must have:
-    * An understandable detailed description
-    * If necessary a test portal or test configurations
-    * A changelog entry
-    * A PrePushHook with no errors
-    * Hints if your contribution contains adopted external code
-    * Unit tests for new functions or updated tests for bugfixes
+This application was developed by the **Technologiestiftung Berlin** on behalf of the **Senate Department for Urban Development, Building and Housing** (Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen). 
 
-#### Contributor License Agreement
-* Your contribution will be under [MIT License](./License.txt)
+All linked data is managed within the Spatial Data Infrastructure Berlin (Geodateninfrastruktur Berlin) and is under the responsibility of the Senate Department for Urban Development, Building and Housing.
+
+---
+*Based on the Masterportal Project by [Geowerkstatt Hamburg](https://www.hamburg.de/geowerkstatt/)*
