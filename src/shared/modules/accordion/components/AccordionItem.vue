@@ -130,8 +130,19 @@ export default {
    [coloured=true] {
         background-color: $light_blue;
 
+        &.accordion-button {
+            border-radius: 8px;
+        }
+
+        &.accordion-button:not(.collapsed) {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
         &.accordion-body{
-            padding-top: 0px
+            padding-top: 0px;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
         }
    }
 
