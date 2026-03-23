@@ -116,6 +116,5 @@ export default {
     }
     #add-layer-btn{
         pointer-events: auto;
-        font-weight: bold;
     }
 </style>

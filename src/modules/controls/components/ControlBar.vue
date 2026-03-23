@@ -191,7 +191,7 @@ export default {
     .btn-group-controls {
         display: none;
         background-color: $white;
-        border: solid $white 0px;
+        border: solid $white 1px;
         border-radius: 25px;
         position: absolute;
         bottom: 0;
