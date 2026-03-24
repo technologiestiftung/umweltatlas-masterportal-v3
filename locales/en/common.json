@@ -1372,7 +1372,7 @@
       "name": "Share selection",
       "share": "Share",
       "shareFacebook": "Share current view on Facebook",
-      "shareHeadline": "How would you like to share the link?",
+      "shareHeadline": "The button copies the current map view as a URL to the clipboard. The URL includes the current map extent configuration, as well as all selected map layers.",
       "shareLink": "Copy current view as link",
       "shareQR": "Generate current view as QRCode",
       "shareTwitter": "Twitter",

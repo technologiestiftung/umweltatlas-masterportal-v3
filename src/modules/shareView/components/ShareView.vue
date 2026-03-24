@@ -120,7 +120,7 @@ export default {
 
 <template lang="html">
     <div id="share-view">
-        <h4>{{ $t("common:modules.shareView.shareHeadline") }}</h4>
+        <p>{{ $t("common:modules.shareView.shareHeadline") }}</p>
 
         <div v-if="isMobile">
             <button

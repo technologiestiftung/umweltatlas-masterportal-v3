@@ -1382,7 +1382,7 @@
       "name": "Auswahl teilen",
       "share": "Teilen",
       "shareFacebook": "Aktuelle Ansicht auf Facebook teilen",
-      "shareHeadline": "Wie möchten Sie den Link teilen?",
+      "shareHeadline": "Über den Button wird die aktuelle Kartenansicht als URL in die Zwischenablage kopiert. Die URL beinhaltet die derzeitige Konfiguration des Kartenausschnittes, sowie alle ausgewählten Kartenlayer.",
       "shareLink": "Aktuelle Ansicht als Link kopieren",
       "shareQR": "Aktuelle Ansicht als QRCode erstellen",
       "shareTwitter": "Twitter",

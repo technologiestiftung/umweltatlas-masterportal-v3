@@ -2,6 +2,8 @@
 import {mapActions, mapMutations, mapGetters} from "vuex";
 import {treeBaselayersKey, treeSubjectsKey} from "../../../shared/js/utils/constants";
 import sortBy from "../../../shared/js/utils/sortBy";
+import store from "../../../app-store/index.js";
+
 
 /**
  * Module to display the layers in menu.
@@ -72,6 +74,7 @@ export default {
         ...mapGetters(["allLayerConfigsStructured", "showLayerAddButton", "portalConfig"]),
         ...mapGetters("Modules/LayerTree", ["menuSide"]),
         ...mapGetters("Modules/LayerSelection", {layerSelectionType: "type", layerSelectionName: "name"}),
+        ...mapGetters(["isMobile",]),
     },
     methods: {
         ...mapActions("Modules/LayerSelection", ["navigateForward"]),
@@ -99,6 +102,9 @@ export default {
             this.navigateForward({lastFolderName: folderName, subjectDataLayerConfs: this.sort(subjectDataLayerConfsSubfolder)});
             this.setLayerSelectionVisible(true);
             this.showTheModal = false
+            if(this.isMobile){
+                store.dispatch("Menu/toggleMenu", "mainMenu");
+            }
         },
         /**
          * Toggles the modal

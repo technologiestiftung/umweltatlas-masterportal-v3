@@ -28,6 +28,66 @@
 
         #add-layer-btn {
             box-shadow: none !important;
+            font-weight: bold;
+        }
+
+        /* Styling for both side toggler buttons to ensure they match theme when collapsed */
+        #secondaryMenu-toggle-button:not(.expanded),
+        #mainMenu-toggle-button:not(.expanded) {
+            background-color: #1a4435 !important;
+            color: #ffffff !important;
+            border-color: #1a4435 !important;
+        }
+        #secondaryMenu-toggle-button:not(.expanded):hover,
+        #secondaryMenu-toggle-button:not(.expanded):focus,
+        #secondaryMenu-toggle-button:not(.expanded):active,
+        #mainMenu-toggle-button:not(.expanded):hover,
+        #mainMenu-toggle-button:not(.expanded):focus,
+        #mainMenu-toggle-button:not(.expanded):active {
+            background-color: #edf8f4 !important;
+            color: #1a4435 !important;
+            border-color: #edf8f4 !important;
+        }
+        
+        /* Make them white + dark green icon when active (expanded) */
+        #secondaryMenu-toggle-button.expanded,
+        #mainMenu-toggle-button.expanded {
+            background-color: #ffffff !important;
+            color: #1a4435 !important;
+            border-color: #e3e3e3 !important; 
+        }
+
+        /* Zoom wrapper unified vertical pill */
+        #zoom-in-and-out-buttons {
+            background-color: #1a4435 !important;
+            border-radius: 2rem !important;
+            padding: 0.15rem !important;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        #zoom-in-and-out-buttons .control-icon-controls {
+            background-color: transparent !important;
+            color: #ffffff !important;
+            border: none !important;
+            margin: 0 !important; /* override the my-2 class */
+            border-radius: 50% !important;
+            box-shadow: none !important; 
+            outline: none !important;
+        }
+
+        /* Prevent focus from sticking to the hover color after a click */
+        #zoom-in-and-out-buttons .control-icon-controls:focus {
+            background-color: transparent !important;
+            color: #ffffff !important;
+        }
+
+        #zoom-in-and-out-buttons .control-icon-controls:hover,
+        #zoom-in-and-out-buttons .control-icon-controls:active {
+            background-color: #edf8f4 !important;
+            color: #1a4435 !important;
         }
 
         /* ?? */
@@ -76,9 +136,22 @@
         #mp-subHeader-mainMenu h1{
             margin-bottom: 0px;
         }
+        #mp-menu-mainMenu .mp-menu-navigation-moduletitle {
+            padding-top: 12px !important;
+        }
+        #mp-menu-mainMenu h5 {
+            padding-top: 6px !important;
+        }   
 
         @media (max-width: 767px) {
-            #mp-subHeader-mainMenu h1{
+            #mp-subHeader-mainMenu h1 {
+                font-size: 28px !important;
+            }
+            #mp-menu-mainMenu .mp-menu-navigation-moduletitle {
+                font-size: 24px !important;
+                padding-top: 10px !important;
+            }
+            #mp-menu-mainMenu h5 {
                 font-size: 20px !important;
             }
         }
@@ -101,6 +174,7 @@
         #corner-logo img {
             width: 275px; /* Größe des Logos angepasst */
             height: auto; /* Proportionaler Skalierung */
+            background-color: white;
         }
         /* Anpassungen für kleinere Bildschirme */
         @media (max-width: 767px) {
@@ -172,6 +246,65 @@
             background-image:  url("./resources/img/B_ICON_GLUEHBIRNE_N_RGB 1.svg");
             background-size: contain;
             background-repeat: no-repeat;
+        }
+
+        /* Optimise Logo and Title Wrapping */
+        .mp-menu-logo {
+            flex-wrap: nowrap !important;
+            align-items: flex-start !important;
+        }
+        .mp-menu-logo img {
+            /* Verschiebe Icon ganz leicht nach oben */
+            margin-top: 0 !important;
+            transform: translateY(-7px) !important;
+        }
+        .mp-menu-logo h1 {
+            /* Text darf NICHT innerhalb des Wortes umbrechen (also kein Umw-elta-tlas) */
+            overflow-wrap: normal !important;
+            word-wrap: normal !important;
+            word-break: normal !important;
+            hyphens: none !important;
+            white-space: normal !important;
+            line-height: 1.1 !important;
+            margin-bottom: 0 !important;
+            min-width: 0;
+        }
+
+        .btn-group-controls{
+            border-width: 0px;
+        }
+
+
+        /* accordion */
+
+        .accordion [coloured="true"].accordion-button {
+            border-radius: 8px !important ;
+        }
+
+        .accordion [coloured="true"].accordion-button:not(.collapsed) {
+            border-bottom-left-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
+
+        .accordion [coloured="true"].accordion-body {
+            border-bottom-left-radius: 8px !important;
+            border-bottom-right-radius: 8px !important;
+        }
+
+
+        /* menu navigation-moduletitle */
+        .mp-menu-navigation-moduletitle i {
+            width: 35px !important;
+            min-width: 35px !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            margin-right: 10px !important;
+
+            /* reset/ignore old settings */
+            max-width: none !important;
+            padding: 0 !important;
+            vertical-align: baseline !important; /* or initial */
         }
 
     </style>

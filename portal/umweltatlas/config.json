@@ -14,7 +14,7 @@
         "zoom": true
       },
       "mapView": {
-        "backgroundImage": "./resources/img/backgroundCanvas.jpeg",
+        "backgroundImage": "./resources/img/backgroundCanvas_grey.jpeg",
         "startCenter": [
           389920,
           5819697

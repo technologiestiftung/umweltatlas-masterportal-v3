@@ -37,9 +37,12 @@ export default {
         <i
             v-if="icon !== null"
             :class="icon"
+            class="ua-elevated-btn-icon"
             role="img"
         />
-        {{ $t(text) }}
+        <span class="ua-btn-text">
+            {{ $t(text) }}
+        </span>
     </button>
 </template>
 
@@ -50,16 +53,26 @@ export default {
 .btn {
     display: flex;
     justify-content: center;
+    align-items: center;
     white-space: nowrap;
     height: 3.5rem;
     min-width: 5rem;
     width: fit-content;
+    max-width: 100%;
     padding-right: 1.5rem;
     padding-left: 1rem;
 
-    i {
+    .ua-elevated-btn-icon {
         font-size: 1.5rem;
         padding-right: .5rem;
+        flex-shrink: 0;
+    }
+
+    .ua-btn-text {
+        text-align: left;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 }
 </style>

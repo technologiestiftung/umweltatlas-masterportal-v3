@@ -1372,7 +1372,7 @@
       "name": "Seçimi paylaş",
       "share": "Paylaş",
       "shareFacebook": "Mevcut görünümü Facebook&#39;ta paylaş",
-      "shareHeadline": "Bağlantıyı nasıl paylaşmak istersiniz?",
+      "shareHeadline": "Düğme, mevcut harita görünümünü panoya bir URL olarak kopyalar. URL, geçerli harita uzantısı yapılandırmasını ve seçilen tüm harita katmanlarını içerir.",
       "shareLink": "Mevcut görünümü bağlantı olarak kopyala",
       "shareQR": "Mevcut görünümü QR kod olarak oluştur",
       "shareTwitter": "Twitter",

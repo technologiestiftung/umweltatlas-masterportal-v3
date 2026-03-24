@@ -1174,7 +1174,7 @@
       "name": "Selectie delen",
       "share": "Splitsen",
       "shareFacebook": "Deel de huidige weergave op Facebook",
-      "shareHeadline": "Hoe wil je de link delen?",
+      "shareHeadline": "De knop kopieert de huidige kaartweergave als URL naar het klembord. De URL bevat de huidige configuratie van het kaartbereik, evenals alle geselecterde kaartlagen.",
       "shareLink": "Kopieer de huidige weergave als een link",
       "shareQR": "Maak de huidige weergave als QRCode",
       "shareTwitter": "Twitteren",

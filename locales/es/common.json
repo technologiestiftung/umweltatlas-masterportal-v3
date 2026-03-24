@@ -1372,7 +1372,7 @@
       "name": "Compartir selección",
       "share": "Compartir",
       "shareFacebook": "Compartir la vista actual en Facebook",
-      "shareHeadline": "¿Cómo quiere compartir el enlace?",
+      "shareHeadline": "El botón copia la vista actual del mapa como URL en el portapapeles. La URL incluye la configuración actual de la extensión del mapa, así como todas las capas de mapa seleccionadas.",
       "shareLink": "Copiar la vista actual como enlace",
       "shareQR": "Crear la vista actual como código QR",
       "shareTwitter": "Twitter",

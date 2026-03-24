@@ -68,9 +68,8 @@ export default {
     >
         <i
             v-if="icon !== null"
-            :class="[
-                icon, 'col-2'
-            ]"
+            :class="icon"
+            class="ua-light-btn-icon"
             role="img"
         />
         <span
@@ -93,10 +92,8 @@ export default {
         </span>
         <i
             v-if="iconEnd !== null"
-            :class="[
-                iconEnd, 'col-2'
-            ]"
-            class="align-self-end flex-direction"
+            :class="iconEnd"
+            class="align-self-end flex-direction ua-light-btn-icon"
             role="img"
         />
     </button>
@@ -114,10 +111,25 @@ export default {
     padding-left: 1rem;
     max-width: 100%;
 
-    i {
+    .ua-light-btn-icon {
         font-size: 1.3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 35px;
+        max-width: 35px;
+        height: 100%;
+        margin-right: 0.4rem;
+
+        &.bi-share {
+            transform: scale(0.85);
+        }
+
+        &.bi-info-circle {
+            transform: scale(1.12);
+        }
     }
-    i:last-child {
+    .ua-light-btn-icon:last-child {
         padding-left: .5rem;
         padding-right: 0;
     }

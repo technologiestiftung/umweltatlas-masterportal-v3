@@ -1372,7 +1372,7 @@
       "name": "Condividi selezione",
       "share": "Condividi",
       "shareFacebook": "Condividi la vista corrente su Facebook",
-      "shareHeadline": "Come desideri condividere il link?",
+      "shareHeadline": "Il pulsante copia la visualizzazione attuale della mappa come URL negli appunti. L'URL include l'attuale configurazione dell'estensione della mappa e tutti i layer della mappa selezionati.",
       "shareLink": "Copia la vista corrente come link",
       "shareQR": "Crea la vista corrente come QRCode",
       "shareTwitter": "Twitter",
