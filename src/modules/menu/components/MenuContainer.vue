@@ -190,7 +190,21 @@ export default {
                 {'mp-menu-header-collapsed': !mainExpanded && side === 'mainMenu' || !secondaryExpanded && side === 'secondaryMenu'}
             "
         >
+            <template v-if="isMobile && side === 'mainMenu'">
+                <div class="mp-menu-mobile-topbar">
+                    <button
+                        type="button"
+                        class="mp-menu-mobile-back-button"
+                        :aria-label="$t('common:modules.menu.ariaLabelClose')"
+                        @click="closeMenu(side)"
+                    >
+                        <i class="bi bi-arrow-left-short mp-menu-mobile-back-icon" aria-hidden="true" />
+                        <span class="mp-menu-mobile-back-text">Zur Karte</span>
+                    </button>
+                </div>
+            </template>
             <button
+                v-else
                 :id="'mp-menu-header-close-button-' + side"
                 type="button"
                 class="btn-close p-2 mp-menu-header-close-button"
@@ -264,6 +278,9 @@ export default {
 
 .mp-menu-header{
     display: flex;
+    flex-direction: column;
+    position: relative;
+
     &-collapsed {
         padding: 0;
         display: none;
@@ -274,12 +291,18 @@ export default {
         flex-direction: column;
         align-items: stretch;
         font-size: $font-size-base;
-        padding: $padding $padding 0 $padding;
+        padding: 0 $padding 0 $padding;
         width:100%;
 
         &-collapsed {
             padding: 0;
             display: none;
+        }
+    }
+
+    @include media-breakpoint-up(md) {
+        .mp-menu-subHeader {
+            padding: $padding $padding 0 $padding;
         }
     }
 }
@@ -343,4 +366,44 @@ export default {
     left: calc(50% - 200px);
     top: calc(100% - 250px);
 }
+
+
+.mp-menu-mobile-topbar {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.5rem 0.75rem 0;
+}
+
+.mp-menu-mobile-back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    border: 0;
+    background: transparent;
+    // padding: 0.25rem 0.375rem;
+    border-radius: 999px;
+    color: $gray-700;
+    font-size: 0.875rem;
+    line-height: 1;
+    font-weight: 500;
+}
+
+.mp-menu-mobile-back-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.mp-menu-mobile-back-text {
+    white-space: nowrap;
+}
+
+.mp-menu-mobile-back-button:hover,
+.mp-menu-mobile-back-button:focus {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.mp-menu-mobile-back-button:focus {
+    outline: none;
+}
+
 </style>
