@@ -136,12 +136,11 @@ export default {
                    <span></span></span>
                 </h2>
                 <p class="info-text mb-3">
-                Willkommen im Kartenviewer für raumbezogenen Umweltdaten der Hauptstadt. Dieses Portal ist die kartenzentrierte Erweiterung
+                Die Kartenanwendung des Umweltatlas Berlin ist das Portal für raumbezogenen Umweltdaten der Hauptstadt und die kartenzentrierte Erweiterung
                 des
                 <a href="https://www.berlin.de/umweltatlas/" target="_blank"
                     >Umweltatlas Berlin</a
-                >.</p>
-                <p class="info-text mb-3">  Entdecke diese Themenbereiche:
+                >.  Entdecke Informationen und Karten zu diesen Themenbereichen:
             </p>
                 <template
                     v-for="(conf, idx) in subjects"
