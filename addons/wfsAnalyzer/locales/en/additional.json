@@ -1,0 +1,85 @@
+{
+    "modules": {
+        "wfsAnalyzer": {
+            "title": "Analyse layer",
+            "description": "Checks whether a WFS is available for an active layer and analyses its attributes by count or area.",
+            "intro": "Choose one of the layers currently switched on in the map. Only layers that offer a download service (WFS) in addition to the map service (WMS) can be analysed.",
+            "noActiveLayers": "No subject data layer is currently switched on in the map. Add a layer via the topic tree.",
+            "layerSelectLabel": "Active layer",
+            "layerSelectPlaceholder": "Please select a layer …",
+            "checking": "Checking WFS availability …",
+            "unavailable": {
+                "title": "No WFS available",
+                "noMetadata": "No metadata is configured for this layer, so no download service can be determined. The layer cannot be analysed.",
+                "noWfsInMetadata": "The metadata record of this layer does not list a download service (WFS). The layer cannot be analysed.",
+                "noMatchingFeatureType": "The associated download service (WFS) contains no feature type for this layer. The layer cannot be analysed."
+            },
+            "error": {
+                "title": "Check failed",
+                "text": "The WFS availability could not be determined. The metadata or download service may currently be unreachable.",
+                "retry": "Check again"
+            },
+            "filter": {
+                "title": "1. Restrict spatially (optional)",
+                "hint": "Restrict the analysis, for example to one district. Without a restriction the whole layer is analysed.",
+                "attributeLabel": "Attribute to filter by",
+                "wholeLayer": "No restriction (whole layer)",
+                "suggested": "Suggestions",
+                "allAttributes": "All attributes",
+                "valueLabel": "Value",
+                "valuePlaceholder": "e.g. Mitte",
+                "loadValues": "Load available values",
+                "loadValuesHint": "The service has no distinct query. Loading the values transfers this attribute for every feature.",
+                "valuesLoaded": "{{count}} distinct values loaded – choose one in the input field.",
+                "valuesUnavailable": "The service does not provide a value list for this attribute. Please type the value directly.",
+                "valuesLoadedPartly": "Only the first {{count}} values could be loaded – there are more. Please type a value that is not listed.",
+                "valuesStepwise": "The service could not deliver the value list at once – the values were collected one by one."
+            },
+            "mode": {
+                "title": "3. Type of analysis",
+                "count": "Count",
+                "area": "Area",
+                "countLabel": "By number of features",
+                "areaLabel": "By area size",
+                "areaAttributeLabel": "Attribute holding the area size",
+                "areaAttributePlaceholder": "Please select an attribute …",
+                "areaAttributeHint": "An existing area attribute is used so that no geometries have to be loaded.",
+                "otherNumeric": "Other numeric attributes"
+            },
+            "units": {
+                "m2": "m²",
+                "ha": "ha",
+                "km2": "km²"
+            },
+            "analysis": {
+                "title": "Analysis",
+                "loadingAttributes": "Loading attributes …",
+                "attributesError": "The attributes of the download service could not be loaded.",
+                "attributeLabel": "2. Attribute to analyse",
+                "attributePlaceholder": "Please select an attribute …",
+                "featureCount": "{{count}} features will be analysed.",
+                "manyFeatures": "That is more than {{max}} features. Loading may take a while – consider restricting the analysis further.",
+                "start": "Start analysis",
+                "failed": "The analysis failed."
+            },
+            "result": {
+                "title": "Distribution of “{{attribute}}”",
+                "summary": "{{categories}} categories, {{total}} in total.",
+                "viewLabel": "Presentation",
+                "view": {
+                    "bar": "Bars",
+                    "pie": "Pie",
+                    "table": "Table"
+                },
+                "category": "Category",
+                "share": "Share",
+                "total": "Total",
+                "noValue": "(no value)",
+                "otherCategories": "Other",
+                "groupedHint": "Small categories are pooled into “Other”. The table shows every category.",
+                "empty": "The analysis returned no features.",
+                "pieLabel": "Pie chart of the distribution"
+            }
+        }
+    }
+}
