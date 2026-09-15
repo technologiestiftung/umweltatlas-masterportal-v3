@@ -88,6 +88,8 @@ const Config = {
         maxChartCategories: 12,
         // Maximum number of filter values offered (and collected).
         maxFilterValues: 50,
+        // Outlines drawn when an area is selected.
+        boundaries: [{file: "bezirke", matchProperty: "namgem"}],
         // Per-layer defaults, matched on the EXACT layer id.
         presets: [
             {
@@ -126,6 +128,43 @@ Suggested attributes that the selected layer actually has are listed in a
 "Vorschläge" option group, all remaining attributes follow in a second group —
 so the suggestions are a shortcut, never a restriction.
 
+## The outline on the map
+
+Selecting an area draws its boundary on the map. The geometry comes from a file
+bundled with the add-on (`geodata/<file>.json`, EPSG:4326), and `boundaries`
+says which property of that file carries the value:
+
+```js
+boundaries: [{file: "bezirke", matchProperty: "namgem"}]
+```
+
+**The lookup is by value, not by attribute name.** There is deliberately no list
+of WFS attribute names to keep in sync: the value of the area selection is
+looked up in `matchProperty`, and that is self-selecting. `bezirk` yields
+"Mitte", "Pankow" … which `namgem` holds (12/12); `bez` yields the codes "01",
+"02" … which it does not hold, so nothing is drawn - the right outcome.
+
+Matching against *every* property instead would be actively wrong: the code
+`bez = "11"` also appears as `lan = "11"` (the Land code), which would highlight
+an arbitrary district.
+
+The file is loaded through a dynamic `import()`, so its ~700 KB sit in their own
+chunk and are only fetched once an area is actually picked. It must be a `.json`
+file - webpack 4 handles `.json` natively but has no loader for `.geojson`, and
+`addons/` is not copied into `dist/` (only `portal/<name>/` is, see
+`devtools/tasks/buildFunctions.js:44`), so a runtime fetch from the add-on
+folder would not work.
+
+Drawing reuses the core: `Maps/placingPolygonMarker` (which replaces the
+previous marker by itself) and `Maps/removePolygonMarker` on close. No styling
+code is needed - this portal already defines `defaultMapMarkerPolygon` in
+`portal/umweltatlas/resources/style_v3.json` as a red outline with a fully
+transparent fill.
+
+Adding another level later is one more entry, e.g.
+`{file: "ortsteile", matchProperty: "nam"}`; the files are tried in order and
+the first one that knows the value wins.
+
 ## Files
 
 ```
@@ -136,7 +175,10 @@ wfsAnalyzer/
 │   ├── AnalysisBarChart.vue        horizontal bars (plain elements)
 │   ├── AnalysisPieChart.vue        pie (hand-built inline SVG arcs)
 │   └── AnalysisTable.vue           full table incl. totals row
+├── geodata/
+│   └── bezirke.json                district outlines, EPSG:4326 (lazy chunk)
 ├── js/
+│   ├── boundaryGeometry.js         outline lookup + reprojection
 │   ├── wfsLookup.js                CSW → WFS discovery and confirmation
 │   ├── wfsAnalysis.js              WFS requests + aggregation
 │   ├── analysisConfig.js           defaults + presets, merged with Config.wfsAnalyzer
@@ -176,20 +218,39 @@ split from the parsing/aggregation ones (`parseAttributes`,
 
 ## Workflow in the UI
 
-1. **Layer** — dropdown of the layers currently switched on in the map
-   (root getter `visibleSubjectDataLayerConfigs`; baselayers are excluded).
-2. **WFS check** — automatic and silent when it succeeds: one loading indicator
-   covers the check and the attribute request, then the form appears. Only a
-   layer that *cannot* be analysed produces a message.
-3. **Filter (optional)** — attribute + value, prefilled from a preset if the
-   layer has one. The value field is a free-text
-   input with a `<datalist>`; "Verfügbare Werte laden" fills the datalist with
-   the distinct values.
-4. **Attribute to analyse** — e.g. `nutzung`.
-5. **Count or area** — the area option is disabled if the layer has no numeric
-   attribute that could hold one.
-6. **Analyse** — result as bars / pie / table, switchable. Charts pool the
-   long tail into "Sonstige"; the table always lists every category.
+```
+Layer            [ab 2021 – Reale Nutzung … ▾]   (ⓘ Warum fehlen Layer?)
+Bereich          [Ganzer Bereich ▾]  → bei "Bezirk": [Mitte        ]
+Auswerten        [Bitte Attribut wählen ▾]
+Ergebnis als     [ Anzahl ][ Fläche ]
+▸ Weitere Filter (optional)
+26.397 Objekte werden ausgewertet
+[ Analyse starten ]
+```
+
+The form is meant to be read as a sequence of decisions, so anything that only
+explained how the tool is built was removed rather than reworded. The rule
+applied throughout: **a help text stays only if it changes what the user does.**
+What is left are the feature count, the "more than N features" warning, the
+"list is incomplete" warning and the reason a layer cannot be analysed - each
+one changes a decision. The WMS/WFS background moved behind the
+"Warum fehlen Layer?" info toggle.
+
+Several steps decide for the user instead of asking:
+
+| Situation | Behaviour |
+|---|---|
+| Exactly one layer active | selected automatically |
+| Value field focused | values are fetched then, no button |
+| One attribute could hold the area | chosen silently, the select is not shown |
+| No attribute could hold the area | "Fläche" is not offered at all |
+| Preset configured for the layer | area, attribute and mode prefilled |
+
+**Bereich** offers the configured `filterAttributes` the layer actually has, by
+their readable name ("Bezirksname"), because here the user is picking a place,
+not a column. **Auswerten** and **Weitere Filter** show `Titel (technischer
+Name)`, because there the technical name is what ends up in the request and is
+worth seeing. Both filters are combined with `AND`.
 
 ## Loading the filter values
 
@@ -278,6 +339,8 @@ npx mochapack --recursive --webpack-config devtools/webpack.test.js \
 * `tests/unit/js/wfsAnalysis.spec.js` — URL and CQL building, schema/response
   parsing, count and area aggregation.
 * `tests/unit/js/formatResult.spec.js` — units, number formatting, chart grouping.
+* `tests/unit/js/boundaryGeometry.spec.js` — outline lookup, including the
+  `bez`/`lan` false positive that value matching avoids.
 * `tests/unit/js/analysisConfig.spec.js` — preset normalisation and config merging.
   `tests/unit/js/wfsAnalysis.spec.js` also covers `fetchDistinctValues`: the bulk
   path, the stepwise fallback, the CQL it steps with, and both truncation cases.

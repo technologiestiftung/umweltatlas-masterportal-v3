@@ -169,17 +169,95 @@ const getters = {
     },
 
     /**
-     * The CQL filter derived from the filter selection, or an empty string if
-     * the whole layer should be analysed.
+     * Looks up an attribute by its technical name.
+     * @param {WfsAnalyzerState} state context state object.
+     * @param {Object} moduleGetters the getters of this module.
+     * @returns {Function} (name) => the attribute or undefined.
+     */
+    attributeByName (state, moduleGetters) {
+        return (name) => moduleGetters.selectableAttributes.find((attribute) => attribute.name === name);
+    },
+
+    /**
+     * What is known about the values of an attribute. Cached per attribute, so
+     * switching the area selection back and forth costs nothing.
+     * @param {WfsAnalyzerState} state context state object.
+     * @returns {Function} (name) => {values, truncated, status}.
+     */
+    valuesFor (state) {
+        return (name) => state.valueCache[name] || {values: [], truncated: false, status: "idle"};
+    },
+
+    /**
+     * The attributes offered as an area to restrict the analysis to - the
+     * configured suggestions the layer actually has.
+     * @param {WfsAnalyzerState} state context state object.
+     * @param {Object} moduleGetters the getters of this module.
+     * @returns {Object[]} the area attributes.
+     */
+    areaFilterAttributes (state, moduleGetters) {
+        return moduleGetters.suggestedFilterAttributes;
+    },
+
+    /**
+     * Attributes offered in the optional additional filter: everything that is
+     * not already used for the area selection.
+     * @param {WfsAnalyzerState} state context state object.
+     * @param {Object} moduleGetters the getters of this module.
+     * @returns {Object[]} the remaining attributes.
+     */
+    extraFilterAttributes (state, moduleGetters) {
+        return moduleGetters.selectableAttributes
+            .filter((attribute) => attribute.name !== state.filterAttribute);
+    },
+
+    /**
+     * All attributes that could hold an area.
+     * @param {WfsAnalyzerState} state context state object.
+     * @param {Object} moduleGetters the getters of this module.
+     * @returns {Object[]} the candidates.
+     */
+    areaAttributeCandidates (state, moduleGetters) {
+        return [...moduleGetters.suggestedAreaAttributes, ...moduleGetters.otherAreaAttributes];
+    },
+
+    /**
+     * Whether analysing by area is possible at all for this layer.
+     * @param {WfsAnalyzerState} state context state object.
+     * @param {Object} moduleGetters the getters of this module.
+     * @returns {Boolean} true if the layer has an attribute that could hold an area.
+     */
+    canAnalyseByArea (state, moduleGetters) {
+        return moduleGetters.areaAttributeCandidates.length > 0;
+    },
+
+    /**
+     * Whether the user has to be asked which attribute holds the area. With a
+     * single candidate the choice is made automatically and the select is not
+     * shown at all.
+     * @param {WfsAnalyzerState} state context state object.
+     * @param {Object} moduleGetters the getters of this module.
+     * @returns {Boolean} true if more than one candidate exists.
+     */
+    needsAreaAttributeChoice (state, moduleGetters) {
+        return moduleGetters.areaAttributeCandidates.length > 1;
+    },
+
+    /**
+     * The CQL filter for the current selections. The area selection and the
+     * additional filter are combined, so both restrict the analysis.
      * @param {WfsAnalyzerState} state context state object.
      * @param {Object} moduleGetters the getters of this module.
      * @returns {String} the CQL filter.
      */
     cqlFilter (state, moduleGetters) {
-        const attribute = moduleGetters.selectableAttributes
-            .find((candidate) => candidate.name === state.filterAttribute);
-
-        return buildCqlFilter(state.filterAttribute, state.filterValue, Boolean(attribute?.isNumeric));
+        return [
+            [state.filterAttribute, state.filterValue],
+            [state.extraFilterAttribute, state.extraFilterValue]
+        ]
+            .map(([name, value]) => buildCqlFilter(name, value, Boolean(moduleGetters.attributeByName(name)?.isNumeric)))
+            .filter((part) => part !== "")
+            .join(" AND ");
     },
 
     /**

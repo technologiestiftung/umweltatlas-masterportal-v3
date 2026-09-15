@@ -4,12 +4,13 @@ import {mapActions, mapGetters, mapMutations} from "vuex";
 import AnalysisBarChart from "./AnalysisBarChart.vue";
 import AnalysisPieChart from "./AnalysisPieChart.vue";
 import AnalysisTable from "./AnalysisTable.vue";
+import FilterValueInput from "./FilterValueInput.vue";
 import {formatNumber, getAreaUnit, groupCategories} from "../js/formatResult";
 
 /**
- * Lets the user pick one of the layers currently switched on in the map,
- * verifies that the layer is also published as a WFS and then analyses one of
- * its attributes - either by counting features or by summing their area.
+ * Lets the user pick one of the layers currently switched on in the map and
+ * analyse one of its attributes - by counting features or by summing their
+ * area, optionally restricted to an area such as a district.
  * @module addons/wfsAnalyzer/components/WfsAnalyzer
  */
 export default {
@@ -17,7 +18,14 @@ export default {
     components: {
         AnalysisBarChart,
         AnalysisPieChart,
-        AnalysisTable
+        AnalysisTable,
+        FilterValueInput
+    },
+    data () {
+        return {
+            showWhyInfo: false,
+            showExtraFilter: false
+        };
     },
     computed: {
         ...mapGetters("Modules/WfsAnalyzer", [
@@ -25,34 +33,33 @@ export default {
             "analysisError",
             "analysisStatus",
             "areaAttribute",
+            "areaAttributeCandidates",
+            "areaFilterAttributes",
             "attributesStatus",
             "canAnalyse",
+            "canAnalyseByArea",
             "checkStatus",
             "errorMessage",
             "exceedsMaxFeatures",
+            "extraFilterAttribute",
+            "extraFilterAttributes",
+            "extraFilterValue",
             "featureCount",
             "featureCountStatus",
-            "featureType",
             "filterAttribute",
             "filterValue",
-            "filterValues",
-            "filterValuesStatus",
-            "filterValuesTruncated",
             "hasCurrentResult",
             "isAnalysable",
             "mode",
-            "otherAreaAttributes",
-            "otherFilterAttributes",
+            "needsAreaAttributeChoice",
             "reason",
             "result",
             "resultView",
+            "selectableAttributes",
             "selectableLayers",
             "selectedLayerId",
             "settings",
-            "suggestedAreaAttributes",
-            "suggestedFilterAttributes",
-            "selectableAttributes",
-            "wfsUrl"
+            "valuesFor"
         ]),
 
         /**
@@ -63,8 +70,8 @@ export default {
         },
 
         /**
-         * Covers both waits the user has to sit through before the form can be
-         * shown: the WFS lookup and the attribute request that follows it.
+         * Covers both waits before the form can be shown: the WFS lookup and the
+         * attribute request that follows it.
          * @returns {Boolean} true while either is running.
          */
         isLoading () {
@@ -135,21 +142,32 @@ export default {
     watch: {
         /**
          * Keeps the dropdown in sync with the map: layers switched off while the
-         * tool is open must not stay selected.
+         * tool is open must not stay selected, and a single remaining layer is
+         * picked automatically - there is nothing to choose.
          * @returns {void}
          */
         selectableLayers: {
             handler () {
                 this.syncSelection();
+                this.selectOnlyLayer();
             },
-            deep: true
+            deep: true,
+            immediate: true
         }
+    },
+    unmounted () {
+        // The outline belongs to this tool - it must not stay on the map once
+        // the tool is closed.
+        this.clearBoundaryHighlight();
     },
     methods: {
         ...mapActions("Modules/WfsAnalyzer", [
             "checkWfsAvailability",
-            "loadFilterValues",
+            "clearBoundaryHighlight",
+            "loadValuesFor",
             "runAnalysis",
+            "selectExtraFilterAttribute",
+            "selectExtraFilterValue",
             "selectFilterAttribute",
             "selectFilterValue",
             "selectLayer",
@@ -162,6 +180,17 @@ export default {
             "setResultView",
             "resetResult"
         ]),
+
+        /**
+         * Picks the only analysable layer there is, so the user does not have to
+         * confirm a choice of one.
+         * @returns {void}
+         */
+        selectOnlyLayer () {
+            if (this.selectedLayerId === "" && this.selectableLayers.length === 1) {
+                this.selectLayer(this.selectableLayers[0].id);
+            }
+        },
 
         /**
          * Formats a value of the result, including the unit for areas.
@@ -188,10 +217,8 @@ export default {
         },
 
         /**
-         * Label of an attribute in the selects: the name documented in the WFS
-         * schema plus the technical name, which is what ends up in the requests.
-         * Falls back to the technical name alone where the service documents
-         * nothing.
+         * Label of an attribute: the name documented in the WFS schema plus the
+         * technical name, which is what ends up in the requests.
          * @param {Object} attribute the attribute as {name, title}.
          * @returns {String} the label.
          */
@@ -238,10 +265,6 @@ export default {
         id="wfs-analyzer"
         class="d-flex flex-column"
     >
-        <p class="mb-3">
-            {{ $t("additional:modules.wfsAnalyzer.intro") }}
-        </p>
-
         <div
             v-if="selectableLayers.length === 0"
             class="alert alert-info mb-0"
@@ -253,12 +276,25 @@ export default {
 
         <template v-else>
             <div class="mb-3">
-                <label
-                    class="form-label"
-                    for="wfs-analyzer-layer-select"
-                >
-                    {{ $t("additional:modules.wfsAnalyzer.layerSelectLabel") }}
-                </label>
+                <div class="d-flex justify-content-between align-items-center">
+                    <label
+                        class="form-label mb-1"
+                        for="wfs-analyzer-layer-select"
+                    >
+                        {{ $t("additional:modules.wfsAnalyzer.layerSelectLabel") }}
+                    </label>
+                    <button
+                        id="wfs-analyzer-why-toggle"
+                        type="button"
+                        class="btn btn-link btn-sm p-0 text-decoration-none"
+                        :aria-expanded="showWhyInfo"
+                        aria-controls="wfs-analyzer-why-info"
+                        @click="showWhyInfo = !showWhyInfo"
+                    >
+                        <i class="bi bi-info-circle me-1" />
+                        {{ $t("additional:modules.wfsAnalyzer.whyMissing.toggle") }}
+                    </button>
+                </div>
                 <select
                     id="wfs-analyzer-layer-select"
                     class="form-select"
@@ -276,15 +312,15 @@ export default {
                         {{ layer.name }}
                     </option>
                 </select>
+                <p
+                    v-if="showWhyInfo"
+                    id="wfs-analyzer-why-info"
+                    class="form-text mb-0"
+                >
+                    {{ $t("additional:modules.wfsAnalyzer.whyMissing.text") }}
+                </p>
             </div>
 
-            <!--
-                One indicator for both waits - checking the WFS and loading its
-                attributes - so there is no flicker between the two phases. It
-                disappears as soon as the form below is ready. A successful check
-                is not announced: only a layer that cannot be analysed is worth a
-                message.
-            -->
             <div
                 v-if="isLoading"
                 class="d-flex align-items-center mb-0"
@@ -294,9 +330,7 @@ export default {
                     class="spinner-border spinner-border-sm me-2"
                     aria-hidden="true"
                 />
-                {{ isChecking
-                    ? $t("additional:modules.wfsAnalyzer.checking")
-                    : $t("additional:modules.wfsAnalyzer.analysis.loadingAttributes") }}
+                {{ $t("additional:modules.wfsAnalyzer.checking") }}
             </div>
 
             <div
@@ -344,10 +378,8 @@ export default {
             <div
                 v-if="isAnalysable && !isLoading"
                 id="wfs-analyzer-analysis"
-                class="mt-3 pt-3 border-top"
+                class="d-flex flex-column"
             >
-                <h6>{{ $t("additional:modules.wfsAnalyzer.analysis.title") }}</h6>
-
                 <div
                     v-if="attributesStatus === 'error'"
                     class="alert alert-danger mb-0"
@@ -357,125 +389,48 @@ export default {
                 </div>
 
                 <template v-else-if="attributesStatus === 'ready'">
-                    <!-- step 1: restrict the area of interest -->
-                    <fieldset class="mb-3">
-                        <legend class="wfs-analyzer-legend-title">
-                            {{ $t("additional:modules.wfsAnalyzer.filter.title") }}
-                        </legend>
-                        <p class="form-text mt-0 mb-2">
-                            {{ $t("additional:modules.wfsAnalyzer.filter.hint") }}
-                        </p>
-
+                    <!-- area -->
+                    <div
+                        v-if="areaFilterAttributes.length > 0"
+                        class="mb-3"
+                    >
                         <label
                             class="form-label"
                             for="wfs-analyzer-filter-attribute"
                         >
-                            {{ $t("additional:modules.wfsAnalyzer.filter.attributeLabel") }}
+                            {{ $t("additional:modules.wfsAnalyzer.filter.areaLabel") }}
                         </label>
                         <select
                             id="wfs-analyzer-filter-attribute"
-                            class="form-select form-select-sm mb-2"
+                            class="form-select form-select-sm"
                             :value="filterAttribute"
                             @change="selectFilterAttribute($event.target.value)"
                         >
                             <option value="">
                                 {{ $t("additional:modules.wfsAnalyzer.filter.wholeLayer") }}
                             </option>
-                            <optgroup
-                                v-if="suggestedFilterAttributes.length > 0"
-                                :label="$t('additional:modules.wfsAnalyzer.filter.suggested')"
+                            <option
+                                v-for="attribute in areaFilterAttributes"
+                                :key="attribute.name"
+                                :value="attribute.name"
                             >
-                                <option
-                                    v-for="attribute in suggestedFilterAttributes"
-                                    :key="attribute.name"
-                                    :value="attribute.name"
-                                >
-                                    {{ getAttributeLabel(attribute) }}
-                                </option>
-                            </optgroup>
-                            <optgroup
-                                v-if="otherFilterAttributes.length > 0"
-                                :label="$t('additional:modules.wfsAnalyzer.filter.allAttributes')"
-                            >
-                                <option
-                                    v-for="attribute in otherFilterAttributes"
-                                    :key="attribute.name"
-                                    :value="attribute.name"
-                                >
-                                    {{ getAttributeLabel(attribute) }}
-                                </option>
-                            </optgroup>
+                                {{ attribute.title }}
+                            </option>
                         </select>
 
-                        <template v-if="filterAttribute !== ''">
-                            <label
-                                class="form-label"
-                                for="wfs-analyzer-filter-value"
-                            >
-                                {{ $t("additional:modules.wfsAnalyzer.filter.valueLabel") }}
-                            </label>
-                            <input
-                                id="wfs-analyzer-filter-value"
-                                class="form-control form-control-sm"
-                                type="text"
-                                list="wfs-analyzer-filter-values"
-                                :value="filterValue"
-                                :placeholder="$t('additional:modules.wfsAnalyzer.filter.valuePlaceholder')"
-                                @change="selectFilterValue($event.target.value)"
-                            >
-                            <datalist id="wfs-analyzer-filter-values">
-                                <option
-                                    v-for="value in filterValues"
-                                    :key="value"
-                                    :value="value"
-                                />
-                            </datalist>
+                        <FilterValueInput
+                            v-if="filterAttribute !== ''"
+                            id="wfs-analyzer-filter-value"
+                            class="mt-2"
+                            :label="$t('additional:modules.wfsAnalyzer.filter.valueLabel')"
+                            :value="filterValue"
+                            :value-state="valuesFor(filterAttribute)"
+                            @load="loadValuesFor(filterAttribute)"
+                            @change="selectFilterValue"
+                        />
+                    </div>
 
-                            <button
-                                v-if="filterValuesStatus !== 'ready'"
-                                type="button"
-                                class="btn btn-sm btn-outline-secondary mt-2"
-                                :disabled="filterValuesStatus === 'loading'"
-                                @click="loadFilterValues()"
-                            >
-                                <span
-                                    v-if="filterValuesStatus === 'loading'"
-                                    class="spinner-border spinner-border-sm me-1"
-                                    aria-hidden="true"
-                                />
-                                {{ $t("additional:modules.wfsAnalyzer.filter.loadValues") }}
-                            </button>
-                            <div
-                                v-if="filterValuesStatus === 'ready' && filterValuesTruncated"
-                                class="alert alert-warning py-2 px-2 mt-2 mb-0 small"
-                                role="status"
-                            >
-                                <i class="bi bi-exclamation-triangle-fill me-1" />
-                                {{ $t("additional:modules.wfsAnalyzer.filter.valuesLoadedPartly", {count: filterValues.length}) }}
-                            </div>
-                            <p
-                                v-else-if="filterValuesStatus === 'ready'"
-                                class="form-text mb-0"
-                            >
-                                {{ $t("additional:modules.wfsAnalyzer.filter.valuesLoaded", {count: filterValues.length}) }}
-                            </p>
-                            <p
-                                v-else-if="filterValuesStatus === 'error'"
-                                class="form-text mb-0"
-                            >
-                                <i class="bi bi-exclamation-circle me-1" />
-                                {{ $t("additional:modules.wfsAnalyzer.filter.valuesUnavailable") }}
-                            </p>
-                            <p
-                                v-else
-                                class="form-text mb-0"
-                            >
-                                {{ $t("additional:modules.wfsAnalyzer.filter.loadValuesHint") }}
-                            </p>
-                        </template>
-                    </fieldset>
-
-                    <!-- step 2: what to analyse -->
+                    <!-- what to analyse -->
                     <div class="mb-3">
                         <label
                             class="form-label"
@@ -502,44 +457,32 @@ export default {
                         </select>
                     </div>
 
-                    <!-- step 3: count or area -->
-                    <fieldset class="mb-3">
-                        <legend class="wfs-analyzer-legend-title">
+                    <!-- count or area -->
+                    <div
+                        v-if="canAnalyseByArea"
+                        class="mb-3"
+                    >
+                        <span class="form-label d-block">
                             {{ $t("additional:modules.wfsAnalyzer.mode.title") }}
-                        </legend>
-                        <div class="form-check">
-                            <input
-                                id="wfs-analyzer-mode-count"
-                                class="form-check-input"
-                                type="radio"
-                                :checked="mode === 'count'"
-                                @change="selectMode('count')"
+                        </span>
+                        <div
+                            class="btn-group btn-group-sm"
+                            role="group"
+                        >
+                            <button
+                                v-for="option in ['count', 'area']"
+                                :id="`wfs-analyzer-mode-${option}`"
+                                :key="option"
+                                type="button"
+                                class="btn"
+                                :class="mode === option ? 'btn-primary' : 'btn-outline-primary'"
+                                @click="selectMode(option)"
                             >
-                            <label
-                                class="form-check-label"
-                                for="wfs-analyzer-mode-count"
-                            >
-                                {{ $t("additional:modules.wfsAnalyzer.mode.countLabel") }}
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input
-                                id="wfs-analyzer-mode-area"
-                                class="form-check-input"
-                                type="radio"
-                                :checked="mode === 'area'"
-                                :disabled="suggestedAreaAttributes.length === 0 && otherAreaAttributes.length === 0"
-                                @change="selectMode('area')"
-                            >
-                            <label
-                                class="form-check-label"
-                                for="wfs-analyzer-mode-area"
-                            >
-                                {{ $t("additional:modules.wfsAnalyzer.mode.areaLabel") }}
-                            </label>
+                                {{ $t(`additional:modules.wfsAnalyzer.mode.${option}`) }}
+                            </button>
                         </div>
 
-                        <template v-if="mode === 'area'">
+                        <template v-if="mode === 'area' && needsAreaAttributeChoice">
                             <label
                                 class="form-label mt-2"
                                 for="wfs-analyzer-area-attribute"
@@ -552,46 +495,74 @@ export default {
                                 :value="areaAttribute"
                                 @change="onAreaAttributeChange"
                             >
-                                <option value="">
-                                    {{ $t("additional:modules.wfsAnalyzer.mode.areaAttributePlaceholder") }}
+                                <option
+                                    v-for="attribute in areaAttributeCandidates"
+                                    :key="attribute.name"
+                                    :value="attribute.name"
+                                >
+                                    {{ getAttributeLabel(attribute) }}
                                 </option>
-                                <optgroup
-                                    v-if="suggestedAreaAttributes.length > 0"
-                                    :label="$t('additional:modules.wfsAnalyzer.filter.suggested')"
-                                >
-                                    <option
-                                        v-for="attribute in suggestedAreaAttributes"
-                                        :key="attribute.name"
-                                        :value="attribute.name"
-                                    >
-                                        {{ getAttributeLabel(attribute) }}
-                                    </option>
-                                </optgroup>
-                                <optgroup
-                                    v-if="otherAreaAttributes.length > 0"
-                                    :label="$t('additional:modules.wfsAnalyzer.mode.otherNumeric')"
-                                >
-                                    <option
-                                        v-for="attribute in otherAreaAttributes"
-                                        :key="attribute.name"
-                                        :value="attribute.name"
-                                    >
-                                        {{ getAttributeLabel(attribute) }}
-                                    </option>
-                                </optgroup>
                             </select>
-                            <p class="form-text mb-0">
-                                {{ $t("additional:modules.wfsAnalyzer.mode.areaAttributeHint") }}
-                            </p>
                         </template>
-                    </fieldset>
+                    </div>
 
-                    <!-- how much data will be loaded -->
+                    <!-- optional additional filter -->
+                    <div class="mb-3">
+                        <button
+                            id="wfs-analyzer-extra-toggle"
+                            type="button"
+                            class="btn btn-link btn-sm p-0 text-decoration-none"
+                            :aria-expanded="showExtraFilter"
+                            aria-controls="wfs-analyzer-extra-filter"
+                            @click="showExtraFilter = !showExtraFilter"
+                        >
+                            <i
+                                class="bi me-1"
+                                :class="showExtraFilter ? 'bi-chevron-down' : 'bi-chevron-right'"
+                            />
+                            {{ $t("additional:modules.wfsAnalyzer.filter.extraTitle") }}
+                        </button>
+
+                        <div
+                            v-if="showExtraFilter"
+                            id="wfs-analyzer-extra-filter"
+                            class="mt-2"
+                        >
+                            <select
+                                id="wfs-analyzer-extra-attribute"
+                                class="form-select form-select-sm"
+                                :value="extraFilterAttribute"
+                                @change="selectExtraFilterAttribute($event.target.value)"
+                            >
+                                <option value="">
+                                    {{ $t("additional:modules.wfsAnalyzer.filter.extraAttributePlaceholder") }}
+                                </option>
+                                <option
+                                    v-for="attribute in extraFilterAttributes"
+                                    :key="attribute.name"
+                                    :value="attribute.name"
+                                >
+                                    {{ getAttributeLabel(attribute) }}
+                                </option>
+                            </select>
+
+                            <FilterValueInput
+                                v-if="extraFilterAttribute !== ''"
+                                id="wfs-analyzer-extra-value"
+                                class="mt-2"
+                                :label="$t('additional:modules.wfsAnalyzer.filter.valueLabel')"
+                                :value="extraFilterValue"
+                                :value-state="valuesFor(extraFilterAttribute)"
+                                @load="loadValuesFor(extraFilterAttribute)"
+                                @change="selectExtraFilterValue"
+                            />
+                        </div>
+                    </div>
+
                     <p
                         v-if="featureCountStatus === 'ready'"
                         class="small mb-2"
                     >
-                        <i class="bi bi-database me-1" />
                         {{ $t("additional:modules.wfsAnalyzer.analysis.featureCount", {count: formatCount(featureCount)}) }}
                     </p>
 
@@ -647,11 +618,9 @@ export default {
                         </div>
 
                         <template v-else>
-                            <div class="d-flex justify-content-between align-items-baseline mb-2">
-                                <h6 class="mb-0">
-                                    {{ $t("additional:modules.wfsAnalyzer.result.title", {attribute: analyseAttributeLabel}) }}
-                                </h6>
-                            </div>
+                            <h6 class="mb-1">
+                                {{ $t("additional:modules.wfsAnalyzer.result.title", {attribute: analyseAttributeLabel}) }}
+                            </h6>
                             <p class="small text-muted mb-2">
                                 {{ $t("additional:modules.wfsAnalyzer.result.summary", {
                                     categories: result.categories.length,
@@ -711,11 +680,5 @@ export default {
 <style lang="scss" scoped>
 #wfs-analyzer {
     padding: 10px;
-}
-
-.wfs-analyzer-legend-title {
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 2px;
 }
 </style>

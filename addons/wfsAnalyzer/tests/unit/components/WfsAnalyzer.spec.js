@@ -26,7 +26,8 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
             layers: "ua_versiegelung_2005"
         }
     ];
-    let runAnalysisSpy,
+    let loadValuesForSpy,
+        runAnalysisSpy,
         selectFilterAttributeSpy,
         selectLayerSpy,
         selectModeSpy,
@@ -58,8 +59,10 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
                                 selectFilterAttribute: selectFilterAttributeSpy,
                                 selectMode: selectModeSpy,
                                 checkWfsAvailability: sinon.spy(),
-                                loadFilterValues: sinon.spy(),
+                                loadValuesFor: loadValuesForSpy,
                                 selectFilterValue: sinon.spy(),
+                                selectExtraFilterAttribute: sinon.spy(),
+                                selectExtraFilterValue: sinon.spy(),
                                 syncSelection: sinon.spy()
                             }
                         }
@@ -73,6 +76,7 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
 
     beforeEach(() => {
         selectLayerSpy = sinon.spy();
+        loadValuesForSpy = sinon.spy();
         runAnalysisSpy = sinon.spy();
         selectFilterAttributeSpy = sinon.spy();
         selectModeSpy = sinon.spy();
@@ -118,6 +122,30 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
 
         expect(wrapper.text()).to.contain("additional:modules.wfsAnalyzer.checking");
         expect(wrapper.find(".spinner-border").exists()).to.be.true;
+    });
+
+    it("picks the layer automatically when only one is active", () => {
+        visibleLayers = [layers[0]];
+        mountComponent();
+
+        expect(selectLayerSpy.calledOnce).to.be.true;
+        expect(selectLayerSpy.firstCall.args[1]).to.equal(layers[0].id);
+    });
+
+    it("does not preselect when there is a choice to make", () => {
+        mountComponent();
+
+        expect(selectLayerSpy.called).to.be.false;
+    });
+
+    it("explains behind an info toggle why layers can be missing", async () => {
+        const wrapper = mountComponent();
+
+        expect(wrapper.text()).to.not.contain("additional:modules.wfsAnalyzer.whyMissing.text");
+
+        await wrapper.find("#wfs-analyzer-why-toggle").trigger("click");
+
+        expect(wrapper.text()).to.contain("additional:modules.wfsAnalyzer.whyMissing.text");
     });
 
     it("says nothing when the WFS is available - it just shows the analysis", () => {
@@ -208,31 +236,152 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
         it("shows the analysis form once a WFS is confirmed", () => {
             const wrapper = mountComponent(confirmed);
 
-
             expect(wrapper.find("#wfs-analyzer-analysis").exists()).to.be.true;
             expect(wrapper.find("#wfs-analyzer-filter-attribute").exists()).to.be.true;
             expect(wrapper.find("#wfs-analyzer-analyse-attribute").exists()).to.be.true;
-            expect(wrapper.find("#wfs-analyzer-mode-count").exists()).to.be.true;
-            expect(wrapper.find("#wfs-analyzer-mode-area").exists()).to.be.true;
         });
 
-        it("offers the configured filter attributes but never the geometry", () => {
-            const options = mountComponent(confirmed)
-                .findAll("#wfs-analyzer-filter-attribute option")
-                .map((option) => option.attributes("value"));
+        it("carries no text explaining how the tool is built", () => {
+            const text = mountComponent(confirmed).text();
 
-            expect(options).to.include("bezirk");
-            expect(options).to.include("bez");
-            expect(options).to.not.include("geom");
+            // Every one of these described a backend constraint, not a choice.
+            expect(text).to.not.contain("additional:modules.wfsAnalyzer.intro");
+            expect(text).to.not.contain("additional:modules.wfsAnalyzer.filter.loadValuesHint");
+            expect(text).to.not.contain("additional:modules.wfsAnalyzer.mode.areaAttributeHint");
         });
 
-        it("does not offer the geometry as the analysed attribute", () => {
+        it("offers the area as a named list of places, not as raw attributes", () => {
             const options = mountComponent(confirmed)
-                .findAll("#wfs-analyzer-analyse-attribute option")
+                .findAll("#wfs-analyzer-filter-attribute option");
+
+            expect(options[0].text()).to.equal("additional:modules.wfsAnalyzer.filter.wholeLayer");
+            // Readable titles only - the technical name is noise here.
+            expect(options.map((option) => option.text())).to.include("Bezirksname");
+            expect(options.map((option) => option.text())).to.not.include("Bezirksname (bezirk)");
+        });
+
+        it("asks for a value only once an area is chosen", async () => {
+            const wrapper = mountComponent(confirmed);
+
+            expect(wrapper.find("#wfs-analyzer-filter-value").exists()).to.be.false;
+
+            await wrapper.find("#wfs-analyzer-filter-attribute").setValue("bezirk");
+
+            expect(selectFilterAttributeSpy.calledOnce).to.be.true;
+        });
+
+        it("loads the values when the value field is focused - no button", async () => {
+            const wrapper = mountComponent({...confirmed, filterAttribute: "bezirk"});
+
+            expect(wrapper.text()).to.not.contain("additional:modules.wfsAnalyzer.filter.loadValues");
+
+            await wrapper.find("#wfs-analyzer-filter-value").trigger("focus");
+
+            expect(loadValuesForSpy.calledOnce).to.be.true;
+            expect(loadValuesForSpy.firstCall.args[1]).to.equal("bezirk");
+        });
+
+        it("offers the loaded values as suggestions while typing", () => {
+            const wrapper = mountComponent({
+                    ...confirmed,
+                    filterAttribute: "bezirk",
+                    valueCache: {bezirk: {values: ["Mitte", "Pankow"], truncated: false, status: "ready"}}
+                }),
+                values = wrapper.findAll("#wfs-analyzer-filter-value-values option")
+                    .map((option) => option.attributes("value"));
+
+            expect(values).to.deep.equal(["Mitte", "Pankow"]);
+        });
+
+        it("shows a spinner while the values are loading", () => {
+            const wrapper = mountComponent({
+                ...confirmed,
+                filterAttribute: "bezirk",
+                valueCache: {bezirk: {values: [], truncated: false, status: "loading"}}
+            });
+
+            expect(wrapper.find(".wfs-analyzer-field-spinner").exists()).to.be.true;
+        });
+
+        it("warns when the suggestion list is incomplete", () => {
+            const wrapper = mountComponent({
+                ...confirmed,
+                filterAttribute: "bezirk",
+                valueCache: {bezirk: {values: ["a", "b"], truncated: true, status: "ready"}}
+            });
+
+            expect(wrapper.find(".alert-warning").exists()).to.be.true;
+            expect(wrapper.text()).to.contain("additional:modules.wfsAnalyzer.filter.valuesLoadedPartly");
+        });
+
+        it("falls back to typing when no value list is available", () => {
+            const wrapper = mountComponent({
+                ...confirmed,
+                filterAttribute: "bezirk",
+                valueCache: {bezirk: {values: [], truncated: false, status: "error"}}
+            });
+
+            expect(wrapper.text()).to.contain("additional:modules.wfsAnalyzer.filter.valuesUnavailable");
+            expect(wrapper.find("#wfs-analyzer-filter-value").exists()).to.be.true;
+        });
+
+        it("hides the area-attribute select when there is nothing to choose", () => {
+            const wrapper = mountComponent({...confirmed, mode: "area", areaAttribute: "flalle"});
+
+            // Exactly one numeric candidate, so the choice is made silently.
+            expect(wrapper.find("#wfs-analyzer-area-attribute").exists()).to.be.false;
+        });
+
+        it("asks which attribute holds the area only when several could", () => {
+            const wrapper = mountComponent({
+                ...confirmed,
+                attributes: [...attributes, {name: "flaeche", title: "Fläche", type: "xsd:double", isGeometry: false, isNumeric: true}],
+                mode: "area",
+                areaAttribute: "flalle"
+            });
+
+            expect(wrapper.find("#wfs-analyzer-area-attribute").exists()).to.be.true;
+        });
+
+        it("does not offer an area analysis for a layer without an area attribute", () => {
+            const wrapper = mountComponent({
+                ...confirmed,
+                attributes: attributes.filter((attribute) => !attribute.isNumeric)
+            });
+
+            expect(wrapper.find("#wfs-analyzer-mode-area").exists()).to.be.false;
+            expect(wrapper.find("#wfs-analyzer-mode-count").exists()).to.be.false;
+        });
+
+        it("switches the mode via the buttons", async () => {
+            const wrapper = mountComponent(confirmed);
+
+            await wrapper.find("#wfs-analyzer-mode-area").trigger("click");
+
+            expect(selectModeSpy.calledOnce).to.be.true;
+            expect(selectModeSpy.firstCall.args[1]).to.equal("area");
+        });
+
+        it("keeps the additional filter collapsed until asked for", async () => {
+            const wrapper = mountComponent(confirmed);
+
+            expect(wrapper.find("#wfs-analyzer-extra-attribute").exists()).to.be.false;
+
+            await wrapper.find("#wfs-analyzer-extra-toggle").trigger("click");
+
+            expect(wrapper.find("#wfs-analyzer-extra-attribute").exists()).to.be.true;
+        });
+
+        it("leaves the area attribute out of the additional filter", async () => {
+            const wrapper = mountComponent({...confirmed, filterAttribute: "bezirk"});
+
+            await wrapper.find("#wfs-analyzer-extra-toggle").trigger("click");
+
+            const options = wrapper.findAll("#wfs-analyzer-extra-attribute option")
                 .map((option) => option.attributes("value"));
 
+            expect(options).to.not.include("bezirk");
             expect(options).to.include("nutzung");
-            expect(options).to.not.include("geom");
         });
 
         it("shows how many features will be loaded", () => {
@@ -241,16 +390,15 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
         });
 
         it("warns when the filter matches more features than configured", () => {
-            const wrapper = mountComponent({...confirmed, featureCount: 999999});
-
-            expect(wrapper.text()).to.contain("additional:modules.wfsAnalyzer.analysis.manyFeatures");
+            expect(mountComponent({...confirmed, featureCount: 999999}).text())
+                .to.contain("additional:modules.wfsAnalyzer.analysis.manyFeatures");
         });
 
         it("keeps the start button disabled until an attribute is chosen", async () => {
-            const wrapper = mountComponent(confirmed),
-                button = wrapper.find("#wfs-analyzer-analysis button.btn-primary");
+            const wrapper = mountComponent(confirmed);
 
-            expect(button.attributes("disabled")).to.not.be.undefined;
+            expect(wrapper.find("#wfs-analyzer-analysis button.btn-primary").attributes("disabled"))
+                .to.not.be.undefined;
 
             await wrapper.find("#wfs-analyzer-analyse-attribute").setValue("nutzung");
 
@@ -266,60 +414,13 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
             expect(runAnalysisSpy.calledOnce).to.be.true;
         });
 
-        it("reveals the area attribute select in area mode", () => {
-            const wrapper = mountComponent({...confirmed, mode: "area", areaAttribute: "flalle"}),
-                options = wrapper.findAll("#wfs-analyzer-area-attribute option")
-                    .map((option) => option.attributes("value"));
+        it("labels the analysed attributes with the name documented in the WFS", () => {
+            const labels = mountComponent(confirmed)
+                .findAll("#wfs-analyzer-analyse-attribute option")
+                .map((option) => option.text());
 
-            expect(wrapper.find("#wfs-analyzer-area-attribute").exists()).to.be.true;
-            expect(options).to.include("flalle");
-            // Only numeric attributes can hold an area.
-            expect(options).to.not.include("nutzung");
-        });
-
-        it("switches the mode via the radios", async () => {
-            const wrapper = mountComponent(confirmed);
-
-            await wrapper.find("#wfs-analyzer-mode-area").trigger("change");
-
-            expect(selectModeSpy.calledOnce).to.be.true;
-            expect(selectModeSpy.firstCall.args[1]).to.equal("area");
-        });
-
-        it("selects a filter attribute", async () => {
-            const wrapper = mountComponent(confirmed);
-
-            await wrapper.find("#wfs-analyzer-filter-attribute").setValue("bezirk");
-
-            expect(selectFilterAttributeSpy.calledOnce).to.be.true;
-            expect(selectFilterAttributeSpy.firstCall.args[1]).to.equal("bezirk");
-        });
-
-        it("offers loaded filter values as datalist suggestions", () => {
-            const wrapper = mountComponent({
-                    ...confirmed,
-                    filterAttribute: "bezirk",
-                    filterValues: ["Mitte", "Pankow"],
-                    filterValuesStatus: "ready"
-                }),
-                values = wrapper.findAll("#wfs-analyzer-filter-values option")
-                    .map((option) => option.attributes("value"));
-
-            expect(values).to.deep.equal(["Mitte", "Pankow"]);
-            expect(wrapper.text()).to.contain("additional:modules.wfsAnalyzer.filter.valuesLoaded");
-        });
-
-        it("degrades to a hint when the service refuses a value list", () => {
-            const wrapper = mountComponent({
-                ...confirmed,
-                filterAttribute: "bezirk",
-                filterValuesStatus: "error"
-            });
-
-            expect(wrapper.text()).to.contain("additional:modules.wfsAnalyzer.filter.valuesUnavailable");
-            // Typing a value by hand must still be possible.
-            expect(wrapper.find("#wfs-analyzer-filter-value").exists()).to.be.true;
-            expect(wrapper.find(".alert-danger").exists()).to.be.false;
+            expect(labels).to.include("Bezirksname (bezirk)");
+            expect(labels).to.include("typklar");
         });
 
         it("renders the result as a bar chart by default", () => {
@@ -334,8 +435,6 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
 
             expect(wrapper.findAll(".wfs-analyzer-bar-row")).to.have.lengthOf(2);
             expect(wrapper.text()).to.contain("Wohnnutzung");
-            // The heading interpolates the readable name, not the raw column.
-            expect(wrapper.text()).to.contain("additional:modules.wfsAnalyzer.result.title");
         });
 
         it("renders the result as a pie chart", () => {
@@ -347,9 +446,7 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
                 resultView: "pie"
             });
 
-            expect(wrapper.find("svg").exists()).to.be.true;
             expect(wrapper.findAll("svg path")).to.have.lengthOf(2);
-            expect(wrapper.findAll(".wfs-analyzer-swatch")).to.have.lengthOf(2);
         });
 
         it("renders the result as a table with a totals row", () => {
@@ -365,18 +462,6 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
             expect(wrapper.find("tfoot").text()).to.contain("additional:modules.wfsAnalyzer.result.total");
         });
 
-        it("labels an empty attribute value", () => {
-            const wrapper = mountComponent({
-                ...confirmed,
-                analyseAttribute: "nutzung",
-                analysisStatus: "ready",
-                resultView: "table",
-                result: {unit: "count", total: 5, categories: [{label: "", value: 5, share: 1}]}
-            });
-
-            expect(wrapper.text()).to.contain("additional:modules.wfsAnalyzer.result.noValue");
-        });
-
         it("reports a failed analysis", () => {
             const wrapper = mountComponent({
                 ...confirmed,
@@ -390,25 +475,10 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
         });
 
         it("shows one loading indicator while the attributes are loading", () => {
-            const wrapper = mountComponent({
-                ...confirmed,
-                attributes: [],
-                attributesStatus: "loading"
-            });
+            const wrapper = mountComponent({...confirmed, attributes: [], attributesStatus: "loading"});
 
             expect(wrapper.findAll(".spinner-border")).to.have.lengthOf(1);
-            expect(wrapper.text()).to.contain("additional:modules.wfsAnalyzer.analysis.loadingAttributes");
             expect(wrapper.find("#wfs-analyzer-analyse-attribute").exists()).to.be.false;
-        });
-
-        it("shows one loading indicator while the WFS is being checked", () => {
-            const wrapper = mountComponent({
-                selectedLayerId: layers[0].id,
-                checkStatus: "checking"
-            });
-
-            expect(wrapper.findAll(".spinner-border")).to.have.lengthOf(1);
-            expect(wrapper.text()).to.contain("additional:modules.wfsAnalyzer.checking");
         });
 
         it("drops the loading indicator once the form is ready", () => {
@@ -416,34 +486,6 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
 
             expect(wrapper.find(".spinner-border").exists()).to.be.false;
             expect(wrapper.find("#wfs-analyzer-analyse-attribute").exists()).to.be.true;
-        });
-
-        it("labels the attributes with the name documented in the WFS", () => {
-            const labels = mountComponent(confirmed)
-                .findAll("#wfs-analyzer-analyse-attribute option")
-                .map((option) => option.text());
-
-            expect(labels).to.include("Bezirksname (bezirk)");
-            expect(labels).to.include("Flächennutzung (nutzung)");
-            // Undocumented attributes keep their technical name alone.
-            expect(labels).to.include("typklar");
-        });
-
-        it("keeps the technical name as the option value", () => {
-            const options = mountComponent(confirmed)
-                .findAll("#wfs-analyzer-analyse-attribute option")
-                .map((option) => option.attributes("value"));
-
-            expect(options).to.include("nutzung");
-            expect(options).to.include("flalle");
-        });
-
-        it("labels the area attribute too", () => {
-            const labels = mountComponent({...confirmed, mode: "area", areaAttribute: "flalle"})
-                .findAll("#wfs-analyzer-area-attribute option")
-                .map((option) => option.text());
-
-            expect(labels).to.include("Flächengröße [m²] (flalle)");
         });
     });
 });

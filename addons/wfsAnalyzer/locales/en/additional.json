@@ -3,7 +3,6 @@
         "wfsAnalyzer": {
             "title": "Analyse layer",
             "description": "Checks whether a WFS is available for an active layer and analyses its attributes by count or area.",
-            "intro": "Choose one of the layers currently switched on in the map. Only layers that offer a download service (WFS) in addition to the map service (WMS) can be analysed.",
             "noActiveLayers": "No subject data layer is currently switched on in the map. Add a layer via the topic tree.",
             "layerSelectLabel": "Active layer",
             "layerSelectPlaceholder": "Please select a layer …",
@@ -20,31 +19,21 @@
                 "retry": "Check again"
             },
             "filter": {
-                "title": "1. Restrict spatially (optional)",
-                "hint": "Restrict the analysis, for example to one district. Without a restriction the whole layer is analysed.",
-                "attributeLabel": "Attribute to filter by",
-                "wholeLayer": "No restriction (whole layer)",
-                "suggested": "Suggestions",
-                "allAttributes": "All attributes",
+                "wholeLayer": "Whole area",
                 "valueLabel": "Value",
-                "valuePlaceholder": "e.g. Mitte",
-                "loadValues": "Load available values",
-                "loadValuesHint": "The service has no distinct query. Loading the values transfers this attribute for every feature.",
-                "valuesLoaded": "{{count}} distinct values loaded – choose one in the input field.",
-                "valuesUnavailable": "The service does not provide a value list for this attribute. Please type the value directly.",
-                "valuesLoadedPartly": "Only the first {{count}} values could be loaded – there are more. Please type a value that is not listed.",
-                "valuesStepwise": "The service could not deliver the value list at once – the values were collected one by one."
+                "valuesUnavailable": "No value list available – please type the value.",
+                "valuesLoadedPartly": "Only the first {{count}} values are suggested – there are more. Please type values that are not listed.",
+                "areaLabel": "Area",
+                "extraTitle": "More filters (optional)",
+                "extraAttributePlaceholder": "Choose attribute …",
+                "loadingValues": "Loading values",
+                "loadingValuesSlow": "Loading values, this can take a moment on large layers."
             },
             "mode": {
-                "title": "3. Type of analysis",
+                "title": "Result as",
                 "count": "Count",
                 "area": "Area",
-                "countLabel": "By number of features",
-                "areaLabel": "By area size",
-                "areaAttributeLabel": "Attribute holding the area size",
-                "areaAttributePlaceholder": "Please select an attribute …",
-                "areaAttributeHint": "An existing area attribute is used so that no geometries have to be loaded.",
-                "otherNumeric": "Other numeric attributes"
+                "areaAttributeLabel": "Attribute holding the area size"
             },
             "units": {
                 "m2": "m²",
@@ -79,6 +68,10 @@
                 "groupedHint": "Small categories are pooled into “Other”. The table shows every category.",
                 "empty": "The analysis returned no features.",
                 "pieLabel": "Pie chart of the distribution"
+            },
+            "whyMissing": {
+                "toggle": "Why are layers missing?",
+                "text": "Only layers whose data is also published as a download service (WFS) can be analysed."
             }
         }
     }

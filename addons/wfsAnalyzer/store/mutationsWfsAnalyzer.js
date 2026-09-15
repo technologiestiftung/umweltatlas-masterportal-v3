@@ -66,9 +66,9 @@ const mutations = {
         state.attributesStatus = "idle";
         state.filterAttribute = "";
         state.filterValue = "";
-        state.filterValues = [];
-        state.filterValuesStatus = "idle";
-        state.filterValuesTruncated = false;
+        state.extraFilterAttribute = "";
+        state.extraFilterValue = "";
+        state.valueCache = {};
         state.analyseAttribute = "";
         state.mode = "count";
         state.areaAttribute = "";
@@ -78,6 +78,19 @@ const mutations = {
         state.analysisStatus = "idle";
         state.analysisError = "";
         state.resultView = "bar";
+    },
+
+    /**
+     * Remembers what is known about the values of one attribute, so switching
+     * back and forth does not ask the service again.
+     * @param {WfsAnalyzerState} state context state object.
+     * @param {Object} payload the payload.
+     * @param {String} payload.attribute name of the attribute.
+     * @param {Object} payload.entry the entry as {values, truncated, status}.
+     * @returns {void}
+     */
+    setValueCacheEntry (state, {attribute, entry}) {
+        state.valueCache = {...state.valueCache, [attribute]: entry};
     },
 
     /**

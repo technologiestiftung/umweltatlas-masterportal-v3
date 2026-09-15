@@ -3,7 +3,6 @@
         "wfsAnalyzer": {
             "title": "Layer analysieren",
             "description": "Prüft, ob für einen aktiven Layer ein WFS verfügbar ist, und analysiert dessen Attribute nach Anzahl oder Fläche.",
-            "intro": "Wählen Sie einen der aktuell in der Karte eingeschalteten Layer aus. Analysiert werden können nur Layer, für die zusätzlich zum Kartendienst (WMS) ein Downloaddienst (WFS) bereitsteht.",
             "noActiveLayers": "Es ist derzeit kein Fachdaten-Layer in der Karte eingeschaltet. Fügen Sie über den Themenbaum einen Layer hinzu.",
             "layerSelectLabel": "Aktiver Layer",
             "layerSelectPlaceholder": "Bitte Layer auswählen …",
@@ -20,31 +19,21 @@
                 "retry": "Erneut prüfen"
             },
             "filter": {
-                "title": "1. Räumlich einschränken (optional)",
-                "hint": "Schränken Sie die Auswertung z. B. auf einen Bezirk ein. Ohne Einschränkung wird der gesamte Layer ausgewertet.",
-                "attributeLabel": "Attribut zum Filtern",
-                "wholeLayer": "Keine Einschränkung (ganzer Layer)",
-                "suggested": "Vorschläge",
-                "allAttributes": "Alle Attribute",
+                "wholeLayer": "Ganzer Bereich",
                 "valueLabel": "Wert",
-                "valuePlaceholder": "z. B. Mitte",
-                "loadValues": "Verfügbare Werte laden",
-                "loadValuesHint": "Der Dienst kennt keine Distinct-Abfrage. Zum Laden der Werte wird dieses Attribut für alle Objekte übertragen.",
-                "valuesLoaded": "{{count}} verschiedene Werte geladen – Auswahl über das Eingabefeld.",
-                "valuesUnavailable": "Für dieses Attribut liefert der Dienst keine Werteliste. Geben Sie den Wert bitte direkt ein.",
-                "valuesLoadedPartly": "Nur die ersten {{count}} Werte konnten geladen werden – es gibt weitere. Geben Sie einen nicht gelisteten Wert bitte direkt ein.",
-                "valuesStepwise": "Der Dienst konnte die Werteliste nicht auf einmal liefern – die Werte wurden einzeln abgefragt."
+                "valuesUnavailable": "Keine Werteliste verfügbar – bitte Wert eintippen.",
+                "valuesLoadedPartly": "Nur die ersten {{count}} Werte werden vorgeschlagen – es gibt weitere. Nicht gelistete Werte bitte eintippen.",
+                "areaLabel": "Bereich",
+                "extraTitle": "Weitere Filter (optional)",
+                "extraAttributePlaceholder": "Attribut wählen …",
+                "loadingValues": "Werte werden geladen",
+                "loadingValuesSlow": "Werte werden geladen, das kann bei großen Layern etwas dauern."
             },
             "mode": {
-                "title": "3. Auswertungsart",
+                "title": "Ergebnis als",
                 "count": "Anzahl",
                 "area": "Fläche",
-                "countLabel": "Nach Anzahl der Objekte",
-                "areaLabel": "Nach Flächengröße",
-                "areaAttributeLabel": "Attribut mit der Flächengröße",
-                "areaAttributePlaceholder": "Bitte Attribut auswählen …",
-                "areaAttributeHint": "Es wird ein vorhandenes Flächenattribut genutzt, damit keine Geometrien geladen werden müssen.",
-                "otherNumeric": "Weitere numerische Attribute"
+                "areaAttributeLabel": "Attribut mit der Flächengröße"
             },
             "units": {
                 "m2": "m²",
@@ -79,6 +68,10 @@
                 "groupedHint": "Kleine Kategorien sind in „Sonstige“ zusammengefasst. Die Tabelle zeigt alle Kategorien.",
                 "empty": "Die Auswertung hat keine Objekte ergeben.",
                 "pieLabel": "Kreisdiagramm der Verteilung"
+            },
+            "whyMissing": {
+                "toggle": "Warum fehlen Layer?",
+                "text": "Ausgewertet werden können nur Layer, deren Daten zusätzlich als Downloaddienst (WFS) bereitstehen."
             }
         }
     }

@@ -109,8 +109,6 @@ describe("addons/wfsAnalyzer/store/actionsWfsAnalyzer", () => {
             run({layerId: "a:b", filterAttribute: "bezirk", areaAttribute: "", analyseAttribute: "", mode: ""});
 
             expect(payloadOf("setFilterValue")).to.equal("");
-            expect(payloadOf("setFilterValues")).to.deep.equal([]);
-            expect(payloadOf("setFilterValuesStatus")).to.equal("idle");
         });
 
         it("does not let the suggested area attribute override the preset", () => {

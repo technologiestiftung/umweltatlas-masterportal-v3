@@ -12,6 +12,7 @@ const Config = {
             "bez",
             "bezirksname",
             "bezname",
+            "namgem",
             "ortsteil",
             "ot",
             "ortsteilname",
@@ -22,8 +23,6 @@ const Config = {
             "planungsraum",
             "gemeinde",
             "stadtteil",
-            "woz_name",
-            "grz_name",
         ],
         // Attribute names that hold a precomputed area in square metres. Using
         // one of them avoids downloading geometries for an area analysis.
@@ -43,6 +42,13 @@ const Config = {
         maxFeatures: 50000,
         // Categories shown in the charts before the rest is pooled as "other".
         maxChartCategories: 12,
+        // Umrisse, die beim Auswählen eines Bereichs auf der Karte gezeigt
+        // werden. "file" ist eine Datei in addons/wfsAnalyzer/geodata/,
+        // "matchProperty" die Property, die den Wert des Bereichs enthält
+        // (namgem = "Mitte", "Pankow", …). Der Abgleich läuft über den Wert:
+        // Bereiche, die Codes statt Namen liefern, finden nichts und zeichnen
+        // dann auch nichts.
+        boundaries: [{ file: "bezirke", matchProperty: "namgem" }],
         // Maximum number of filter values offered under "Wert". If the service
         // cannot deliver the whole list at once, the values are collected one
         // request at a time, so this also bounds how long that takes. When more

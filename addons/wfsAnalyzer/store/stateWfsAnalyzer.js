@@ -17,11 +17,11 @@
  * @property {Object[]} attributes attributes of the feature type as {name, type, isGeometry, isNumeric}.
  * @property {String} attributesStatus one of "idle", "loading", "ready", "error".
  *
- * @property {String} filterAttribute attribute used to restrict the analysis, e.g. "bezirk".
- * @property {String} filterValue value the filter attribute must have, e.g. "Mitte".
- * @property {String[]} filterValues distinct values of the filter attribute, loaded on demand.
- * @property {String} filterValuesStatus one of "idle", "loading", "ready", "error".
- * @property {Boolean} filterValuesTruncated true if the service has more values than were collected.
+ * @property {String} filterAttribute attribute behind the area selection, e.g. "bezirk".
+ * @property {String} filterValue value the area attribute must have, e.g. "Mitte".
+ * @property {String} extraFilterAttribute attribute of the optional additional filter.
+ * @property {String} extraFilterValue value of the optional additional filter.
+ * @property {Object} valueCache known values per attribute as {attribute: {values, truncated, status}}.
  *
  * @property {String} analyseAttribute attribute whose values are counted or summed, e.g. "nutzung".
  * @property {String} mode either "count" or "area".
@@ -54,9 +54,9 @@ const state = {
 
     filterAttribute: "",
     filterValue: "",
-    filterValues: [],
-    filterValuesStatus: "idle",
-    filterValuesTruncated: false,
+    extraFilterAttribute: "",
+    extraFilterValue: "",
+    valueCache: {},
 
     analyseAttribute: "",
     mode: "count",

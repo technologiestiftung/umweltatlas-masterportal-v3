@@ -63,3 +63,5 @@ site/*
 
 # Ignore Python virtual environment
 .venv/*
+
+NOTES.md

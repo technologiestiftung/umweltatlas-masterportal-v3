@@ -1,4 +1,5 @@
 import {checkWfsForLayer} from "../js/wfsLookup";
+import {findBoundaryFeature} from "../js/boundaryGeometry";
 import {analyseByArea, analyseByCount, fetchAttributes, fetchDistinctValues, fetchFeatureCount} from "../js/wfsAnalysis";
 
 /**
@@ -54,11 +55,12 @@ const actions = {
      * @param {Function} context.commit the commit function.
      * @returns {void}
      */
-    syncSelection ({state, getters, commit}) {
+    syncSelection ({state, getters, commit, dispatch}) {
         if (state.selectedLayerId !== "" && !getters.selectedLayer) {
             commit("setSelectedLayerId", "");
             commit("resetCheck");
             commit("resetAnalysis");
+            dispatch("clearBoundaryHighlight");
         }
     },
 
@@ -75,6 +77,7 @@ const actions = {
         commit("setSelectedLayerId", layerId);
         commit("resetCheck");
         commit("resetAnalysis");
+        dispatch("clearBoundaryHighlight");
 
         if (layerId === "") {
             return Promise.resolve();
@@ -213,12 +216,9 @@ const actions = {
 
                 if (match) {
                     commit("setFilterAttribute", match.name);
-                    // Same invariant as selectFilterAttribute: a filter value
-                    // never outlives the attribute it belonged to.
+                    // Same invariant as selectFilterAttribute: a value never
+                    // outlives the attribute it belonged to.
                     commit("setFilterValue", "");
-                    commit("setFilterValues", []);
-                    commit("setFilterValuesStatus", "idle");
-                    commit("setFilterValuesTruncated", false);
                 }
                 else {
                     warnAboutPreset(preset.layerId, "filterAttribute", filterAttribute, "the layer has no such attribute");
@@ -270,26 +270,74 @@ const actions = {
     },
 
     /**
-     * Sets the filter attribute and clears everything derived from it.
+     * Sets the attribute the analysis is restricted to and clears the value
+     * that belonged to the previous one.
      * @param {Object} context the vuex context.
      * @param {Function} context.commit the commit function.
      * @param {Function} context.dispatch the dispatch function.
-     * @param {String} attributeName name of the attribute, may be empty.
+     * @param {String} attributeName name of the attribute, empty for the whole layer.
      * @returns {Promise<void>} resolves once the feature count is refreshed.
      */
     selectFilterAttribute ({commit, dispatch}, attributeName) {
         commit("setFilterAttribute", attributeName);
         commit("setFilterValue", "");
-        commit("setFilterValues", []);
-        commit("setFilterValuesStatus", "idle");
-        commit("setFilterValuesTruncated", false);
         commit("resetResult");
+        dispatch("clearBoundaryHighlight");
 
         return dispatch("refreshFeatureCount");
     },
 
     /**
-     * Sets the filter value and refreshes the feature count.
+     * Draws the outline of the selected area on the map, or removes it when
+     * nothing is selected or no outline is known for the value.
+     * @param {Object} context the vuex context.
+     * @param {Object} context.state the state of this module.
+     * @param {Object} context.getters the getters of this module.
+     * @param {Function} context.dispatch the dispatch function.
+     * @param {Object} context.rootGetters the root getters.
+     * @returns {Promise<void>} resolves once the map is up to date.
+     */
+    async updateBoundaryHighlight ({state, getters, dispatch, rootGetters}) {
+        const value = state.filterValue,
+            layerId = state.selectedLayerId;
+
+        if (value === "") {
+            dispatch("clearBoundaryHighlight");
+            return;
+        }
+
+        const feature = await findBoundaryFeature(
+            getters.settings.boundaries,
+            value,
+            rootGetters["Maps/projectionCode"]
+        );
+
+        if (layerId !== state.selectedLayerId || value !== state.filterValue) {
+            return;
+        }
+
+        if (feature) {
+            // placingPolygonMarker replaces the previous marker by itself, and
+            // the portal styles this marker layer as a red outline without fill.
+            dispatch("Maps/placingPolygonMarker", feature, {root: true});
+        }
+        else {
+            dispatch("clearBoundaryHighlight");
+        }
+    },
+
+    /**
+     * Removes the outline from the map.
+     * @param {Object} context the vuex context.
+     * @param {Function} context.dispatch the dispatch function.
+     * @returns {void}
+     */
+    clearBoundaryHighlight ({dispatch}) {
+        dispatch("Maps/removePolygonMarker", null, {root: true});
+    },
+
+    /**
+     * Sets the value of the area selection.
      * @param {Object} context the vuex context.
      * @param {Function} context.commit the commit function.
      * @param {Function} context.dispatch the dispatch function.
@@ -299,59 +347,95 @@ const actions = {
     selectFilterValue ({commit, dispatch}, value) {
         commit("setFilterValue", value);
         commit("resetResult");
+        dispatch("updateBoundaryHighlight");
 
         return dispatch("refreshFeatureCount");
     },
 
     /**
-     * Loads the distinct values of the filter attribute. The service offers no
-     * DISTINCT, so this transfers one property for every feature - which is why
-     * it is triggered explicitly by the user and the feature count is shown
-     * beforehand.
+     * Sets the attribute of the optional additional filter.
+     * @param {Object} context the vuex context.
+     * @param {Function} context.commit the commit function.
+     * @param {Function} context.dispatch the dispatch function.
+     * @param {String} attributeName name of the attribute.
+     * @returns {Promise<void>} resolves once the feature count is refreshed.
+     */
+    selectExtraFilterAttribute ({commit, dispatch}, attributeName) {
+        commit("setExtraFilterAttribute", attributeName);
+        commit("setExtraFilterValue", "");
+        commit("resetResult");
+
+        return dispatch("refreshFeatureCount");
+    },
+
+    /**
+     * Sets the value of the optional additional filter.
+     * @param {Object} context the vuex context.
+     * @param {Function} context.commit the commit function.
+     * @param {Function} context.dispatch the dispatch function.
+     * @param {String} value the value to filter for.
+     * @returns {Promise<void>} resolves once the feature count is refreshed.
+     */
+    selectExtraFilterValue ({commit, dispatch}, value) {
+        commit("setExtraFilterValue", value);
+        commit("resetResult");
+
+        return dispatch("refreshFeatureCount");
+    },
+
+    /**
+     * Collects the values an attribute can take, so they can be offered while
+     * typing. Triggered when a value field is focused; already known or running
+     * lookups are not repeated.
      *
-     * This is a convenience only: some attributes of large layers make the
-     * service answer with a 502, so a failure is not treated as an error of the
-     * analysis. The value can always be typed in by hand instead.
+     * A failure is deliberately not an error of the analysis - the value can
+     * always be typed by hand.
      * @param {Object} context the vuex context.
      * @param {Object} context.state the state of this module.
      * @param {Object} context.getters the getters of this module.
      * @param {Function} context.commit the commit function.
+     * @param {String} attributeName name of the attribute.
      * @returns {Promise<void>} resolves once the values are stored.
      */
-    async loadFilterValues ({state, getters, commit}) {
-        const token = ++requestToken,
-            {wfsUrl, filterAttribute} = state,
+    async loadValuesFor ({state, getters, commit}, attributeName) {
+        const layerId = state.selectedLayerId,
+            {wfsUrl} = state,
             {typeName} = getters,
-            attribute = getters.selectableAttributes
-                .find((candidate) => candidate.name === filterAttribute);
+            known = getters.valuesFor(attributeName);
 
-        if (filterAttribute === "") {
+        if (!attributeName || known.status === "loading" || known.status === "ready") {
             return;
         }
 
-        commit("setFilterValuesStatus", "loading");
-        commit("setFilterValuesTruncated", false);
+        commit("setValueCacheEntry", {
+            attribute: attributeName,
+            entry: {values: [], truncated: false, status: "loading"}
+        });
 
         try {
-            const {values, truncated} = await fetchDistinctValues(wfsUrl, typeName, filterAttribute, {
-                isNumeric: Boolean(attribute?.isNumeric),
+            const {values, truncated} = await fetchDistinctValues(wfsUrl, typeName, attributeName, {
+                isNumeric: Boolean(getters.attributeByName(attributeName)?.isNumeric),
                 limit: getters.settings.maxFilterValues
             });
 
-            if (token !== requestToken) {
+            if (layerId !== state.selectedLayerId) {
                 return;
             }
 
-            commit("setFilterValues", values);
-            commit("setFilterValuesTruncated", truncated);
-            commit("setFilterValuesStatus", "ready");
+            commit("setValueCacheEntry", {
+                attribute: attributeName,
+                entry: {values, truncated, status: "ready"}
+            });
         }
         catch (error) {
-            if (token !== requestToken) {
+            if (layerId !== state.selectedLayerId) {
                 return;
             }
 
-            commit("setFilterValuesStatus", "error");
+            commit("setValueCacheEntry", {
+                attribute: attributeName,
+                entry: {values: [], truncated: false, status: "error"}
+            });
         }
     },
 
