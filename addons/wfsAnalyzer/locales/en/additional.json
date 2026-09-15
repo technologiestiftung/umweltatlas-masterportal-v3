@@ -4,7 +4,7 @@
             "title": "Analyse layer",
             "description": "Checks whether a WFS is available for an active layer and analyses its attributes by count or area.",
             "noActiveLayers": "No subject data layer is currently switched on in the map. Add a layer via the topic tree.",
-            "layerSelectLabel": "Active layer",
+            "layerSelectLabel": "Layer",
             "layerSelectPlaceholder": "Please select a layer …",
             "checking": "Checking WFS availability …",
             "unavailable": {
@@ -44,7 +44,7 @@
                 "title": "Analysis",
                 "loadingAttributes": "Loading attributes …",
                 "attributesError": "The attributes of the download service could not be loaded.",
-                "attributeLabel": "2. Attribute to analyse",
+                "attributeLabel": "Attribute to analyse",
                 "attributePlaceholder": "Please select an attribute …",
                 "featureCount": "{{count}} features will be analysed.",
                 "manyFeatures": "That is more than {{max}} features. Loading may take a while – consider restricting the analysis further.",

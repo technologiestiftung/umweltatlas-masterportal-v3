@@ -155,15 +155,9 @@ export default {
             immediate: true
         }
     },
-    unmounted () {
-        // The outline belongs to this tool - it must not stay on the map once
-        // the tool is closed.
-        this.clearBoundaryHighlight();
-    },
     methods: {
         ...mapActions("Modules/WfsAnalyzer", [
             "checkWfsAvailability",
-            "clearBoundaryHighlight",
             "loadValuesFor",
             "runAnalysis",
             "selectExtraFilterAttribute",

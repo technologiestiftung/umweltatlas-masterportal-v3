@@ -4,7 +4,7 @@
             "title": "Layer analysieren",
             "description": "Prüft, ob für einen aktiven Layer ein WFS verfügbar ist, und analysiert dessen Attribute nach Anzahl oder Fläche.",
             "noActiveLayers": "Es ist derzeit kein Fachdaten-Layer in der Karte eingeschaltet. Fügen Sie über den Themenbaum einen Layer hinzu.",
-            "layerSelectLabel": "Aktiver Layer",
+            "layerSelectLabel": "Layer",
             "layerSelectPlaceholder": "Bitte Layer auswählen …",
             "checking": "WFS-Verfügbarkeit wird geprüft …",
             "unavailable": {
@@ -44,7 +44,7 @@
                 "title": "Analyse",
                 "loadingAttributes": "Attribute werden geladen …",
                 "attributesError": "Die Attribute des Downloaddienstes konnten nicht geladen werden.",
-                "attributeLabel": "2. Attribut auswerten",
+                "attributeLabel": "Attribut auswerten",
                 "attributePlaceholder": "Bitte Attribut auswählen …",
                 "featureCount": "{{count}} Objekte werden ausgewertet.",
                 "manyFeatures": "Das sind mehr als {{max}} Objekte. Das Laden kann dauern – schränken Sie die Auswertung ggf. weiter ein.",

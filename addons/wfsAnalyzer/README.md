@@ -88,8 +88,6 @@ const Config = {
         maxChartCategories: 12,
         // Maximum number of filter values offered (and collected).
         maxFilterValues: 50,
-        // Outlines drawn when an area is selected.
-        boundaries: [{file: "bezirke", matchProperty: "namgem"}],
         // Per-layer defaults, matched on the EXACT layer id.
         presets: [
             {
@@ -128,43 +126,6 @@ Suggested attributes that the selected layer actually has are listed in a
 "Vorschläge" option group, all remaining attributes follow in a second group —
 so the suggestions are a shortcut, never a restriction.
 
-## The outline on the map
-
-Selecting an area draws its boundary on the map. The geometry comes from a file
-bundled with the add-on (`geodata/<file>.json`, EPSG:4326), and `boundaries`
-says which property of that file carries the value:
-
-```js
-boundaries: [{file: "bezirke", matchProperty: "namgem"}]
-```
-
-**The lookup is by value, not by attribute name.** There is deliberately no list
-of WFS attribute names to keep in sync: the value of the area selection is
-looked up in `matchProperty`, and that is self-selecting. `bezirk` yields
-"Mitte", "Pankow" … which `namgem` holds (12/12); `bez` yields the codes "01",
-"02" … which it does not hold, so nothing is drawn - the right outcome.
-
-Matching against *every* property instead would be actively wrong: the code
-`bez = "11"` also appears as `lan = "11"` (the Land code), which would highlight
-an arbitrary district.
-
-The file is loaded through a dynamic `import()`, so its ~700 KB sit in their own
-chunk and are only fetched once an area is actually picked. It must be a `.json`
-file - webpack 4 handles `.json` natively but has no loader for `.geojson`, and
-`addons/` is not copied into `dist/` (only `portal/<name>/` is, see
-`devtools/tasks/buildFunctions.js:44`), so a runtime fetch from the add-on
-folder would not work.
-
-Drawing reuses the core: `Maps/placingPolygonMarker` (which replaces the
-previous marker by itself) and `Maps/removePolygonMarker` on close. No styling
-code is needed - this portal already defines `defaultMapMarkerPolygon` in
-`portal/umweltatlas/resources/style_v3.json` as a red outline with a fully
-transparent fill.
-
-Adding another level later is one more entry, e.g.
-`{file: "ortsteile", matchProperty: "nam"}`; the files are tried in order and
-the first one that knows the value wins.
-
 ## Files
 
 ```
@@ -175,10 +136,7 @@ wfsAnalyzer/
 │   ├── AnalysisBarChart.vue        horizontal bars (plain elements)
 │   ├── AnalysisPieChart.vue        pie (hand-built inline SVG arcs)
 │   └── AnalysisTable.vue           full table incl. totals row
-├── geodata/
-│   └── bezirke.json                district outlines, EPSG:4326 (lazy chunk)
 ├── js/
-│   ├── boundaryGeometry.js         outline lookup + reprojection
 │   ├── wfsLookup.js                CSW → WFS discovery and confirmation
 │   ├── wfsAnalysis.js              WFS requests + aggregation
 │   ├── analysisConfig.js           defaults + presets, merged with Config.wfsAnalyzer
@@ -339,8 +297,6 @@ npx mochapack --recursive --webpack-config devtools/webpack.test.js \
 * `tests/unit/js/wfsAnalysis.spec.js` — URL and CQL building, schema/response
   parsing, count and area aggregation.
 * `tests/unit/js/formatResult.spec.js` — units, number formatting, chart grouping.
-* `tests/unit/js/boundaryGeometry.spec.js` — outline lookup, including the
-  `bez`/`lan` false positive that value matching avoids.
 * `tests/unit/js/analysisConfig.spec.js` — preset normalisation and config merging.
   `tests/unit/js/wfsAnalysis.spec.js` also covers `fetchDistinctValues`: the bulk
   path, the stepwise fallback, the CQL it steps with, and both truncation cases.

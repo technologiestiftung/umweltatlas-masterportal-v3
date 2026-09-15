@@ -1,5 +1,4 @@
 import {checkWfsForLayer} from "../js/wfsLookup";
-import {findBoundaryFeature} from "../js/boundaryGeometry";
 import {analyseByArea, analyseByCount, fetchAttributes, fetchDistinctValues, fetchFeatureCount} from "../js/wfsAnalysis";
 
 /**
@@ -55,12 +54,11 @@ const actions = {
      * @param {Function} context.commit the commit function.
      * @returns {void}
      */
-    syncSelection ({state, getters, commit, dispatch}) {
+    syncSelection ({state, getters, commit}) {
         if (state.selectedLayerId !== "" && !getters.selectedLayer) {
             commit("setSelectedLayerId", "");
             commit("resetCheck");
             commit("resetAnalysis");
-            dispatch("clearBoundaryHighlight");
         }
     },
 
@@ -77,7 +75,6 @@ const actions = {
         commit("setSelectedLayerId", layerId);
         commit("resetCheck");
         commit("resetAnalysis");
-        dispatch("clearBoundaryHighlight");
 
         if (layerId === "") {
             return Promise.resolve();
@@ -282,58 +279,8 @@ const actions = {
         commit("setFilterAttribute", attributeName);
         commit("setFilterValue", "");
         commit("resetResult");
-        dispatch("clearBoundaryHighlight");
 
         return dispatch("refreshFeatureCount");
-    },
-
-    /**
-     * Draws the outline of the selected area on the map, or removes it when
-     * nothing is selected or no outline is known for the value.
-     * @param {Object} context the vuex context.
-     * @param {Object} context.state the state of this module.
-     * @param {Object} context.getters the getters of this module.
-     * @param {Function} context.dispatch the dispatch function.
-     * @param {Object} context.rootGetters the root getters.
-     * @returns {Promise<void>} resolves once the map is up to date.
-     */
-    async updateBoundaryHighlight ({state, getters, dispatch, rootGetters}) {
-        const value = state.filterValue,
-            layerId = state.selectedLayerId;
-
-        if (value === "") {
-            dispatch("clearBoundaryHighlight");
-            return;
-        }
-
-        const feature = await findBoundaryFeature(
-            getters.settings.boundaries,
-            value,
-            rootGetters["Maps/projectionCode"]
-        );
-
-        if (layerId !== state.selectedLayerId || value !== state.filterValue) {
-            return;
-        }
-
-        if (feature) {
-            // placingPolygonMarker replaces the previous marker by itself, and
-            // the portal styles this marker layer as a red outline without fill.
-            dispatch("Maps/placingPolygonMarker", feature, {root: true});
-        }
-        else {
-            dispatch("clearBoundaryHighlight");
-        }
-    },
-
-    /**
-     * Removes the outline from the map.
-     * @param {Object} context the vuex context.
-     * @param {Function} context.dispatch the dispatch function.
-     * @returns {void}
-     */
-    clearBoundaryHighlight ({dispatch}) {
-        dispatch("Maps/removePolygonMarker", null, {root: true});
     },
 
     /**
@@ -347,7 +294,6 @@ const actions = {
     selectFilterValue ({commit, dispatch}, value) {
         commit("setFilterValue", value);
         commit("resetResult");
-        dispatch("updateBoundaryHighlight");
 
         return dispatch("refreshFeatureCount");
     },

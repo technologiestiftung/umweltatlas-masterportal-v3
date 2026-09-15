@@ -8,7 +8,6 @@
  *         filterAttributes: ["bezirk", "bez", "ortsteil"],
  *         areaAttributes: ["flalle", "flaeche"],
  *         maxFeatures: 50000,
- *         boundaries: [{file: "bezirke", matchProperty: "namgem"}],
  *         presets: [
  *             {
  *                 layerId: "ua_flaechennutzung:a_reale_nutzung_bebaute_flaechen_2021",
@@ -92,42 +91,6 @@ export const defaultMaxChartCategories = 12;
 export const defaultMaxFilterValues = 50;
 
 /**
- * Outlines that can be drawn on the map when an area is selected. Each entry
- * names a file in `geodata/` and the property of that file which carries the
- * value the area selection produces - `namgem` holds "Mitte",
- * "Friedrichshain-Kreuzberg" and so on, exactly as the WFS attribute `bezirk`
- * does.
- *
- * No list of attribute names is needed: the lookup is by value, so an area
- * selection that produces codes rather than names simply finds nothing and
- * draws nothing.
- * @type {Object[]}
- */
-export const defaultBoundaries = [
-    {file: "bezirke", matchProperty: "namgem"}
-];
-
-/**
- * Brings the configured boundaries into a predictable shape.
- * @param {*} boundaries the configured boundaries.
- * @returns {Object[]} the normalized boundaries.
- */
-export function normalizeBoundaries (boundaries) {
-    if (!Array.isArray(boundaries)) {
-        return defaultBoundaries;
-    }
-
-    return boundaries
-        .filter((boundary) => boundary && typeof boundary === "object" &&
-            typeof boundary.file === "string" && boundary.file.trim() !== "" &&
-            typeof boundary.matchProperty === "string" && boundary.matchProperty.trim() !== "")
-        .map((boundary) => ({
-            file: boundary.file.trim(),
-            matchProperty: boundary.matchProperty.trim()
-        }));
-}
-
-/**
  * Reads an optional string field of a preset. Empty and non-string values count
  * as "not configured".
  * @param {*} value the configured value.
@@ -181,7 +144,6 @@ export function getAnalysisConfig () {
         maxFeatures: typeof settings.maxFeatures === "number" ? settings.maxFeatures : defaultMaxFeatures,
         maxChartCategories: typeof settings.maxChartCategories === "number" ? settings.maxChartCategories : defaultMaxChartCategories,
         maxFilterValues: typeof settings.maxFilterValues === "number" ? settings.maxFilterValues : defaultMaxFilterValues,
-        boundaries: normalizeBoundaries(settings.boundaries),
         presets: normalizePresets(settings.presets)
     };
 }
