@@ -6,7 +6,7 @@
             "noActiveLayers": "Es ist derzeit kein Fachdaten-Layer in der Karte eingeschaltet. Fügen Sie über den Themenbaum einen Layer hinzu.",
             "layerSelectLabel": "Layer",
             "layerSelectPlaceholder": "Bitte Layer auswählen …",
-            "checking": "WFS-Verfügbarkeit wird geprüft …",
+            "checking": "Layer wird geprüft …",
             "unavailable": {
                 "title": "Kein WFS verfügbar",
                 "noMetadata": "Für diesen Layer sind keine Metadaten hinterlegt, daher lässt sich kein Downloaddienst ermitteln. Der Layer kann nicht analysiert werden.",

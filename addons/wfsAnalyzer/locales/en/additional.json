@@ -6,7 +6,7 @@
             "noActiveLayers": "No subject data layer is currently switched on in the map. Add a layer via the topic tree.",
             "layerSelectLabel": "Layer",
             "layerSelectPlaceholder": "Please select a layer …",
-            "checking": "Checking WFS availability …",
+            "checking": "Checking Layer …",
             "unavailable": {
                 "title": "No WFS available",
                 "noMetadata": "No metadata is configured for this layer, so no download service can be determined. The layer cannot be analysed.",
