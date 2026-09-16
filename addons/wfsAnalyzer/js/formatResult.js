@@ -65,6 +65,22 @@ export function formatNumber (value, locale = "de", maximumFractionDigits = 0) {
 }
 
 /**
+ * Formats a share as a percentage. Goes through the same locale as every other
+ * number, so a German result does not mix "8,18 km²" with "25.8 %".
+ * @param {Number} share the share between 0 and 1.
+ * @param {String} [locale="de"] the locale.
+ * @returns {String} the formatted percentage, without the sign.
+ */
+export function formatPercent (share, locale = "de") {
+    // Always exactly one decimal, so the column lines up and 100 % reads
+    // "100,0 %" like every other row.
+    return new Intl.NumberFormat(locale, {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1
+    }).format((isFinite(share) ? share : 0) * 100);
+}
+
+/**
  * Reduces a result to the categories shown in a chart: the largest ones are
  * kept, everything else is pooled into one remainder entry. The table shows
  * the full list instead.

@@ -77,7 +77,7 @@ const mutations = {
         state.result = null;
         state.analysisStatus = "idle";
         state.analysisError = "";
-        state.resultView = "bar";
+        state.resultView = "table";
     },
 
     /**

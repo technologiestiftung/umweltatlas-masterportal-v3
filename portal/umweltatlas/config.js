@@ -11,7 +11,6 @@ const Config = {
             "neubklar",
             "bezklar",
             "bezirk",
-            "bez",
             "bezirksname",
             "bezname",
             "namgem",

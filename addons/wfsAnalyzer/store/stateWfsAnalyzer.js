@@ -33,7 +33,7 @@
  * @property {Object} result the analysis result as {unit, total, categories}.
  * @property {String} analysisStatus one of "idle", "running", "ready", "error".
  * @property {String} analysisError message of the last failed analysis.
- * @property {String} resultView one of "bar", "pie", "table".
+ * @property {String} resultView one of "table", "pie".
  */
 const state = {
     description: "additional:modules.wfsAnalyzer.description",
@@ -68,7 +68,7 @@ const state = {
     result: null,
     analysisStatus: "idle",
     analysisError: "",
-    resultView: "bar"
+    resultView: "table"
 };
 
 export default state;

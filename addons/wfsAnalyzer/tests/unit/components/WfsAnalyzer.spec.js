@@ -413,7 +413,7 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
             expect(labels).to.include("typklar");
         });
 
-        it("renders the result as a bar chart by default", () => {
+        it("renders the result as a table with a bar per row by default", () => {
             const wrapper = mountComponent({
                 ...confirmed,
                 analyseAttribute: "nutzung",
@@ -423,8 +423,20 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
                 result: areaResult
             });
 
-            expect(wrapper.findAll(".wfs-analyzer-bar-row")).to.have.lengthOf(2);
+            expect(wrapper.findAll("tbody tr")).to.have.lengthOf(2);
+            expect(wrapper.findAll("tbody .wfs-analyzer-bar-fill")).to.have.lengthOf(2);
             expect(wrapper.text()).to.contain("Wohnnutzung");
+        });
+
+        it("offers the result as a CSV download", () => {
+            const wrapper = mountComponent({
+                ...confirmed,
+                analyseAttribute: "nutzung",
+                analysisStatus: "ready",
+                result: areaResult
+            });
+
+            expect(wrapper.find("#wfs-analyzer-download").exists()).to.be.true;
         });
 
         it("renders the result as a pie chart", () => {
@@ -444,8 +456,7 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
                 ...confirmed,
                 analyseAttribute: "nutzung",
                 analysisStatus: "ready",
-                result: areaResult,
-                resultView: "table"
+                result: areaResult
             });
 
             expect(wrapper.findAll("tbody tr")).to.have.lengthOf(2);

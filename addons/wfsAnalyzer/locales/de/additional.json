@@ -23,7 +23,7 @@
                 "valueLabel": "Wert",
                 "valuesUnavailable": "Keine Werteliste verfügbar – bitte Wert eintippen.",
                 "valuesLoadedPartly": "Nur die ersten {{count}} Werte werden vorgeschlagen – es gibt weitere. Nicht gelistete Werte bitte eintippen.",
-                "areaLabel": "Bereich",
+                "areaLabel": "Bereich (optional)",
                 "extraTitle": "Weitere Filter (optional)",
                 "extraAttributePlaceholder": "Attribut wählen …",
                 "loadingValues": "Werte werden geladen",
@@ -56,11 +56,11 @@
             },
             "result": {
                 "title": "Verteilung von „{{attribute}}“",
+                "titleInArea": "Verteilung von „{{attribute}}“ in {{area}}",
                 "summary": "{{categories}} Kategorien, insgesamt {{total}}.",
                 "viewLabel": "Darstellung",
                 "view": {
-                    "bar": "Balken",
-                    "pie": "Kreis",
+                    "pie": "Kreisdiagramm",
                     "table": "Tabelle"
                 },
                 "category": "Kategorie",
@@ -70,7 +70,9 @@
                 "otherCategories": "Sonstige",
                 "groupedHint": "Kleine Kategorien sind in „Sonstige“ zusammengefasst. Die Tabelle zeigt alle Kategorien.",
                 "empty": "Die Auswertung hat keine Objekte ergeben.",
-                "pieLabel": "Kreisdiagramm der Verteilung"
+                "pieLabel": "Kreisdiagramm der Verteilung",
+                "download": "Als CSV herunterladen",
+                "proportion": "Anteil grafisch"
             }
         }
     }

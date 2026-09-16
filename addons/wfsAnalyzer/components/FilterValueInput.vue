@@ -103,8 +103,12 @@ export default {
 
 <template>
     <div>
+        <!--
+            The field sits directly under the area select and needs no visible
+            caption; screen readers still get one.
+        -->
         <label
-            class="form-label"
+            class="visually-hidden"
             :for="id"
         >
             {{ label }}

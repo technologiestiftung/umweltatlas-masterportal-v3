@@ -23,7 +23,7 @@
                 "valueLabel": "Value",
                 "valuesUnavailable": "No value list available – please type the value.",
                 "valuesLoadedPartly": "Only the first {{count}} values are suggested – there are more. Please type values that are not listed.",
-                "areaLabel": "Area",
+                "areaLabel": "Area (optional)",
                 "extraTitle": "More filters (optional)",
                 "extraAttributePlaceholder": "Choose attribute …",
                 "loadingValues": "Loading values",
@@ -56,11 +56,11 @@
             },
             "result": {
                 "title": "Distribution of “{{attribute}}”",
+                "titleInArea": "Distribution of “{{attribute}}” in {{area}}",
                 "summary": "{{categories}} categories, {{total}} in total.",
                 "viewLabel": "Presentation",
                 "view": {
-                    "bar": "Bars",
-                    "pie": "Pie",
+                    "pie": "Pie chart",
                     "table": "Table"
                 },
                 "category": "Category",
@@ -70,7 +70,9 @@
                 "otherCategories": "Other",
                 "groupedHint": "Small categories are pooled into “Other”. The table shows every category.",
                 "empty": "The analysis returned no features.",
-                "pieLabel": "Pie chart of the distribution"
+                "pieLabel": "Pie chart of the distribution",
+                "download": "Download as CSV",
+                "proportion": "Proportion"
             }
         }
     }

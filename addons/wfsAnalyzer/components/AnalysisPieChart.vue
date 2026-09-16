@@ -22,6 +22,11 @@ export default {
         formatValue: {
             type: Function,
             required: true
+        },
+        /** Formats a share for display. */
+        formatShare: {
+            type: Function,
+            required: true
         }
     },
     data () {
@@ -139,7 +144,7 @@ export default {
                 />
                 <span class="wfs-analyzer-legend-label">{{ category.label }}</span>
                 <span class="wfs-analyzer-legend-value text-muted">
-                    {{ (category.share * 100).toFixed(1) }}&nbsp;%
+                    {{ formatShare(category.share) }}&nbsp;%
                 </span>
             </li>
         </ul>

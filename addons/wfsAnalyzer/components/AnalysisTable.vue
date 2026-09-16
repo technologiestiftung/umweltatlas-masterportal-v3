@@ -1,7 +1,10 @@
 <script>
+import {getChartColor} from "../js/formatResult";
+
 /**
- * Lists every category of the result as a table, including the totals row.
- * Unlike the charts this is never reduced to a top-n selection.
+ * Lists every category of the result, with a bar next to each row so the
+ * proportions can be read at a glance without leaving the table. Unlike the
+ * pie chart this is never reduced to a top-n selection.
  * @module addons/wfsAnalyzer/components/AnalysisTable
  */
 export default {
@@ -26,6 +29,32 @@ export default {
         formatValue: {
             type: Function,
             required: true
+        },
+        /** Formats a share for display. */
+        formatShare: {
+            type: Function,
+            required: true
+        }
+    },
+    computed: {
+        /**
+         * The bars are scaled to the largest category, not to the total, so a
+         * result of many small shares stays readable.
+         * @returns {Number} the largest value.
+         */
+        maxValue () {
+            return this.categories.reduce((max, category) => Math.max(max, category.value), 0);
+        }
+    },
+    methods: {
+        getChartColor,
+
+        /**
+         * @param {Number} value the value of a category.
+         * @returns {Number} the bar width in percent of the widest bar.
+         */
+        getBarWidth (value) {
+            return this.maxValue > 0 ? (value / this.maxValue) * 100 : 0;
         }
     }
 };
@@ -38,6 +67,14 @@ export default {
                 <tr>
                     <th scope="col">
                         {{ $t("additional:modules.wfsAnalyzer.result.category") }}
+                    </th>
+                    <th
+                        scope="col"
+                        class="wfs-analyzer-bar-column"
+                    >
+                        <span class="visually-hidden">
+                            {{ $t("additional:modules.wfsAnalyzer.result.proportion") }}
+                        </span>
                     </th>
                     <th
                         scope="col"
@@ -55,26 +92,39 @@ export default {
             </thead>
             <tbody>
                 <tr
-                    v-for="category in categories"
+                    v-for="(category, index) in categories"
                     :key="category.label"
                 >
                     <td>{{ category.label }}</td>
+                    <td class="wfs-analyzer-bar-column">
+                        <div
+                            class="wfs-analyzer-bar-track"
+                            role="img"
+                            :aria-label="`${category.label}: ${formatValue(category.value)}`"
+                        >
+                            <div
+                                class="wfs-analyzer-bar-fill"
+                                :style="{width: getBarWidth(category.value) + '%', backgroundColor: getChartColor(index)}"
+                            />
+                        </div>
+                    </td>
                     <td class="text-end wfs-analyzer-number">
                         {{ formatValue(category.value) }}
                     </td>
                     <td class="text-end wfs-analyzer-number">
-                        {{ (category.share * 100).toFixed(1) }}&nbsp;%
+                        {{ formatShare(category.share) }}&nbsp;%
                     </td>
                 </tr>
             </tbody>
             <tfoot>
                 <tr class="fw-bold">
                     <td>{{ $t("additional:modules.wfsAnalyzer.result.total") }}</td>
+                    <td class="wfs-analyzer-bar-column" />
                     <td class="text-end wfs-analyzer-number">
                         {{ formatValue(total) }}
                     </td>
                     <td class="text-end wfs-analyzer-number">
-                        100,0&nbsp;%
+                        {{ formatShare(1) }}&nbsp;%
                     </td>
                 </tr>
             </tfoot>
@@ -87,12 +137,29 @@ export default {
     font-size: 12px;
 
     td, th {
-        vertical-align: top;
+        vertical-align: middle;
     }
 }
 
 .wfs-analyzer-number {
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
+}
+
+.wfs-analyzer-bar-column {
+    width: 34%;
+    min-width: 60px;
+}
+
+.wfs-analyzer-bar-track {
+    height: 8px;
+    border-radius: 2px;
+    background-color: rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.wfs-analyzer-bar-fill {
+    height: 100%;
+    border-radius: 2px;
 }
 </style>

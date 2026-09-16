@@ -1,11 +1,11 @@
 <script>
 import i18next from "i18next";
 import {mapActions, mapGetters, mapMutations} from "vuex";
-import AnalysisBarChart from "./AnalysisBarChart.vue";
 import AnalysisPieChart from "./AnalysisPieChart.vue";
 import AnalysisTable from "./AnalysisTable.vue";
 import FilterValueInput from "./FilterValueInput.vue";
-import {formatNumber, getAreaUnit, groupCategories} from "../js/formatResult";
+import {formatNumber, formatPercent, getAreaUnit, groupCategories} from "../js/formatResult";
+import {buildCsv, downloadCsv} from "../js/exportCsv";
 
 /**
  * Lets the user pick one of the layers currently switched on in the map and
@@ -16,14 +16,14 @@ import {formatNumber, getAreaUnit, groupCategories} from "../js/formatResult";
 export default {
     name: "WfsAnalyzer",
     components: {
-        AnalysisBarChart,
         AnalysisPieChart,
         AnalysisTable,
         FilterValueInput
     },
     data () {
         return {
-            showExtraFilter: false
+            showExtraFilter: false,
+            extraFilterEnabled: false
         };
     },
     computed: {
@@ -94,6 +94,24 @@ export default {
             }
 
             return "";
+        },
+
+        /**
+         * The heading over the result. It names the area the numbers belong to,
+         * because the same attribute gives very different numbers per district.
+         * @returns {String} the heading.
+         */
+        resultTitle () {
+            if (this.filterValue !== "") {
+                return this.$t("additional:modules.wfsAnalyzer.result.titleInArea", {
+                    attribute: this.analyseAttributeLabel,
+                    area: this.filterValue
+                });
+            }
+
+            return this.$t("additional:modules.wfsAnalyzer.result.title", {
+                attribute: this.analyseAttributeLabel
+            });
         },
 
         /**
@@ -220,6 +238,15 @@ export default {
         },
 
         /**
+         * Formats a share, in the same locale as every other number.
+         * @param {Number} share the share between 0 and 1.
+         * @returns {String} the formatted percentage.
+         */
+        formatShare (share) {
+            return formatPercent(share, i18next.language || "de");
+        },
+
+        /**
          * Formats a plain number, e.g. the feature count.
          * @param {Number} value the value.
          * @returns {String} the formatted number.
@@ -238,6 +265,36 @@ export default {
             return attribute.title && attribute.title !== attribute.name
                 ? `${attribute.title} (${attribute.name})`
                 : attribute.name;
+        },
+
+        /**
+         * Offers the full result as a CSV. Every category is written, also the
+         * ones the pie chart pools into "other".
+         * @returns {void}
+         */
+        downloadResult () {
+            const isArea = this.result?.unit === "area",
+                unit = this.$t(`additional:modules.wfsAnalyzer.units.${this.areaUnit.key}`),
+                csv = buildCsv({
+                    categories: isArea
+                        ? this.namedCategories.map((category) => ({
+                            ...category,
+                            value: category.value / this.areaUnit.factor
+                        }))
+                        : this.namedCategories,
+                    total: isArea ? this.result.total / this.areaUnit.factor : this.result.total,
+                    decimals: isArea ? 2 : 0,
+                    headers: {
+                        category: this.$t("additional:modules.wfsAnalyzer.result.category"),
+                        value: isArea
+                            ? `${this.$t("additional:modules.wfsAnalyzer.mode.area")} (${unit})`
+                            : this.$t("additional:modules.wfsAnalyzer.mode.count"),
+                        share: `${this.$t("additional:modules.wfsAnalyzer.result.share")} (%)`,
+                        total: this.$t("additional:modules.wfsAnalyzer.result.total")
+                    }
+                });
+
+            downloadCsv(csv, `${this.analyseAttributeLabel}_${this.filterValue || "gesamt"}`);
         },
 
         /**
@@ -498,8 +555,15 @@ export default {
                         </template>
                     </div>
 
-                    <!-- optional additional filter -->
-                    <div class="mb-3">
+                    <!--
+                        Optional additional filter - not shown for now. The
+                        store side stays in place, so switching the flag below
+                        brings it back.
+                    -->
+                    <div
+                        v-if="extraFilterEnabled"
+                        class="mb-3"
+                    >
                         <button
                             id="wfs-analyzer-extra-toggle"
                             type="button"
@@ -618,7 +682,7 @@ export default {
 
                         <template v-else>
                             <h6 class="mb-1">
-                                {{ $t("additional:modules.wfsAnalyzer.result.title", {attribute: analyseAttributeLabel}) }}
+                                {{ resultTitle }}
                             </h6>
                             <p class="small text-muted mb-2">
                                 {{ $t("additional:modules.wfsAnalyzer.result.summary", {
@@ -633,7 +697,7 @@ export default {
                                 :aria-label="$t('additional:modules.wfsAnalyzer.result.viewLabel')"
                             >
                                 <button
-                                    v-for="view in ['bar', 'pie', 'table']"
+                                    v-for="view in ['table', 'pie']"
                                     :key="view"
                                     type="button"
                                     class="btn"
@@ -644,15 +708,11 @@ export default {
                                 </button>
                             </div>
 
-                            <AnalysisBarChart
-                                v-if="resultView === 'bar'"
-                                :categories="chartCategories"
-                                :format-value="formatValue"
-                            />
                             <AnalysisPieChart
-                                v-else-if="resultView === 'pie'"
+                                v-if="resultView === 'pie'"
                                 :categories="chartCategories"
                                 :format-value="formatValue"
+                                :format-share="formatShare"
                             />
                             <AnalysisTable
                                 v-else
@@ -660,6 +720,7 @@ export default {
                                 :total="result.total"
                                 :value-header="valueHeader"
                                 :format-value="formatValue"
+                                :format-share="formatShare"
                             />
 
                             <p
@@ -668,6 +729,16 @@ export default {
                             >
                                 {{ $t("additional:modules.wfsAnalyzer.result.groupedHint") }}
                             </p>
+
+                            <button
+                                id="wfs-analyzer-download"
+                                type="button"
+                                class="btn wfs-analyzer-segment w-100 mt-3"
+                                @click="downloadResult"
+                            >
+                                <i class="bi bi-download me-2" />
+                                {{ $t("additional:modules.wfsAnalyzer.result.download") }}
+                            </button>
                         </template>
                     </div>
                 </template>
