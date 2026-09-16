@@ -319,8 +319,38 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
         it("hides the area-attribute select when there is nothing to choose", () => {
             const wrapper = mountComponent({...confirmed, mode: "area", areaAttribute: "flalle"});
 
-            // Exactly one numeric candidate, so the choice is made silently.
+            // Exactly one configured area attribute, so the choice is silent.
             expect(wrapper.find("#wfs-analyzer-area-attribute").exists()).to.be.false;
+        });
+
+        it("keeps numeric attributes that are not area columns out of the choice", () => {
+            const wrapper = mountComponent({
+                    ...confirmed,
+                    // "typ" is a category code - a number, but never an area.
+                    attributes: [...attributes, {name: "typ", title: "Flächentyp (Code)", type: "xsd:double", isGeometry: false, isNumeric: true}],
+                    mode: "area",
+                    areaAttribute: "flalle"
+                }),
+                candidates = wrapper.vm.areaAttributeCandidates.map((attribute) => attribute.name);
+
+            expect(candidates).to.deep.equal(["flalle"]);
+            expect(wrapper.find("#wfs-analyzer-area-attribute").exists()).to.be.false;
+        });
+
+        it("falls back to every numeric attribute when none is configured", () => {
+            const wrapper = mountComponent({
+                    ...confirmed,
+                    attributes: [
+                        {name: "nutzung", title: "Nutzung", type: "xsd:string", isGeometry: false, isNumeric: false},
+                        {name: "groesse_qm", title: "Größe", type: "xsd:double", isGeometry: false, isNumeric: true},
+                        {name: "ew2018", title: "Einwohner", type: "xsd:int", isGeometry: false, isNumeric: true}
+                    ],
+                    mode: "area"
+                }),
+                candidates = wrapper.vm.areaAttributeCandidates.map((attribute) => attribute.name);
+
+            expect(candidates).to.deep.equal(["groesse_qm", "ew2018"]);
+            expect(wrapper.find("#wfs-analyzer-area-attribute").exists()).to.be.true;
         });
 
         it("asks which attribute holds the area only when several could", () => {

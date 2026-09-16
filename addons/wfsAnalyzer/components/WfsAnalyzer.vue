@@ -354,13 +354,7 @@ export default {
         </div>
 
         <template v-else>
-            <div class="mb-3">
-                <label
-                    class="form-label"
-                    for="wfs-analyzer-layer-select"
-                >
-                    {{ $t("additional:modules.wfsAnalyzer.layerSelectLabel") }}
-                </label>
+            <div class="form-floating mb-3">
                 <select
                     id="wfs-analyzer-layer-select"
                     class="form-select"
@@ -378,6 +372,9 @@ export default {
                         {{ layer.name }}
                     </option>
                 </select>
+                <label for="wfs-analyzer-layer-select">
+                    {{ $t("additional:modules.wfsAnalyzer.layerSelectLabel") }}
+                </label>
             </div>
 
             <div
@@ -453,29 +450,28 @@ export default {
                         v-if="areaFilterAttributes.length > 0"
                         class="mb-3"
                     >
-                        <label
-                            class="form-label"
-                            for="wfs-analyzer-filter-attribute"
-                        >
-                            {{ $t("additional:modules.wfsAnalyzer.filter.areaLabel") }}
-                        </label>
-                        <select
-                            id="wfs-analyzer-filter-attribute"
-                            class="form-select form-select-sm"
-                            :value="filterAttribute"
-                            @change="selectFilterAttribute($event.target.value)"
-                        >
-                            <option value="">
-                                {{ $t("additional:modules.wfsAnalyzer.filter.wholeLayer") }}
-                            </option>
-                            <option
-                                v-for="attribute in areaFilterAttributes"
-                                :key="attribute.name"
-                                :value="attribute.name"
+                        <div class="form-floating">
+                            <select
+                                id="wfs-analyzer-filter-attribute"
+                                class="form-select"
+                                :value="filterAttribute"
+                                @change="selectFilterAttribute($event.target.value)"
                             >
-                                {{ getAttributeLabel(attribute) }}
-                            </option>
-                        </select>
+                                <option value="">
+                                    {{ $t("additional:modules.wfsAnalyzer.filter.wholeLayer") }}
+                                </option>
+                                <option
+                                    v-for="attribute in areaFilterAttributes"
+                                    :key="attribute.name"
+                                    :value="attribute.name"
+                                >
+                                    {{ getAttributeLabel(attribute) }}
+                                </option>
+                            </select>
+                            <label for="wfs-analyzer-filter-attribute">
+                                {{ $t("additional:modules.wfsAnalyzer.filter.areaLabel") }}
+                            </label>
+                        </div>
 
                         <FilterValueInput
                             v-if="filterAttribute !== ''"
@@ -491,29 +487,28 @@ export default {
 
                     <!-- what to analyse -->
                     <div class="mb-3">
-                        <label
-                            class="form-label"
-                            for="wfs-analyzer-analyse-attribute"
-                        >
-                            {{ $t("additional:modules.wfsAnalyzer.analysis.attributeLabel") }}
-                        </label>
-                        <select
-                            id="wfs-analyzer-analyse-attribute"
-                            class="form-select form-select-sm"
-                            :value="analyseAttribute"
-                            @change="onAnalyseAttributeChange"
-                        >
-                            <option value="">
-                                {{ $t("additional:modules.wfsAnalyzer.analysis.attributePlaceholder") }}
-                            </option>
-                            <option
-                                v-for="attribute in selectableAttributes"
-                                :key="attribute.name"
-                                :value="attribute.name"
+                        <div class="form-floating">
+                            <select
+                                id="wfs-analyzer-analyse-attribute"
+                                class="form-select"
+                                :value="analyseAttribute"
+                                @change="onAnalyseAttributeChange"
                             >
-                                {{ getAttributeLabel(attribute) }}
-                            </option>
-                        </select>
+                                <option value="">
+                                    {{ $t("additional:modules.wfsAnalyzer.analysis.attributePlaceholder") }}
+                                </option>
+                                <option
+                                    v-for="attribute in selectableAttributes"
+                                    :key="attribute.name"
+                                    :value="attribute.name"
+                                >
+                                    {{ getAttributeLabel(attribute) }}
+                                </option>
+                            </select>
+                            <label for="wfs-analyzer-analyse-attribute">
+                                {{ $t("additional:modules.wfsAnalyzer.analysis.attributeLabel") }}
+                            </label>
+                        </div>
                     </div>
 
                     <!-- count or area -->
@@ -542,26 +537,25 @@ export default {
                         </div>
 
                         <template v-if="mode === 'area' && needsAreaAttributeChoice">
-                            <label
-                                class="form-label mt-2"
-                                for="wfs-analyzer-area-attribute"
-                            >
-                                {{ $t("additional:modules.wfsAnalyzer.mode.areaAttributeLabel") }}
-                            </label>
-                            <select
-                                id="wfs-analyzer-area-attribute"
-                                class="form-select form-select-sm"
-                                :value="areaAttribute"
-                                @change="onAreaAttributeChange"
-                            >
-                                <option
-                                    v-for="attribute in areaAttributeCandidates"
-                                    :key="attribute.name"
-                                    :value="attribute.name"
+                            <div class="form-floating mt-2">
+                                <select
+                                    id="wfs-analyzer-area-attribute"
+                                    class="form-select"
+                                    :value="areaAttribute"
+                                    @change="onAreaAttributeChange"
                                 >
-                                    {{ getAttributeLabel(attribute) }}
-                                </option>
-                            </select>
+                                    <option
+                                        v-for="attribute in areaAttributeCandidates"
+                                        :key="attribute.name"
+                                        :value="attribute.name"
+                                    >
+                                        {{ getAttributeLabel(attribute) }}
+                                    </option>
+                                </select>
+                                <label for="wfs-analyzer-area-attribute">
+                                    {{ $t("additional:modules.wfsAnalyzer.mode.areaAttributeLabel") }}
+                                </label>
+                            </div>
                         </template>
                     </div>
 
@@ -594,23 +588,28 @@ export default {
                             id="wfs-analyzer-extra-filter"
                             class="mt-2"
                         >
-                            <select
-                                id="wfs-analyzer-extra-attribute"
-                                class="form-select form-select-sm"
-                                :value="extraFilterAttribute"
-                                @change="selectExtraFilterAttribute($event.target.value)"
-                            >
-                                <option value="">
-                                    {{ $t("additional:modules.wfsAnalyzer.filter.extraAttributePlaceholder") }}
-                                </option>
-                                <option
-                                    v-for="attribute in extraFilterAttributes"
-                                    :key="attribute.name"
-                                    :value="attribute.name"
+                            <div class="form-floating">
+                                <select
+                                    id="wfs-analyzer-extra-attribute"
+                                    class="form-select"
+                                    :value="extraFilterAttribute"
+                                    @change="selectExtraFilterAttribute($event.target.value)"
                                 >
-                                    {{ getAttributeLabel(attribute) }}
-                                </option>
-                            </select>
+                                    <option value="">
+                                        {{ $t("additional:modules.wfsAnalyzer.filter.extraAttributePlaceholder") }}
+                                    </option>
+                                    <option
+                                        v-for="attribute in extraFilterAttributes"
+                                        :key="attribute.name"
+                                        :value="attribute.name"
+                                    >
+                                        {{ getAttributeLabel(attribute) }}
+                                    </option>
+                                </select>
+                                <label for="wfs-analyzer-extra-attribute">
+                                    {{ $t("additional:modules.wfsAnalyzer.filter.extraTitle") }}
+                                </label>
+                            </div>
 
                             <FilterValueInput
                                 v-if="extraFilterAttribute !== ''"

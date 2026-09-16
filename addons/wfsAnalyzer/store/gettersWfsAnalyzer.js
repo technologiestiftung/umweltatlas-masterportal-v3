@@ -153,19 +153,13 @@ const getters = {
      * @returns {Object[]} the suggested area attributes.
      */
     suggestedAreaAttributes (state, moduleGetters) {
-        return matchSuggestions(moduleGetters.numericAttributes, moduleGetters.settings.areaAttributes);
-    },
-
-    /**
-     * All remaining numeric attributes, so an unusual area field can be used.
-     * @param {WfsAnalyzerState} state context state object.
-     * @param {Object} moduleGetters the getters of this module.
-     * @returns {Object[]} the other numeric attributes.
-     */
-    otherAreaAttributes (state, moduleGetters) {
-        const suggested = moduleGetters.suggestedAreaAttributes.map((attribute) => attribute.name);
-
-        return moduleGetters.numericAttributes.filter((attribute) => !suggested.includes(attribute.name));
+        // Matched against every attribute, not just the numeric ones: services
+        // are inconsistent about this. ua_flaechennutzung declares `flalle` as
+        // xsd:double, ua_flaechennutzung_1990 declares the very same column as
+        // xsd:string although it holds "17627". Naming a column in
+        // `areaAttributes` is a deliberate statement that it carries an area,
+        // so it outranks the declared type.
+        return matchSuggestions(moduleGetters.selectableAttributes, moduleGetters.settings.areaAttributes);
     },
 
     /**
@@ -212,13 +206,50 @@ const getters = {
     },
 
     /**
-     * All attributes that could hold an area.
+     * Everything that could carry an area: the configured names whatever their
+     * declared type, plus every numeric attribute. Used to judge a preset,
+     * which may deliberately point at something outside the configured list.
+     * @param {WfsAnalyzerState} state context state object.
+     * @param {Object} moduleGetters the getters of this module.
+     * @returns {Object[]} the possible area attributes.
+     */
+    possibleAreaAttributes (state, moduleGetters) {
+        const configured = moduleGetters.suggestedAreaAttributes,
+            names = configured.map((attribute) => attribute.name);
+
+        return [
+            ...configured,
+            ...moduleGetters.numericAttributes.filter((attribute) => !names.includes(attribute.name))
+        ];
+    },
+
+    /**
+     * The attributes offered as the one holding the area.
+     *
+     * If the layer has any of the attributes configured in `areaAttributes`,
+     * only those are offered - every other numeric attribute would be a trap,
+     * since a code like "Flächentyp" is a number too but summing it yields
+     * nonsense. Only when the layer has none of them does the whole set of
+     * numeric attributes stand in, so an unusually named area column can still
+     * be picked by hand.
      * @param {WfsAnalyzerState} state context state object.
      * @param {Object} moduleGetters the getters of this module.
      * @returns {Object[]} the candidates.
      */
     areaAttributeCandidates (state, moduleGetters) {
-        return [...moduleGetters.suggestedAreaAttributes, ...moduleGetters.otherAreaAttributes];
+        const matched = moduleGetters.suggestedAreaAttributes,
+            candidates = matched.length > 0 ? [...matched] : [...moduleGetters.numericAttributes],
+            selected = moduleGetters.possibleAreaAttributes
+                .find((attribute) => attribute.name === state.areaAttribute);
+
+        // A preset may name a numeric attribute outside the configured list.
+        // The select has to contain whatever is selected, otherwise the browser
+        // shows the first option while the state says something else.
+        if (selected && !candidates.includes(selected)) {
+            candidates.push(selected);
+        }
+
+        return candidates;
     },
 
     /**

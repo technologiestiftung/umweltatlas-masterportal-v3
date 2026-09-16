@@ -20,7 +20,7 @@
             },
             "filter": {
                 "wholeLayer": "Whole area",
-                "valueLabel": "Value",
+                "valueLabel": "Name / Value of the area",
                 "valuesUnavailable": "No value list available – please type the value.",
                 "valuesLoadedPartly": "Only the first {{count}} values are suggested – there are more. Please type values that are not listed.",
                 "areaLabel": "Area (optional)",

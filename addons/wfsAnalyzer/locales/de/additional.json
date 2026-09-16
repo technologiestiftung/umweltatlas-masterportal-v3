@@ -20,7 +20,7 @@
             },
             "filter": {
                 "wholeLayer": "Ganzer Bereich",
-                "valueLabel": "Wert",
+                "valueLabel": "Name / Wert des Bereichs",
                 "valuesUnavailable": "Keine Werteliste verfügbar – bitte Wert eintippen.",
                 "valuesLoadedPartly": "Nur die ersten {{count}} Werte werden vorgeschlagen – es gibt weitere. Nicht gelistete Werte bitte eintippen.",
                 "areaLabel": "Bereich (optional)",

@@ -32,7 +32,11 @@ describe("addons/wfsAnalyzer/store/actionsWfsAnalyzer", () => {
                 preset,
                 selectableAttributes: selectable,
                 numericAttributes: numeric,
-                suggestedAreaAttributes: numeric
+                suggestedAreaAttributes: numeric,
+                // mirrors the real getters: configured matches win, otherwise
+                // every numeric attribute stands in
+                areaAttributeCandidates: numeric,
+                possibleAreaAttributes: numeric
             };
         }
 
@@ -150,6 +154,8 @@ describe("addons/wfsAnalyzer/store/actionsWfsAnalyzer", () => {
 
             getters.numericAttributes = [];
             getters.suggestedAreaAttributes = [];
+            getters.areaAttributeCandidates = [];
+            getters.possibleAreaAttributes = [];
             commit = sinon.spy();
             actions.preselectAttributes({state, getters, commit});
 

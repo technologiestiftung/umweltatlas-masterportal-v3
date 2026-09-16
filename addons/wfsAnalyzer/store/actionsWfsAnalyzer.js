@@ -234,23 +234,25 @@ const actions = {
             }
 
             if (areaAttribute !== "") {
-                const match = findAttributeByName(getters.numericAttributes, areaAttribute);
+                const match = findAttributeByName(getters.possibleAreaAttributes, areaAttribute);
 
                 if (match) {
                     commit("setAreaAttribute", match.name);
                 }
                 else {
-                    warnAboutPreset(preset.layerId, "areaAttribute", areaAttribute, "the layer has no such numeric attribute");
+                    warnAboutPreset(preset.layerId, "areaAttribute", areaAttribute, "the layer has no attribute that could hold an area");
                 }
             }
         }
 
-        // Fallback for every layer without a usable preset area attribute.
+        // Fallback for every layer without a usable preset area attribute. It
+        // follows the same set the select offers - a single candidate is never
+        // shown, so it has to be set here or the analysis could not start.
         if (state.areaAttribute === "") {
-            const [suggestedArea] = getters.suggestedAreaAttributes;
+            const [candidate] = getters.areaAttributeCandidates;
 
-            if (suggestedArea) {
-                commit("setAreaAttribute", suggestedArea.name);
+            if (candidate) {
+                commit("setAreaAttribute", candidate.name);
             }
         }
 

@@ -58,10 +58,10 @@ const Config = {
                 // "ab 2021 - Reale Nutzung der bebauten Flächen 2021 (Flächennutzung)"
                 layerId:
                     "ua_flaechennutzung:a_reale_nutzung_bebaute_flaechen_2021",
-                filterAttribute: "bezirk",
+                // filterAttribute: "bezirk",
                 areaAttribute: "flalle",
                 mode: "area",
-                // analyseAttribute: "woz_name",
+                analyseAttribute: "woz_name",
             },
         ],
     },

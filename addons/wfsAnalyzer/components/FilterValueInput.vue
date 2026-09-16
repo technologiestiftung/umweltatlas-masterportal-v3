@@ -104,62 +104,62 @@ export default {
 <template>
     <div>
         <!--
-            The field sits directly under the area select and needs no visible
-            caption; screen readers still get one.
+            Same floating-label control as everywhere else in the portal: the
+            caption sits inside the field instead of on a line of its own.
         -->
-        <label
-            class="visually-hidden"
-            :for="id"
-        >
-            {{ label }}
-        </label>
-        <select
-            v-if="hasCompleteList"
-            :id="id"
-            class="form-select form-select-sm"
-            :class="{'wfs-analyzer-unset': value === ''}"
-            :value="value"
-            @change="$emit('change', $event.target.value)"
-        >
-            <option value="">
-                {{ $t("additional:modules.wfsAnalyzer.filter.valuePlaceholder") }}
-            </option>
-            <option
-                v-for="entry in valueState.values"
-                :key="entry"
-                :value="entry"
+        <div class="form-floating">
+            <select
+                v-if="hasCompleteList"
+                :id="id"
+                class="form-select"
+                :class="{'wfs-analyzer-unset': value === ''}"
+                :value="value"
+                @change="$emit('change', $event.target.value)"
             >
-                {{ entry }}
-            </option>
-        </select>
-
-        <template v-else>
-            <div class="position-relative">
-                <input
-                    :id="id"
-                    class="form-control form-control-sm"
-                    type="text"
-                    :list="`${id}-values`"
-                    :value="value"
-                    autocomplete="off"
-                    @focus="$emit('load')"
-                    @change="$emit('change', $event.target.value)"
-                >
-                <span
-                    v-if="isLoading"
-                    class="spinner-border spinner-border-sm wfs-analyzer-field-spinner"
-                    role="status"
-                    :aria-label="$t('additional:modules.wfsAnalyzer.filter.loadingValues')"
-                />
-            </div>
-            <datalist :id="`${id}-values`">
+                <option value="">
+                    {{ $t("additional:modules.wfsAnalyzer.filter.valuePlaceholder") }}
+                </option>
                 <option
                     v-for="entry in valueState.values"
                     :key="entry"
                     :value="entry"
-                />
-            </datalist>
-        </template>
+                >
+                    {{ entry }}
+                </option>
+            </select>
+
+            <template v-else>
+                <input
+                    :id="id"
+                    class="form-control"
+                    type="text"
+                    :list="`${id}-values`"
+                    :value="value"
+                    autocomplete="off"
+                    placeholder=" "
+                    @focus="$emit('load')"
+                    @change="$emit('change', $event.target.value)"
+                >
+                <datalist :id="`${id}-values`">
+                    <option
+                        v-for="entry in valueState.values"
+                        :key="entry"
+                        :value="entry"
+                    />
+                </datalist>
+            </template>
+
+            <label :for="id">
+                {{ label }}
+            </label>
+
+            <span
+                v-if="isLoading"
+                class="spinner-border spinner-border-sm wfs-analyzer-field-spinner"
+                role="status"
+                :aria-label="$t('additional:modules.wfsAnalyzer.filter.loadingValues')"
+            />
+        </div>
 
         <p
             v-if="takesLong && isLoading"
@@ -193,7 +193,8 @@ export default {
 .wfs-analyzer-field-spinner {
     position: absolute;
     top: 50%;
-    right: 8px;
+    /* clear of the select chevron */
+    right: 36px;
     width: 14px;
     height: 14px;
     margin-top: -7px;

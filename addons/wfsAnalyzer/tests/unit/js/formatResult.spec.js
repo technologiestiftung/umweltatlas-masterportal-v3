@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {formatNumber, getAreaUnit, getChartColor, groupCategories} from "../../../js/formatResult";
+import {chartColors, formatNumber, getAreaUnit, getChartColor, groupCategories} from "../../../js/formatResult";
 
 describe("addons/wfsAnalyzer/js/formatResult", () => {
     describe("getAreaUnit", () => {
@@ -75,7 +75,8 @@ describe("addons/wfsAnalyzer/js/formatResult", () => {
     describe("getChartColor", () => {
         it("returns a colour for every index by cycling the palette", () => {
             expect(getChartColor(0)).to.match(/^#[0-9a-f]{6}$/i);
-            expect(getChartColor(0)).to.equal(getChartColor(12));
+            // cycles at the end of the palette, whatever its length
+            expect(getChartColor(0)).to.equal(getChartColor(chartColors.length));
             expect(getChartColor(3)).to.not.equal(getChartColor(4));
         });
     });
