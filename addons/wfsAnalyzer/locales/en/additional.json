@@ -42,8 +42,6 @@
                 "km2": "km²"
             },
             "analysis": {
-                "title": "Analysis",
-                "loadingAttributes": "Loading attributes …",
                 "attributesError": "The attributes of the download service could not be loaded.",
                 "attributeLabel": "Attribute to analyse",
                 "attributePlaceholder": "Please select an attribute …",

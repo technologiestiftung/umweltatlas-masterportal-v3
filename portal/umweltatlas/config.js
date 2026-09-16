@@ -49,6 +49,13 @@ const Config = {
         // request at a time, so this also bounds how long that takes. When more
         // values exist than fit, the user is told the list is incomplete.
         maxFilterValues: 50,
+        // Diagrammfarben aus der Kartenlegende (GetLegendGraphic als JSON).
+        // Global aus, weil es nur bei Layern greift, die pro Wert eingefärbt
+        // sind. Pro Layer im Preset mit autoColor: true einschalten.
+        autoColor: true,
+        // Bis zu so vielen Legendeneinträgen wird die Zuordnung Code->Klartext
+        // nachgeschlagen (je Eintrag eine kleine Abfrage).
+        maxLegendRules: 40,
         // Per-layer defaults, matched on the exact layer id. Every field except
         // layerId is optional; a field naming an attribute the layer does not
         // have is ignored (with a warning on the console).
@@ -62,6 +69,8 @@ const Config = {
                 areaAttribute: "flalle",
                 mode: "area",
                 analyseAttribute: "woz_name",
+                // Die Legende dieses Layers ist nach woz eingefärbt.
+                autoColor: true,
             },
         ],
     },

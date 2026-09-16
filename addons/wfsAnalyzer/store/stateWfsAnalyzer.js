@@ -30,6 +30,8 @@
  * @property {Number} featureCount number of features the current filter matches.
  * @property {String} featureCountStatus one of "idle", "loading", "ready", "error".
  *
+ * @property {Object} legendColors colours of the layer as {attribute: {value: color}}.
+ * @property {Object} codeNames readable name per code of the legend attribute.
  * @property {Object} result the analysis result as {unit, total, categories}.
  * @property {String} analysisStatus one of "idle", "running", "ready", "error".
  * @property {String} analysisError message of the last failed analysis.
@@ -64,6 +66,9 @@ const state = {
 
     featureCount: null,
     featureCountStatus: "idle",
+
+    legendColors: {},
+    codeNames: {},
 
     result: null,
     analysisStatus: "idle",

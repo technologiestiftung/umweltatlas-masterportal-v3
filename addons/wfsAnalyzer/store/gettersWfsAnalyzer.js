@@ -1,6 +1,7 @@
 import {generateSimpleGetters} from "@shared/js/utils/generators";
 import {getAnalysisConfig} from "../js/analysisConfig";
 import {buildCqlFilter} from "../js/wfsAnalysis";
+import {matchLegendAttribute} from "../js/legendColors";
 import stateWfsAnalyzer from "./stateWfsAnalyzer";
 
 /**
@@ -299,6 +300,64 @@ const getters = {
     canAnalyse (state) {
         return state.analyseAttribute !== "" &&
             (state.mode !== "area" || state.areaAttribute !== "");
+    },
+
+    /**
+     * Whether the charts of this layer should take the map's colours. The
+     * global setting can be overridden per layer in a preset.
+     * @param {WfsAnalyzerState} state context state object.
+     * @param {Object} moduleGetters the getters of this module.
+     * @returns {Boolean} true if the legend should be used.
+     */
+    autoColorEnabled (state, moduleGetters) {
+        const fromPreset = moduleGetters.preset?.autoColor;
+
+        return typeof fromPreset === "boolean" ? fromPreset : moduleGetters.settings.autoColor;
+    },
+
+    /**
+     * Which legend attribute describes the analysed one, if any.
+     * @param {WfsAnalyzerState} state context state object.
+     * @param {Object} moduleGetters the getters of this module.
+     * @returns {Object|null} the match as {legendAttribute, needsBridge}.
+     */
+    legendMatch (state, moduleGetters) {
+        if (!moduleGetters.autoColorEnabled) {
+            return null;
+        }
+
+        return matchLegendAttribute(state.legendColors, state.analyseAttribute);
+    },
+
+    /**
+     * The colour per category label of the current result, taken from the map
+     * legend. Labels without a colour are left out and fall back to the neutral
+     * palette in the charts.
+     * @param {WfsAnalyzerState} state context state object.
+     * @param {Object} moduleGetters the getters of this module.
+     * @returns {Object} the colours as {label: color}.
+     */
+    categoryColors (state, moduleGetters) {
+        const match = moduleGetters.legendMatch;
+
+        if (!match) {
+            return {};
+        }
+
+        const colors = state.legendColors[match.legendAttribute] || {},
+            byLabel = {};
+
+        Object.entries(colors).forEach(([value, color]) => {
+            // Without a bridge the analysed values are the legend values; with
+            // one they are the readable names behind those values.
+            const label = match.needsBridge ? state.codeNames[value] : value;
+
+            if (label !== undefined && label !== "") {
+                byLabel[label] = color;
+            }
+        });
+
+        return byLabel;
     },
 
     /**

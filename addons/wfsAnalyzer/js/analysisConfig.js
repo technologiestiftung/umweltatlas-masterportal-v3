@@ -91,6 +91,30 @@ export const defaultMaxChartCategories = 12;
 export const defaultMaxFilterValues = 50;
 
 /**
+ * Whether the charts take their colours from the map legend. Off by default:
+ * it only works where the layer is styled per value, and it costs a request.
+ * Switch it on per layer in a preset.
+ * @type {Boolean}
+ */
+export const defaultAutoColor = false;
+
+/**
+ * Number of legend entries up to which the code-to-name lookup is attempted.
+ * Each entry costs one small request; ua_kanalisation_2005 has 242.
+ * @type {Number}
+ */
+export const defaultMaxLegendRules = 40;
+
+/**
+ * Reads an optional boolean, keeping "not configured" apart from false.
+ * @param {*} value the configured value.
+ * @returns {Boolean|null} the value or null.
+ */
+function readPresetFlag (value) {
+    return typeof value === "boolean" ? value : null;
+}
+
+/**
  * Reads an optional string field of a preset. Empty and non-string values count
  * as "not configured".
  * @param {*} value the configured value.
@@ -123,7 +147,8 @@ export function normalizePresets (presets) {
                 filterAttribute: readPresetField(preset.filterAttribute),
                 areaAttribute: readPresetField(preset.areaAttribute),
                 analyseAttribute: readPresetField(preset.analyseAttribute),
-                mode: mode === "count" || mode === "area" ? mode : ""
+                mode: mode === "count" || mode === "area" ? mode : "",
+                autoColor: readPresetFlag(preset.autoColor)
             };
         });
 }
@@ -144,6 +169,8 @@ export function getAnalysisConfig () {
         maxFeatures: typeof settings.maxFeatures === "number" ? settings.maxFeatures : defaultMaxFeatures,
         maxChartCategories: typeof settings.maxChartCategories === "number" ? settings.maxChartCategories : defaultMaxChartCategories,
         maxFilterValues: typeof settings.maxFilterValues === "number" ? settings.maxFilterValues : defaultMaxFilterValues,
+        autoColor: typeof settings.autoColor === "boolean" ? settings.autoColor : defaultAutoColor,
+        maxLegendRules: typeof settings.maxLegendRules === "number" ? settings.maxLegendRules : defaultMaxLegendRules,
         presets: normalizePresets(settings.presets)
     };
 }

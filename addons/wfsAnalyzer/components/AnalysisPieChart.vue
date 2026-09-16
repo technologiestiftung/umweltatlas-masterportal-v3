@@ -27,6 +27,11 @@ export default {
         formatShare: {
             type: Function,
             required: true
+        },
+        /** Colour per category label, taken from the map legend. */
+        categoryColors: {
+            type: Object,
+            default: () => ({})
         }
     },
     data () {
@@ -56,7 +61,7 @@ export default {
                 const sweep = category.share * 360,
                     slice = {
                         path: this.describeSlice(currentAngle, currentAngle + sweep),
-                        color: getChartColor(index),
+                        color: this.getCategoryColor(category, index),
                         category
                     };
 
@@ -67,7 +72,16 @@ export default {
         }
     },
     methods: {
-        getChartColor,
+        /**
+         * The colour the map uses for this category, or the neutral shade when
+         * the legend says nothing about it.
+         * @param {Object} category the category.
+         * @param {Number} index position in the list.
+         * @returns {String} the colour.
+         */
+        getCategoryColor (category, index) {
+            return this.categoryColors[category.label] || getChartColor(index);
+        },
 
         /**
          * Builds the path of a single pie slice.
@@ -117,7 +131,7 @@ export default {
                 :cx="center"
                 :cy="center"
                 :r="radius"
-                :fill="getChartColor(0)"
+                :fill="getCategoryColor(categories[0], 0)"
             />
             <path
                 v-for="slice in slices"
@@ -140,7 +154,7 @@ export default {
             >
                 <span
                     class="wfs-analyzer-swatch"
-                    :style="{backgroundColor: getChartColor(index)}"
+                    :style="{backgroundColor: getCategoryColor(category, index)}"
                 />
                 <span class="wfs-analyzer-legend-label">{{ category.label }}</span>
                 <span class="wfs-analyzer-legend-value text-muted">

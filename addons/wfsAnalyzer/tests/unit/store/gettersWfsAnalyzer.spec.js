@@ -1,0 +1,107 @@
+import {expect} from "chai";
+import getters from "../../../store/gettersWfsAnalyzer";
+import stateWfsAnalyzer from "../../../store/stateWfsAnalyzer";
+
+describe("addons/wfsAnalyzer/store/gettersWfsAnalyzer", () => {
+    const legendColors = {woz: {10: "#FFCC65", 21: "#FF6699"}};
+
+    /**
+     * Builds the state and the getters the colour getters depend on.
+     * @param {Object} [overrides={}] state overrides.
+     * @param {Object} [settings={}] setting overrides.
+     * @param {Object} [preset=null] the preset of the selected layer.
+     * @returns {Object} the state and the module getters.
+     */
+    function setup (overrides = {}, settings = {}, preset = null) {
+        const state = {...stateWfsAnalyzer, ...overrides},
+            moduleGetters = {
+                settings: {autoColor: false, maxLegendRules: 40, ...settings},
+                preset
+            };
+
+        moduleGetters.autoColorEnabled = getters.autoColorEnabled(state, moduleGetters);
+        moduleGetters.legendMatch = getters.legendMatch(state, moduleGetters);
+
+        return {state, moduleGetters};
+    }
+
+    describe("autoColorEnabled", () => {
+        it("follows the global setting when no preset says otherwise", () => {
+            expect(setup({}, {autoColor: true}).moduleGetters.autoColorEnabled).to.equal(true);
+            expect(setup({}, {autoColor: false}).moduleGetters.autoColorEnabled).to.equal(false);
+        });
+
+        it("lets a preset switch it on for one layer", () => {
+            expect(setup({}, {autoColor: false}, {autoColor: true}).moduleGetters.autoColorEnabled).to.equal(true);
+        });
+
+        it("lets a preset switch it off for one layer", () => {
+            expect(setup({}, {autoColor: true}, {autoColor: false}).moduleGetters.autoColorEnabled).to.equal(false);
+        });
+
+        it("ignores a preset that does not mention it", () => {
+            expect(setup({}, {autoColor: true}, {autoColor: null}).moduleGetters.autoColorEnabled).to.equal(true);
+        });
+    });
+
+    describe("legendMatch", () => {
+        it("stays empty while the feature is switched off", () => {
+            const {moduleGetters} = setup({legendColors, analyseAttribute: "woz"}, {autoColor: false});
+
+            expect(moduleGetters.legendMatch).to.equal(null);
+        });
+
+        it("matches the analysed attribute directly", () => {
+            const {moduleGetters} = setup({legendColors, analyseAttribute: "woz"}, {autoColor: true});
+
+            expect(moduleGetters.legendMatch).to.deep.equal({legendAttribute: "woz", needsBridge: false});
+        });
+
+        it("matches the readable counterpart of a code", () => {
+            const {moduleGetters} = setup({legendColors, analyseAttribute: "woz_name"}, {autoColor: true});
+
+            expect(moduleGetters.legendMatch).to.deep.equal({legendAttribute: "woz", needsBridge: true});
+        });
+    });
+
+    describe("categoryColors", () => {
+        it("has no colours without a match", () => {
+            const {state, moduleGetters} = setup({legendColors, analyseAttribute: "nutzung"}, {autoColor: true});
+
+            expect(getters.categoryColors(state, moduleGetters)).to.deep.equal({});
+        });
+
+        it("keys the colours by value when the values are the legend's own", () => {
+            const {state, moduleGetters} = setup({legendColors, analyseAttribute: "woz"}, {autoColor: true});
+
+            expect(getters.categoryColors(state, moduleGetters)).to.deep.equal({10: "#FFCC65", 21: "#FF6699"});
+        });
+
+        it("keys the colours by the readable name when a bridge is needed", () => {
+            const {state, moduleGetters} = setup({
+                legendColors,
+                analyseAttribute: "woz_name",
+                codeNames: {10: "Wohnnutzung", 21: "Mischnutzung"}
+            }, {autoColor: true});
+
+            expect(getters.categoryColors(state, moduleGetters))
+                .to.deep.equal({Wohnnutzung: "#FFCC65", Mischnutzung: "#FF6699"});
+        });
+
+        it("leaves out a code whose name is unknown instead of guessing", () => {
+            const {state, moduleGetters} = setup({
+                legendColors,
+                analyseAttribute: "woz_name",
+                codeNames: {10: "Wohnnutzung"}
+            }, {autoColor: true});
+
+            expect(getters.categoryColors(state, moduleGetters)).to.deep.equal({Wohnnutzung: "#FFCC65"});
+        });
+
+        it("has no colours while the bridge has not been built", () => {
+            const {state, moduleGetters} = setup({legendColors, analyseAttribute: "woz_name"}, {autoColor: true});
+
+            expect(getters.categoryColors(state, moduleGetters)).to.deep.equal({});
+        });
+    });
+});

@@ -327,6 +327,49 @@ export async function fetchDistinctValuesStepwise (wfsUrl, typeName, attribute, 
 }
 
 /**
+ * Looks up which readable value belongs to each code, e.g. `woz = "10"` to
+ * "Wohnnutzung". One tiny request per code - the map is styled by the code, the
+ * chart is grouped by the readable name, and nothing in the service states the
+ * correspondence.
+ *
+ * The number of requests equals the number of legend entries, never the number
+ * of features, so the caller caps it rather than the data doing so.
+ * @param {String} wfsUrl url of the WFS.
+ * @param {String} typeName qualified name of the feature type.
+ * @param {String} codeAttribute the attribute the map is styled by.
+ * @param {String} nameAttribute the readable counterpart.
+ * @param {String[]} codes the codes to look up.
+ * @param {Boolean} [isNumeric=false] whether the code attribute holds numbers.
+ * @returns {Promise<Object>} the mapping as {code: name}.
+ */
+export async function fetchCodeNameMap (wfsUrl, typeName, codeAttribute, nameAttribute, codes, isNumeric = false) {
+    const mapping = {};
+
+    for (const code of codes) {
+        try {
+            // Sequential, but each response is a few hundred bytes.
+            const {data} = await getWithRetry(buildWfsUrl(wfsUrl, {
+                    request: "GetPropertyValue",
+                    typeNames: typeName,
+                    valueReference: nameAttribute,
+                    count: 1,
+                    CQL_FILTER: buildCqlFilter(codeAttribute, code, isNumeric)
+                }), {timeout: METADATA_TIMEOUT, responseType: "text"}),
+                [name] = parsePropertyValues(data, nameAttribute);
+
+            if (name !== undefined && name !== "") {
+                mapping[code] = name;
+            }
+        }
+        catch (error) {
+            // A code without a sample simply stays uncoloured.
+        }
+    }
+
+    return mapping;
+}
+
+/**
  * Collects the distinct values of an attribute, so they can be offered as
  * filter values.
  *

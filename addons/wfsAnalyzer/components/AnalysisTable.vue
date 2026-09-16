@@ -34,6 +34,11 @@ export default {
         formatShare: {
             type: Function,
             required: true
+        },
+        /** Colour per category label, taken from the map legend. */
+        categoryColors: {
+            type: Object,
+            default: () => ({})
         }
     },
     computed: {
@@ -47,7 +52,16 @@ export default {
         }
     },
     methods: {
-        getChartColor,
+        /**
+         * The colour the map uses for this category, or the neutral shade when
+         * the legend says nothing about it.
+         * @param {Object} category the category.
+         * @param {Number} index position in the list.
+         * @returns {String} the colour.
+         */
+        getCategoryColor (category, index) {
+            return this.categoryColors[category.label] || getChartColor(index);
+        },
 
         /**
          * @param {Number} value the value of a category.
@@ -104,7 +118,7 @@ export default {
                         >
                             <div
                                 class="wfs-analyzer-bar-fill"
-                                :style="{width: getBarWidth(category.value) + '%', backgroundColor: getChartColor(index)}"
+                                :style="{width: getBarWidth(category.value) + '%', backgroundColor: getCategoryColor(category, index)}"
                             />
                         </div>
                     </td>

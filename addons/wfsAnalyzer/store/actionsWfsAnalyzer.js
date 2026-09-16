@@ -1,5 +1,6 @@
 import {checkWfsForLayer} from "../js/wfsLookup";
-import {analyseByArea, analyseByCount, fetchAttributes, fetchDistinctValues, fetchFeatureCount} from "../js/wfsAnalysis";
+import {analyseByArea, analyseByCount, fetchAttributes, fetchCodeNameMap, fetchDistinctValues, fetchFeatureCount} from "../js/wfsAnalysis";
+import {fetchLegendColors, matchLegendAttribute} from "../js/legendColors";
 
 /**
  * Counter used to discard responses of requests the user has already moved
@@ -441,6 +442,68 @@ const actions = {
     },
 
     /**
+     * Loads the colours the map draws this layer with, and - where the map is
+     * styled by a code while the chart is grouped by the readable name - the
+     * correspondence between the two.
+     *
+     * Everything here is optional decoration: any failure simply leaves the
+     * charts in their neutral palette, so nothing is reported as an error.
+     * @param {Object} context the vuex context.
+     * @param {Object} context.state the state of this module.
+     * @param {Object} context.getters the getters of this module.
+     * @param {Function} context.commit the commit function.
+     * @returns {Promise<void>} resolves once the colours are stored.
+     */
+    async loadLegendColors ({state, getters, commit}) {
+        const layerId = state.selectedLayerId,
+            layerConf = getters.selectedLayer;
+
+        if (!getters.autoColorEnabled || !layerConf || state.analyseAttribute === "") {
+            return;
+        }
+
+        let colors = state.legendColors;
+
+        if (Object.keys(colors).length === 0) {
+            colors = await fetchLegendColors(layerConf.url, layerConf.layers);
+
+            if (layerId !== state.selectedLayerId) {
+                return;
+            }
+            commit("setLegendColors", colors);
+        }
+
+        const match = matchLegendAttribute(colors, state.analyseAttribute);
+
+        if (!match?.needsBridge) {
+            return;
+        }
+
+        const codes = Object.keys(colors[match.legendAttribute] || {}),
+            known = Object.keys(state.codeNames);
+
+        // Already resolved, or more entries than the lookup is worth.
+        if (codes.every((code) => known.includes(code)) ||
+            codes.length > getters.settings.maxLegendRules) {
+            return;
+        }
+
+        const attribute = getters.attributeByName(match.legendAttribute),
+            codeNames = await fetchCodeNameMap(
+                state.wfsUrl,
+                getters.typeName,
+                match.legendAttribute,
+                state.analyseAttribute,
+                codes,
+                Boolean(attribute?.isNumeric)
+            );
+
+        if (layerId === state.selectedLayerId) {
+            commit("setCodeNames", codeNames);
+        }
+    },
+
+    /**
      * Runs the analysis with the current selections. Counting uses
      * GetPropertyValue, the area analysis GetFeature limited to two properties -
      * in both cases no geometries are transferred.
@@ -450,7 +513,7 @@ const actions = {
      * @param {Function} context.commit the commit function.
      * @returns {Promise<void>} resolves once the result is stored.
      */
-    async runAnalysis ({state, getters, commit}) {
+    async runAnalysis ({state, getters, commit, dispatch}) {
         const token = ++requestToken,
             {wfsUrl, analyseAttribute, areaAttribute, mode} = state,
             {typeName, cqlFilter} = getters;
@@ -461,6 +524,8 @@ const actions = {
 
         commit("setAnalysisStatus", "running");
         commit("setAnalysisError", "");
+        // Decoration, not a precondition - the analysis does not wait for it.
+        dispatch("loadLegendColors");
 
         try {
             const request = {wfsUrl, typeName, attribute: analyseAttribute, cqlFilter},

@@ -19,13 +19,15 @@ describe("addons/wfsAnalyzer/js/analysisConfig", () => {
                 filterAttribute: "bezirk",
                 areaAttribute: "flalle",
                 analyseAttribute: "woz_name",
-                mode: "area"
+                mode: "area",
+                autoColor: true
             }])).to.deep.equal([{
                 layerId: "ua_flaechennutzung:a_reale_nutzung_bebaute_flaechen_2021",
                 filterAttribute: "bezirk",
                 areaAttribute: "flalle",
                 analyseAttribute: "woz_name",
-                mode: "area"
+                mode: "area",
+                autoColor: true
             }]);
         });
 
@@ -35,8 +37,15 @@ describe("addons/wfsAnalyzer/js/analysisConfig", () => {
                 filterAttribute: "bezirk",
                 areaAttribute: "",
                 analyseAttribute: "",
-                mode: ""
+                mode: "",
+                autoColor: null
             }]);
+        });
+
+        it("keeps an unconfigured autoColor apart from an explicit false", () => {
+            expect(normalizePresets([{layerId: "a:b"}])[0].autoColor).to.equal(null);
+            expect(normalizePresets([{layerId: "a:b", autoColor: false}])[0].autoColor).to.equal(false);
+            expect(normalizePresets([{layerId: "a:b", autoColor: "true"}])[0].autoColor).to.equal(null);
         });
 
         it("drops entries without a usable layerId", () => {
@@ -68,7 +77,18 @@ describe("addons/wfsAnalyzer/js/analysisConfig", () => {
             expect(settings.filterAttributes).to.include("bezirk");
             expect(settings.areaAttributes).to.include("flalle");
             expect(settings.maxFeatures).to.be.a("number");
+            expect(settings.autoColor).to.equal(false);
+            expect(settings.maxLegendRules).to.be.a("number");
             expect(settings.presets).to.deep.equal([]);
+        });
+
+        it("takes the legend colour settings from config.js", () => {
+            global.Config = {wfsAnalyzer: {autoColor: true, maxLegendRules: 12}};
+
+            const settings = getAnalysisConfig();
+
+            expect(settings.autoColor).to.equal(true);
+            expect(settings.maxLegendRules).to.equal(12);
         });
 
         it("takes the values configured in config.js", () => {

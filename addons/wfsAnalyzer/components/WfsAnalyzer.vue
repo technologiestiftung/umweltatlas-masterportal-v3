@@ -37,6 +37,7 @@ export default {
             "attributesStatus",
             "canAnalyse",
             "canAnalyseByArea",
+            "categoryColors",
             "checkStatus",
             "errorMessage",
             "exceedsMaxFeatures",
@@ -742,6 +743,7 @@ export default {
                                 :categories="chartCategories"
                                 :format-value="formatValue"
                                 :format-share="formatShare"
+                                :category-colors="categoryColors"
                             />
                             <AnalysisTable
                                 v-else
@@ -750,6 +752,7 @@ export default {
                                 :value-header="valueHeader"
                                 :format-value="formatValue"
                                 :format-share="formatShare"
+                                :category-colors="categoryColors"
                             />
 
                             <p

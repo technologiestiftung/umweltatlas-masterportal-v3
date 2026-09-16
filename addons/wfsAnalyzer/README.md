@@ -88,14 +88,20 @@ const Config = {
         maxChartCategories: 12,
         // Maximum number of filter values offered (and collected).
         maxFilterValues: 50,
+        // Take the chart colours from the map legend (see below). Off by
+        // default; switch it on per layer in a preset.
+        autoColor: false,
+        // Legend entries up to which the code-to-name lookup is attempted.
+        maxLegendRules: 40,
         // Per-layer defaults, matched on the EXACT layer id.
         presets: [
             {
                 layerId: "ua_flaechennutzung:a_reale_nutzung_bebaute_flaechen_2021",
                 filterAttribute: "bezirk",
                 areaAttribute: "flalle",
-                mode: "area",              // optional, "count" | "area"
-                analyseAttribute: "woz_name"  // optional
+                mode: "area",                 // optional, "count" | "area"
+                analyseAttribute: "woz_name", // optional
+                autoColor: true               // optional, overrides the global switch
             }
         ]
     }
@@ -133,13 +139,15 @@ wfsAnalyzer/
 ├── index.js                        entry point (component + store + locales)
 ├── components/
 │   ├── WfsAnalyzer.vue             layer picker, WFS check, analysis form
-│   ├── AnalysisBarChart.vue        horizontal bars (plain elements)
+│   ├── FilterValueInput.vue        value picker, list or free text
 │   ├── AnalysisPieChart.vue        pie (hand-built inline SVG arcs)
-│   └── AnalysisTable.vue           full table incl. totals row
+│   └── AnalysisTable.vue           full table incl. bars and totals row
 ├── js/
 │   ├── wfsLookup.js                CSW → WFS discovery and confirmation
 │   ├── wfsAnalysis.js              WFS requests + aggregation
 │   ├── analysisConfig.js           defaults + presets, merged with Config.wfsAnalyzer
+│   ├── legendColors.js             WMS legend → colour per attribute value
+│   ├── exportCsv.js                CSV of the result table
 │   └── formatResult.js             units, number formatting, colours, grouping
 ├── store/
 │   ├── stateWfsAnalyzer.js
@@ -151,9 +159,48 @@ wfsAnalyzer/
 └── tests/unit/...
 ```
 
-**No charting library is used** — the bar chart is sized `<div>`s, the pie
-chart is inline SVG `<path>` arcs computed in the component, and the palette
+**No charting library is used** — the bars in the table are sized `<div>`s, the
+pie chart is inline SVG `<path>` arcs computed in the component, and the palette
 lives in `js/formatResult.js`.
+
+## Chart colours from the map legend (`autoColor`)
+
+By default the charts use a neutral grey palette, because inventing colours next
+to a coloured map is worse than saying nothing. Where the layer is styled per
+value, though, the real colours can be had: GeoServer answers
+`GetLegendGraphic&format=application/json` with a rule per value, carrying both
+the fill colour and a filter naming attribute and value:
+
+```json
+{"filter": "[woz = '10']", "symbolizers": [{"Polygon": {"fill": "#FFCC65"}}]}
+```
+
+`js/legendColors.js` turns those rules into `{woz: {"10": "#FFCC65", …}}`. Rules
+that describe a range rather than one value (class breaks) are skipped, and any
+failure — no JSON legend, a broken response, a timeout — quietly leaves the
+charts grey.
+
+Two ways the legend can describe the analysed attribute:
+
+* **Direct** — the attribute being analysed is the one the map is styled by
+  (`woz`, `kak_stufe`). The category labels *are* the legend's values.
+* **Via the `_name` bridge** — the map is styled by a code (`woz`) while the
+  analysis runs on its readable sibling (`woz_name`). The codes then have to be
+  translated, which costs one tiny request per legend entry
+  (`propertyName=woz_name&count=1&CQL_FILTER=woz='10'`, ~300 bytes). This is
+  done once per layer and attribute and capped by `maxLegendRules` — above it
+  the charts stay grey rather than firing off hundreds of requests
+  (`ua_kanalisation_2005` has 242 rules).
+
+`_name` is not a universal convention; it holds in the Flächennutzung family,
+which is where it is needed. Everything else falls through to grey.
+
+The lookup runs alongside the analysis and never blocks it — a slow or missing
+legend delays nothing, it only means no colours. Categories the legend says
+nothing about, including the pooled "Sonstige", keep the neutral palette.
+
+Because it costs a request and only pays off for per-value styling, `autoColor`
+is **off globally** and switched on per layer in a preset.
 
 ### Readable attribute names
 
