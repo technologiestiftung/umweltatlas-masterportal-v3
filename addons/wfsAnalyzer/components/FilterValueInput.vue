@@ -49,6 +49,18 @@ export default {
          */
         isLoading () {
             return this.valueState.status === "loading";
+        },
+
+        /**
+         * Once every value is known there is nothing left to type - a plain
+         * list is easier to use than a free text field. While the list is
+         * incomplete, or could not be loaded, typing stays possible.
+         * @returns {Boolean} true if the values can be offered as a list.
+         */
+        hasCompleteList () {
+            return this.valueState.status === "ready" &&
+                !this.valueState.truncated &&
+                this.valueState.values.length > 0;
         }
     },
     watch: {
@@ -97,31 +109,53 @@ export default {
         >
             {{ label }}
         </label>
-        <div class="position-relative">
-            <input
-                :id="id"
-                class="form-control form-control-sm"
-                type="text"
-                :list="`${id}-values`"
-                :value="value"
-                autocomplete="off"
-                @focus="$emit('load')"
-                @change="$emit('change', $event.target.value)"
-            >
-            <span
-                v-if="isLoading"
-                class="spinner-border spinner-border-sm wfs-analyzer-field-spinner"
-                role="status"
-                :aria-label="$t('additional:modules.wfsAnalyzer.filter.loadingValues')"
-            />
-        </div>
-        <datalist :id="`${id}-values`">
+        <select
+            v-if="hasCompleteList"
+            :id="id"
+            class="form-select form-select-sm"
+            :class="{'wfs-analyzer-unset': value === ''}"
+            :value="value"
+            @change="$emit('change', $event.target.value)"
+        >
+            <option value="">
+                {{ $t("additional:modules.wfsAnalyzer.filter.valuePlaceholder") }}
+            </option>
             <option
                 v-for="entry in valueState.values"
                 :key="entry"
                 :value="entry"
-            />
-        </datalist>
+            >
+                {{ entry }}
+            </option>
+        </select>
+
+        <template v-else>
+            <div class="position-relative">
+                <input
+                    :id="id"
+                    class="form-control form-control-sm"
+                    type="text"
+                    :list="`${id}-values`"
+                    :value="value"
+                    autocomplete="off"
+                    @focus="$emit('load')"
+                    @change="$emit('change', $event.target.value)"
+                >
+                <span
+                    v-if="isLoading"
+                    class="spinner-border spinner-border-sm wfs-analyzer-field-spinner"
+                    role="status"
+                    :aria-label="$t('additional:modules.wfsAnalyzer.filter.loadingValues')"
+                />
+            </div>
+            <datalist :id="`${id}-values`">
+                <option
+                    v-for="entry in valueState.values"
+                    :key="entry"
+                    :value="entry"
+                />
+            </datalist>
+        </template>
 
         <p
             v-if="takesLong && isLoading"
@@ -147,6 +181,11 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+/* Keep the placeholder distinguishable from a real value. */
+.wfs-analyzer-unset {
+    color: #6c757d;
+}
+
 .wfs-analyzer-field-spinner {
     position: absolute;
     top: 50%;

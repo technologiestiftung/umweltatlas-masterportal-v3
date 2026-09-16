@@ -23,7 +23,6 @@ export default {
     },
     data () {
         return {
-            showWhyInfo: false,
             showExtraFilter: false
         };
     },
@@ -76,6 +75,25 @@ export default {
          */
         isLoading () {
             return this.isChecking || (this.isAnalysable && this.attributesStatus === "loading");
+        },
+
+        /**
+         * Says why the analysis cannot be started yet. A button that is greyed
+         * out without a reason is the most frustrating part of a form.
+         * @returns {String} the hint, or an empty string when everything is set.
+         */
+        startHint () {
+            if (this.analysisStatus === "running") {
+                return "";
+            }
+            if (this.analyseAttribute === "") {
+                return this.$t("additional:modules.wfsAnalyzer.analysis.needsAttribute");
+            }
+            if (this.mode === "area" && this.areaAttribute === "") {
+                return this.$t("additional:modules.wfsAnalyzer.analysis.needsAreaAttribute");
+            }
+
+            return "";
         },
 
         /**
@@ -270,25 +288,12 @@ export default {
 
         <template v-else>
             <div class="mb-3">
-                <div class="d-flex justify-content-between align-items-center">
-                    <label
-                        class="form-label mb-1"
-                        for="wfs-analyzer-layer-select"
-                    >
-                        {{ $t("additional:modules.wfsAnalyzer.layerSelectLabel") }}
-                    </label>
-                    <button
-                        id="wfs-analyzer-why-toggle"
-                        type="button"
-                        class="btn btn-link btn-sm p-0 text-decoration-none"
-                        :aria-expanded="showWhyInfo"
-                        aria-controls="wfs-analyzer-why-info"
-                        @click="showWhyInfo = !showWhyInfo"
-                    >
-                        <i class="bi bi-info-circle me-1" />
-                        {{ $t("additional:modules.wfsAnalyzer.whyMissing.toggle") }}
-                    </button>
-                </div>
+                <label
+                    class="form-label"
+                    for="wfs-analyzer-layer-select"
+                >
+                    {{ $t("additional:modules.wfsAnalyzer.layerSelectLabel") }}
+                </label>
                 <select
                     id="wfs-analyzer-layer-select"
                     class="form-select"
@@ -306,13 +311,6 @@ export default {
                         {{ layer.name }}
                     </option>
                 </select>
-                <p
-                    v-if="showWhyInfo"
-                    id="wfs-analyzer-why-info"
-                    class="form-text mb-0"
-                >
-                    {{ $t("additional:modules.wfsAnalyzer.whyMissing.text") }}
-                </p>
             </div>
 
             <div
@@ -460,7 +458,7 @@ export default {
                             {{ $t("additional:modules.wfsAnalyzer.mode.title") }}
                         </span>
                         <div
-                            class="btn-group btn-group-sm"
+                            class="btn-group w-100"
                             role="group"
                         >
                             <button
@@ -469,7 +467,7 @@ export default {
                                 :key="option"
                                 type="button"
                                 class="btn"
-                                :class="mode === option ? 'btn-primary' : 'btn-outline-primary'"
+                                :class="mode === option ? 'btn-primary' : 'wfs-analyzer-segment'"
                                 @click="selectMode(option)"
                             >
                                 {{ $t(`additional:modules.wfsAnalyzer.mode.${option}`) }}
@@ -569,18 +567,25 @@ export default {
                     </div>
 
                     <button
+                        id="wfs-analyzer-start"
                         type="button"
-                        class="btn btn-primary btn-sm align-self-start"
+                        class="btn btn-primary btn-lg w-100"
                         :disabled="!canAnalyse || analysisStatus === 'running'"
                         @click="runAnalysis()"
                     >
                         <span
                             v-if="analysisStatus === 'running'"
-                            class="spinner-border spinner-border-sm me-1"
+                            class="spinner-border spinner-border-sm me-2"
                             aria-hidden="true"
                         />
                         {{ $t("additional:modules.wfsAnalyzer.analysis.start") }}
                     </button>
+                    <p
+                        v-if="startHint"
+                        class="form-text text-center mt-1 mb-0"
+                    >
+                        {{ startHint }}
+                    </p>
 
                     <div
                         v-if="analysisStatus === 'error'"
@@ -623,7 +628,7 @@ export default {
                             </p>
 
                             <div
-                                class="btn-group btn-group-sm mb-3"
+                                class="btn-group w-100 mb-3"
                                 role="group"
                                 :aria-label="$t('additional:modules.wfsAnalyzer.result.viewLabel')"
                             >
@@ -632,7 +637,7 @@ export default {
                                     :key="view"
                                     type="button"
                                     class="btn"
-                                    :class="resultView === view ? 'btn-primary' : 'btn-outline-primary'"
+                                    :class="resultView === view ? 'btn-primary' : 'wfs-analyzer-segment'"
                                     @click="setResultView(view)"
                                 >
                                     {{ $t(`additional:modules.wfsAnalyzer.result.view.${view}`) }}
@@ -674,5 +679,60 @@ export default {
 <style lang="scss" scoped>
 #wfs-analyzer {
     padding: 10px;
+}
+
+/*
+ * The segmented controls cannot use .btn-outline-primary: the portal's $primary
+ * is a very light mint (#edf8f4), which leaves the unselected half almost
+ * invisible on white. The radius clashes too - .btn-primary is given 16px by
+ * the theme while the outline variant keeps Bootstrap's default, so the two
+ * halves of one control end up differently rounded.
+ *
+ * Hence an explicit segment style in the theme's own dark green, and one radius
+ * for the whole group: round on the outside, flat where the halves meet.
+ */
+$wfs-analyzer-accent: #1a4435;
+$wfs-analyzer-radius: 16px;
+
+.btn-group {
+    .btn {
+        flex: 1 1 0;
+        border: 1px solid $wfs-analyzer-accent;
+        border-radius: 0;
+        font-weight: 500;
+    }
+
+    .btn:first-child {
+        border-top-left-radius: $wfs-analyzer-radius;
+        border-bottom-left-radius: $wfs-analyzer-radius;
+    }
+
+    .btn:last-child {
+        border-top-right-radius: $wfs-analyzer-radius;
+        border-bottom-right-radius: $wfs-analyzer-radius;
+    }
+}
+
+.wfs-analyzer-segment {
+    background-color: #fff;
+    color: $wfs-analyzer-accent;
+
+    &:hover,
+    &:focus {
+        background-color: rgba(26, 68, 53, 0.08);
+        color: $wfs-analyzer-accent;
+    }
+}
+
+/*
+ * A disabled button should still look like a button. Bootstrap's default
+ * opacity fades it to the point of looking broken.
+ */
+.btn:disabled,
+.btn.disabled {
+    opacity: 1;
+    color: #41464b;
+    background-color: #dee2e6;
+    border-color: #adb5bd;
 }
 </style>

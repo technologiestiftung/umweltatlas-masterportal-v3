@@ -4,27 +4,28 @@
  */
 
 /**
- * Categorical colours for the charts. Chosen to stay distinguishable next to
- * each other; the list is cycled if a result has more categories.
+ * Greys for the charts. Deliberately not a categorical colour scheme: the
+ * outlines and layers on the map carry their own colours, and a coloured chart
+ * next to them reads as if the two were related. Neutral shades keep the chart
+ * about proportions.
+ *
+ * The ramp is dark to light, so neighbouring slices and bars stay apart; the
+ * table and the legend carry the meaning.
  * @type {String[]}
  */
 export const chartColors = [
-    "#1f6fb4",
-    "#e8762c",
-    "#4c9f70",
-    "#c8452f",
-    "#7b5aa6",
-    "#8c6239",
-    "#d16ba5",
-    "#5b8ea6",
-    "#a3a533",
-    "#2f8f9d",
-    "#b04a6a",
-    "#6c757d"
+    "#2f3438",
+    "#474d52",
+    "#5d646a",
+    "#737b82",
+    "#8a9199",
+    "#a0a7ae",
+    "#b4bac0",
+    "#c7ccd1"
 ];
 
 /**
- * Returns the colour for a category index.
+ * Returns the shade for a category index.
  * @param {Number} index the index.
  * @returns {String} the colour.
  */

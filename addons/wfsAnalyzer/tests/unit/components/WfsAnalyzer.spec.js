@@ -138,16 +138,6 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
         expect(selectLayerSpy.called).to.be.false;
     });
 
-    it("explains behind an info toggle why layers can be missing", async () => {
-        const wrapper = mountComponent();
-
-        expect(wrapper.text()).to.not.contain("additional:modules.wfsAnalyzer.whyMissing.text");
-
-        await wrapper.find("#wfs-analyzer-why-toggle").trigger("click");
-
-        expect(wrapper.text()).to.contain("additional:modules.wfsAnalyzer.whyMissing.text");
-    });
-
     it("says nothing when the WFS is available - it just shows the analysis", () => {
         const wrapper = mountComponent({
             selectedLayerId: layers[0].id,

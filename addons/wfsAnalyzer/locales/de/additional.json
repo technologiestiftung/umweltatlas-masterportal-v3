@@ -27,7 +27,8 @@
                 "extraTitle": "Weitere Filter (optional)",
                 "extraAttributePlaceholder": "Attribut wählen …",
                 "loadingValues": "Werte werden geladen",
-                "loadingValuesSlow": "Werte werden geladen, das kann bei großen Layern etwas dauern."
+                "loadingValuesSlow": "Werte werden geladen, das kann bei großen Layern etwas dauern.",
+                "valuePlaceholder": "Bitte Wert wählen …"
             },
             "mode": {
                 "title": "Ergebnis als",
@@ -49,7 +50,9 @@
                 "featureCount": "{{count}} Objekte werden ausgewertet.",
                 "manyFeatures": "Das sind mehr als {{max}} Objekte. Das Laden kann dauern – schränken Sie die Auswertung ggf. weiter ein.",
                 "start": "Analyse starten",
-                "failed": "Die Analyse ist fehlgeschlagen."
+                "failed": "Die Analyse ist fehlgeschlagen.",
+                "needsAttribute": "Bitte zuerst ein Attribut wählen.",
+                "needsAreaAttribute": "Bitte zuerst das Attribut mit der Flächengröße wählen."
             },
             "result": {
                 "title": "Verteilung von „{{attribute}}“",
@@ -68,10 +71,6 @@
                 "groupedHint": "Kleine Kategorien sind in „Sonstige“ zusammengefasst. Die Tabelle zeigt alle Kategorien.",
                 "empty": "Die Auswertung hat keine Objekte ergeben.",
                 "pieLabel": "Kreisdiagramm der Verteilung"
-            },
-            "whyMissing": {
-                "toggle": "Warum fehlen Layer?",
-                "text": "Ausgewertet werden können nur Layer, deren Daten zusätzlich als Downloaddienst (WFS) bereitstehen."
             }
         }
     }
