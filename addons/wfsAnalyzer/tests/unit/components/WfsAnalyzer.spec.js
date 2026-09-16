@@ -240,14 +240,15 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
             expect(text).to.not.contain("additional:modules.wfsAnalyzer.mode.areaAttributeHint");
         });
 
-        it("offers the area as a named list of places, not as raw attributes", () => {
+        it("names the area attributes the same way as everywhere else", () => {
             const options = mountComponent(confirmed)
-                .findAll("#wfs-analyzer-filter-attribute option");
+                    .findAll("#wfs-analyzer-filter-attribute option"),
+                labels = options.map((option) => option.text());
 
             expect(options[0].text()).to.equal("additional:modules.wfsAnalyzer.filter.wholeLayer");
-            // Readable titles only - the technical name is noise here.
-            expect(options.map((option) => option.text())).to.include("Bezirksname");
-            expect(options.map((option) => option.text())).to.not.include("Bezirksname (bezirk)");
+            // Documented name plus the technical one, as in the other selects.
+            expect(labels).to.include("Bezirksname (bezirk)");
+            expect(labels).to.include("Bezirksname (Code) (bez)");
         });
 
         it("asks for a value only once an area is chosen", async () => {

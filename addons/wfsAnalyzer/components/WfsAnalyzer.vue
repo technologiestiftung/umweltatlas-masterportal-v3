@@ -473,7 +473,7 @@ export default {
                                 :key="attribute.name"
                                 :value="attribute.name"
                             >
-                                {{ attribute.title }}
+                                {{ getAttributeLabel(attribute) }}
                             </option>
                         </select>
 
