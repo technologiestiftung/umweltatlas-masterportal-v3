@@ -8,6 +8,8 @@ const Config = {
         // to a spatial unit. Any other attribute of the layer can still be
         // chosen by the user - extend this list to add more suggestions.
         filterAttributes: [
+            "neubklar",
+            "bezklar",
             "bezirk",
             "bez",
             "bezirksname",
