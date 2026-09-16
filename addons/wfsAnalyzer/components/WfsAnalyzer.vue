@@ -78,6 +78,16 @@ export default {
         },
 
         /**
+         * Keeps the count on screen while it is being refreshed, as long as
+         * there is a previous one to show.
+         * @returns {Boolean} true if the feature count should be rendered.
+         */
+        showFeatureCount () {
+            return this.featureCountStatus === "ready" ||
+                (this.featureCountStatus === "loading" && this.featureCount !== null);
+        },
+
+        /**
          * Says why the analysis cannot be started yet. A button that is greyed
          * out without a reason is the most frustrating part of a form.
          * @returns {String} the hint, or an empty string when everything is set.
@@ -615,11 +625,31 @@ export default {
                         </div>
                     </div>
 
+                    <!--
+                        The only live feedback in the form, so it gets an icon
+                        and room to breathe instead of sitting flush on the
+                        button. While the count is being refreshed the previous
+                        one stays visible, dimmed - letting it vanish would take
+                        away the very feedback it provides.
+                    -->
                     <p
-                        v-if="featureCountStatus === 'ready'"
-                        class="small mb-2"
+                        v-if="showFeatureCount"
+                        class="d-flex align-items-center mb-3 wfs-analyzer-feature-count"
+                        :class="{'text-muted': featureCountStatus === 'loading'}"
+                        role="status"
                     >
-                        {{ $t("additional:modules.wfsAnalyzer.analysis.featureCount", {count: formatCount(featureCount)}) }}
+                        <span
+                            v-if="featureCountStatus === 'loading'"
+                            class="spinner-border spinner-border-sm me-2 flex-shrink-0"
+                            aria-hidden="true"
+                        />
+                        <i
+                            v-else
+                            class="bi bi-database me-2 flex-shrink-0"
+                        />
+                        <span>
+                            {{ $t("additional:modules.wfsAnalyzer.analysis.featureCount", {count: formatCount(featureCount)}) }}
+                        </span>
                     </p>
 
                     <div
@@ -782,6 +812,10 @@ $wfs-analyzer-radius: 16px;
         border-top-right-radius: $wfs-analyzer-radius;
         border-bottom-right-radius: $wfs-analyzer-radius;
     }
+}
+
+.wfs-analyzer-feature-count {
+    font-size: 14px;
 }
 
 .wfs-analyzer-segment {
