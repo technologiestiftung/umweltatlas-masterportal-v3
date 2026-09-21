@@ -188,6 +188,27 @@ export function rankWfsCandidates (candidates, layerServiceName) {
 }
 
 /**
+ * Reads the area a feature type covers, as the capabilities advertise it in
+ * `ows:WGS84BoundingBox`. It comes free with the availability check and saves
+ * having to ask the service where its data lies.
+ * @param {Element} featureType the FeatureType element.
+ * @returns {Number[]|null} the extent as [minLon, minLat, maxLon, maxLat].
+ */
+function readWgs84Extent (featureType) {
+    const [box] = findByLocalName(featureType, "WGS84BoundingBox");
+
+    if (!box) {
+        return null;
+    }
+
+    const corners = [textByLocalName(box, "LowerCorner"), textByLocalName(box, "UpperCorner")]
+        .map((corner) => corner.split(/\s+/).map(Number))
+        .flat();
+
+    return corners.length === 4 && corners.every((value) => isFinite(value)) ? corners : null;
+}
+
+/**
  * Reads the advertised feature types from a WFS capabilities document.
  * @param {XMLDocument} capabilities the parsed capabilities.
  * @returns {Object[]} the feature types as {name, title}.
@@ -195,7 +216,8 @@ export function rankWfsCandidates (candidates, layerServiceName) {
 export function extractFeatureTypes (capabilities) {
     return findByLocalName(capabilities, "FeatureType").map((featureType) => ({
         name: textByLocalName(featureType, "Name"),
-        title: textByLocalName(featureType, "Title")
+        title: textByLocalName(featureType, "Title"),
+        extent: readWgs84Extent(featureType)
     })).filter((featureType) => featureType.name !== "");
 }
 

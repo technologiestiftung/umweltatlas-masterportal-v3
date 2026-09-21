@@ -202,9 +202,14 @@ export default {
             immediate: true
         }
     },
+    beforeUnmount () {
+        // The highlight belongs to the open tool, not to the map.
+        this.hideAnalysedArea();
+    },
     methods: {
         ...mapActions("Modules/WfsAnalyzer", [
             "checkWfsAvailability",
+            "hideAnalysedArea",
             "loadValuesFor",
             "runAnalysis",
             "selectExtraFilterAttribute",

@@ -1,6 +1,9 @@
 import {checkWfsForLayer} from "../js/wfsLookup";
 import {analyseByArea, analyseByCount, fetchAttributes, fetchCodeNameMap, fetchDistinctValues, fetchFeatureCount} from "../js/wfsAnalysis";
 import {fetchLegendColors, matchLegendAttribute} from "../js/legendColors";
+import {removeAreaLayer, showAreaLayer} from "../js/areaLayer";
+import {findAreaExtent} from "../js/areaExtent";
+import {transformExtent} from "ol/proj.js";
 
 /**
  * Counter used to discard responses of requests the user has already moved
@@ -76,6 +79,7 @@ const actions = {
         commit("setSelectedLayerId", layerId);
         commit("resetCheck");
         commit("resetAnalysis");
+        dispatch("hideAnalysedArea");
 
         if (layerId === "") {
             return Promise.resolve();
@@ -282,6 +286,7 @@ const actions = {
         commit("setFilterAttribute", attributeName);
         commit("setFilterValue", "");
         commit("resetResult");
+        dispatch("showAnalysedArea");
 
         return dispatch("refreshFeatureCount");
     },
@@ -297,8 +302,70 @@ const actions = {
     selectFilterValue ({commit, dispatch}, value) {
         commit("setFilterValue", value);
         commit("resetResult");
+        dispatch("showAnalysedArea");
 
         return dispatch("refreshFeatureCount");
+    },
+
+    /**
+     * Shows the area the analysis covers on the map and moves the map there.
+     *
+     * Without an area selection nothing is drawn: the analysis then covers the
+     * whole layer, and a highlight of everything points at nothing.
+     * @param {Object} context the vuex context.
+     * @param {Object} context.state the state of this module.
+     * @param {Object} context.getters the getters of this module.
+     * @param {Function} context.commit the commit function.
+     * @param {Function} context.dispatch the dispatch function.
+     * @returns {Promise<void>} resolves once the map has been moved.
+     */
+    async showAnalysedArea ({state, getters, commit, dispatch}) {
+        const layerConf = getters.selectedLayer,
+            cqlFilter = getters.areaCqlFilter,
+            layerId = state.selectedLayerId;
+
+        commit("setAreaExtent", null);
+
+        if (!layerConf || cqlFilter === "") {
+            removeAreaLayer();
+            return;
+        }
+
+        const params = {wmsUrl: layerConf.url, layerName: layerConf.layers, cqlFilter};
+
+        showAreaLayer(params);
+
+        // The layer's own extent comes from the capabilities of the
+        // availability check; without it the highlight still draws, there is
+        // just nothing to zoom to.
+        const projection = mapCollection?.getMapView("2D")?.getProjection(),
+            wgs84Extent = state.featureType?.extent;
+
+        if (!projection || !Array.isArray(wgs84Extent)) {
+            return;
+        }
+
+        const crs = projection.getCode(),
+            layerExtent = transformExtent(wgs84Extent, "EPSG:4326", crs),
+            extent = await findAreaExtent({...params, layerExtent, crs});
+
+        if (state.selectedLayerId !== layerId || getters.areaCqlFilter !== cqlFilter || !extent) {
+            return;
+        }
+
+        commit("setAreaExtent", extent);
+        dispatch("Maps/zoomToExtent", {extent, options: {padding: [20, 20, 20, 20]}}, {root: true});
+    },
+
+    /**
+     * Takes the area highlight off the map.
+     * @param {Object} context the vuex context.
+     * @param {Function} context.commit the commit function.
+     * @returns {void}
+     */
+    hideAnalysedArea ({commit}) {
+        removeAreaLayer();
+        commit("setAreaExtent", null);
     },
 
     /**

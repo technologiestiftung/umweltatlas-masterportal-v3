@@ -293,6 +293,25 @@ const getters = {
     },
 
     /**
+     * The CQL filter describing the area the analysis covers - the area
+     * selection alone.
+     *
+     * The additional filter is left out on purpose: it narrows *what* is
+     * counted within the area, not *where* the analysis takes place, and
+     * drawing it would show a selection rather than an area.
+     * @param {WfsAnalyzerState} state context state object.
+     * @param {Object} moduleGetters the getters of this module.
+     * @returns {String} the CQL filter, empty without an area selection.
+     */
+    areaCqlFilter (state, moduleGetters) {
+        return buildCqlFilter(
+            state.filterAttribute,
+            state.filterValue,
+            Boolean(moduleGetters.attributeByName(state.filterAttribute)?.isNumeric)
+        );
+    },
+
+    /**
      * Whether all selections needed to run an analysis are made.
      * @param {WfsAnalyzerState} state context state object.
      * @returns {Boolean} true if the analysis can be started.

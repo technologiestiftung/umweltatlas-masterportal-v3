@@ -32,6 +32,7 @@
  *
  * @property {Object} legendColors colours of the layer as {attribute: {value: color}}.
  * @property {Object} codeNames readable name per code of the legend attribute.
+ * @property {Number[]} areaExtent extent of the analysed area in map coordinates.
  * @property {Object} result the analysis result as {unit, total, categories}.
  * @property {String} analysisStatus one of "idle", "running", "ready", "error".
  * @property {String} analysisError message of the last failed analysis.
@@ -69,6 +70,7 @@ const state = {
 
     legendColors: {},
     codeNames: {},
+    areaExtent: null,
 
     result: null,
     analysisStatus: "idle",

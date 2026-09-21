@@ -25,6 +25,39 @@ describe("addons/wfsAnalyzer/store/gettersWfsAnalyzer", () => {
         return {state, moduleGetters};
     }
 
+    describe("areaCqlFilter", () => {
+        const moduleGetters = {attributeByName: () => ({isNumeric: false})};
+
+        it("describes the area selection alone", () => {
+            const state = {...stateWfsAnalyzer, filterAttribute: "bezirk", filterValue: "Mitte"};
+
+            expect(getters.areaCqlFilter(state, moduleGetters)).to.equal("bezirk='Mitte'");
+        });
+
+        it("ignores the additional filter, which narrows what is counted, not where", () => {
+            const state = {
+                ...stateWfsAnalyzer,
+                filterAttribute: "bezirk",
+                filterValue: "Mitte",
+                extraFilterAttribute: "woz_name",
+                extraFilterValue: "Wohnnutzung"
+            };
+
+            expect(getters.areaCqlFilter(state, moduleGetters)).to.equal("bezirk='Mitte'");
+        });
+
+        it("is empty without an area selection, so nothing is drawn", () => {
+            expect(getters.areaCqlFilter({...stateWfsAnalyzer}, moduleGetters)).to.equal("");
+            expect(getters.areaCqlFilter({...stateWfsAnalyzer, filterAttribute: "bezirk"}, moduleGetters)).to.equal("");
+        });
+
+        it("writes a numeric value without quotes", () => {
+            const state = {...stateWfsAnalyzer, filterAttribute: "plr_id", filterValue: "12"};
+
+            expect(getters.areaCqlFilter(state, {attributeByName: () => ({isNumeric: true})})).to.equal("plr_id=12");
+        });
+    });
+
     describe("autoColorEnabled", () => {
         it("follows the global setting when no preset says otherwise", () => {
             expect(setup({}, {autoColor: true}).moduleGetters.autoColorEnabled).to.equal(true);

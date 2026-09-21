@@ -30,6 +30,7 @@ const Config = {
         areaAttributes: [
             "einzelfaeche",
             "flalle",
+            "ha",
             "flaeche",
             "flaeche_qm",
             "fl",

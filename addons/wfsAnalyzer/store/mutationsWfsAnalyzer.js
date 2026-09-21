@@ -76,6 +76,7 @@ const mutations = {
         state.featureCountStatus = "idle";
         state.legendColors = {};
         state.codeNames = {};
+        state.areaExtent = null;
         state.result = null;
         state.analysisStatus = "idle";
         state.analysisError = "";

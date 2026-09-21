@@ -164,8 +164,46 @@ describe("addons/wfsAnalyzer/js/wfsLookup", () => {
 
             expect(featureTypes).to.deep.equal([{
                 name: "ua_flurabstand_1995:a_flurabstand_1995",
-                title: "Bereiche mit gespanntem Grundwasser 1995"
+                title: "Bereiche mit gespanntem Grundwasser 1995",
+                extent: null
             }]);
+        });
+
+        it("reads the advertised extent, which saves asking where the data lies", () => {
+            const capabilities = new DOMParser().parseFromString(`<?xml version="1.0"?>
+                    <wfs:WFS_Capabilities version="2.0.0" xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:ows="http://www.opengis.net/ows/1.1">
+                        <wfs:FeatureTypeList>
+                            <wfs:FeatureType>
+                                <wfs:Name>ua:a</wfs:Name>
+                                <wfs:Title>A</wfs:Title>
+                                <ows:WGS84BoundingBox>
+                                    <ows:LowerCorner>13.077449 52.330577</ows:LowerCorner>
+                                    <ows:UpperCorner>13.763905 52.678717</ows:UpperCorner>
+                                </ows:WGS84BoundingBox>
+                            </wfs:FeatureType>
+                        </wfs:FeatureTypeList>
+                    </wfs:WFS_Capabilities>`, "text/xml"),
+                [featureType] = extractFeatureTypes(capabilities);
+
+            expect(featureType.extent).to.deep.equal([13.077449, 52.330577, 13.763905, 52.678717]);
+        });
+
+        it("ignores an extent it cannot read", () => {
+            const capabilities = new DOMParser().parseFromString(`<?xml version="1.0"?>
+                    <wfs:WFS_Capabilities version="2.0.0" xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:ows="http://www.opengis.net/ows/1.1">
+                        <wfs:FeatureTypeList>
+                            <wfs:FeatureType>
+                                <wfs:Name>ua:a</wfs:Name>
+                                <ows:WGS84BoundingBox>
+                                    <ows:LowerCorner>keine zahl</ows:LowerCorner>
+                                    <ows:UpperCorner>13.7 52.6</ows:UpperCorner>
+                                </ows:WGS84BoundingBox>
+                            </wfs:FeatureType>
+                        </wfs:FeatureTypeList>
+                    </wfs:WFS_Capabilities>`, "text/xml"),
+                [featureType] = extractFeatureTypes(capabilities);
+
+            expect(featureType.extent).to.equal(null);
         });
     });
 

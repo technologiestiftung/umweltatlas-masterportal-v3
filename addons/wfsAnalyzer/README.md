@@ -202,6 +202,62 @@ nothing about, including the pooled "Sonstige", keep the neutral palette.
 Because it costs a request and only pays off for per-value styling, `autoColor`
 is **off globally** and switched on per layer in a preset.
 
+## Showing the analysed area on the map
+
+Picking an area ("Bereich") restricts the analysis, but nothing on the map said
+what the numbers referred to. Choosing a value now highlights that area and
+moves the map to it. Without an area selection nothing is drawn — the analysis
+then covers the whole layer, and a highlight of everything points at nothing.
+
+The same WMS that serves the layer draws the highlight, filtered by the analysis'
+own area filter, so what is shown is exactly what is counted:
+
+```
+GetMap&CQL_FILTER=bezirk='Mitte'&SLD_BODY=<flat colour>&format_options=antialias:none
+```
+
+* **`SLD_BODY`** replaces the layer's cartography with one flat colour. Without
+  it the overlay would be drawn in the layer's own style and lie invisibly on
+  top of the layer already showing.
+* **`antialias:none`** is what keeps it flat. With anti-aliasing the fill
+  arrives in about a thousand shades; measured over one district at 1200×1080
+  that is 409 KB instead of **119 KB with exactly one colour**. The transparency
+  is applied to the map layer (`opacity: 0.4`), not in the style, so the image
+  stays compressible.
+* No geometry is downloaded and no pixel is touched in the browser — the picture
+  arrives ready to show.
+
+The layer goes straight onto the OpenLayers map, not into the layer
+configuration, so it stays out of the topic tree — the same way the draw tool
+handles its own layer.
+
+### Where to move the map
+
+The service offers no cheap extent: `resultType=hits` and `count=0` answer
+without a bounding box, and the `bbox` of a GeoJSON response only covers the
+features it actually delivers — a megabyte for one district.
+
+So the extent is read out of a picture. `js/areaExtent.js` requests the same
+highlight at 300 pixels wide and takes the outermost non-transparent pixels,
+in **two passes**: first across the whole layer, then across what that found.
+Measured for `bezirk='Mitte'`:
+
+| | Bild | Auflösung | Abweichung |
+|---|---|---|---|
+| Pass 1 | 2.7 KB | 160 m/px | ≤ 430 m |
+| Pass 2 | 5.4 KB | 34 m/px | ≤ 66 m |
+
+Two requests, 8 KB, and the result never falls short of the true extent — the
+error is always outward, so nothing gets clipped off the view.
+
+The extent of the layer that pass 1 needs costs nothing: it is the
+`ows:WGS84BoundingBox` of the feature type, already in the capabilities the
+availability check fetches, transformed into the map's projection.
+
+**One trap worth knowing:** this service reads the `bbox` **easting first**, even
+in WMS 1.3.0, where the axis order of EPSG:25833 would put northing first. A
+swapped extent is not rejected — it comes back as a silently empty image.
+
 ### Readable attribute names
 
 The dropdowns do not show raw column names. `DescribeFeatureType` documents each
