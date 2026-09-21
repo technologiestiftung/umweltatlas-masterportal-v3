@@ -93,6 +93,10 @@ const Config = {
         autoColor: false,
         // Legend entries up to which the code-to-name lookup is attempted.
         maxLegendRules: 40,
+        // How the analysed area is shown: "highlight" fills it, "border"
+        // outlines it. Hex colour only - anything else falls back.
+        areaStyle: "highlight",
+        areaColor: "#E2001A",
         // Per-layer defaults, matched on the EXACT layer id.
         presets: [
             {
@@ -147,6 +151,9 @@ wfsAnalyzer/
 │   ├── wfsAnalysis.js              WFS requests + aggregation
 │   ├── analysisConfig.js           defaults + presets, merged with Config.wfsAnalyzer
 │   ├── legendColors.js             WMS legend → colour per attribute value
+│   ├── areaHighlight.js            SLD and WMS params for the analysed area
+│   ├── areaLayer.js                the area as a map layer
+│   ├── areaExtent.js               extent of the area, read out of a probe image
 │   ├── exportCsv.js                CSV of the result table
 │   └── formatResult.js             units, number formatting, colours, grouping
 ├── store/
@@ -219,6 +226,21 @@ GetMap&CQL_FILTER=bezirk='Mitte'&SLD_BODY=<flat colour>&format_options=antialias
 * **`SLD_BODY`** replaces the layer's cartography with one flat colour. Without
   it the overlay would be drawn in the layer's own style and lie invisibly on
   top of the layer already showing.
+* **Two styles**, set as `areaStyle` in `config.js`, in the colour `areaColor`:
+
+  | | was gezeichnet wird | Bezirksansicht 1200×1080 |
+  |---|---|---|
+  | `highlight` (Standard) | Fläche eingefärbt, Karte scheint durch (Deckkraft 0.4) | 119 KB |
+  | `border` | nur Umrisse, voll deckend | 184 KB |
+
+  `border` umrandet **jedes einzelne Objekt**, nicht die Außenkante des
+  Bereichs — der Dienst zeichnet, was er gefragt wird, und kennt keine
+  Vereinigung. Bei einem Layer aus vielen kleinen Flächen ergibt das ein Netz;
+  darum ist die Füllung der Standard.
+
+  `areaColor` nimmt nur einen schlichten Hex-Wert (`#E2001A`, `#0af`). Alles
+  andere fällt auf die Standardfarbe zurück — der Wert landet in einem
+  SLD-Dokument, und dort hat nichts anderes etwas zu suchen.
 * **`antialias:none`** is what keeps it flat. With anti-aliasing the fill
   arrives in about a thousand shades; measured over one district at 1200×1080
   that is 409 KB instead of **119 KB with exactly one colour**. The transparency
@@ -237,8 +259,9 @@ The service offers no cheap extent: `resultType=hits` and `count=0` answer
 without a bounding box, and the `bbox` of a GeoJSON response only covers the
 features it actually delivers — a megabyte for one district.
 
-So the extent is read out of a picture. `js/areaExtent.js` requests the same
-highlight at 300 pixels wide and takes the outermost non-transparent pixels,
+So the extent is read out of a picture. `js/areaExtent.js` requests the area at
+300 pixels wide — always **filled**, whatever the map shows: that image is
+measured, not looked at, and an outline would leave its inside blank and takes the outermost non-transparent pixels,
 in **two passes**: first across the whole layer, then across what that found.
 Measured for `bezirk='Mitte'`:
 

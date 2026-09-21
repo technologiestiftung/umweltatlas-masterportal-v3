@@ -57,6 +57,13 @@ const Config = {
         // Bis zu so vielen Legendeneinträgen wird die Zuordnung Code->Klartext
         // nachgeschlagen (je Eintrag eine kleine Abfrage).
         maxLegendRules: 40,
+        // Wie der ausgewertete Bereich auf der Karte gezeigt wird:
+        // "highlight" füllt ihn ein, "border" zeichnet nur die Umrisse.
+        // Achtung: "border" umrandet jedes einzelne Objekt, nicht die
+        // Außenkante des Bereichs - bei vielen kleinen Flächen ein Netz.
+        areaStyle: "highlight",
+        // Farbe dafür, als Hex-Wert. Alles andere wird verworfen.
+        areaColor: "#E2001A",
         // Per-layer defaults, matched on the exact layer id. Every field except
         // layerId is optional; a field naming an attribute the layer does not
         // have is ignored (with a warning on the console).

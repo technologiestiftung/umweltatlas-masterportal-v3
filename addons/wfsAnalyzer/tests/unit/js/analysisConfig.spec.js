@@ -82,6 +82,31 @@ describe("addons/wfsAnalyzer/js/analysisConfig", () => {
             expect(settings.presets).to.deep.equal([]);
         });
 
+        it("defaults to filling the analysed area in the fallback colour", () => {
+            const settings = getAnalysisConfig();
+
+            expect(settings.areaStyle).to.equal("highlight");
+            expect(settings.areaColor).to.match(/^#[0-9a-f]{6}$/i);
+        });
+
+        it("takes the area style and colour from config.js", () => {
+            global.Config = {wfsAnalyzer: {areaStyle: "border", areaColor: "#0050A0"}};
+
+            const settings = getAnalysisConfig();
+
+            expect(settings.areaStyle).to.equal("border");
+            expect(settings.areaColor).to.equal("#0050A0");
+        });
+
+        it("ignores an area style or colour it cannot use", () => {
+            global.Config = {wfsAnalyzer: {areaStyle: "gestrichelt", areaColor: "knallrot"}};
+
+            const settings = getAnalysisConfig();
+
+            expect(settings.areaStyle).to.equal("highlight");
+            expect(settings.areaColor).to.match(/^#[0-9a-f]{6}$/i);
+        });
+
         it("takes the legend colour settings from config.js", () => {
             global.Config = {wfsAnalyzer: {autoColor: true, maxLegendRules: 12}};
 

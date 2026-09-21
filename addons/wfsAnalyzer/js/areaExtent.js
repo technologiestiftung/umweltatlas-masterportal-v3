@@ -54,7 +54,10 @@ export function buildAreaImageUrl ({wmsUrl, layerName, cqlFilter, extent, crs, w
     url.searchParams.set("width", String(width));
     url.searchParams.set("height", String(height));
 
-    Object.entries(buildHighlightParams(layerName, cqlFilter)).forEach(([key, value]) => {
+    // Always the filled style, whatever the map shows: this image is measured,
+    // not looked at, and a filled area marks every pixel it covers while an
+    // outline would leave its inside blank.
+    Object.entries(buildHighlightParams(layerName, cqlFilter, {style: "highlight"})).forEach(([key, value]) => {
         url.searchParams.set(key.toLowerCase(), String(value));
     });
 

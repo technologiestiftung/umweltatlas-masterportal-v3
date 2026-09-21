@@ -333,7 +333,11 @@ const actions = {
 
         const params = {wmsUrl: layerConf.url, layerName: layerConf.layers, cqlFilter};
 
-        showAreaLayer(params);
+        showAreaLayer({
+            ...params,
+            style: getters.settings.areaStyle,
+            color: getters.settings.areaColor
+        });
 
         // The layer's own extent comes from the capabilities of the
         // availability check; without it the highlight still draws, there is

@@ -24,6 +24,8 @@
  * @module addons/wfsAnalyzer/js/analysisConfig
  */
 
+import {normalizeAreaStyle} from "./areaHighlight";
+
 /**
  * Attribute names that typically describe the spatial unit a feature belongs
  * to. They are offered as suggestions when choosing what to filter by; the
@@ -106,6 +108,14 @@ export const defaultAutoColor = false;
 export const defaultMaxLegendRules = 40;
 
 /**
+ * How the area an analysis covers is drawn on the map: "highlight" fills it
+ * over, "border" outlines it. An outline traces every feature, not the outer
+ * edge of the area, which is why the fill is the default.
+ * @type {String}
+ */
+export const defaultAreaStyle = "highlight";
+
+/**
  * Reads an optional boolean, keeping "not configured" apart from false.
  * @param {*} value the configured value.
  * @returns {Boolean|null} the value or null.
@@ -161,7 +171,11 @@ export function normalizePresets (presets) {
 export function getAnalysisConfig () {
     // `Config` is the global portal configuration object provided by config.js.
     const portalConfig = typeof Config === "undefined" ? {} : Config,
-        settings = portalConfig?.wfsAnalyzer || {};
+        settings = portalConfig?.wfsAnalyzer || {},
+        area = normalizeAreaStyle({
+            style: typeof settings.areaStyle === "string" ? settings.areaStyle : defaultAreaStyle,
+            color: settings.areaColor
+        });
 
     return {
         filterAttributes: Array.isArray(settings.filterAttributes) ? settings.filterAttributes : defaultFilterAttributes,
@@ -171,6 +185,8 @@ export function getAnalysisConfig () {
         maxFilterValues: typeof settings.maxFilterValues === "number" ? settings.maxFilterValues : defaultMaxFilterValues,
         autoColor: typeof settings.autoColor === "boolean" ? settings.autoColor : defaultAutoColor,
         maxLegendRules: typeof settings.maxLegendRules === "number" ? settings.maxLegendRules : defaultMaxLegendRules,
+        areaStyle: area.style,
+        areaColor: area.color,
         presets: normalizePresets(settings.presets)
     };
 }

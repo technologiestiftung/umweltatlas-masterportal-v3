@@ -1,7 +1,7 @@
 import ImageLayer from "ol/layer/Image.js";
 import ImageWMS from "ol/source/ImageWMS.js";
 
-import {buildHighlightParams} from "./areaHighlight";
+import {areaLayerOpacity, buildHighlightParams} from "./areaHighlight";
 
 /**
  * Draws the area an analysis covers onto the map.
@@ -20,31 +20,28 @@ import {buildHighlightParams} from "./areaHighlight";
 const layerZIndex = 900;
 
 /**
- * Opacity of the highlight on the map. Applied here rather than in the style,
- * so the image the service sends stays a single colour.
- * @type {Number}
- */
-const layerOpacity = 0.4;
-
-/**
  * Builds the highlight layer for one analysis.
  * @param {Object} params the parameters.
  * @param {String} params.wmsUrl url of the WMS.
  * @param {String} params.layerName name of the layer.
  * @param {String} params.cqlFilter the filter describing the analysed area.
+ * @param {String} [params.style] "highlight" or "border".
+ * @param {String} [params.color] the colour as a hex string.
  * @returns {module:ol/layer/Image} the layer.
  */
-export function createAreaLayer ({wmsUrl, layerName, cqlFilter}) {
+export function createAreaLayer ({wmsUrl, layerName, cqlFilter, style, color}) {
     return new ImageLayer({
-        opacity: layerOpacity,
+        // Applied here rather than in the style, so the image the service sends
+        // stays a single colour and compresses.
+        opacity: areaLayerOpacity(style),
         zIndex: layerZIndex,
         source: new ImageWMS({
             url: wmsUrl,
             // No margin around the viewport: every extra pixel is transferred
-            // and the highlight is redrawn on every move anyway.
+            // and the area is redrawn on every move anyway.
             ratio: 1,
             serverType: "geoserver",
-            params: buildHighlightParams(layerName, cqlFilter)
+            params: buildHighlightParams(layerName, cqlFilter, {style, color})
         })
     });
 }
