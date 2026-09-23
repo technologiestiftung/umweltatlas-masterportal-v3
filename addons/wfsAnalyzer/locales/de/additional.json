@@ -11,7 +11,8 @@
                 "title": "Kein WFS verfügbar",
                 "noMetadata": "Für diesen Layer sind keine Metadaten hinterlegt, daher lässt sich kein Downloaddienst ermitteln. Der Layer kann nicht analysiert werden.",
                 "noWfsInMetadata": "Der Metadatensatz dieses Layers weist keinen Downloaddienst (WFS) aus. Der Layer kann nicht analysiert werden.",
-                "noMatchingFeatureType": "Der zugehörige Downloaddienst (WFS) enthält keine Objektart für diesen Layer. Der Layer kann nicht analysiert werden."
+                "noMatchingFeatureType": "Der zugehörige Downloaddienst (WFS) enthält keine Objektart für diesen Layer. Der Layer kann nicht analysiert werden.",
+                "ambiguousFeatureType": "Der Downloaddienst (WFS) enthält mehrere Objektarten, die zu diesem Layer passen könnten. Eine eindeutige Zuordnung ist nicht möglich, daher wird der Layer nicht analysiert."
             },
             "error": {
                 "title": "Prüfung fehlgeschlagen",

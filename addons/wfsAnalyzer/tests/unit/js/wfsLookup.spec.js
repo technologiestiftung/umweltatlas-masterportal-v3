@@ -5,6 +5,8 @@ import {
     extractFeatureTypes,
     extractWfsCandidates,
     getServiceName,
+    deriveWfsUrls,
+    findFeatureTypeMatches,
     matchFeatureType,
     rankWfsCandidates
 } from "../../../js/wfsLookup";
@@ -233,6 +235,86 @@ describe("addons/wfsAnalyzer/js/wfsLookup", () => {
 
         it("returns null when the layer carries no identifiers", () => {
             expect(matchFeatureType(featureTypes, {})).to.be.null;
+        });
+
+        it("prefers the qualified name over a same-named type of another workspace", () => {
+            const types = [
+                {name: "other_ws:a_flurabstand_1995"},
+                {name: "ua_flurabstand_1995:a_flurabstand_1995"}
+            ];
+
+            expect(matchFeatureType(types, {id: "ua_flurabstand_1995:a_flurabstand_1995"}).name)
+                .to.equal("ua_flurabstand_1995:a_flurabstand_1995");
+        });
+
+        it("returns null when two types fit equally well", () => {
+            // Picking one of them would be a guess, which is what this avoids.
+            const types = [
+                {name: "ws_a:a_flurabstand_1995"},
+                {name: "ws_b:a_flurabstand_1995"}
+            ];
+
+            expect(matchFeatureType(types, {id: "unrelated", layers: "a_flurabstand_1995"})).to.be.null;
+        });
+    });
+
+    describe("findFeatureTypeMatches", () => {
+        it("reports every candidate, so the caller can tell 'none' from 'ambiguous'", () => {
+            const types = [{name: "ws_a:x"}, {name: "ws_b:x"}];
+
+            expect(findFeatureTypeMatches(types, {layers: "x"})).to.have.lengthOf(2);
+            expect(findFeatureTypeMatches(types, {layers: "y"})).to.have.lengthOf(0);
+        });
+
+        it("narrows an otherwise ambiguous name down by the qualified id", () => {
+            const types = [{name: "ws_a:x"}, {name: "ws_b:x"}];
+
+            expect(findFeatureTypeMatches(types, {id: "ws_b:x", layers: "x"})).to.deep.equal([{name: "ws_b:x"}]);
+        });
+
+        it("copes with a missing list", () => {
+            expect(findFeatureTypeMatches(undefined, {id: "a:b"})).to.deep.equal([]);
+        });
+    });
+
+    describe("deriveWfsUrls", () => {
+        it("offers the layer's own address first", () => {
+            // GeoServer answers every OWS request on every one of its
+            // endpoints, so this one address is usually the whole answer.
+            expect(deriveWfsUrls("https://gdi.berlin.de/services/wms/ua_boden_ph_2015")[0])
+                .to.equal("https://gdi.berlin.de/services/wms/ua_boden_ph_2015");
+        });
+
+        it("adds the wfs path for servers that separate their services", () => {
+            expect(deriveWfsUrls("https://gdi.berlin.de/services/wms/ua_boden_ph_2015"))
+                .to.deep.equal([
+                    "https://gdi.berlin.de/services/wms/ua_boden_ph_2015",
+                    "https://gdi.berlin.de/services/wfs/ua_boden_ph_2015"
+                ]);
+        });
+
+        it("swaps a trailing wms segment as well", () => {
+            expect(deriveWfsUrls("https://example.org/geoserver/wms")).to.deep.equal([
+                "https://example.org/geoserver/wms",
+                "https://example.org/geoserver/wfs"
+            ]);
+        });
+
+        it("does not touch a path that only contains wms inside a word", () => {
+            expect(deriveWfsUrls("https://example.org/wmsdata/ows")).to.deep.equal([
+                "https://example.org/wmsdata/ows"
+            ]);
+        });
+
+        it("keeps query parameters the layer url carries", () => {
+            expect(deriveWfsUrls("https://example.org/wms/x?map=/data/x.map")[1])
+                .to.equal("https://example.org/wfs/x?map=/data/x.map");
+        });
+
+        it("returns nothing for an unusable url", () => {
+            expect(deriveWfsUrls("kein-url")).to.deep.equal([]);
+            expect(deriveWfsUrls("")).to.deep.equal([]);
+            expect(deriveWfsUrls(undefined)).to.deep.equal([]);
         });
     });
 });

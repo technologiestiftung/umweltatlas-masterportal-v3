@@ -224,22 +224,80 @@ export function extractFeatureTypes (capabilities) {
 /**
  * Finds the feature type that corresponds to a layer. The Umweltatlas services
  * name their feature types exactly like the layer id
- * ("ua_flurabstand_1995:a_flurabstand_1995"), so the qualified name is tried
- * first and the local name of the WMS layer serves as a fallback.
- * @param {Object[]} featureTypes the feature types of the WFS.
+ * ("ua_flurabstand_1995:a_flurabstand_1995"), so the qualified name decides.
+ * The local name of the WMS layer only serves as a fallback, and only within
+ * one service, where it is unique - measured across the six services with the
+ * most feature types (up to 56 of them), 223 of 257 layers were identified by
+ * their qualified name alone and not one name was ambiguous.
+ * @param {Object[]} featureTypes the feature types of one WFS.
  * @param {Object} layerConf the layer configuration.
- * @returns {Object|null} the matching feature type or null.
+ * @returns {Object[]} the matching feature types, empty when none fits.
  */
-export function matchFeatureType (featureTypes, layerConf) {
+export function findFeatureTypeMatches (featureTypes, layerConf) {
+    const types = Array.isArray(featureTypes) ? featureTypes : [],
+        qualified = typeof layerConf?.id === "string" ? layerConf.id.trim() : "",
+        exact = types.filter((featureType) => featureType.name === qualified);
+
+    if (exact.length > 0) {
+        return exact;
+    }
+
     const wanted = [layerConf?.id, layerConf?.layers]
         .filter((value) => typeof value === "string" && value !== "")
         .map(getLocalName);
 
     if (wanted.length === 0) {
-        return null;
+        return [];
     }
 
-    return featureTypes.find((featureType) => wanted.includes(getLocalName(featureType.name))) || null;
+    return types.filter((featureType) => wanted.includes(getLocalName(featureType.name)));
+}
+
+/**
+ * Finds the one feature type that corresponds to a layer.
+ *
+ * Where two feature types fit equally well nothing is returned: picking one of
+ * them would be a guess, and a guess is what this is meant to avoid.
+ * @param {Object[]} featureTypes the feature types of one WFS.
+ * @param {Object} layerConf the layer configuration.
+ * @returns {Object|null} the matching feature type or null.
+ */
+export function matchFeatureType (featureTypes, layerConf) {
+    const matches = findFeatureTypeMatches(featureTypes, layerConf);
+
+    return matches.length === 1 ? matches[0] : null;
+}
+
+/**
+ * The addresses at which the layer's own service can be asked for its feature
+ * types.
+ *
+ * A layer names the service that draws it, and that service is the one that
+ * also publishes it for download - GeoServer answers every OWS request on every
+ * one of its endpoints, so the layer's own url usually suffices. The second
+ * form covers servers that separate their services by path.
+ * @param {String} layerUrl url the layer is drawn from.
+ * @returns {String[]} the addresses to try, without duplicates.
+ */
+export function deriveWfsUrls (layerUrl) {
+    if (typeof layerUrl !== "string" || layerUrl === "") {
+        return [];
+    }
+
+    let url = null;
+
+    try {
+        url = new URL(layerUrl);
+    }
+    catch (error) {
+        return [];
+    }
+
+    const swapped = new URL(url.href);
+
+    swapped.pathname = url.pathname.replace(/(^|\/)wms(\/|$)/i, "$1wfs$2");
+
+    return swapped.href === url.href ? [url.href] : [url.href, swapped.href];
 }
 
 /**
@@ -272,6 +330,58 @@ export async function fetchFeatureTypes (wfsUrl) {
 }
 
 /**
+ * Asks the layer's own service for its feature types and identifies the layer
+ * among them.
+ *
+ * This is the exact answer where the catalogue can only offer candidates: a
+ * metadata record describes a *dataset* and may list a download service per
+ * sibling - `ua_boden_ph_2015` names nine - so choosing among them means
+ * guessing. The service the layer is drawn from does not have to be chosen.
+ * @param {Object} layerConf the layer configuration.
+ * @returns {Promise<Object|null>} the result, or null if this route found nothing.
+ */
+async function askOwnService (layerConf) {
+    for (const wfsUrl of deriveWfsUrls(layerConf?.url)) {
+        let featureTypes = null;
+
+        try {
+            // Sequential: the first address answers for every GeoServer, so the
+            // second is only ever reached on servers that separate by path.
+            featureTypes = await fetchFeatureTypes(wfsUrl);
+        }
+        catch (error) {
+            // Not a WFS, or unreachable - the catalogue may still know one.
+            continue;
+        }
+
+        if (featureTypes.length === 0) {
+            continue;
+        }
+
+        const matches = findFeatureTypeMatches(featureTypes, layerConf);
+
+        if (matches.length === 1) {
+            return {hasWfs: true, wfsUrl, featureType: matches[0], reason: "ok"};
+        }
+        if (matches.length > 1) {
+            return {
+                hasWfs: false,
+                wfsUrl: "",
+                featureType: null,
+                reason: "ambiguousFeatureType"
+            };
+        }
+
+        // The service answers but knows nothing of this layer - a raster layer,
+        // or one whose geometry is not published for download. The catalogue
+        // still gets its turn, for portals that publish the download service
+        // somewhere else entirely.
+    }
+
+    return null;
+}
+
+/**
  * Checks whether a layer is also published as a WFS and can therefore be
  * analysed. The layer configuration only ever describes the WMS, so the
  * download service has to be discovered through the metadata record the layer
@@ -280,6 +390,12 @@ export async function fetchFeatureTypes (wfsUrl) {
  * @returns {Promise<Object>} the result as {hasWfs, wfsUrl, featureType, reason}.
  */
 export async function checkWfsForLayer (layerConf) {
+    const ownService = await askOwnService(layerConf);
+
+    if (ownService) {
+        return ownService;
+    }
+
     const dataset = Array.isArray(layerConf?.datasets) ? layerConf.datasets[0] : undefined,
         metadataId = dataset?.md_id,
         cswUrl = dataset?.csw_url;

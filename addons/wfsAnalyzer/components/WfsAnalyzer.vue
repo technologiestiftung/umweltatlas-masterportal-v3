@@ -530,7 +530,7 @@ export default {
                             role="group"
                         >
                             <button
-                                v-for="option in ['count', 'area']"
+                                v-for="option in ['area','count']"
                                 :id="`wfs-analyzer-mode-${option}`"
                                 :key="option"
                                 type="button"

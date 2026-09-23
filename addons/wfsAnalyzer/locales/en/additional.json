@@ -11,7 +11,8 @@
                 "title": "No WFS available",
                 "noMetadata": "No metadata is configured for this layer, so no download service can be determined. The layer cannot be analysed.",
                 "noWfsInMetadata": "The metadata record of this layer does not list a download service (WFS). The layer cannot be analysed.",
-                "noMatchingFeatureType": "The associated download service (WFS) contains no feature type for this layer. The layer cannot be analysed."
+                "noMatchingFeatureType": "The associated download service (WFS) contains no feature type for this layer. The layer cannot be analysed.",
+                "ambiguousFeatureType": "The download service (WFS) contains several feature types that could belong to this layer. As none of them can be identified with certainty, the layer is not analysed."
             },
             "error": {
                 "title": "Check failed",

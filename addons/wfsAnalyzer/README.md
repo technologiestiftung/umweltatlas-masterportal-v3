@@ -16,31 +16,55 @@ Typical questions it answers:
 ## Why the WFS check comes first
 
 Every layer in `resources/services-internet.json` is configured as a **WMS**
-(`typ: "WMS"`) — the map only ever requests rendered images, never features.
-Whether a WFS also exists for the same dataset is not recorded on the layer
-itself; it has to be discovered through the layer's metadata record:
+(`typ: "WMS"`) — the map only ever requests rendered images, never features. So
+before anything can be analysed, the feature type behind the layer has to be
+identified.
+
+**The layer's own service is asked first.** It names the service that draws it,
+and GeoServer answers every OWS request on every one of its endpoints — the same
+address with `service=WFS` returns the feature types:
+
+```
+layer.url  ──  ?service=WFS&request=GetCapabilities ──▶  FeatureTypeList
+                                                              │
+               exactly one type matches the layer?  ──────────┤
+                 yes → analysable                             │
+                 no  → the catalogue gets its turn            │
+                 several → blocked, nothing is picked
+```
+
+Matching is by name and is **not a heuristic**: the qualified name decides
+(`ua_flurabstand_1995:a_flurabstand_1995` is both the layer id and the feature
+type name), and the short WMS layer name only serves as a fallback *within that
+one service*, where it is unique. Measured across the six services with the most
+feature types — up to 56 types serving 64 layers — **223 of 257 layers were
+identified by their qualified name alone and not one name was ambiguous**. The
+34 without a match have no counterpart at all: raster layers (`*_raster_*`,
+`temperaturmittel_e_r_*`) and geometries that are simply not published for
+download (`*_plr2009`).
+
+Where two feature types would fit equally well, none is chosen. Picking one
+would be a guess.
+
+**The metadata record is the fallback**, for portals that publish their download
+service somewhere else entirely:
 
 ```
 layer.datasets[0] = {md_id, csw_url}
         │
         ▼
-CSW GetRecordById (csw_url + md_id)
-        │  → list of gmd:CI_OnlineResource entries (WMS, WFS, ATOM, PDF, …)
-        ▼
-WFS candidate URL(s)
+CSW GetRecordById  →  every WFS listed in the record
         │
         ▼
-WFS GetCapabilities
-        │  → FeatureTypeList
-        ▼
-Does a FeatureType match this layer?  → yes: analysable / no: blocked
+ranked by service name, at most 4 probed, a match still required
 ```
 
-A metadata record can bundle a whole family of services (e.g. the various
-`ua_boden_*` soil layers all point at the same record and list 11 WFS
-entries), so finding *a* WFS in the metadata is not sufficient — the tool also
-fetches the WFS's own capabilities and confirms it actually serves a
-`FeatureType` for the selected layer before declaring it analysable.
+That route is a last resort for a reason: a record describes a **dataset**, not
+a layer, and may list a download service per sibling — the record behind
+`ua_boden_ph_2015` names **nine**, eight of which belong to other soil
+parameters. Choosing among them means guessing, which is exactly what asking the
+layer's own service avoids. For the soil layers the lookup now takes **one
+request instead of a CSW round-trip plus up to four capabilities probes**.
 
 ## The analysis, and why it is cheap
 
