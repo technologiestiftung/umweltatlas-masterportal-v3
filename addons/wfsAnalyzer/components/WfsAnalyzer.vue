@@ -551,31 +551,6 @@ export default {
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
                                     <button
-                                        id="wfs-analyzer-method-info"
-                                        class="accordion-button collapsed"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#wfs-analyzer-method-text"
-                                        aria-expanded="false"
-                                        aria-controls="wfs-analyzer-method-text"
-                                    >
-                                        <i class="bi-info-circle-fill me-2" />
-                                        {{ $t("additional:modules.wfsAnalyzer.analysis.methodLabel") }}
-                                    </button>
-                                </h2>
-                                <div
-                                    id="wfs-analyzer-method-text"
-                                    class="accordion-collapse collapse"
-                                >
-                                    <div class="accordion-body">
-                                        {{ $t("additional:modules.wfsAnalyzer.analysis.methodInfo") }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button
                                         id="wfs-analyzer-advanced-toggle"
                                         class="accordion-button collapsed"
                                         type="button"
@@ -947,6 +922,40 @@ export default {
                         </template>
                     </div>
                 </template>
+
+                <!--
+                    Last of everything: it explains what happened, which is only
+                    worth reading once the form and the result are taken in.
+                -->
+                <div
+                    v-if="hasLegendClasses"
+                    class="accordion accordion-flush mt-3"
+                >
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button
+                                id="wfs-analyzer-method-info"
+                                class="accordion-button collapsed"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#wfs-analyzer-method-text"
+                                aria-expanded="false"
+                                aria-controls="wfs-analyzer-method-text"
+                            >
+                                <i class="bi-info-circle-fill me-2" />
+                                {{ $t("additional:modules.wfsAnalyzer.analysis.methodLabel") }}
+                            </button>
+                        </h2>
+                        <div
+                            id="wfs-analyzer-method-text"
+                            class="accordion-collapse collapse"
+                        >
+                            <div class="accordion-body">
+                                {{ $t("additional:modules.wfsAnalyzer.analysis.methodInfo") }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </template>
     </div>

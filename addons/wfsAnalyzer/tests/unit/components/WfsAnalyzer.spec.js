@@ -582,6 +582,24 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
                 expect(advanced.attributes("data-bs-target")).to.equal("#wfs-analyzer-advanced");
             });
 
+            it("puts the method last of everything, after the result", () => {
+                // It explains what happened, which is worth reading once the
+                // form and the result have been taken in - not before.
+                const wrapper = mountComponent({
+                        ...confirmed,
+                        legendClasses,
+                        legendStatus: "ready",
+                        analysisStatus: "ready",
+                        result: {unit: "count", total: 442, categories: [{label: "10", value: 442, share: 1}]}
+                    }),
+                    markup = wrapper.html();
+
+                expect(markup.indexOf("wfs-analyzer-method-info"))
+                    .to.be.above(markup.indexOf("wfs-analyzer-advanced-toggle"));
+                expect(markup.indexOf("wfs-analyzer-method-info"))
+                    .to.be.above(markup.indexOf("wfs-analyzer-download"));
+            });
+
             it("keeps the attribute select inside the advanced section", () => {
                 const wrapper = mountComponent({...confirmed, legendClasses, legendStatus: "ready"});
 
