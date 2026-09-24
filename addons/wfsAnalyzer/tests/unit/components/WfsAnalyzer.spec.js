@@ -366,14 +366,24 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
             expect(wrapper.find("#wfs-analyzer-area-attribute").exists()).to.be.true;
         });
 
-        it("does not offer an area analysis for a layer without an area attribute", () => {
+        it("greys out the area button for a layer without an area attribute, and says why", () => {
             const wrapper = mountComponent({
                 ...confirmed,
                 attributes: attributes.filter((attribute) => !attribute.isNumeric)
             });
 
-            expect(wrapper.find("#wfs-analyzer-mode-area").exists()).to.be.false;
-            expect(wrapper.find("#wfs-analyzer-mode-count").exists()).to.be.false;
+            // Hiding the button would leave the user wondering where it went; a
+            // greyed one without a reason is the most frustrating part of a form.
+            expect(wrapper.find("#wfs-analyzer-mode-area").attributes("disabled")).to.not.be.undefined;
+            expect(wrapper.find("#wfs-analyzer-mode-count").attributes("disabled")).to.be.undefined;
+            expect(wrapper.text()).to.contain("additional:modules.wfsAnalyzer.mode.noAreaAttribute");
+        });
+
+        it("leaves the area button alone where an area attribute exists", () => {
+            const wrapper = mountComponent(confirmed);
+
+            expect(wrapper.find("#wfs-analyzer-mode-area").attributes("disabled")).to.be.undefined;
+            expect(wrapper.text()).to.not.contain("additional:modules.wfsAnalyzer.mode.noAreaAttribute");
         });
 
         it("switches the mode via the buttons", async () => {
@@ -520,6 +530,151 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
 
             expect(wrapper.find(".spinner-border").exists()).to.be.false;
             expect(wrapper.find("#wfs-analyzer-analyse-attribute").exists()).to.be.true;
+        });
+
+        describe("the heading over the result", () => {
+            const legendClasses = [{label: "10", filter: "woz = '10'", color: "#FFCC65"}],
+                result = {unit: "count", total: 442, categories: [{label: "10", value: 442, share: 1}]};
+
+            it("names the classes of the map instead of an empty attribute", () => {
+                // Grouping by the legend there is no attribute, and the old
+                // heading read "Verteilung von ,,"".
+                const wrapper = mountComponent({
+                    ...confirmed, legendClasses, legendStatus: "ready", analysisStatus: "ready", result
+                });
+
+                expect(wrapper.find("h6").text()).to.equal("additional:modules.wfsAnalyzer.result.titleClasses");
+            });
+
+            it("names the area as well, where one is chosen", () => {
+                const wrapper = mountComponent({
+                    ...confirmed, legendClasses, legendStatus: "ready", analysisStatus: "ready", result,
+                    filterAttribute: "bezirk", filterValue: "Mitte"
+                });
+
+                expect(wrapper.find("h6").text()).to.equal("additional:modules.wfsAnalyzer.result.titleClassesInArea");
+            });
+
+            it("keeps naming the attribute where one is analysed", () => {
+                const wrapper = mountComponent({
+                    ...confirmed, legendClasses, legendStatus: "ready", analysisStatus: "ready", result,
+                    analyseAttribute: "nutzung"
+                });
+
+                expect(wrapper.find("h6").text()).to.equal("additional:modules.wfsAnalyzer.result.title");
+            });
+        });
+
+        describe("the two toggles above the form", () => {
+            const legendClasses = [{label: "10", filter: "woz = '10'", color: "#FFCC65"}];
+
+            it("offers the method and the advanced section as collapsed accordions", () => {
+                // The same shape the coordinates tool uses for its information
+                // toggle, so the portal stays of a piece.
+                const wrapper = mountComponent({...confirmed, legendClasses, legendStatus: "ready"}),
+                    method = wrapper.find("#wfs-analyzer-method-info"),
+                    advanced = wrapper.find("#wfs-analyzer-advanced-toggle");
+
+                expect(method.classes()).to.contain("accordion-button");
+                expect(method.attributes("data-bs-toggle")).to.equal("collapse");
+                expect(method.attributes("aria-expanded")).to.equal("false");
+                expect(advanced.classes()).to.contain("accordion-button");
+                expect(advanced.attributes("data-bs-target")).to.equal("#wfs-analyzer-advanced");
+            });
+
+            it("keeps the attribute select inside the advanced section", () => {
+                const wrapper = mountComponent({...confirmed, legendClasses, legendStatus: "ready"});
+
+                expect(wrapper.find("#wfs-analyzer-advanced #wfs-analyzer-analyse-attribute").exists()).to.be.true;
+            });
+
+            it("shows the select plainly for a layer the legend says nothing about", () => {
+                const wrapper = mountComponent(confirmed);
+
+                expect(wrapper.find("#wfs-analyzer-method-info").exists()).to.be.false;
+                expect(wrapper.find("#wfs-analyzer-advanced-toggle").exists()).to.be.false;
+                expect(wrapper.find("#wfs-analyzer-analyse-attribute").exists()).to.be.true;
+            });
+        });
+
+        describe("with the classes of the map", () => {
+            const legendClasses = [
+                    {label: "2483", filter: "bgs_neu = '2483'", color: "#FCD4D4"},
+                    {label: "2485", filter: "bgs_neu = '2485'", color: "#FCD4D4"},
+                    {label: "2500", filter: "bgs_neu = '2500'", color: "#7424A4"},
+                    {label: "2540", filter: "bgs_neu = '2540'", color: "#E46C74"}
+                ],
+                classNames = {
+                    2483: "Regosol + Pararendzina + Hortisol",
+                    2485: "Regosol + Pararendzina + Hortisol",
+                    2500: "Lockersyrosem + Regosol + Pararendzina",
+                    2540: "Lockersyrosem + Regosol + Pararendzina"
+                },
+                result = {
+                    unit: "count",
+                    total: 8951,
+                    categories: [
+                        {label: "2500", value: 2175, share: 0.243},
+                        {label: "2540", value: 2142, share: 0.239},
+                        {label: "2483", value: 2316, share: 0.259},
+                        {label: "2485", value: 2318, share: 0.259}
+                    ]
+                };
+
+            /**
+             * @returns {Object[]} the categories as the table shows them.
+             */
+            function shownCategories () {
+                return mountComponent({
+                    ...confirmed,
+                    legendClasses,
+                    legendStatus: "ready",
+                    analysisStatus: "ready",
+                    result,
+                    classNames
+                }).vm.namedCategories;
+            }
+
+            it("puts the readable name in place of the code", () => {
+                expect(shownCategories().map((category) => category.label))
+                    .to.not.contain("2483");
+            });
+
+            it("makes one class of what the map draws alike", () => {
+                // Same name and same colour: on the map there is no telling
+                // them apart, so two rows would be two rows of nothing.
+                const merged = shownCategories()
+                    .filter((category) => category.label === "Regosol + Pararendzina + Hortisol");
+
+                expect(merged).to.have.lengthOf(1);
+                expect(merged[0].value).to.equal(4634);
+            });
+
+            it("keeps classes the map draws differently apart, and says which is which", () => {
+                const labels = shownCategories().map((category) => category.label);
+
+                expect(labels).to.contain("Lockersyrosem + Regosol + Pararendzina (2500)");
+                expect(labels).to.contain("Lockersyrosem + Regosol + Pararendzina (2540)");
+            });
+
+            it("sorts by size after merging, not before", () => {
+                // Merging adds values up, which moves a row past others - the
+                // result arrives sorted, the table has to sort again.
+                const values = shownCategories().map((category) => category.value);
+
+                expect(values[0]).to.equal(4634);
+                values.forEach((value, index) => {
+                    if (index > 0) {
+                        expect(values[index - 1]).to.be.at.least(value);
+                    }
+                });
+            });
+
+            it("leaves the total untouched", () => {
+                const sum = shownCategories().reduce((total, category) => total + category.value, 0);
+
+                expect(sum).to.equal(8951);
+            });
         });
 
         describe("with an attribute pinned by a preset", () => {

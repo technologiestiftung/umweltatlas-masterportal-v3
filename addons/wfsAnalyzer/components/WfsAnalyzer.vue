@@ -31,6 +31,7 @@ export default {
             "analyseAttribute",
             "analyseAttributeCandidates",
             "analysisError",
+            "analysisMethod",
             "analysisStatus",
             "areaAttribute",
             "areaAttributeCandidates",
@@ -40,6 +41,7 @@ export default {
             "canAnalyseByArea",
             "categoryColors",
             "checkStatus",
+            "classNames",
             "errorMessage",
             "exceedsMaxFeatures",
             "extraFilterAttribute",
@@ -50,9 +52,12 @@ export default {
             "filterAttribute",
             "filterValue",
             "hasCurrentResult",
+            "hasLegendClasses",
             "isAnalysable",
+            "legendColorByClass",
             "mode",
             "needsAreaAttributeChoice",
+            "notShown",
             "presetAnalyseAttribute",
             "reason",
             "result",
@@ -99,7 +104,8 @@ export default {
             if (this.analysisStatus === "running") {
                 return "";
             }
-            if (this.analyseAttribute === "") {
+            // The map's classes need no attribute - only the advanced path does.
+            if (this.analysisMethod === "attribute" && this.analyseAttribute === "") {
                 return this.$t("additional:modules.wfsAnalyzer.analysis.needsAttribute");
             }
             if (this.mode === "area" && this.areaAttribute === "") {
@@ -115,16 +121,24 @@ export default {
          * @returns {String} the heading.
          */
         resultTitle () {
-            if (this.filterValue !== "") {
-                return this.$t("additional:modules.wfsAnalyzer.result.titleInArea", {
-                    attribute: this.analyseAttributeLabel,
-                    area: this.filterValue
-                });
-            }
+            // Grouping by the map's classes there is no attribute to name, and
+            // "Verteilung von ,,"" is what naming it anyway looked like.
+            const key = this.analysisMethod === "legend" ? "titleClasses" : "title",
+                suffix = this.filterValue === "" ? "" : "InArea";
 
-            return this.$t("additional:modules.wfsAnalyzer.result.title", {
-                attribute: this.analyseAttributeLabel
+            return this.$t(`additional:modules.wfsAnalyzer.result.${key}${suffix}`, {
+                attribute: this.analyseAttributeLabel,
+                area: this.filterValue
             });
+        },
+
+        /**
+         * @returns {String} what the result is about, for the csv file name.
+         */
+        resultSubject () {
+            return this.analysisMethod === "legend"
+                ? this.$t("additional:modules.wfsAnalyzer.result.classesSubject")
+                : this.analyseAttributeLabel;
         },
 
         /**
@@ -180,12 +194,47 @@ export default {
          * @returns {Object[]} the categories with a label.
          */
         namedCategories () {
-            return (this.result?.categories || []).map((category) => ({
-                ...category,
-                label: category.label === ""
-                    ? this.$t("additional:modules.wfsAnalyzer.result.noValue")
-                    : category.label
-            }));
+            const named = (this.result?.categories || []).map((category) => ({
+                    ...category,
+                    // A legend class may be a bare code; the readable text for
+                    // it arrives on its own schedule, so it is resolved here.
+                    code: category.label,
+                    color: this.legendColorByClass[category.label],
+                    label: this.classNames[category.label] || (category.label === ""
+                        ? this.$t("additional:modules.wfsAnalyzer.result.noValue")
+                        : category.label)
+                })),
+                merged = [];
+
+            named.forEach((category) => {
+                // Several codes may carry the same name. Where the map draws
+                // them alike there is no telling them apart, so they are one
+                // class; where the colours differ they are not, and the code
+                // keeps them readable.
+                const same = merged.find((other) => other.label === category.label &&
+                    other.color === category.color && category.color !== undefined);
+
+                if (same) {
+                    same.value += category.value;
+                    same.share += category.share;
+                }
+                else {
+                    merged.push({...category});
+                }
+            });
+
+            return merged
+                .map((category, index) => {
+                    const twin = merged.some((other, otherIndex) => otherIndex !== index &&
+                        other.label === category.label);
+
+                    return twin && category.code !== ""
+                        ? {...category, label: `${category.label} (${category.code})`}
+                        : category;
+                })
+                // Sorted here, not in the result: merging two classes into one
+                // adds their values up, which can move the row past others.
+                .sort((categoryA, categoryB) => categoryB.value - categoryA.value);
         }
     },
     watch: {
@@ -312,7 +361,7 @@ export default {
                     }
                 });
 
-            downloadCsv(csv, `${this.analyseAttributeLabel}_${this.filterValue || "gesamt"}`);
+            downloadCsv(csv, `${this.resultSubject}_${this.filterValue || "gesamt"}`);
         },
 
         /**
@@ -493,54 +542,135 @@ export default {
                         />
                     </div>
 
-                    <!-- what to analyse -->
+                    <!-- what the analysis groups by -->
                     <div class="mb-3">
-                        <div class="form-floating">
-                            <!--
-                                A preset pins the attribute: the control keeps
-                                its place in the form but is switched off, and
-                                loses the arrow that would promise a choice.
-                            -->
-                            <select
-                                id="wfs-analyzer-analyse-attribute"
-                                class="form-select"
-                                :class="{'wfs-analyzer-fixed-select': presetAnalyseAttribute}"
-                                :disabled="Boolean(presetAnalyseAttribute)"
-                                :value="analyseAttribute"
-                                @change="onAnalyseAttributeChange"
-                            >
-                                <!-- No empty option either: it would offer to unset what is set. -->
-                                <option
-                                    v-if="!presetAnalyseAttribute"
-                                    value=""
-                                >
-                                    {{ $t("additional:modules.wfsAnalyzer.analysis.attributePlaceholder") }}
-                                </option>
-                                <option
-                                    v-for="attribute in analyseAttributeCandidates"
-                                    :key="attribute.name"
-                                    :value="attribute.name"
-                                >
-                                    {{ getAttributeLabel(attribute) }}
-                                </option>
-                            </select>
-                            <label for="wfs-analyzer-analyse-attribute">
-                                {{ $t("additional:modules.wfsAnalyzer.analysis.attributeLabel") }}
-                            </label>
-                        </div>
-                        <p
-                            v-if="presetAnalyseAttribute"
-                            class="form-text mt-1 mb-0"
+                        <div
+                            v-if="hasLegendClasses"
+                            class="accordion accordion-flush"
                         >
-                            {{ $t("additional:modules.wfsAnalyzer.analysis.attributeMatchesMap") }}
-                        </p>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button
+                                        id="wfs-analyzer-method-info"
+                                        class="accordion-button collapsed"
+                                        type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#wfs-analyzer-method-text"
+                                        aria-expanded="false"
+                                        aria-controls="wfs-analyzer-method-text"
+                                    >
+                                        <i class="bi-info-circle-fill me-2" />
+                                        {{ $t("additional:modules.wfsAnalyzer.analysis.methodLabel") }}
+                                    </button>
+                                </h2>
+                                <div
+                                    id="wfs-analyzer-method-text"
+                                    class="accordion-collapse collapse"
+                                >
+                                    <div class="accordion-body">
+                                        {{ $t("additional:modules.wfsAnalyzer.analysis.methodInfo") }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button
+                                        id="wfs-analyzer-advanced-toggle"
+                                        class="accordion-button collapsed"
+                                        type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#wfs-analyzer-advanced"
+                                        aria-expanded="false"
+                                        aria-controls="wfs-analyzer-advanced"
+                                    >
+                                        <i class="bi-sliders me-2" />
+                                        {{ $t("additional:modules.wfsAnalyzer.analysis.advanced") }}
+                                    </button>
+                                </h2>
+                                <div
+                                    id="wfs-analyzer-advanced"
+                                    class="accordion-collapse collapse"
+                                >
+                                    <div class="accordion-body">
+                                        <div class="form-floating">
+                                            <select
+                                                id="wfs-analyzer-analyse-attribute"
+                                                class="form-select"
+                                                :class="{'wfs-analyzer-fixed-select': presetAnalyseAttribute}"
+                                                :disabled="Boolean(presetAnalyseAttribute)"
+                                                :value="analyseAttribute"
+                                                @change="onAnalyseAttributeChange"
+                                            >
+                                                <option
+                                                    v-if="!presetAnalyseAttribute"
+                                                    value=""
+                                                >
+                                                    {{ $t("additional:modules.wfsAnalyzer.analysis.methodMap") }}
+                                                </option>
+                                                <option
+                                                    v-for="attribute in analyseAttributeCandidates"
+                                                    :key="attribute.name"
+                                                    :value="attribute.name"
+                                                >
+                                                    {{ getAttributeLabel(attribute) }}
+                                                </option>
+                                            </select>
+                                            <label for="wfs-analyzer-analyse-attribute">
+                                                {{ $t("additional:modules.wfsAnalyzer.analysis.attributeLabel") }}
+                                            </label>
+                                        </div>
+                                        <p
+                                            v-if="presetAnalyseAttribute"
+                                            class="form-text mt-1 mb-0"
+                                        >
+                                            {{ $t("additional:modules.wfsAnalyzer.analysis.attributeMatchesMap") }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- No legend to go by: the attribute is all there is. -->
+                        <template v-else>
+                            <div class="form-floating">
+                                <select
+                                    id="wfs-analyzer-analyse-attribute"
+                                    class="form-select"
+                                    :class="{'wfs-analyzer-fixed-select': presetAnalyseAttribute}"
+                                    :disabled="Boolean(presetAnalyseAttribute)"
+                                    :value="analyseAttribute"
+                                    @change="onAnalyseAttributeChange"
+                                >
+                                    <option
+                                        v-if="!presetAnalyseAttribute"
+                                        value=""
+                                    >
+                                        {{ $t("additional:modules.wfsAnalyzer.analysis.attributePlaceholder") }}
+                                    </option>
+                                    <option
+                                        v-for="attribute in analyseAttributeCandidates"
+                                        :key="attribute.name"
+                                        :value="attribute.name"
+                                    >
+                                        {{ getAttributeLabel(attribute) }}
+                                    </option>
+                                </select>
+                                <label for="wfs-analyzer-analyse-attribute">
+                                    {{ $t("additional:modules.wfsAnalyzer.analysis.attributeLabel") }}
+                                </label>
+                            </div>
+                            <p
+                                v-if="presetAnalyseAttribute"
+                                class="form-text mt-1 mb-0"
+                            >
+                                {{ $t("additional:modules.wfsAnalyzer.analysis.attributeMatchesMap") }}
+                            </p>
+                        </template>
                     </div>
 
                     <!-- count or area -->
-                    <div
-                        v-if="canAnalyseByArea"
-                        class="mb-3"
-                    >
+                    <div class="mb-3">
                         <span class="form-label d-block">
                             {{ $t("additional:modules.wfsAnalyzer.mode.title") }}
                         </span>
@@ -555,11 +685,23 @@ export default {
                                 type="button"
                                 class="btn"
                                 :class="mode === option ? 'btn-primary' : 'wfs-analyzer-segment'"
+                                :disabled="option === 'area' && !canAnalyseByArea"
                                 @click="selectMode(option)"
                             >
                                 {{ $t(`additional:modules.wfsAnalyzer.mode.${option}`) }}
                             </button>
                         </div>
+
+                        <!--
+                            A button that is greyed out without a reason is the
+                            most frustrating part of a form.
+                        -->
+                        <p
+                            v-if="!canAnalyseByArea"
+                            class="form-text mt-1 mb-0"
+                        >
+                            {{ $t("additional:modules.wfsAnalyzer.mode.noAreaAttribute") }}
+                        </p>
 
                         <template v-if="mode === 'area' && needsAreaAttributeChoice">
                             <div class="form-floating mt-2">
@@ -784,6 +926,13 @@ export default {
                                 class="form-text mb-0"
                             >
                                 {{ $t("additional:modules.wfsAnalyzer.result.groupedHint") }}
+                            </p>
+
+                            <p
+                                v-if="notShown > 0"
+                                class="form-text mb-0"
+                            >
+                                {{ $t("additional:modules.wfsAnalyzer.result.notShown", {value: formatValue(notShown)}) }}
                             </p>
 
                             <button

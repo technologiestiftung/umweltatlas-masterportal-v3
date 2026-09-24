@@ -9,7 +9,8 @@ import {
     fetchDistinctValues,
     parseAttributes,
     parseNumberMatched,
-    parsePropertyValues
+    parsePropertyValues,
+    toLegendResult
 } from "../../../js/wfsAnalysis";
 
 describe("addons/wfsAnalyzer/js/wfsAnalysis", () => {
@@ -347,6 +348,45 @@ describe("addons/wfsAnalyzer/js/wfsAnalysis", () => {
 
             expect(result.values).to.deep.equal(["a", "b"]);
             expect(result.truncated).to.be.true;
+        });
+    });
+
+    describe("toLegendResult", () => {
+        const measured = [
+            {label: "Wohnnutzung", value: 240, color: "#a"},
+            {label: "Grün- und Freifläche", value: 311, color: "#b"},
+            {label: "Baustelle", value: 0, color: "#c"},
+            {label: "Gewässer", value: 54, color: "#d"}
+        ];
+
+        it("puts the largest class first", () => {
+            // The charts pool the tail into "other", so the order is not just
+            // for reading - an unsorted list would pool the wrong classes.
+            const result = toLegendResult(measured, "area");
+
+            expect(result.categories.map((category) => category.label))
+                .to.deep.equal(["Grün- und Freifläche", "Wohnnutzung", "Gewässer"]);
+        });
+
+        it("drops a class this selection has nothing in", () => {
+            expect(toLegendResult(measured, "area").categories.map((category) => category.label))
+                .to.not.contain("Baustelle");
+        });
+
+        it("totals what is left and works out the shares", () => {
+            const result = toLegendResult(measured, "area");
+
+            expect(result.total).to.equal(605);
+            expect(result.unit).to.equal("area");
+            expect(result.categories[0].share).to.be.closeTo(311 / 605, 1e-9);
+            expect(result.categories.reduce((sum, category) => sum + category.share, 0)).to.be.closeTo(1, 1e-9);
+        });
+
+        it("returns an empty result rather than dividing by zero", () => {
+            const result = toLegendResult([{label: "a", value: 0}], "count");
+
+            expect(result.categories).to.deep.equal([]);
+            expect(result.total).to.equal(0);
         });
     });
 });

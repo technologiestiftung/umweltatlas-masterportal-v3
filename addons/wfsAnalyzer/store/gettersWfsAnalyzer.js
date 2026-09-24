@@ -2,6 +2,7 @@ import {generateSimpleGetters} from "@shared/js/utils/generators";
 import {getAnalysisConfig} from "../js/analysisConfig";
 import {buildCqlFilter} from "../js/wfsAnalysis";
 import {matchLegendAttribute} from "../js/legendColors";
+import {buildExclusiveFilters} from "../js/legendRules";
 import stateWfsAnalyzer from "./stateWfsAnalyzer";
 
 /**
@@ -360,9 +361,81 @@ const getters = {
      * @param {WfsAnalyzerState} state context state object.
      * @returns {Boolean} true if the analysis can be started.
      */
-    canAnalyse (state) {
-        return state.analyseAttribute !== "" &&
-            (state.mode !== "area" || state.areaAttribute !== "");
+    canAnalyse (state, moduleGetters) {
+        const hasSubject = moduleGetters.analysisMethod === "legend" || state.analyseAttribute !== "";
+
+        return hasSubject && (state.mode !== "area" || state.areaAttribute !== "");
+    },
+
+    /**
+     * What the analysis groups by: the classes the map draws, or one attribute.
+     *
+     * The legend is the default wherever it describes classes - it is what the
+     * user sees. Choosing an attribute in the advanced section takes over.
+     * @param {WfsAnalyzerState} state context state object.
+     * @returns {String} either "legend" or "attribute".
+     */
+    analysisMethod (state) {
+        return state.analyseAttribute === "" && state.legendClasses.length > 0
+            ? "legend"
+            : "attribute";
+    },
+
+    /**
+     * Whether the map's own classes are available for this layer at all.
+     * @param {WfsAnalyzerState} state context state object.
+     * @returns {Boolean} true if the legend describes classes.
+     */
+    hasLegendClasses (state) {
+        return state.legendClasses.length > 0;
+    },
+
+    /**
+     * The classes with filters that no longer overlap, in the order the legend
+     * lists them - which is the order of the printed legend, not of the numbers.
+     * @param {WfsAnalyzerState} state context state object.
+     * @returns {Object[]} the classes ready to be queried.
+     */
+    exclusiveLegendClasses (state) {
+        return buildExclusiveFilters(state.legendClasses);
+    },
+
+    /**
+     * The colour per class, keyed by the label the legend itself uses - the
+     * code, before any readable text is put in its place. Two codes may share a
+     * name while the map draws them differently, and only this keeps them apart.
+     * @param {WfsAnalyzerState} state context state object.
+     * @returns {Object} the colours as {classLabel: color}.
+     */
+    legendColorByClass (state) {
+        const colors = {};
+
+        state.legendClasses.forEach((legendClass) => {
+            if (legendClass.color) {
+                colors[legendClass.label] = legendClass.color;
+            }
+        });
+
+        return colors;
+    },
+
+    /**
+     * The colour per class label, so the charts show what the map shows.
+     * @param {WfsAnalyzerState} state context state object.
+     * @returns {Object} the colours as {label: color}.
+     */
+    legendClassColors (state) {
+        const colors = {};
+
+        state.legendClasses.forEach((legendClass) => {
+            const label = state.classNames[legendClass.label] || legendClass.label;
+
+            if (legendClass.color) {
+                colors[label] = legendClass.color;
+            }
+        });
+
+        return colors;
     },
 
     /**
@@ -389,7 +462,7 @@ const getters = {
             return null;
         }
 
-        return matchLegendAttribute(state.legendColors, state.analyseAttribute);
+        return matchLegendAttribute(state.legendColors, state.analyseAttribute, moduleGetters.settings.nameSuffixes);
     },
 
     /**
@@ -401,6 +474,10 @@ const getters = {
      * @returns {Object} the colours as {label: color}.
      */
     categoryColors (state, moduleGetters) {
+        if (moduleGetters.analysisMethod === "legend") {
+            return moduleGetters.legendClassColors;
+        }
+
         const match = moduleGetters.legendMatch;
 
         if (!match) {

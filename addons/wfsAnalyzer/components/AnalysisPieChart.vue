@@ -80,7 +80,9 @@ export default {
          * @returns {String} the colour.
          */
         getCategoryColor (category, index) {
-            return this.categoryColors[category.label] || getChartColor(index);
+            // A legend class brings its own colour; two classes may share a
+            // name and still be drawn differently on the map.
+            return category.color || this.categoryColors[category.label] || getChartColor(index);
         },
 
         /**

@@ -35,7 +35,8 @@
                 "title": "Result as",
                 "count": "Count",
                 "area": "Area",
-                "areaAttributeLabel": "Attribute holding the area size"
+                "areaAttributeLabel": "Attribute holding the area size",
+                "noAreaAttribute": "An area analysis needs an attribute holding the area size. This layer has none – counting still works."
             },
             "units": {
                 "m2": "m²",
@@ -44,6 +45,10 @@
             },
             "analysis": {
                 "attributesError": "The attributes of the download service could not be loaded.",
+                "methodLabel": "About the method",
+                "methodMap": "Classes of the map",
+                "methodInfo": "The classes come from the legend of the map service, so what is analysed is exactly what the map shows – including ranges that exist as no column. Where a feature falls into several classes, the one drawn last counts, as on the map. Features in no class are not drawn and not counted. Under “Advanced” a single attribute can be analysed instead.",
+                "advanced": "Advanced",
                 "attributeLabel": "Attribute to analyse",
                 "attributePlaceholder": "Please select an attribute …",
                 "attributeMatchesMap": "Matches the colouring on the map.",
@@ -57,6 +62,9 @@
             "result": {
                 "title": "Distribution of “{{attribute}}”",
                 "titleInArea": "Distribution of “{{attribute}}” in {{area}}",
+                "titleClasses": "Distribution by the classes of the map",
+                "titleClassesInArea": "Distribution by the classes of the map in {{area}}",
+                "classesSubject": "Classes of the map",
                 "summary": "{{categories}} categories, {{total}} in total.",
                 "viewLabel": "Presentation",
                 "view": {
@@ -69,6 +77,7 @@
                 "noValue": "(no value)",
                 "otherCategories": "Other",
                 "groupedHint": "Small categories are pooled into “Other”. The table shows every category.",
+                "notShown": "Not shown on the map: {{value}}",
                 "empty": "The analysis returned no features.",
                 "pieLabel": "Pie chart of the distribution",
                 "download": "Download as CSV",

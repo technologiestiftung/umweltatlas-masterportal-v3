@@ -101,11 +101,23 @@ export const defaultMaxFilterValues = 50;
 export const defaultAutoColor = false;
 
 /**
- * Number of legend entries up to which the code-to-name lookup is attempted.
- * Each entry costs one small request; ua_kanalisation_2005 has 242.
+ * Number of legend entries up to which the map's classes are offered and their
+ * codes resolved. Each entry costs one small request, and they run in parallel:
+ * the 133 classes of `bodengesellschaften2020` are counted in 0.7 s and named
+ * in 0.6 s. `ua_kanalisation_2005` has 242 and stays out.
  * @type {Number}
  */
-export const defaultMaxLegendRules = 40;
+export const defaultMaxLegendRules = 150;
+
+/**
+ * Suffixes a plain-text column is named with, next to the column holding the
+ * code: `woz` -> `woz_name`, `typ` -> `typklar`, `bgs_neu` -> `bgs_neu_bez`.
+ * Measured across 30 layers of this portal, `_bez` is the most common of them.
+ * They are tried in this order, and used in both directions: to find the code
+ * behind a readable column, and the readable text behind a code.
+ * @type {String[]}
+ */
+export const defaultNameSuffixes = ["_name", "klar", "_bez"];
 
 /**
  * How the area an analysis covers is drawn on the map: "highlight" fills it
@@ -185,6 +197,7 @@ export function getAnalysisConfig () {
         maxFilterValues: typeof settings.maxFilterValues === "number" ? settings.maxFilterValues : defaultMaxFilterValues,
         autoColor: typeof settings.autoColor === "boolean" ? settings.autoColor : defaultAutoColor,
         maxLegendRules: typeof settings.maxLegendRules === "number" ? settings.maxLegendRules : defaultMaxLegendRules,
+        nameSuffixes: Array.isArray(settings.nameSuffixes) ? settings.nameSuffixes : defaultNameSuffixes,
         areaStyle: area.style,
         areaColor: area.color,
         presets: normalizePresets(settings.presets)

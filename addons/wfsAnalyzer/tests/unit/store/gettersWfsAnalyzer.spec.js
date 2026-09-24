@@ -15,7 +15,7 @@ describe("addons/wfsAnalyzer/store/gettersWfsAnalyzer", () => {
     function setup (overrides = {}, settings = {}, preset = null) {
         const state = {...stateWfsAnalyzer, ...overrides},
             moduleGetters = {
-                settings: {autoColor: false, maxLegendRules: 40, ...settings},
+                settings: {autoColor: false, maxLegendRules: 40, nameSuffixes: ["_name", "klar", "_bez"], ...settings},
                 preset
             };
 
@@ -24,6 +24,64 @@ describe("addons/wfsAnalyzer/store/gettersWfsAnalyzer", () => {
 
         return {state, moduleGetters};
     }
+
+    describe("analysisMethod", () => {
+        const legendClasses = [{label: "10", filter: "woz = '10'", color: "#a"}];
+
+        it("uses the classes of the map where the legend has any", () => {
+            expect(getters.analysisMethod({...stateWfsAnalyzer, legendClasses})).to.equal("legend");
+        });
+
+        it("switches to the attribute once one is chosen", () => {
+            expect(getters.analysisMethod({...stateWfsAnalyzer, legendClasses, analyseAttribute: "nutzung"}))
+                .to.equal("attribute");
+        });
+
+        it("falls back to the attribute without a usable legend", () => {
+            expect(getters.analysisMethod({...stateWfsAnalyzer})).to.equal("attribute");
+        });
+    });
+
+    describe("canAnalyse", () => {
+        const legendClasses = [{label: "10", filter: "woz = '10'", color: "#a"}];
+
+        it("needs no attribute when the map's classes are used", () => {
+            const state = {...stateWfsAnalyzer, legendClasses};
+
+            expect(getters.canAnalyse(state, {analysisMethod: "legend"})).to.equal(true);
+        });
+
+        it("still needs an area attribute for an area analysis", () => {
+            const state = {...stateWfsAnalyzer, legendClasses, mode: "area"};
+
+            expect(getters.canAnalyse(state, {analysisMethod: "legend"})).to.equal(false);
+            expect(getters.canAnalyse({...state, areaAttribute: "flalle"}, {analysisMethod: "legend"})).to.equal(true);
+        });
+
+        it("needs an attribute on the advanced path", () => {
+            expect(getters.canAnalyse({...stateWfsAnalyzer}, {analysisMethod: "attribute"})).to.equal(false);
+            expect(getters.canAnalyse({...stateWfsAnalyzer, analyseAttribute: "nutzung"}, {analysisMethod: "attribute"}))
+                .to.equal(true);
+        });
+    });
+
+    describe("legendClassColors", () => {
+        it("keys the colours by the label the result shows", () => {
+            const state = {
+                ...stateWfsAnalyzer,
+                legendClasses: [{label: "10", filter: "woz = '10'", color: "#FFCC65"}],
+                classNames: {10: "Wohnnutzung"}
+            };
+
+            expect(getters.legendClassColors(state)).to.deep.equal({Wohnnutzung: "#FFCC65"});
+        });
+
+        it("keeps the code where no readable text arrived", () => {
+            const state = {...stateWfsAnalyzer, legendClasses: [{label: "10", filter: "woz = '10'", color: "#FFCC65"}]};
+
+            expect(getters.legendClassColors(state)).to.deep.equal({10: "#FFCC65"});
+        });
+    });
 
     describe("areaAttributeCandidates", () => {
         const flalle = {name: "flalle", title: "Flächengröße [m²]", isNumeric: true},

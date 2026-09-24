@@ -1,6 +1,7 @@
 import {checkWfsForLayer} from "../js/wfsLookup";
-import {analyseByArea, analyseByCount, fetchAttributes, fetchCodeNameMap, fetchDistinctValues, fetchFeatureCount} from "../js/wfsAnalysis";
-import {fetchLegendColors, matchLegendAttribute} from "../js/legendColors";
+import {analyseByArea, analyseByCount, analyseByLegend, fetchAttributes, fetchCodeNameMap, fetchDistinctValues, fetchFeatureCount, toLegendResult} from "../js/wfsAnalysis";
+import {colorMapByAttribute, fetchLegend, fetchLegendColors, matchLegendAttribute, parseLegendRules, plainTextNamesOf} from "../js/legendColors";
+import {parseLegendClasses, readEquality} from "../js/legendRules";
 import {removeAreaLayer, showAreaLayer} from "../js/areaLayer";
 import {findAreaExtent} from "../js/areaExtent";
 import {transformExtent} from "ol/proj.js";
@@ -187,6 +188,7 @@ const actions = {
 
         // Outside the try, so a failure here cannot be mistaken for a schema
         // that could not be loaded.
+        dispatch("loadLegend");
         await dispatch("refreshFeatureCount");
     },
 
@@ -513,6 +515,115 @@ const actions = {
     },
 
     /**
+     * Reads the legend of the layer: the classes the map draws, and the colours
+     * it draws them in. One request answers both.
+     *
+     * A legend with more classes than `maxLegendRules` is kept for its colours
+     * but not offered as a method - ua_kanalisation_2005 has 242 rules, and
+     * every class costs a request.
+     * @param {Object} context the vuex context.
+     * @param {Object} context.state the state of this module.
+     * @param {Object} context.getters the getters of this module.
+     * @param {Function} context.commit the commit function.
+     * @returns {Promise<void>} resolves once the legend is stored.
+     */
+    async loadLegend ({state, getters, commit, dispatch}) {
+        const layerConf = getters.selectedLayer,
+            layerId = state.selectedLayerId;
+
+        if (!layerConf) {
+            return;
+        }
+
+        commit("setLegendStatus", "loading");
+
+        const legend = await fetchLegend(layerConf.url, layerConf.layers);
+
+        if (layerId !== state.selectedLayerId) {
+            return;
+        }
+
+        if (legend === "") {
+            commit("setLegendStatus", "unavailable");
+            return;
+        }
+
+        const classes = parseLegendClasses(legend);
+
+        commit("setLegendColors", colorMapByAttribute(parseLegendRules(legend)));
+        commit("setLegendClasses", classes.length <= getters.settings.maxLegendRules ? classes : []);
+        commit("setLegendStatus", classes.length > 0 ? "ready" : "unavailable");
+
+        // Readable labels take one small request per class and are only needed
+        // once the result is shown, so they are fetched alongside the form.
+        dispatch("loadClassNames");
+    },
+
+    /**
+     * Trades the bare codes of the legend for readable text, where the layer
+     * keeps it in a sibling column: the classes of the Flächennutzung map are
+     * named "10" and "21", and `woz_name` says what that means.
+     *
+     * Only equality rules on one and the same column can be resolved this way.
+     * Each code costs one small request, so a failure simply leaves the code.
+     * @param {Object} context the vuex context.
+     * @param {Object} context.state the state of this module.
+     * @param {Object} context.getters the getters of this module.
+     * @param {Function} context.commit the commit function.
+     * @returns {Promise<void>} resolves once the labels are stored.
+     */
+    async loadClassNames ({state, getters, commit}) {
+        const layerId = state.selectedLayerId,
+            byAttribute = new Map();
+
+        // A legend may classify by more than one column - the Flächennutzung
+        // map draws built-up areas by `woz` and green ones by `grz` - so the
+        // codes are resolved per column, not in one go.
+        state.legendClasses.forEach((legendClass) => {
+            const equality = readEquality(legendClass.filter);
+
+            if (!equality) {
+                return;
+            }
+            if (!byAttribute.has(equality.attribute)) {
+                byAttribute.set(equality.attribute, []);
+            }
+            byAttribute.get(equality.attribute).push({label: legendClass.label, value: equality.value});
+        });
+
+        const names = {};
+
+        for (const [codeAttribute, entries] of byAttribute) {
+            const nameAttribute = plainTextNamesOf(codeAttribute, getters.settings.nameSuffixes)
+                .find((candidate) => getters.attributeByName(candidate));
+
+            if (!nameAttribute) {
+                continue;
+            }
+
+            // Sequential per column, but each answer is a few hundred bytes.
+            const resolved = await fetchCodeNameMap(
+                state.wfsUrl,
+                getters.typeName,
+                codeAttribute,
+                nameAttribute,
+                entries.map((entry) => entry.value),
+                Boolean(getters.attributeByName(codeAttribute)?.isNumeric)
+            );
+
+            entries.forEach((entry) => {
+                if (resolved[entry.value]) {
+                    names[entry.label] = resolved[entry.value];
+                }
+            });
+        }
+
+        if (layerId === state.selectedLayerId && Object.keys(names).length > 0) {
+            commit("setClassNames", names);
+        }
+    },
+
+    /**
      * Loads the colours the map draws this layer with, and - where the map is
      * styled by a code while the chart is grouped by the readable name - the
      * correspondence between the two.
@@ -544,7 +655,7 @@ const actions = {
             commit("setLegendColors", colors);
         }
 
-        const match = matchLegendAttribute(colors, state.analyseAttribute);
+        const match = matchLegendAttribute(colors, state.analyseAttribute, getters.settings.nameSuffixes);
 
         if (!match?.needsBridge) {
             return;
@@ -587,7 +698,8 @@ const actions = {
     async runAnalysis ({state, getters, commit, dispatch}) {
         const token = ++requestToken,
             {wfsUrl, analyseAttribute, areaAttribute, mode} = state,
-            {typeName, cqlFilter} = getters;
+            {typeName, cqlFilter} = getters,
+            byLegend = getters.analysisMethod === "legend";
 
         if (!getters.canAnalyse) {
             return;
@@ -595,20 +707,43 @@ const actions = {
 
         commit("setAnalysisStatus", "running");
         commit("setAnalysisError", "");
+        commit("setNotShown", null);
         // Decoration, not a precondition - the analysis does not wait for it.
-        dispatch("loadLegendColors");
+        if (!byLegend) {
+            dispatch("loadLegendColors");
+        }
 
         try {
-            const request = {wfsUrl, typeName, attribute: analyseAttribute, cqlFilter},
+            const request = {wfsUrl, typeName, attribute: analyseAttribute, cqlFilter};
+            let result = null,
+                notShown = 0;
+
+            if (byLegend) {
+                const measured = await analyseByLegend({
+                    wfsUrl,
+                    typeName,
+                    classes: getters.exclusiveLegendClasses,
+                    cqlFilter,
+                    mode,
+                    areaAttribute,
+                    withNotShown: true
+                });
+
+                result = toLegendResult(measured.categories, mode === "area" ? "area" : "count");
+                notShown = measured.notShown;
+            }
+            else {
                 result = mode === "area"
                     ? await analyseByArea({...request, areaAttribute})
                     : await analyseByCount(request);
+            }
 
             if (token !== requestToken) {
                 return;
             }
 
             commit("setResult", result);
+            commit("setNotShown", notShown);
             commit("setAnalysisStatus", "ready");
         }
         catch (error) {

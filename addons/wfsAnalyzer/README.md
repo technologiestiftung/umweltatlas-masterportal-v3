@@ -66,6 +66,90 @@ parameters. Choosing among them means guessing, which is exactly what asking the
 layer's own service avoids. For the soil layers the lookup now takes **one
 request instead of a CSW round-trip plus up to four capabilities probes**.
 
+## What is analysed: the classes of the map
+
+A thematic map is a **classification**, not an attribute. The density map of
+Berlin is drawn in classes like `ew_ha > '0' AND ew_ha <= '4'` — a range that
+exists nowhere as a column. So the add-on takes the classes from the legend of
+the WMS and counts those:
+
+```
+GetLegendGraphic&format=application/json
+        │  rules: {name: "1 - 4", filter: "[ew_ha > '0' AND ew_ha <= '4']", symbolizers: […]}
+        ▼
+one class per rule  ─ label from title ?? name, colour from the symbolizer
+        │
+        ▼
+one WFS request per class:  resultType=hits&CQL_FILTER=<rule> AND <area selection>
+```
+
+The filters are handed to the WFS **exactly as the legend writes them**, quoted
+numbers and all — verified against the service: `ew_ha > '0' AND ew_ha <= '4'`
+returns the same 872 features as the unquoted form.
+
+**Later rules win, because the map draws them on top.** Rules can overlap: the
+23 rules of `d_reale_nutzung_vegetationsbedeckung_2021` matched 28 286 times for
+26 397 features, since the map colours built-up areas by `woz` and green ones by
+`grz`. Each class is therefore asked as `rule AND NOT(every later rule)`, which
+brings the sum to exactly 26 397 — the same resolution the renderer applies.
+
+**What no rule matches is not drawn**, and not counted either. It is reported
+below the result instead: for `ua_einwohnerdichte_2016` that is 10 645 of
+25 352 features.
+
+**Rules are not classes.** A style may draw the same features again for a
+hatching or an outline, and each of those is a rule of its own:
+`bodengesellschaften2020` has 133 rules over **78 distinct filters**. One class
+per filter, and a colour is taken from whichever of them has one.
+
+Costs: one `resultType=hits` per class, about 800 bytes, all of them at once —
+22 classes in 197 ms, 78 classes in 416 ms. An area analysis fetches the area
+column per class, which is the same volume as one unfiltered query, split up.
+Legends larger than `maxLegendRules` (150) are not offered;
+`ua_kanalisation_2005` has 242 rules.
+
+**The legend is read as bytes, not as text**, and repaired string by string.
+The services declare `application/json`, which means UTF-8, and answer in
+whatever they please: the rare-soils legend writes "mäßig" in Latin-1, and read
+as UTF-8 it turns to garbage — since the value of a rule is also its filter, the
+request built from it then matches **nothing**, 0 features instead of 1301.
+
+Worse, one document may hold both. `a_reale_nutzung_bebaute_flaechen_2021` writes
+its layer title in Latin-1 and its rule names in UTF-8, so whichever encoding the
+document is read in, half of it comes out wrong — "Grün- und Freifläche" turns
+into "GrÃ¼n- und FreiflÃ¤che". The body is therefore decoded strictly as UTF-8
+with a fallback to Latin-1, and every label and filter is then repaired on its
+own: turned back into bytes and decoded strictly as UTF-8 again, which succeeds
+exactly where the string was UTF-8 read as Latin-1 and fails where it really was
+Latin-1.
+
+### Two classes, one name
+
+Codes may share a plain-text name: `bodengesellschaften2020` has 78 classes but
+67 names. What the map draws alike cannot be told apart on the map, so those
+classes become one row. Where the colours differ they stay separate and the code
+is appended, so the table does not show the same text twice:
+
+```
+Regosol + Pararendzina + Hortisol               5285   20,6 %   (four codes, one colour)
+Lockersyrosem + Regosol + Pararendzina (2500)   2175    8,5 %
+Lockersyrosem + Regosol + Pararendzina (2540)   2142    8,4 %
+```
+
+Merging happens when the result is shown, not when it is measured, because the
+readable names arrive on their own schedule. The table therefore sorts **after**
+merging: adding two classes up moves the row past others.
+
+**Bare codes are traded for readable text.** Where the legend names classes "10"
+and "21", the column the rule filters on may have a plain-text sibling —
+`woz` → `woz_name`, `typ` → `typklar`, `bgs_neu` → `bgs_neu_bez`. The suffixes
+are configurable (`nameSuffixes`), they are tried in order, and each code costs
+one small request. This runs alongside the form, and the labels are resolved when
+the result is shown, so a slow lookup never delays anything.
+
+Choosing an attribute under **"Erweitert"** switches the analysis back to the
+single-attribute mode described below.
+
 ## The analysis, and why it is cheap
 
 No geometries are ever downloaded, and nothing is loaded until the user asks
@@ -89,8 +173,11 @@ layers of this portal, 15 had no configured area column, and what their numbers
 held was `importid` ("Schlüssel"), `x` ("X-Koordinate ETRS89"), `dtv`
 ("Durchschnittliche tägliche Verkehrsstärke") or a percentage. Offering those as
 an area produced a silent, wrong sum — and with a single candidate the select is
-not even shown. Layers without a named area column now offer counting only; to
-change that for one of them, add its column to `areaAttributes`.
+not even shown. For a layer without a named area column the **"Fläche" button is
+greyed out rather than hidden**, with a line underneath saying why: a control
+that vanishes leaves the user looking for it, and one that is greyed out without
+a reason is worse. To give such a layer an area analysis, add its column to
+`areaAttributes`.
 
 Because the hits query is free, the feature count is refreshed after every
 change of the filter and shown before the analysis is started. Above
@@ -125,8 +212,12 @@ const Config = {
         // Take the chart colours from the map legend (see below). Off by
         // default; switch it on per layer in a preset.
         autoColor: false,
-        // Legend entries up to which the code-to-name lookup is attempted.
+        // Legend entries up to which the map's classes are offered, and up to
+        // which the code-to-name lookup is attempted.
         maxLegendRules: 40,
+        // How a plain-text column is named next to the column holding the code:
+        // woz -> woz_name, typ -> typklar, bgs_neu -> bgs_neu_bez.
+        nameSuffixes: ["_name", "klar", "_bez"],
         // How the analysed area is shown: "highlight" fills it, "border"
         // outlines it. Hex colour only - anything else falls back.
         areaStyle: "highlight",

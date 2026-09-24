@@ -55,14 +55,18 @@ const Config = {
         // Global aus, weil es nur bei Layern greift, die pro Wert eingefärbt
         // sind. Pro Layer im Preset mit autoColor: true einschalten.
         autoColor: true,
-        // Bis zu so vielen Legendeneinträgen wird die Zuordnung Code->Klartext
-        // nachgeschlagen (je Eintrag eine kleine Abfrage).
-        maxLegendRules: 40,
+        // Bis zu so vielen Legendeneinträgen werden die Klassen der Karte
+        // angeboten und Codes in Klartext aufgelöst (je Eintrag eine kleine
+        // Abfrage, parallel). Bodengesellschaften 2020 hat 133.
+        maxLegendRules: 150,
+        // Wie die Klartext-Spalte neben der Code-Spalte heißt:
+        // woz -> woz_name, typ -> typklar, bgs_neu -> bgs_neu_bez.
+        nameSuffixes: ["_name", "klar", "_bez"],
         // Wie der ausgewertete Bereich auf der Karte gezeigt wird:
         // "highlight" füllt ihn ein, "border" zeichnet nur die Umrisse.
         // Achtung: "border" umrandet jedes einzelne Objekt, nicht die
         // Außenkante des Bereichs - bei vielen kleinen Flächen ein Netz.
-        areaStyle: "highlight",
+        areaStyle: "border",
         // Farbe dafür, als Hex-Wert. Alles andere wird verworfen.
         areaColor: "#E2001A",
         // Per-layer defaults, matched on the exact layer id. Every field except
@@ -77,8 +81,11 @@ const Config = {
                 // filterAttribute: "bezirk",
                 areaAttribute: "flalle",
                 mode: "area",
-                analyseAttribute: "woz_name",
-                // Die Legende dieses Layers ist nach woz eingefärbt.
+                // Ohne analyseAttribute greift die Legendenmethode: Die Karte
+                // zeichnet neben den woz-Klassen auch "Grün- und Freifläche"
+                // und "Gewässer" (woz IS NULL AND grz ...). Mit
+                // analyseAttribute: "woz_name" fielen die beiden in eine
+                // Sammelkategorie "(ohne Angabe)" von 46 %.
                 autoColor: true,
             },
         ],

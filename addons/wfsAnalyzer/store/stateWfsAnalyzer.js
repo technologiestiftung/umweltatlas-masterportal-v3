@@ -30,6 +30,10 @@
  * @property {Number} featureCount number of features the current filter matches.
  * @property {String} featureCountStatus one of "idle", "loading", "ready", "error".
  *
+ * @property {Object[]} legendClasses the classes the map draws, as {label, filter, color}.
+ * @property {String} legendStatus one of "idle", "loading", "ready", "unavailable".
+ * @property {Object} classNames readable label per class label, where a code was resolved.
+ * @property {Number} notShown features (or area) the map does not draw.
  * @property {Object} legendColors colours of the layer as {attribute: {value: color}}.
  * @property {Object} codeNames readable name per code of the legend attribute.
  * @property {Number[]} areaExtent extent of the analysed area in map coordinates.
@@ -67,6 +71,11 @@ const state = {
 
     featureCount: null,
     featureCountStatus: "idle",
+
+    legendClasses: [],
+    legendStatus: "idle",
+    classNames: {},
+    notShown: null,
 
     legendColors: {},
     codeNames: {},

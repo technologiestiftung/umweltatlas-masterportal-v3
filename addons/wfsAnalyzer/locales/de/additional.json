@@ -35,7 +35,8 @@
                 "title": "Ergebnis als",
                 "count": "Anzahl",
                 "area": "Fläche",
-                "areaAttributeLabel": "Attribut mit der Flächengröße"
+                "areaAttributeLabel": "Attribut mit der Flächengröße",
+                "noAreaAttribute": "Für eine Auswertung nach Fläche braucht der Layer ein Attribut mit der Flächengröße. Dieser hat keins – gezählt werden kann er trotzdem."
             },
             "units": {
                 "m2": "m²",
@@ -44,6 +45,10 @@
             },
             "analysis": {
                 "attributesError": "Die Attribute des Downloaddienstes konnten nicht geladen werden.",
+                "methodLabel": "Über die Methode",
+                "methodMap": "Klassen der Karte",
+                "methodInfo": "Die Klassen stammen aus der Legende des Kartendienstes – ausgewertet wird also genau das, was die Karte zeigt, auch Wertebereiche, die es als Spalte nicht gibt. Trifft ein Objekt mehrere Klassen, zählt die zuletzt gezeichnete, wie auf der Karte. Objekte, die keine Klasse trifft, werden nicht gezeichnet und nicht mitgezählt. Unter „Erweitert“ lässt sich stattdessen ein einzelnes Attribut auswerten.",
+                "advanced": "Erweitert",
                 "attributeLabel": "Auswerten nach",
                 "attributePlaceholder": "Bitte Attribut auswählen …",
                 "attributeMatchesMap": "Entspricht der Einfärbung in der Karte.",
@@ -57,6 +62,9 @@
             "result": {
                 "title": "Verteilung von „{{attribute}}“",
                 "titleInArea": "Verteilung von „{{attribute}}“ in {{area}}",
+                "titleClasses": "Verteilung nach den Klassen der Karte",
+                "titleClassesInArea": "Verteilung nach den Klassen der Karte in {{area}}",
+                "classesSubject": "Klassen der Karte",
                 "summary": "{{categories}} Kategorien, insgesamt {{total}}.",
                 "viewLabel": "Darstellung",
                 "view": {
@@ -69,6 +77,7 @@
                 "noValue": "(ohne Angabe)",
                 "otherCategories": "Sonstige",
                 "groupedHint": "Kleine Kategorien sind in „Sonstige“ zusammengefasst. Die Tabelle zeigt alle Kategorien.",
+                "notShown": "Auf der Karte nicht dargestellt: {{value}}",
                 "empty": "Die Auswertung hat keine Objekte ergeben.",
                 "pieLabel": "Kreisdiagramm der Verteilung",
                 "download": "Als CSV herunterladen",

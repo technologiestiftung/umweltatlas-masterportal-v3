@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {buildLegendUrl, colorMapByAttribute, matchLegendAttribute, parseLegendRules} from "../../../js/legendColors";
+import {buildLegendUrl, colorMapByAttribute, decodeLegend, matchLegendAttribute, parseLegendRules, repairEncoding} from "../../../js/legendColors";
 
 describe("addons/wfsAnalyzer/js/legendColors", () => {
     /**
@@ -26,6 +26,53 @@ describe("addons/wfsAnalyzer/js/legendColors", () => {
             const url = new URL(buildLegendUrl("https://gdi.berlin.de/services/wms/ua?service=WMS&request=GetCapabilities", "a"));
 
             expect(url.searchParams.get("request")).to.equal("GetLegendGraphic");
+        });
+    });
+
+    describe("decodeLegend", () => {
+        it("reads a utf-8 answer as utf-8", () => {
+            const bytes = new Uint8Array([0x6D, 0xC3, 0xA4, 0xC3, 0x9F, 0x69, 0x67]);
+
+            expect(decodeLegend(bytes.buffer)).to.equal("mäßig");
+        });
+
+        it("falls back to latin-1, which some services answer in", () => {
+            // The rare-soils legend declares application/json and sends
+            // latin-1 all the same. Read as utf-8 "mäßig" becomes garbage - and
+            // since the value is also the filter of the rule, the request built
+            // from it matches nothing: 0 features instead of 1301.
+            const bytes = new Uint8Array([0x6D, 0xE4, 0xDF, 0x69, 0x67]);
+
+            expect(decodeLegend(bytes.buffer)).to.equal("mäßig");
+        });
+
+        it("passes text through untouched", () => {
+            expect(decodeLegend("{\"Legend\":[]}")).to.equal("{\"Legend\":[]}");
+        });
+    });
+
+    describe("repairEncoding", () => {
+        it("repairs utf-8 that was read as latin-1", () => {
+            expect(repairEncoding("GrÃ¼n- und FreiflÃ¤che")).to.equal("Grün- und Freifläche");
+            expect(repairEncoding("GewÃ¤sser")).to.equal("Gewässer");
+        });
+
+        it("leaves a string that really is latin-1 alone", () => {
+            // Its bytes are no valid utf-8, so there is nothing to repair -
+            // and the same document may hold both kinds.
+            expect(repairEncoding("mäßig")).to.equal("mäßig");
+            expect(repairEncoding("häufig")).to.equal("häufig");
+        });
+
+        it("leaves plain text untouched", () => {
+            expect(repairEncoding("woz = '10'")).to.equal("woz = '10'");
+            expect(repairEncoding("Grün")).to.equal("Grün");
+            expect(repairEncoding("")).to.equal("");
+        });
+
+        it("keeps anything that is not a string", () => {
+            expect(repairEncoding(undefined)).to.equal(undefined);
+            expect(repairEncoding(42)).to.equal(42);
         });
     });
 
@@ -100,13 +147,22 @@ describe("addons/wfsAnalyzer/js/legendColors", () => {
             expect(matchLegendAttribute(colorMap, "woz")).to.deep.equal({legendAttribute: "woz", needsBridge: false});
         });
 
-        it("matches the readable counterpart of a code via its suffix", () => {
-            expect(matchLegendAttribute(colorMap, "woz_name")).to.deep.equal({legendAttribute: "woz", needsBridge: true});
+        it("matches the readable counterpart of a code via a configured suffix", () => {
+            expect(matchLegendAttribute(colorMap, "woz_name", ["_name"]))
+                .to.deep.equal({legendAttribute: "woz", needsBridge: true});
+            expect(matchLegendAttribute({typ: {a: "#a"}}, "typklar", ["_name", "klar"]))
+                .to.deep.equal({legendAttribute: "typ", needsBridge: true});
+        });
+
+        it("matches nothing when no suffix is configured", () => {
+            // The suffixes come from config.js; without them only the column
+            // the map is styled by can be recognised.
+            expect(matchLegendAttribute(colorMap, "woz_name")).to.equal(null);
         });
 
         it("returns nothing for an attribute the legend says nothing about", () => {
-            expect(matchLegendAttribute(colorMap, "nutzung")).to.equal(null);
-            expect(matchLegendAttribute(colorMap, "ewoz_name")).to.equal(null);
+            expect(matchLegendAttribute(colorMap, "nutzung", ["_name"])).to.equal(null);
+            expect(matchLegendAttribute(colorMap, "ewoz_name", ["_name"])).to.equal(null);
         });
 
         it("returns nothing without a legend or without an attribute", () => {
