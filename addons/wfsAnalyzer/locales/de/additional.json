@@ -1,0 +1,87 @@
+{
+    "modules": {
+        "wfsAnalyzer": {
+            "title": "Layer auswerten",
+            "description": "Werten Sie die Layer nach Bereichen und Atrributswerten aus.",
+            "noActiveLayers": "Es ist derzeit kein Fachdaten-Layer in der Karte eingeschaltet. Fügen Sie über den Themenbaum einen Layer hinzu.",
+            "layerSelectLabel": "Layer",
+            "layerSelectPlaceholder": "Bitte Layer auswählen …",
+            "checking": "Layer wird geprüft …",
+            "unavailable": {
+                "title": "Kein WFS verfügbar",
+                "noMetadata": "Für diesen Layer sind keine Metadaten hinterlegt, daher lässt sich kein Downloaddienst ermitteln. Der Layer kann nicht analysiert werden.",
+                "noWfsInMetadata": "Der Metadatensatz dieses Layers weist keinen Downloaddienst (WFS) aus. Der Layer kann nicht analysiert werden.",
+                "noMatchingFeatureType": "Der zugehörige Downloaddienst (WFS) enthält keine Objektart für diesen Layer. Der Layer kann nicht analysiert werden.",
+                "ambiguousFeatureType": "Der Downloaddienst (WFS) enthält mehrere Objektarten, die zu diesem Layer passen könnten. Eine eindeutige Zuordnung ist nicht möglich, daher wird der Layer nicht analysiert."
+            },
+            "error": {
+                "title": "Prüfung fehlgeschlagen",
+                "text": "Die WFS-Verfügbarkeit konnte nicht ermittelt werden. Möglicherweise ist der Metadaten- oder Downloaddienst gerade nicht erreichbar.",
+                "retry": "Erneut prüfen"
+            },
+            "filter": {
+                "wholeLayer": "Keine Einschränkung",
+                "valueLabel": "Name / Wert des Bereichs",
+                "valuesUnavailable": "Keine Werteliste verfügbar – bitte Wert eintippen.",
+                "valuesLoadedPartly": "Nur die ersten {{count}} Werte werden vorgeschlagen – es gibt weitere. Nicht gelistete Werte bitte eintippen.",
+                "areaLabel": "Bereich (optional)",
+                "extraTitle": "Weitere Filter (optional)",
+                "extraAttributePlaceholder": "Attribut wählen …",
+                "loadingValues": "Werte werden geladen",
+                "loadingValuesSlow": "Werte werden geladen, das kann bei großen Layern etwas dauern.",
+                "valuePlaceholder": "Bitte Wert wählen …"
+            },
+            "mode": {
+                "title": "Ergebnis als",
+                "count": "Anzahl",
+                "area": "Fläche",
+                "areaAttributeLabel": "Attribut mit der Flächengröße",
+                "noAreaAttribute": "Für eine Auswertung nach Fläche braucht der Layer ein Attribut mit der Flächengröße. Dieser hat keins – gezählt werden kann er trotzdem."
+            },
+            "units": {
+                "m2": "m²",
+                "ha": "ha",
+                "km2": "km²"
+            },
+            "analysis": {
+                "attributesError": "Die Attribute des Downloaddienstes konnten nicht geladen werden.",
+                "methodLabel": "Über die Methode",
+                "methodMap": "Klassen der Karte",
+                "methodInfo": "Die Klassen stammen aus der Legende des Kartendienstes – ausgewertet wird also genau das, was die Karte zeigt, auch Wertebereiche, die es als Spalte nicht gibt. Trifft ein Objekt mehrere Klassen, zählt die zuletzt gezeichnete, wie auf der Karte. Objekte, die keine Klasse trifft, werden nicht gezeichnet und nicht mitgezählt. Unter „Erweitert“ lässt sich stattdessen ein einzelnes Attribut auswerten.",
+                "advanced": "Erweitert",
+                "attributeLabel": "Auswerten nach",
+                "attributePlaceholder": "Bitte Attribut auswählen …",
+                "attributeMatchesMap": "Entspricht der Einfärbung in der Karte.",
+                "manyFeatures": "Das sind mehr als {{max}} Objekte. Das Laden kann dauern – schränken Sie die Auswertung ggf. weiter ein.",
+                "start": "Auswertung starten",
+                "failed": "Die Auswertung ist fehlgeschlagen.",
+                "needsAttribute": "Bitte zuerst ein Attribut wählen.",
+                "needsAreaAttribute": "Bitte zuerst das Attribut mit der Flächengröße wählen."
+            },
+            "result": {
+                "title": "Verteilung von „{{attribute}}“",
+                "titleInArea": "Verteilung von „{{attribute}}“ in {{area}}",
+                "titleClasses": "Verteilung nach den Klassen der Karte",
+                "titleClassesInArea": "Verteilung nach den Klassen der Karte in {{area}}",
+                "classesSubject": "Klassen der Karte",
+                "summary": "{{count}} Objekte wurden ausgewertet: {{categories}} Kategorien, insgesamt {{total}}.",
+                "viewLabel": "Darstellung",
+                "view": {
+                    "pie": "Kreisdiagramm",
+                    "table": "Tabelle"
+                },
+                "category": "Kategorie",
+                "share": "Anteil",
+                "total": "Gesamt",
+                "noValue": "(ohne Angabe)",
+                "otherCategories": "Sonstige",
+                "groupedHint": "Kleine Kategorien sind in „Sonstige“ zusammengefasst. Die Tabelle zeigt alle Kategorien.",
+                "notShown": "Auf der Karte nicht dargestellt: {{value}}",
+                "empty": "Die Auswertung hat keine Objekte ergeben.",
+                "pieLabel": "Kreisdiagramm der Verteilung",
+                "download": "Als CSV herunterladen",
+                "proportion": "Anteil grafisch"
+            }
+        }
+    }
+}

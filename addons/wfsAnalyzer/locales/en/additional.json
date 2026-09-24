@@ -1,0 +1,87 @@
+{
+    "modules": {
+        "wfsAnalyzer": {
+            "title": "Analyse layer",
+            "description": "Checks whether a WFS is available for an active layer and analyses its attributes by count or area.",
+            "noActiveLayers": "No subject data layer is currently switched on in the map. Add a layer via the topic tree.",
+            "layerSelectLabel": "Layer",
+            "layerSelectPlaceholder": "Please select a layer …",
+            "checking": "Checking Layer …",
+            "unavailable": {
+                "title": "No WFS available",
+                "noMetadata": "No metadata is configured for this layer, so no download service can be determined. The layer cannot be analysed.",
+                "noWfsInMetadata": "The metadata record of this layer does not list a download service (WFS). The layer cannot be analysed.",
+                "noMatchingFeatureType": "The associated download service (WFS) contains no feature type for this layer. The layer cannot be analysed.",
+                "ambiguousFeatureType": "The download service (WFS) contains several feature types that could belong to this layer. As none of them can be identified with certainty, the layer is not analysed."
+            },
+            "error": {
+                "title": "Check failed",
+                "text": "The WFS availability could not be determined. The metadata or download service may currently be unreachable.",
+                "retry": "Check again"
+            },
+            "filter": {
+                "wholeLayer": "Whole area",
+                "valueLabel": "Name / Value of the area",
+                "valuesUnavailable": "No value list available – please type the value.",
+                "valuesLoadedPartly": "Only the first {{count}} values are suggested – there are more. Please type values that are not listed.",
+                "areaLabel": "Area (optional)",
+                "extraTitle": "More filters (optional)",
+                "extraAttributePlaceholder": "Choose attribute …",
+                "loadingValues": "Loading values",
+                "loadingValuesSlow": "Loading values, this can take a moment on large layers.",
+                "valuePlaceholder": "Please choose a value …"
+            },
+            "mode": {
+                "title": "Result as",
+                "count": "Count",
+                "area": "Area",
+                "areaAttributeLabel": "Attribute holding the area size",
+                "noAreaAttribute": "An area analysis needs an attribute holding the area size. This layer has none – counting still works."
+            },
+            "units": {
+                "m2": "m²",
+                "ha": "ha",
+                "km2": "km²"
+            },
+            "analysis": {
+                "attributesError": "The attributes of the download service could not be loaded.",
+                "methodLabel": "About the method",
+                "methodMap": "Classes of the map",
+                "methodInfo": "The classes come from the legend of the map service, so what is analysed is exactly what the map shows – including ranges that exist as no column. Where a feature falls into several classes, the one drawn last counts, as on the map. Features in no class are not drawn and not counted. Under “Advanced” a single attribute can be analysed instead.",
+                "advanced": "Advanced",
+                "attributeLabel": "Attribute to analyse",
+                "attributePlaceholder": "Please select an attribute …",
+                "attributeMatchesMap": "Matches the colouring on the map.",
+                "manyFeatures": "That is more than {{max}} features. Loading may take a while – consider restricting the analysis further.",
+                "start": "Start analysis",
+                "failed": "The analysis failed.",
+                "needsAttribute": "Please choose an attribute first.",
+                "needsAreaAttribute": "Please choose the attribute holding the area size first."
+            },
+            "result": {
+                "title": "Distribution of “{{attribute}}”",
+                "titleInArea": "Distribution of “{{attribute}}” in {{area}}",
+                "titleClasses": "Distribution by the classes of the map",
+                "titleClassesInArea": "Distribution by the classes of the map in {{area}}",
+                "classesSubject": "Classes of the map",
+                "summary": "{{count}} features were analysed: {{categories}} categories, {{total}} in total.",
+                "viewLabel": "Presentation",
+                "view": {
+                    "pie": "Pie chart",
+                    "table": "Table"
+                },
+                "category": "Category",
+                "share": "Share",
+                "total": "Total",
+                "noValue": "(no value)",
+                "otherCategories": "Other",
+                "groupedHint": "Small categories are pooled into “Other”. The table shows every category.",
+                "notShown": "Not shown on the map: {{value}}",
+                "empty": "The analysis returned no features.",
+                "pieLabel": "Pie chart of the distribution",
+                "download": "Download as CSV",
+                "proportion": "Proportion"
+            }
+        }
+    }
+}
