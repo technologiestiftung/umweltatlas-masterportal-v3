@@ -417,11 +417,6 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
             expect(options).to.include("nutzung");
         });
 
-        it("shows how many features will be loaded", () => {
-            expect(mountComponent(confirmed).text())
-                .to.contain("additional:modules.wfsAnalyzer.analysis.featureCount");
-        });
-
         it("warns when the filter matches more features than configured", () => {
             expect(mountComponent({...confirmed, featureCount: 999999}).text())
                 .to.contain("additional:modules.wfsAnalyzer.analysis.manyFeatures");
@@ -530,6 +525,61 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
 
             expect(wrapper.find(".spinner-border").exists()).to.be.false;
             expect(wrapper.find("#wfs-analyzer-analyse-attribute").exists()).to.be.true;
+        });
+
+        describe("the line under the heading", () => {
+            const legendClasses = [
+                    {label: "2483", filter: "bgs_neu = '2483'", color: "#FCD4D4"},
+                    {label: "2485", filter: "bgs_neu = '2485'", color: "#FCD4D4"},
+                    {label: "2500", filter: "bgs_neu = '2500'", color: "#7424A4"}
+                ],
+                classNames = {2483: "Regosol", 2485: "Regosol", 2500: "Lockersyrosem"},
+                result = {unit: "count", total: 791, categories: [
+                    {label: "2483", value: 300, share: 0.38},
+                    {label: "2485", value: 291, share: 0.37},
+                    {label: "2500", value: 200, share: 0.25}
+                ]};
+
+            /**
+             * The summary is only worth checking with the values put in, so
+             * this mock interpolates instead of echoing the key.
+             * @returns {Object} the values the sentence was built from.
+             */
+            function summaryValues () {
+                const seen = {};
+
+                config.global.mocks.$t = (key, values) => {
+                    if (key.endsWith("result.summary")) {
+                        Object.assign(seen, values);
+                    }
+                    return key;
+                };
+
+                mountComponent({
+                    ...confirmed, legendClasses, legendStatus: "ready", analysisStatus: "ready",
+                    result, classNames, featureCount: 791
+                });
+                config.global.mocks.$t = (key) => key;
+
+                return seen;
+            }
+
+            it("names the objects the analysis was based on", () => {
+                expect(summaryValues().count).to.equal("791");
+            });
+
+            it("counts the categories the table shows, after merging", () => {
+                // Two of the three classes are drawn alike and become one row.
+                expect(summaryValues().categories).to.equal(2);
+            });
+
+            it("is the only place the object count appears", () => {
+                // It used to sit in the form as live feedback as well; now the
+                // result says what it was based on and the form stays quiet.
+                const wrapper = mountComponent({...confirmed, featureCount: 791});
+
+                expect(wrapper.find(".wfs-analyzer-feature-count").exists()).to.be.false;
+            });
         });
 
         describe("the heading over the result", () => {

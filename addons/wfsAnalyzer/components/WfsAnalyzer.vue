@@ -86,16 +86,6 @@ export default {
         },
 
         /**
-         * Keeps the count on screen while it is being refreshed, as long as
-         * there is a previous one to show.
-         * @returns {Boolean} true if the feature count should be rendered.
-         */
-        showFeatureCount () {
-            return this.featureCountStatus === "ready" ||
-                (this.featureCountStatus === "loading" && this.featureCount !== null);
-        },
-
-        /**
          * Says why the analysis cannot be started yet. A button that is greyed
          * out without a reason is the most frustrating part of a form.
          * @returns {String} the hint, or an empty string when everything is set.
@@ -129,6 +119,24 @@ export default {
             return this.$t(`additional:modules.wfsAnalyzer.result.${key}${suffix}`, {
                 attribute: this.analyseAttributeLabel,
                 area: this.filterValue
+            });
+        },
+
+        /**
+         * The line under the heading: how many objects went in, what came out.
+         *
+         * The count is the one of the area selection, the same the form shows
+         * before the analysis - in the map's classes it can exceed what the
+         * chart adds up to, and the difference is named right below as what the
+         * map does not draw. The number of categories is the one of the table,
+         * after classes drawn alike have been merged.
+         * @returns {String} the summary.
+         */
+        resultSummary () {
+            return this.$t("additional:modules.wfsAnalyzer.result.summary", {
+                count: formatNumber(this.featureCount ?? 0, i18next.language || "de", 0),
+                categories: this.namedCategories.length,
+                total: this.formatValue(this.result?.total ?? 0)
             });
         },
 
@@ -766,33 +774,6 @@ export default {
                         </div>
                     </div>
 
-                    <!--
-                        The only live feedback in the form, so it gets an icon
-                        and room to breathe instead of sitting flush on the
-                        button. While the count is being refreshed the previous
-                        one stays visible, dimmed - letting it vanish would take
-                        away the very feedback it provides.
-                    -->
-                    <p
-                        v-if="showFeatureCount"
-                        class="d-flex align-items-center mb-3 wfs-analyzer-feature-count"
-                        :class="{'text-muted': featureCountStatus === 'loading'}"
-                        role="status"
-                    >
-                        <span
-                            v-if="featureCountStatus === 'loading'"
-                            class="spinner-border spinner-border-sm me-2 flex-shrink-0"
-                            aria-hidden="true"
-                        />
-                        <i
-                            v-else
-                            class="bi bi-database me-2 flex-shrink-0"
-                        />
-                        <span>
-                            {{ $t("additional:modules.wfsAnalyzer.analysis.featureCount", {count: formatCount(featureCount)}) }}
-                        </span>
-                    </p>
-
                     <div
                         v-if="exceedsMaxFeatures"
                         class="alert alert-warning py-2 small"
@@ -856,10 +837,7 @@ export default {
                                 {{ resultTitle }}
                             </h6>
                             <p class="small text-muted mb-2">
-                                {{ $t("additional:modules.wfsAnalyzer.result.summary", {
-                                    categories: result.categories.length,
-                                    total: formatValue(result.total)
-                                }) }}
+                                {{ resultSummary }}
                             </p>
 
                             <div
@@ -998,8 +976,16 @@ $wfs-analyzer-radius: 16px;
     }
 }
 
-.wfs-analyzer-feature-count {
-    font-size: 14px;
+/*
+ * Bootstrap indents an accordion button by 1.25rem, which pushes the two
+ * toggles out of line with every other control in this narrow panel. Set on the
+ * button itself rather than on its collapsed state, so the text does not shift
+ * when it opens, and on the body as well, so the text below starts where the
+ * label above does.
+ */
+.accordion-button,
+.accordion-body {
+    padding: 0.5rem;
 }
 
 /*

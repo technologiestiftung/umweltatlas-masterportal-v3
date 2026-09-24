@@ -52,7 +52,6 @@
                 "attributeLabel": "Attribute to analyse",
                 "attributePlaceholder": "Please select an attribute …",
                 "attributeMatchesMap": "Matches the colouring on the map.",
-                "featureCount": "{{count}} features will be analysed.",
                 "manyFeatures": "That is more than {{max}} features. Loading may take a while – consider restricting the analysis further.",
                 "start": "Start analysis",
                 "failed": "The analysis failed.",
@@ -65,7 +64,7 @@
                 "titleClasses": "Distribution by the classes of the map",
                 "titleClassesInArea": "Distribution by the classes of the map in {{area}}",
                 "classesSubject": "Classes of the map",
-                "summary": "{{categories}} categories, {{total}} in total.",
+                "summary": "{{count}} features were analysed: {{categories}} categories, {{total}} in total.",
                 "viewLabel": "Presentation",
                 "view": {
                     "pie": "Pie chart",

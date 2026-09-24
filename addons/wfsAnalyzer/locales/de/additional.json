@@ -52,7 +52,6 @@
                 "attributeLabel": "Auswerten nach",
                 "attributePlaceholder": "Bitte Attribut auswählen …",
                 "attributeMatchesMap": "Entspricht der Einfärbung in der Karte.",
-                "featureCount": "{{count}} Objekte werden ausgewertet.",
                 "manyFeatures": "Das sind mehr als {{max}} Objekte. Das Laden kann dauern – schränken Sie die Auswertung ggf. weiter ein.",
                 "start": "Auswertung starten",
                 "failed": "Die Auswertung ist fehlgeschlagen.",
@@ -65,7 +64,7 @@
                 "titleClasses": "Verteilung nach den Klassen der Karte",
                 "titleClassesInArea": "Verteilung nach den Klassen der Karte in {{area}}",
                 "classesSubject": "Klassen der Karte",
-                "summary": "{{categories}} Kategorien, insgesamt {{total}}.",
+                "summary": "{{count}} Objekte wurden ausgewertet: {{categories}} Kategorien, insgesamt {{total}}.",
                 "viewLabel": "Darstellung",
                 "view": {
                     "pie": "Kreisdiagramm",
