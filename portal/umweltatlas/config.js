@@ -63,12 +63,21 @@ const Config = {
         // woz -> woz_name, typ -> typklar, bgs_neu -> bgs_neu_bez.
         nameSuffixes: ["_name", "klar", "_bez"],
         // Wie der ausgewertete Bereich auf der Karte gezeigt wird:
-        // "highlight" füllt ihn ein, "border" zeichnet nur die Umrisse.
-        // Achtung: "border" umrandet jedes einzelne Objekt, nicht die
-        // Außenkante des Bereichs - bei vielen kleinen Flächen ein Netz.
-        areaStyle: "border",
-        // Farbe dafür, als Hex-Wert. Alles andere wird verworfen.
-        areaColor: "#E2001A",
+        // "mask"      legt einen Schleier über alles andere und lässt den
+        //             Bereich frei,
+        // "highlight" füllt den Bereich ein,
+        // "border"    zeichnet nur die Umrisse - Achtung: die jedes einzelnen
+        //             Objekts, nicht die Außenkante des Bereichs; bei vielen
+        //             kleinen Flächen ein Netz.
+        areaStyle: "mask",
+        // Farbe dafür, als Hex-Wert. Bei "mask" ist das die Farbe des
+        // Schleiers, nicht die des Bereichs - deshalb hier ein ruhiges Dunkel
+        // statt des Signalrots "#E2001A", das zu "highlight"/"border" passte.
+        areaColor: "#ffffff",
+        // Wie kräftig, von 0 (unsichtbar) bis 1 (deckend). Ohne Angabe gilt der
+        // Wert des jeweiligen Stils: 0.45 bei "mask", 0.4 bei "highlight",
+        // 1 bei "border".
+        areaOpacity: 0.85,
         // Per-layer defaults, matched on the exact layer id. Every field except
         // layerId is optional; a field naming an attribute the layer does not
         // have is ignored (with a warning on the console).

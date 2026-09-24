@@ -25,15 +25,16 @@ const layerZIndex = 900;
  * @param {String} params.wmsUrl url of the WMS.
  * @param {String} params.layerName name of the layer.
  * @param {String} params.cqlFilter the filter describing the analysed area.
- * @param {String} [params.style] "highlight" or "border".
+ * @param {String} [params.style] "highlight", "border" or "mask".
  * @param {String} [params.color] the colour as a hex string.
+ * @param {Number} [params.opacity] how much of the map shows through, 0 to 1.
  * @returns {module:ol/layer/Image} the layer.
  */
-export function createAreaLayer ({wmsUrl, layerName, cqlFilter, style, color}) {
+export function createAreaLayer ({wmsUrl, layerName, cqlFilter, style, color, opacity}) {
     return new ImageLayer({
         // Applied here rather than in the style, so the image the service sends
         // stays a single colour and compresses.
-        opacity: areaLayerOpacity(style),
+        opacity: areaLayerOpacity(style, opacity),
         zIndex: layerZIndex,
         source: new ImageWMS({
             url: wmsUrl,
@@ -41,9 +42,30 @@ export function createAreaLayer ({wmsUrl, layerName, cqlFilter, style, color}) {
             // and the area is redrawn on every move anyway.
             ratio: 1,
             serverType: "geoserver",
-            params: buildHighlightParams(layerName, cqlFilter, {style, color})
+            params: buildHighlightParams(layerName, drawnFilter(cqlFilter, style), {style, color})
         })
     });
+}
+
+/**
+ * What the service should draw: the area itself, or - for the mask - everything
+ * but the area.
+ *
+ * Turning it around in the filter keeps it a plain map layer. Painting a veil
+ * onto the map canvas and cutting the area out of it with `destination-out`
+ * removes whatever was drawn there before, the map included: the selected
+ * district came out blank white. Inverting the picture instead, through
+ * `ol/source/Raster`, rendered nothing at all. The service knows its own data
+ * best, and `NOT (...)` costs one filter.
+ *
+ * What lies outside the layer keeps its colours - there is no data there to
+ * dim, and dimming the basemap of the surrounding region says nothing.
+ * @param {String} cqlFilter the filter describing the area.
+ * @param {String} style the area style.
+ * @returns {String} the filter to draw with.
+ */
+export function drawnFilter (cqlFilter, style) {
+    return style === "mask" && cqlFilter !== "" ? `NOT (${cqlFilter})` : cqlFilter;
 }
 
 /**

@@ -89,13 +89,18 @@ describe("addons/wfsAnalyzer/js/analysisConfig", () => {
             expect(settings.areaColor).to.match(/^#[0-9a-f]{6}$/i);
         });
 
-        it("takes the area style and colour from config.js", () => {
-            global.Config = {wfsAnalyzer: {areaStyle: "border", areaColor: "#0050A0"}};
+        it("takes the area style, colour and opacity from config.js", () => {
+            global.Config = {wfsAnalyzer: {areaStyle: "border", areaColor: "#0050A0", areaOpacity: 0.8}};
 
             const settings = getAnalysisConfig();
 
             expect(settings.areaStyle).to.equal("border");
             expect(settings.areaColor).to.equal("#0050A0");
+            expect(settings.areaOpacity).to.equal(0.8);
+        });
+
+        it("leaves the opacity to the style when none is configured", () => {
+            expect(getAnalysisConfig().areaOpacity).to.equal(null);
         });
 
         it("ignores an area style or colour it cannot use", () => {

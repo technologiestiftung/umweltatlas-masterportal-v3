@@ -17,10 +17,11 @@
 export const defaultAreaColor = "#E2001A";
 
 /**
- * How the area is drawn: filled over, or outlined.
+ * How the area is drawn: filled over, outlined, or cut out of a veil that
+ * covers everything else.
  * @type {String[]}
  */
-export const areaStyles = ["highlight", "border"];
+export const areaStyles = ["highlight", "border", "mask"];
 
 /**
  * Width of the outline in pixels.
@@ -33,7 +34,20 @@ const borderWidth = 2;
  * show through; an outline would only become hard to see.
  * @type {Object}
  */
-const opacityByStyle = {highlight: 0.4, border: 1};
+const opacityByStyle = {highlight: 0.4, border: 1, mask: 0.45};
+
+/**
+ * Reads a configured opacity. Only 0 to 1 counts - a value outside it is more
+ * likely a percentage written by mistake than an intention, and falling back
+ * leaves the map readable instead of painting it over.
+ * @param {*} opacity the configured value.
+ * @returns {Number|null} the opacity, or null when none is configured.
+ */
+export function readAreaOpacity (opacity) {
+    return typeof opacity === "number" && isFinite(opacity) && opacity >= 0 && opacity <= 1
+        ? opacity
+        : null;
+}
 
 /**
  * Only plain CSS hex colours are passed on: the value ends up inside an SLD
@@ -68,15 +82,16 @@ export function normalizeAreaStyle ({style, color} = {}) {
 
 /**
  * @param {String} style the area style.
+ * @param {Number} [configured] an opacity set in the portal configuration.
  * @returns {Number} the opacity the map layer is drawn with.
  */
-export function areaLayerOpacity (style) {
-    return opacityByStyle[normalizeAreaStyle({style}).style];
+export function areaLayerOpacity (style, configured) {
+    return readAreaOpacity(configured) ?? opacityByStyle[normalizeAreaStyle({style}).style];
 }
 
 /**
- * Builds an SLD that paints every feature in one flat colour - filled over, or
- * outlined.
+ * Builds an SLD that paints every feature in one flat colour - filled over,
+ * outlined, or as the shape to cut out of a veil.
  *
  * An outline traces every single feature, not the outer edge of the area: the
  * service draws what it is asked to draw and knows nothing of a union. For a
@@ -93,9 +108,10 @@ export function buildHighlightSld (layerName, options = {}) {
         // polygons with it too and every pixel of it widens the measured extent.
         line = strokeTag(color, isBorder ? borderWidth : 1),
         fill = `<Fill><CssParameter name="fill">${color}</CssParameter></Fill>`,
+        // Cutting a hole, the hairline outline would widen it by a pixel.
         polygon = isBorder
             ? `<PolygonSymbolizer>${line}</PolygonSymbolizer>`
-            : `<PolygonSymbolizer>${fill}${line}</PolygonSymbolizer>`,
+            : `<PolygonSymbolizer>${fill}${style === "mask" ? "" : line}</PolygonSymbolizer>`,
         mark = `<Mark><WellKnownName>circle</WellKnownName>${isBorder ? line : fill}</Mark>`;
 
     return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +

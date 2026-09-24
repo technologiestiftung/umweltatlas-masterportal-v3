@@ -249,6 +249,8 @@ const Config = {
         // outlines it. Hex colour only - anything else falls back.
         areaStyle: "highlight",
         areaColor: "#E2001A",
+        // 0 to 1; without it each style keeps its own (0.4 / 1 / 0.45).
+        areaOpacity: 0.4,
         // Per-layer defaults, matched on the EXACT layer id.
         presets: [
             {
@@ -384,32 +386,40 @@ GetMap&CQL_FILTER=bezirk='Mitte'&SLD_BODY=<flat colour>&format_options=antialias
 * **`SLD_BODY`** replaces the layer's cartography with one flat colour. Without
   it the overlay would be drawn in the layer's own style and lie invisibly on
   top of the layer already showing.
-* **Two styles**, set as `areaStyle` in `config.js`, in the colour `areaColor`:
+* **Three styles**, set as `areaStyle` in `config.js`, in the colour `areaColor`:
 
   | | was gezeichnet wird | Bezirksansicht 1200×1080 |
   |---|---|---|
-  | `highlight` (Standard) | Fläche eingefärbt, Karte scheint durch (Deckkraft 0.4) | 119 KB |
+  | `mask` | Schleier über alles andere, der Bereich bleibt frei | 119 KB |
+  | `highlight` | Fläche eingefärbt, Karte scheint durch (Deckkraft 0.4) | 119 KB |
   | `border` | nur Umrisse, voll deckend | 184 KB |
 
-  `border` umrandet **jedes einzelne Objekt**, nicht die Außenkante des
-  Bereichs — der Dienst zeichnet, was er gefragt wird, und kennt keine
-  Vereinigung. Bei einem Layer aus vielen kleinen Flächen ergibt das ein Netz;
-  darum ist die Füllung der Standard.
+  `mask` dreht die Darstellung im **Filter** um: Gezeichnet wird `NOT (<Bereich>)`,
+  also alles außer dem Bereich, halbdurchsichtig über der Karte. Damit bleibt es
+  eine gewöhnliche Kartenebene — kein Canvas-Kunststück, kein Worker.
 
-  `areaColor` nimmt nur einen schlichten Hex-Wert (`#E2001A`, `#0af`). Alles
-  andere fällt auf die Standardfarbe zurück — der Wert landet in einem
-  SLD-Dokument, und dort hat nichts anderes etwas zu suchen.
-* **`antialias:none`** is what keeps it flat. With anti-aliasing the fill
-  arrives in about a thousand shades; measured over one district at 1200×1080
-  that is 409 KB instead of **119 KB with exactly one colour**. The transparency
-  is applied to the map layer (`opacity: 0.4`), not in the style, so the image
-  stays compressible.
-* No geometry is downloaded and no pixel is touched in the browser — the picture
-  arrives ready to show.
+  Zwei Wege dahin waren falsch, beide der Vollständigkeit halber:
 
-The layer goes straight onto the OpenLayers map, not into the layer
-configuration, so it stays out of the topic tree — the same way the draw tool
-handles its own layer.
+  * Einen Schleier auf die Karten-Leinwand malen und den Bereich mit
+    `destination-out` ausschneiden entfernt alles, was vorher auf dieselbe
+    Leinwand gezeichnet wurde — **auch die Karte**. Der gewählte Bezirk kam
+    schneeweiß heraus.
+  * Das Bild des Bereichs über `ol/source/Raster` umkehren rendert im Portal
+    gar nichts.
+
+  Was außerhalb des Layers liegt, behält seine Farben: Dort sind keine Daten,
+  die zu dämpfen wären, und den Basiskarten-Hintergrund des Umlands zu
+  verschleiern sagt nichts aus.
+
+  Bei `mask` ist `areaColor` die Farbe des **Schleiers**, nicht die des
+  Bereichs: ein ruhiges Dunkel passt hier, wo für `highlight` ein Signalton
+  richtig war.
+
+* **Wie kräftig**, als `areaOpacity` zwischen 0 und 1. Ohne Angabe behält jeder
+  Stil seinen eigenen Wert — 0.4 für `highlight`, 1 für `border`, 0.45 für
+  `mask`. Werte außerhalb von 0 bis 1 werden verworfen: `45` ist eher eine
+  verrutschte Prozentangabe als eine Absicht, und das Ergebnis wäre eine
+  übermalte Karte.
 
 ### Where to move the map
 

@@ -338,7 +338,8 @@ const actions = {
         showAreaLayer({
             ...params,
             style: getters.settings.areaStyle,
-            color: getters.settings.areaColor
+            color: getters.settings.areaColor,
+            opacity: getters.settings.areaOpacity
         });
 
         // The layer's own extent comes from the capabilities of the

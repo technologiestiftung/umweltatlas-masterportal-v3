@@ -24,7 +24,7 @@
  * @module addons/wfsAnalyzer/js/analysisConfig
  */
 
-import {normalizeAreaStyle} from "./areaHighlight";
+import {normalizeAreaStyle, readAreaOpacity} from "./areaHighlight";
 
 /**
  * Attribute names that typically describe the spatial unit a feature belongs
@@ -200,6 +200,7 @@ export function getAnalysisConfig () {
         nameSuffixes: Array.isArray(settings.nameSuffixes) ? settings.nameSuffixes : defaultNameSuffixes,
         areaStyle: area.style,
         areaColor: area.color,
+        areaOpacity: readAreaOpacity(settings.areaOpacity),
         presets: normalizePresets(settings.presets)
     };
 }

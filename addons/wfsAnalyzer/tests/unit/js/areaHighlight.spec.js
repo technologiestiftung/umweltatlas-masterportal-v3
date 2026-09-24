@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {areaLayerOpacity, buildHighlightParams, buildHighlightSld, defaultAreaColor, normalizeAreaStyle} from "../../../js/areaHighlight";
+import {areaLayerOpacity, buildHighlightParams, buildHighlightSld, defaultAreaColor, normalizeAreaStyle, readAreaOpacity} from "../../../js/areaHighlight";
 
 describe("addons/wfsAnalyzer/js/areaHighlight", () => {
     describe("normalizeAreaStyle", () => {
@@ -8,9 +8,10 @@ describe("addons/wfsAnalyzer/js/areaHighlight", () => {
             expect(normalizeAreaStyle({style: "umriss"}).style).to.equal("highlight");
         });
 
-        it("takes the two styles it knows", () => {
+        it("takes the three styles it knows", () => {
             expect(normalizeAreaStyle({style: "border"}).style).to.equal("border");
             expect(normalizeAreaStyle({style: "highlight"}).style).to.equal("highlight");
+            expect(normalizeAreaStyle({style: "mask"}).style).to.equal("mask");
         });
 
         it("takes a hex colour in either length", () => {
@@ -33,8 +34,42 @@ describe("addons/wfsAnalyzer/js/areaHighlight", () => {
             expect(areaLayerOpacity("border")).to.equal(1);
         });
 
+        it("lets the map show through the veil of the mask", () => {
+            expect(areaLayerOpacity("mask")).to.be.below(1);
+        });
+
         it("treats an unknown style like the default", () => {
             expect(areaLayerOpacity("unsinn")).to.equal(areaLayerOpacity("highlight"));
+        });
+
+        it("takes an opacity from the configuration over the one of the style", () => {
+            expect(areaLayerOpacity("mask", 0.8)).to.equal(0.8);
+            expect(areaLayerOpacity("border", 0.25)).to.equal(0.25);
+            expect(areaLayerOpacity("highlight", 0)).to.equal(0);
+        });
+
+        it("keeps the style's own where the configuration has none or a wrong one", () => {
+            expect(areaLayerOpacity("mask")).to.equal(0.45);
+            expect(areaLayerOpacity("mask", 45)).to.equal(0.45);
+            expect(areaLayerOpacity("mask", "0.8")).to.equal(0.45);
+        });
+    });
+
+    describe("readAreaOpacity", () => {
+        it("takes a share between none and all", () => {
+            expect(readAreaOpacity(0)).to.equal(0);
+            expect(readAreaOpacity(0.45)).to.equal(0.45);
+            expect(readAreaOpacity(1)).to.equal(1);
+        });
+
+        it("refuses anything outside it, and anything that is not a number", () => {
+            // 45 is more likely a percentage written by mistake than an
+            // intention, and painting the map over would be the result.
+            expect(readAreaOpacity(45)).to.equal(null);
+            expect(readAreaOpacity(-1)).to.equal(null);
+            expect(readAreaOpacity("0.5")).to.equal(null);
+            expect(readAreaOpacity(undefined)).to.equal(null);
+            expect(readAreaOpacity(NaN)).to.equal(null);
         });
     });
 
@@ -53,6 +88,15 @@ describe("addons/wfsAnalyzer/js/areaHighlight", () => {
 
         it("fills the polygons in the highlight style", () => {
             expect(buildHighlightSld("a", {style: "highlight"})).to.contain("<PolygonSymbolizer><Fill>");
+        });
+
+        it("fills the polygons without an outline in the mask style", () => {
+            // The hairline outline of the highlight style would widen the hole
+            // it cuts by a pixel.
+            const sld = buildHighlightSld("a", {style: "mask"});
+
+            expect(sld).to.contain("<PolygonSymbolizer><Fill>");
+            expect(sld).to.not.contain("</Fill><Stroke>");
         });
 
         it("leaves the polygons hollow in the border style", () => {
