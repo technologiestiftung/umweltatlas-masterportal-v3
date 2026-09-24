@@ -123,6 +123,33 @@ own: turned back into bytes and decoded strictly as UTF-8 again, which succeeds
 exactly where the string was UTF-8 read as Latin-1 and fails where it really was
 Latin-1.
 
+### Why one request per class
+
+Loading the needed columns once and classifying in the browser would be one
+request instead of eleven — or seventy-eight. Measured against the service, it is
+worse on every count:
+
+| | one request per class | everything at once, locally |
+|---|---|---|
+| count, 11 classes, all of Berlin | **9 KB** | 5.80 MB |
+| count, 78 classes, all of Berlin | **61 KB**, 360 ms | 4.95 MB, 650 ms |
+| area, 11 classes, all of Berlin | **5.54 MB**, 363 ms | 6.11 MB, **2040 ms** |
+| area, 11 classes, one district | 0.31 MB, 56 ms | 0.34 MB, 85 ms |
+
+Two reasons that are easy to get wrong:
+
+* **Locally is more data, not less.** Beside the area column, the columns the
+  rules filter on would have to travel per feature (`woz`, `grz`) — 10 % on top.
+* **Locally is slower.** The per-class requests run in parallel; one large
+  download arrives serially. 363 ms against 2040 ms.
+
+And the service evaluates the legend with its own CQL semantics. Doing it here
+would mean rebuilding them — numeric comparisons against quoted literals
+(`ew_ha > '0'`), null handling in `woz IS NULL AND grz <> '110'`, the type of
+every column. Each divergence would be a silently wrong chart.
+
+The many requests are tiny and go out together: 78 of them took 360 ms.
+
 ### Two classes, one name
 
 Codes may share a plain-text name: `bodengesellschaften2020` has 78 classes but
