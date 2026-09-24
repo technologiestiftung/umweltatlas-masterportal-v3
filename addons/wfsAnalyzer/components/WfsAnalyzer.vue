@@ -29,6 +29,7 @@ export default {
     computed: {
         ...mapGetters("Modules/WfsAnalyzer", [
             "analyseAttribute",
+            "analyseAttributeCandidates",
             "analysisError",
             "analysisStatus",
             "areaAttribute",
@@ -52,6 +53,7 @@ export default {
             "isAnalysable",
             "mode",
             "needsAreaAttributeChoice",
+            "presetAnalyseAttribute",
             "reason",
             "result",
             "resultView",
@@ -494,17 +496,28 @@ export default {
                     <!-- what to analyse -->
                     <div class="mb-3">
                         <div class="form-floating">
+                            <!--
+                                A preset pins the attribute: the control keeps
+                                its place in the form but is switched off, and
+                                loses the arrow that would promise a choice.
+                            -->
                             <select
                                 id="wfs-analyzer-analyse-attribute"
                                 class="form-select"
+                                :class="{'wfs-analyzer-fixed-select': presetAnalyseAttribute}"
+                                :disabled="Boolean(presetAnalyseAttribute)"
                                 :value="analyseAttribute"
                                 @change="onAnalyseAttributeChange"
                             >
-                                <option value="">
+                                <!-- No empty option either: it would offer to unset what is set. -->
+                                <option
+                                    v-if="!presetAnalyseAttribute"
+                                    value=""
+                                >
                                     {{ $t("additional:modules.wfsAnalyzer.analysis.attributePlaceholder") }}
                                 </option>
                                 <option
-                                    v-for="attribute in selectableAttributes"
+                                    v-for="attribute in analyseAttributeCandidates"
                                     :key="attribute.name"
                                     :value="attribute.name"
                                 >
@@ -515,6 +528,12 @@ export default {
                                 {{ $t("additional:modules.wfsAnalyzer.analysis.attributeLabel") }}
                             </label>
                         </div>
+                        <p
+                            v-if="presetAnalyseAttribute"
+                            class="form-text mt-1 mb-0"
+                        >
+                            {{ $t("additional:modules.wfsAnalyzer.analysis.attributeMatchesMap") }}
+                        </p>
                     </div>
 
                     <!-- count or area -->
@@ -823,6 +842,16 @@ $wfs-analyzer-radius: 16px;
 
 .wfs-analyzer-feature-count {
     font-size: 14px;
+}
+
+/*
+ * The attribute is fixed by a preset. Bootstrap draws the arrow of a select as
+ * a background image, so taking it away means removing that image - and the
+ * space it was indented for.
+ */
+.wfs-analyzer-fixed-select {
+    background-image: none;
+    padding-right: 0.75rem;
 }
 
 .wfs-analyzer-segment {

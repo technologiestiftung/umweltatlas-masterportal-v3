@@ -83,6 +83,15 @@ The area analysis deliberately uses an existing **area attribute** (`flalle`,
 `flaeche`, …) instead of the geometry, so the polygons never have to be
 transferred or measured client-side.
 
+**"Fläche" is offered only where such a column is named** — in `areaAttributes`
+or in a preset. A numeric column is no evidence of an area: measured across 26
+layers of this portal, 15 had no configured area column, and what their numbers
+held was `importid` ("Schlüssel"), `x` ("X-Koordinate ETRS89"), `dtv`
+("Durchschnittliche tägliche Verkehrsstärke") or a percentage. Offering those as
+an area produced a silent, wrong sum — and with a single candidate the select is
+not even shown. Layers without a named area column now offer counting only; to
+change that for one of them, add its column to `areaAttributes`.
+
 Because the hits query is free, the feature count is refreshed after every
 change of the filter and shown before the analysis is started. Above
 `maxFeatures` the user gets a warning but may still proceed.
@@ -104,7 +113,8 @@ const Config = {
         // Suggested attributes for restricting an analysis spatially.
         // The user can still pick ANY other attribute of the layer.
         filterAttributes: ["bezirk", "bez", "ortsteil", "plr_name", /* … */],
-        // Attributes that hold a precomputed area in square metres.
+        // Attributes that hold a precomputed area in square metres. A layer
+        // without one of them cannot be analysed by area - see below.
         areaAttributes: ["flalle", "flaeche", "shape_area", /* … */],
         // Warn above this many features.
         maxFeatures: 50000,
@@ -153,6 +163,12 @@ required; every other field is optional.
   or `mode: "area"` on a layer with no area attribute. The tool stays usable.
 * Presets are **re-applied every time the layer is selected**, so returning to a
   layer resets it to the preset rather than to what was last picked by hand.
+  That is why a preset's `analyseAttribute` leaves only itself in the select —
+  a choice made by hand would only last until the next switch. The select stays,
+  as everywhere else in this form, but switched off and without the arrow that
+  would promise a choice — and without the empty option that would unset what is
+  set. A preset naming an attribute the layer does not have changes nothing: the
+  full list stays, and the select works as usual.
 * A preset never starts an analysis and never loads the filter values — the
   expensive requests stay behind the user's own click.
 
@@ -328,12 +344,12 @@ split from the parsing/aggregation ones (`parseAttributes`,
 
 ```
 Layer            [ab 2021 – Reale Nutzung … ▾]   (ⓘ Warum fehlen Layer?)
-Bereich          [Ganzer Bereich ▾]  → bei "Bezirk": [Mitte        ]
+Bereich          [Keine Einschränkung ▾]  → bei "Bezirk": [Mitte        ]
 Auswerten        [Bitte Attribut wählen ▾]
 Ergebnis als     [ Anzahl ][ Fläche ]
 ▸ Weitere Filter (optional)
 26.397 Objekte werden ausgewertet
-[ Analyse starten ]
+[ Auswertung starten ]
 ```
 
 The form is meant to be read as a sequence of decisions, so anything that only

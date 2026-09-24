@@ -28,6 +28,7 @@ const Config = {
         // Attribute names that hold a precomputed area in square metres. Using
         // one of them avoids downloading geometries for an area analysis.
         areaAttributes: [
+            "finhalt",
             "einzelflaeche",
             "flalle",
             "ha",

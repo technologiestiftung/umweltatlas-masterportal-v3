@@ -337,7 +337,7 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
             expect(wrapper.find("#wfs-analyzer-area-attribute").exists()).to.be.false;
         });
 
-        it("falls back to every numeric attribute when none is configured", () => {
+        it("offers no area analysis when no column is named as one", () => {
             const wrapper = mountComponent({
                     ...confirmed,
                     attributes: [
@@ -345,12 +345,14 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
                         {name: "groesse_qm", title: "Größe", type: "xsd:double", isGeometry: false, isNumeric: true},
                         {name: "ew2018", title: "Einwohner", type: "xsd:int", isGeometry: false, isNumeric: true}
                     ],
-                    mode: "area"
+                    mode: "count"
                 }),
                 candidates = wrapper.vm.areaAttributeCandidates.map((attribute) => attribute.name);
 
-            expect(candidates).to.deep.equal(["groesse_qm", "ew2018"]);
-            expect(wrapper.find("#wfs-analyzer-area-attribute").exists()).to.be.true;
+            // A number is no evidence of an area: summing inhabitants as square
+            // metres is worse than not offering the button.
+            expect(candidates).to.deep.equal([]);
+            expect(wrapper.vm.canAnalyseByArea).to.be.false;
         });
 
         it("asks which attribute holds the area only when several could", () => {
@@ -518,6 +520,74 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
 
             expect(wrapper.find(".spinner-border").exists()).to.be.false;
             expect(wrapper.find("#wfs-analyzer-analyse-attribute").exists()).to.be.true;
+        });
+
+        describe("with an attribute pinned by a preset", () => {
+            afterEach(() => {
+                delete global.Config;
+            });
+
+            /**
+             * Configures a preset for the layer under test.
+             * @param {String} analyseAttribute the attribute to pin.
+             * @returns {void}
+             */
+            function givenPreset (analyseAttribute) {
+                global.Config = {wfsAnalyzer: {presets: [{layerId: layers[0].id, analyseAttribute}]}};
+            }
+
+            it("offers only the pinned attribute, and no empty option", () => {
+                givenPreset("nutzung");
+
+                const options = mountComponent({...confirmed, analyseAttribute: "nutzung"})
+                    .findAll("#wfs-analyzer-analyse-attribute option");
+
+                expect(options).to.have.lengthOf(1);
+                expect(options[0].text()).to.equal("Flächennutzung (nutzung)");
+                expect(options[0].attributes("value")).to.equal("nutzung");
+            });
+
+            it("notes that the attribute is what the map is coloured by", () => {
+                givenPreset("nutzung");
+
+                expect(mountComponent({...confirmed, analyseAttribute: "nutzung"}).text())
+                    .to.contain("additional:modules.wfsAnalyzer.analysis.attributeMatchesMap");
+            });
+
+            it("switches the select off and drops its arrow", () => {
+                givenPreset("nutzung");
+
+                const select = mountComponent({...confirmed, analyseAttribute: "nutzung"})
+                    .find("#wfs-analyzer-analyse-attribute");
+
+                expect(select.attributes("disabled")).to.not.be.undefined;
+                expect(select.classes()).to.contain("wfs-analyzer-fixed-select");
+            });
+
+            it("offers every attribute when the preset names one the layer lacks", () => {
+                givenPreset("gibtesnicht");
+
+                const select = mountComponent(confirmed).find("#wfs-analyzer-analyse-attribute"),
+                    options = select.findAll("option");
+
+                // The placeholder plus every attribute but the geometry.
+                expect(options.length).to.be.above(1);
+                expect(options[0].attributes("value")).to.equal("");
+                expect(select.attributes("disabled")).to.be.undefined;
+            });
+
+            it("makes no claim about the map when nothing is pinned", () => {
+                expect(mountComponent(confirmed).text())
+                    .to.not.contain("additional:modules.wfsAnalyzer.analysis.attributeMatchesMap");
+            });
+
+            it("offers every attribute for a layer the preset is not meant for", () => {
+                global.Config = {wfsAnalyzer: {presets: [{layerId: layers[1].id, analyseAttribute: "nutzung"}]}};
+
+                const options = mountComponent(confirmed).findAll("#wfs-analyzer-analyse-attribute option");
+
+                expect(options.length).to.be.above(1);
+            });
         });
     });
 });

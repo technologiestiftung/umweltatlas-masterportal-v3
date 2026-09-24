@@ -46,6 +46,7 @@
                 "attributesError": "The attributes of the download service could not be loaded.",
                 "attributeLabel": "Attribute to analyse",
                 "attributePlaceholder": "Please select an attribute …",
+                "attributeMatchesMap": "Matches the colouring on the map.",
                 "featureCount": "{{count}} features will be analysed.",
                 "manyFeatures": "That is more than {{max}} features. Loading may take a while – consider restricting the analysis further.",
                 "start": "Start analysis",

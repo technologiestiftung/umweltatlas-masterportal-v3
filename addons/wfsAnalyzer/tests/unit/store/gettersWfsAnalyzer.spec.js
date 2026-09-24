@@ -25,6 +25,86 @@ describe("addons/wfsAnalyzer/store/gettersWfsAnalyzer", () => {
         return {state, moduleGetters};
     }
 
+    describe("areaAttributeCandidates", () => {
+        const flalle = {name: "flalle", title: "Flächengröße [m²]", isNumeric: true},
+            importid = {name: "importid", title: "Schlüssel", isNumeric: true},
+            meter = {name: "meter", title: "Länge des Abschnittes [m]", isNumeric: true};
+
+        it("offers the configured area columns", () => {
+            const candidates = getters.areaAttributeCandidates({areaAttribute: ""}, {
+                suggestedAreaAttributes: [flalle],
+                possibleAreaAttributes: [flalle, importid]
+            });
+
+            expect(candidates).to.deep.equal([flalle]);
+        });
+
+        it("offers nothing when no column is named as an area", () => {
+            // A numeric column is no evidence of an area - "Schlüssel" and
+            // "X-Koordinate" are numbers too, and summing them is nonsense.
+            const candidates = getters.areaAttributeCandidates({areaAttribute: ""}, {
+                suggestedAreaAttributes: [],
+                possibleAreaAttributes: [importid]
+            });
+
+            expect(candidates).to.deep.equal([]);
+        });
+
+        it("keeps a column a preset named, so the select shows what is set", () => {
+            const candidates = getters.areaAttributeCandidates({areaAttribute: "meter"}, {
+                suggestedAreaAttributes: [],
+                possibleAreaAttributes: [importid, meter]
+            });
+
+            expect(candidates).to.deep.equal([meter]);
+        });
+    });
+
+    describe("canAnalyseByArea", () => {
+        it("follows the candidates", () => {
+            expect(getters.canAnalyseByArea({}, {areaAttributeCandidates: [{name: "flalle"}]})).to.equal(true);
+            expect(getters.canAnalyseByArea({}, {areaAttributeCandidates: []})).to.equal(false);
+        });
+    });
+
+    describe("presetAnalyseAttribute", () => {
+        const attributes = [
+            {name: "woz_name", title: "Stadtstruktur"},
+            {name: "nutzung", title: "Nutzung"}
+        ];
+
+        /**
+         * @param {Object|null} preset the preset of the selected layer.
+         * @returns {Object} the module getters the getter depends on.
+         */
+        function withPreset (preset) {
+            return {preset, selectableAttributes: attributes};
+        }
+
+        it("returns the attribute a preset pins", () => {
+            expect(getters.presetAnalyseAttribute({}, withPreset({analyseAttribute: "woz_name"})))
+                .to.deep.equal({name: "woz_name", title: "Stadtstruktur"});
+        });
+
+        it("ignores the spelling of the preset", () => {
+            expect(getters.presetAnalyseAttribute({}, withPreset({analyseAttribute: " WOZ_Name "}))?.name)
+                .to.equal("woz_name");
+        });
+
+        it("returns null when the layer does not have that attribute", () => {
+            // preselectAttributes skips such a preset with a warning, so the
+            // choice is the user's again and the select has to stay.
+            expect(getters.presetAnalyseAttribute({}, withPreset({analyseAttribute: "gibtesnicht"}))).to.equal(null);
+        });
+
+        it("returns null without a preset or without the field", () => {
+            expect(getters.presetAnalyseAttribute({}, withPreset(null))).to.equal(null);
+            expect(getters.presetAnalyseAttribute({}, withPreset({}))).to.equal(null);
+            expect(getters.presetAnalyseAttribute({}, withPreset({analyseAttribute: ""}))).to.equal(null);
+            expect(getters.presetAnalyseAttribute({}, withPreset({analyseAttribute: 42}))).to.equal(null);
+        });
+    });
+
     describe("areaCqlFilter", () => {
         const moduleGetters = {attributeByName: () => ({isNumeric: false})};
 

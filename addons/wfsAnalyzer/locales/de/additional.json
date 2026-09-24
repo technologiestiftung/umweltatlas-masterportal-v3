@@ -1,8 +1,8 @@
 {
     "modules": {
         "wfsAnalyzer": {
-            "title": "Layer analysieren",
-            "description": "Prüft, ob für einen aktiven Layer ein WFS verfügbar ist, und analysiert dessen Attribute nach Anzahl oder Fläche.",
+            "title": "Layer auswerten",
+            "description": "Werten Sie die Layer nach Bereichen und Atrributswerten aus.",
             "noActiveLayers": "Es ist derzeit kein Fachdaten-Layer in der Karte eingeschaltet. Fügen Sie über den Themenbaum einen Layer hinzu.",
             "layerSelectLabel": "Layer",
             "layerSelectPlaceholder": "Bitte Layer auswählen …",
@@ -20,7 +20,7 @@
                 "retry": "Erneut prüfen"
             },
             "filter": {
-                "wholeLayer": "Ganzer Bereich",
+                "wholeLayer": "Keine Einschränkung",
                 "valueLabel": "Name / Wert des Bereichs",
                 "valuesUnavailable": "Keine Werteliste verfügbar – bitte Wert eintippen.",
                 "valuesLoadedPartly": "Nur die ersten {{count}} Werte werden vorgeschlagen – es gibt weitere. Nicht gelistete Werte bitte eintippen.",
@@ -44,12 +44,13 @@
             },
             "analysis": {
                 "attributesError": "Die Attribute des Downloaddienstes konnten nicht geladen werden.",
-                "attributeLabel": "Attribut auswerten",
+                "attributeLabel": "Auswerten nach",
                 "attributePlaceholder": "Bitte Attribut auswählen …",
+                "attributeMatchesMap": "Entspricht der Einfärbung in der Karte.",
                 "featureCount": "{{count}} Objekte werden ausgewertet.",
                 "manyFeatures": "Das sind mehr als {{max}} Objekte. Das Laden kann dauern – schränken Sie die Auswertung ggf. weiter ein.",
-                "start": "Analyse starten",
-                "failed": "Die Analyse ist fehlgeschlagen.",
+                "start": "Auswertung starten",
+                "failed": "Die Auswertung ist fehlgeschlagen.",
                 "needsAttribute": "Bitte zuerst ein Attribut wählen.",
                 "needsAreaAttribute": "Bitte zuerst das Attribut mit der Flächengröße wählen."
             },

@@ -174,6 +174,47 @@ const getters = {
     },
 
     /**
+     * The attribute a preset pins for this layer, if the layer really has it.
+     *
+     * Where it does, the form shows the attribute instead of a select: a preset
+     * is re-applied on every layer selection, so a choice made by hand would
+     * only last until the next switch. A preset naming an attribute the layer
+     * does not have yields null - `preselectAttributes` skips it with a warning,
+     * and then the choice is the user's again.
+     * @param {WfsAnalyzerState} state context state object.
+     * @param {Object} moduleGetters the getters of this module.
+     * @returns {Object|null} the attribute or null.
+     */
+    presetAnalyseAttribute (state, moduleGetters) {
+        const configured = moduleGetters.preset?.analyseAttribute;
+
+        if (typeof configured !== "string" || configured.trim() === "") {
+            return null;
+        }
+
+        const wanted = configured.trim().toLowerCase();
+
+        // Case-insensitive like findAttributeByName in the actions, so a preset
+        // need not match the schema's spelling exactly.
+        return moduleGetters.selectableAttributes
+            .find((attribute) => attribute.name.toLowerCase() === wanted) || null;
+    },
+
+    /**
+     * The attributes the analysis can run on. A preset narrows this to the one
+     * it pins - the select stays, as everywhere else in this form, it just has
+     * nothing else to offer.
+     * @param {WfsAnalyzerState} state context state object.
+     * @param {Object} moduleGetters the getters of this module.
+     * @returns {Object[]} the attributes to offer.
+     */
+    analyseAttributeCandidates (state, moduleGetters) {
+        return moduleGetters.presetAnalyseAttribute
+            ? [moduleGetters.presetAnalyseAttribute]
+            : moduleGetters.selectableAttributes;
+    },
+
+    /**
      * What is known about the values of an attribute. Cached per attribute, so
      * switching the area selection back and forth costs nothing.
      * @param {WfsAnalyzerState} state context state object.
@@ -227,19 +268,22 @@ const getters = {
     /**
      * The attributes offered as the one holding the area.
      *
-     * If the layer has any of the attributes configured in `areaAttributes`,
-     * only those are offered - every other numeric attribute would be a trap,
-     * since a code like "Flächentyp" is a number too but summing it yields
-     * nonsense. Only when the layer has none of them does the whole set of
-     * numeric attributes stand in, so an unusually named area column can still
-     * be picked by hand.
+     * Only attributes named in `areaAttributes` qualify. A numeric column is no
+     * evidence of an area: measured across 26 layers of this portal, 15 had no
+     * configured area column, and what their numbers held was `importid`
+     * ("Schlüssel"), `x` ("X-Koordinate"), `dtv` ("Durchschnittliche tägliche
+     * Verkehrsstärke") or a percentage - summing any of them as an area is
+     * nonsense, and with a single candidate the select is not even shown.
+     *
+     * An unusually named column is reached the other way round: by naming it,
+     * in `areaAttributes` or in a preset. Both are a deliberate statement that
+     * the column carries an area.
      * @param {WfsAnalyzerState} state context state object.
      * @param {Object} moduleGetters the getters of this module.
      * @returns {Object[]} the candidates.
      */
     areaAttributeCandidates (state, moduleGetters) {
-        const matched = moduleGetters.suggestedAreaAttributes,
-            candidates = matched.length > 0 ? [...matched] : [...moduleGetters.numericAttributes],
+        const candidates = [...moduleGetters.suggestedAreaAttributes],
             selected = moduleGetters.possibleAreaAttributes
                 .find((attribute) => attribute.name === state.areaAttribute);
 
