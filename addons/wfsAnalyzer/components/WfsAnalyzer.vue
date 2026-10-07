@@ -51,6 +51,7 @@ export default {
             "featureCountStatus",
             "filterAttribute",
             "filterValue",
+            "hasAreaFilter",
             "hasCurrentResult",
             "hasLegendClasses",
             "isAnalysable",
@@ -511,14 +512,13 @@ export default {
 
                 <template v-else-if="attributesStatus === 'ready'">
                     <!-- area -->
-                    <div
-                        v-if="areaFilterAttributes.length > 0"
-                        class="mb-3"
-                    >
+                    <div class="mb-3">
                         <div class="form-floating">
                             <select
                                 id="wfs-analyzer-filter-attribute"
                                 class="form-select"
+                                :class="{'wfs-analyzer-fixed-select': !hasAreaFilter}"
+                                :disabled="!hasAreaFilter"
                                 :value="filterAttribute"
                                 @change="selectFilterAttribute($event.target.value)"
                             >
@@ -537,6 +537,17 @@ export default {
                                 {{ $t("additional:modules.wfsAnalyzer.filter.areaLabel") }}
                             </label>
                         </div>
+
+                        <!--
+                            A control that vanishes leaves the user looking for
+                            it; one that is greyed out without a reason is worse.
+                        -->
+                        <p
+                            v-if="!hasAreaFilter"
+                            class="form-text mt-1 mb-0"
+                        >
+                            {{ $t("additional:modules.wfsAnalyzer.filter.noAreaAttribute") }}
+                        </p>
 
                         <FilterValueInput
                             v-if="filterAttribute !== ''"

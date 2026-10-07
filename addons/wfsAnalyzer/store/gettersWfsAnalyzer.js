@@ -165,6 +165,16 @@ const getters = {
     },
 
     /**
+     * Whether the layer offers anything to restrict the analysis to an area.
+     * @param {WfsAnalyzerState} state context state object.
+     * @param {Object} moduleGetters the getters of this module.
+     * @returns {Boolean} true if there is an attribute to filter by.
+     */
+    hasAreaFilter (state, moduleGetters) {
+        return moduleGetters.areaFilterAttributes.length > 0;
+    },
+
+    /**
      * Looks up an attribute by its technical name.
      * @param {WfsAnalyzerState} state context state object.
      * @param {Object} moduleGetters the getters of this module.

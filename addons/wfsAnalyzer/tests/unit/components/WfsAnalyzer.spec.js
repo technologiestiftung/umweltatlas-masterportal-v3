@@ -527,6 +527,24 @@ describe("addons/wfsAnalyzer/components/WfsAnalyzer.vue", () => {
             expect(wrapper.find("#wfs-analyzer-analyse-attribute").exists()).to.be.true;
         });
 
+        describe("the area select", () => {
+            const withoutArea = attributes.filter((attribute) => !["bezirk", "bez"].includes(attribute.name));
+
+            it("greys it out for a layer with nothing to narrow down by, and says why", () => {
+                const wrapper = mountComponent({...confirmed, attributes: withoutArea});
+
+                expect(wrapper.find("#wfs-analyzer-filter-attribute").attributes("disabled")).to.not.be.undefined;
+                expect(wrapper.text()).to.contain("additional:modules.wfsAnalyzer.filter.noAreaAttribute");
+            });
+
+            it("leaves it alone where the layer offers one", () => {
+                const wrapper = mountComponent(confirmed);
+
+                expect(wrapper.find("#wfs-analyzer-filter-attribute").attributes("disabled")).to.be.undefined;
+                expect(wrapper.text()).to.not.contain("additional:modules.wfsAnalyzer.filter.noAreaAttribute");
+            });
+        });
+
         describe("the line under the heading", () => {
             const legendClasses = [
                     {label: "2483", filter: "bgs_neu = '2483'", color: "#FCD4D4"},

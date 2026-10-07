@@ -25,6 +25,13 @@ describe("addons/wfsAnalyzer/store/gettersWfsAnalyzer", () => {
         return {state, moduleGetters};
     }
 
+    describe("hasAreaFilter", () => {
+        it("follows what the layer offers to filter by", () => {
+            expect(getters.hasAreaFilter({}, {areaFilterAttributes: [{name: "bezirk"}]})).to.equal(true);
+            expect(getters.hasAreaFilter({}, {areaFilterAttributes: []})).to.equal(false);
+        });
+    });
+
     describe("analysisMethod", () => {
         const legendClasses = [{label: "10", filter: "woz = '10'", color: "#a"}];
 

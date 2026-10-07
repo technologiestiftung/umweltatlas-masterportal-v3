@@ -25,6 +25,7 @@
                 "valuesUnavailable": "Keine Werteliste verfügbar – bitte Wert eintippen.",
                 "valuesLoadedPartly": "Nur die ersten {{count}} Werte werden vorgeschlagen – es gibt weitere. Nicht gelistete Werte bitte eintippen.",
                 "areaLabel": "Bereich (optional)",
+                "noAreaAttribute": "Dieser Layer hat kein Attribut, mit dem sich ein Bereich eingrenzen ließe – ausgewertet wird er ganz.",
                 "extraTitle": "Weitere Filter (optional)",
                 "extraAttributePlaceholder": "Attribut wählen …",
                 "loadingValues": "Werte werden geladen",
