@@ -143,6 +143,9 @@
             "type": "compareMaps"
           },
           {
+            "type": "wfsAnalyzer"
+          },
+          {
             "type": "layerSlider",
             "name": "Luftbild-Zeitreihe",
             "title": "Hier können sie historische Luftbilder von Berlin ab 1928 laden. Klicken Sie ein bestimmtes Jahr an oder lassen Sie die Luftbilder als Zeitreihe automatisch nacheinander abspielen.",

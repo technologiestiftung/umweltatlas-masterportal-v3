@@ -1,0 +1,762 @@
+import {checkWfsForLayer} from "../js/wfsLookup";
+import {analyseByArea, analyseByCount, analyseByLegend, fetchAttributes, fetchCodeNameMap, fetchDistinctValues, fetchFeatureCount, toLegendResult} from "../js/wfsAnalysis";
+import {colorMapByAttribute, fetchLegend, fetchLegendColors, matchLegendAttribute, parseLegendRules, plainTextNamesOf} from "../js/legendColors";
+import {parseLegendClasses, readEquality} from "../js/legendRules";
+import {removeAreaLayer, showAreaLayer} from "../js/areaLayer";
+import {findAreaExtent} from "../js/areaExtent";
+import {transformExtent} from "ol/proj.js";
+
+/**
+ * Counter used to discard responses of requests the user has already moved
+ * past. Every long running action takes a token and only writes its result if
+ * the token is still the current one.
+ * @type {Number}
+ */
+let requestToken = 0;
+
+/**
+ * Reads a preset field. getAnalysisConfig normalizes the presets, but this must
+ * not throw on a hand-built one either - a throw while preselecting would
+ * surface to the user as "the attributes could not be loaded".
+ * @param {*} value the configured value.
+ * @returns {String} the trimmed value or an empty string.
+ */
+function readPresetField (value) {
+    return typeof value === "string" ? value.trim() : "";
+}
+
+/**
+ * Finds an attribute by name, ignoring case, so a preset does not have to match
+ * the schema's spelling exactly.
+ * @param {Object[]} candidates the attributes to search.
+ * @param {String} name the configured name.
+ * @returns {Object|undefined} the matching attribute.
+ */
+function findAttributeByName (candidates, name) {
+    return candidates.find((attribute) => attribute.name.toLowerCase() === name.toLowerCase());
+}
+
+/**
+ * Warns about a preset field that does not fit the selected layer. The tool
+ * keeps working - the field is simply not applied.
+ * @param {String} layerId id of the layer the preset is configured for.
+ * @param {String} field name of the preset field.
+ * @param {String} value the configured value.
+ * @param {String} reason why it was rejected.
+ * @returns {void}
+ */
+function warnAboutPreset (layerId, field, value, reason) {
+    console.warn(`wfsAnalyzer: the preset for layer "${layerId}" sets ${field} "${value}", but ${reason}. The setting is ignored.`);
+}
+
+const actions = {
+    /**
+     * Drops a selection that is no longer available, e.g. because the layer was
+     * switched off in the map while the tool was open.
+     * @param {Object} context the vuex context.
+     * @param {Object} context.state the state of this module.
+     * @param {Object} context.getters the getters of this module.
+     * @param {Function} context.commit the commit function.
+     * @returns {void}
+     */
+    syncSelection ({state, getters, commit}) {
+        if (state.selectedLayerId !== "" && !getters.selectedLayer) {
+            commit("setSelectedLayerId", "");
+            commit("resetCheck");
+            commit("resetAnalysis");
+        }
+    },
+
+    /**
+     * Selects a layer and checks right away whether it is also published as a WFS.
+     * @param {Object} context the vuex context.
+     * @param {Function} context.commit the commit function.
+     * @param {Function} context.dispatch the dispatch function.
+     * @param {String} layerId id of the layer to select.
+     * @returns {Promise<void>} resolves once the check is finished.
+     */
+    selectLayer ({commit, dispatch}, layerId) {
+        requestToken += 1;
+        commit("setSelectedLayerId", layerId);
+        commit("resetCheck");
+        commit("resetAnalysis");
+        dispatch("hideAnalysedArea");
+
+        if (layerId === "") {
+            return Promise.resolve();
+        }
+
+        return dispatch("checkWfsAvailability");
+    },
+
+    /**
+     * Checks whether the selected layer has a WFS counterpart and stores the
+     * result. Results that arrive after the selection changed are discarded.
+     * @param {Object} context the vuex context.
+     * @param {Object} context.state the state of this module.
+     * @param {Object} context.getters the getters of this module.
+     * @param {Function} context.commit the commit function.
+     * @param {Function} context.dispatch the dispatch function.
+     * @returns {Promise<void>} resolves once the result is stored.
+     */
+    async checkWfsAvailability ({state, getters, commit, dispatch}) {
+        const layerConf = getters.selectedLayer,
+            layerId = state.selectedLayerId;
+
+        if (!layerConf) {
+            return;
+        }
+
+        commit("setCheckStatus", "checking");
+
+        // A layer served as WFS needs no lookup at all.
+        if (layerConf.typ === "WFS") {
+            commit("setCheckResult", {
+                layerId,
+                hasWfs: true,
+                wfsUrl: layerConf.url,
+                featureType: {name: layerConf.featureType || layerConf.id, title: layerConf.name},
+                reason: "ok"
+            });
+            await dispatch("loadAttributes");
+            return;
+        }
+
+        try {
+            const result = await checkWfsForLayer(layerConf);
+
+            if (state.selectedLayerId !== layerId) {
+                return;
+            }
+
+            commit("setCheckResult", {layerId, ...result});
+
+            if (result.hasWfs) {
+                await dispatch("loadAttributes");
+            }
+        }
+        catch (error) {
+            if (state.selectedLayerId !== layerId) {
+                return;
+            }
+
+            commit("setCheckError", {layerId, errorMessage: error.message});
+        }
+    },
+
+    /**
+     * Reads the attributes of the confirmed feature type, so the selects can be
+     * filled. A matching area attribute is preselected if the layer has one.
+     * @param {Object} context the vuex context.
+     * @param {Object} context.state the state of this module.
+     * @param {Object} context.getters the getters of this module.
+     * @param {Function} context.commit the commit function.
+     * @param {Function} context.dispatch the dispatch function.
+     * @returns {Promise<void>} resolves once the attributes are stored.
+     */
+    async loadAttributes ({state, getters, commit, dispatch}) {
+        const token = ++requestToken,
+            layerId = state.selectedLayerId,
+            {wfsUrl} = state,
+            {typeName} = getters;
+
+        if (wfsUrl === "" || typeName === "") {
+            return;
+        }
+
+        commit("setAttributesStatus", "loading");
+
+        try {
+            const attributes = await fetchAttributes(wfsUrl, typeName);
+
+            if (token !== requestToken || layerId !== state.selectedLayerId) {
+                return;
+            }
+
+            commit("setAttributes", attributes);
+            dispatch("preselectAttributes");
+            commit("setAttributesStatus", "ready");
+        }
+        catch (error) {
+            if (token !== requestToken || layerId !== state.selectedLayerId) {
+                return;
+            }
+
+            commit("setAttributesStatus", "error");
+            return;
+        }
+
+        // Outside the try, so a failure here cannot be mistaken for a schema
+        // that could not be loaded.
+        dispatch("loadLegend");
+        await dispatch("refreshFeatureCount");
+    },
+
+    /**
+     * Prefills the selects for the freshly loaded layer: first from a preset
+     * configured for this layer id, then - for anything the preset does not
+     * cover - from the suggested area attribute.
+     *
+     * Preset fields are matched against the attributes the layer really has and
+     * the layer's own spelling is stored, because the raw name goes into the WFS
+     * requests. A field that does not fit is skipped with a warning instead of
+     * breaking the tool.
+     * @param {Object} context the vuex context.
+     * @param {Object} context.state the state of this module.
+     * @param {Object} context.getters the getters of this module.
+     * @param {Function} context.commit the commit function.
+     * @returns {void}
+     */
+    preselectAttributes ({state, getters, commit}) {
+        const {preset} = getters;
+
+        if (preset) {
+            const filterAttribute = readPresetField(preset.filterAttribute),
+                analyseAttribute = readPresetField(preset.analyseAttribute),
+                areaAttribute = readPresetField(preset.areaAttribute);
+
+            if (filterAttribute !== "") {
+                const match = findAttributeByName(getters.selectableAttributes, filterAttribute);
+
+                if (match) {
+                    commit("setFilterAttribute", match.name);
+                    // Same invariant as selectFilterAttribute: a value never
+                    // outlives the attribute it belonged to.
+                    commit("setFilterValue", "");
+                }
+                else {
+                    warnAboutPreset(preset.layerId, "filterAttribute", filterAttribute, "the layer has no such attribute");
+                }
+            }
+
+            if (analyseAttribute !== "") {
+                const match = findAttributeByName(getters.selectableAttributes, analyseAttribute);
+
+                if (match) {
+                    commit("setAnalyseAttribute", match.name);
+                }
+                else {
+                    warnAboutPreset(preset.layerId, "analyseAttribute", analyseAttribute, "the layer has no such attribute");
+                }
+            }
+
+            if (areaAttribute !== "") {
+                const match = findAttributeByName(getters.possibleAreaAttributes, areaAttribute);
+
+                if (match) {
+                    commit("setAreaAttribute", match.name);
+                }
+                else {
+                    warnAboutPreset(preset.layerId, "areaAttribute", areaAttribute, "the layer has no attribute that could hold an area");
+                }
+            }
+        }
+
+        // Fallback for every layer without a usable preset area attribute. It
+        // follows the same set the select offers - a single candidate is never
+        // shown, so it has to be set here or the analysis could not start.
+        if (state.areaAttribute === "") {
+            const [candidate] = getters.areaAttributeCandidates;
+
+            if (candidate) {
+                commit("setAreaAttribute", candidate.name);
+            }
+        }
+
+        // Last, because analysing by area only makes sense once an area
+        // attribute is known.
+        if (readPresetField(preset?.mode) === "area") {
+            if (state.areaAttribute === "") {
+                warnAboutPreset(preset.layerId, "mode", "area", "the layer has no attribute holding an area");
+            }
+            else {
+                commit("setMode", "area");
+            }
+        }
+    },
+
+    /**
+     * Sets the attribute the analysis is restricted to and clears the value
+     * that belonged to the previous one.
+     * @param {Object} context the vuex context.
+     * @param {Function} context.commit the commit function.
+     * @param {Function} context.dispatch the dispatch function.
+     * @param {String} attributeName name of the attribute, empty for the whole layer.
+     * @returns {Promise<void>} resolves once the feature count is refreshed.
+     */
+    selectFilterAttribute ({commit, dispatch}, attributeName) {
+        commit("setFilterAttribute", attributeName);
+        commit("setFilterValue", "");
+        commit("resetResult");
+        dispatch("showAnalysedArea");
+
+        return dispatch("refreshFeatureCount");
+    },
+
+    /**
+     * Sets the value of the area selection.
+     * @param {Object} context the vuex context.
+     * @param {Function} context.commit the commit function.
+     * @param {Function} context.dispatch the dispatch function.
+     * @param {String} value the value to filter for.
+     * @returns {Promise<void>} resolves once the feature count is refreshed.
+     */
+    selectFilterValue ({commit, dispatch}, value) {
+        commit("setFilterValue", value);
+        commit("resetResult");
+        dispatch("showAnalysedArea");
+
+        return dispatch("refreshFeatureCount");
+    },
+
+    /**
+     * Shows the area the analysis covers on the map and moves the map there.
+     *
+     * Without an area selection nothing is drawn: the analysis then covers the
+     * whole layer, and a highlight of everything points at nothing.
+     * @param {Object} context the vuex context.
+     * @param {Object} context.state the state of this module.
+     * @param {Object} context.getters the getters of this module.
+     * @param {Function} context.commit the commit function.
+     * @param {Function} context.dispatch the dispatch function.
+     * @returns {Promise<void>} resolves once the map has been moved.
+     */
+    async showAnalysedArea ({state, getters, commit, dispatch}) {
+        const layerConf = getters.selectedLayer,
+            cqlFilter = getters.areaCqlFilter,
+            layerId = state.selectedLayerId;
+
+        commit("setAreaExtent", null);
+
+        if (!layerConf || cqlFilter === "") {
+            removeAreaLayer();
+            return;
+        }
+
+        const params = {wmsUrl: layerConf.url, layerName: layerConf.layers, cqlFilter};
+
+        showAreaLayer({
+            ...params,
+            style: getters.settings.areaStyle,
+            color: getters.settings.areaColor,
+            opacity: getters.settings.areaOpacity
+        });
+
+        // The layer's own extent comes from the capabilities of the
+        // availability check; without it the highlight still draws, there is
+        // just nothing to zoom to.
+        const projection = mapCollection?.getMapView("2D")?.getProjection(),
+            wgs84Extent = state.featureType?.extent;
+
+        if (!projection || !Array.isArray(wgs84Extent)) {
+            return;
+        }
+
+        const crs = projection.getCode(),
+            layerExtent = transformExtent(wgs84Extent, "EPSG:4326", crs),
+            extent = await findAreaExtent({...params, layerExtent, crs});
+
+        if (state.selectedLayerId !== layerId || getters.areaCqlFilter !== cqlFilter || !extent) {
+            return;
+        }
+
+        commit("setAreaExtent", extent);
+        dispatch("Maps/zoomToExtent", {extent, options: {padding: [20, 20, 20, 20]}}, {root: true});
+    },
+
+    /**
+     * Takes the area highlight off the map.
+     * @param {Object} context the vuex context.
+     * @param {Function} context.commit the commit function.
+     * @returns {void}
+     */
+    hideAnalysedArea ({commit}) {
+        removeAreaLayer();
+        commit("setAreaExtent", null);
+    },
+
+    /**
+     * Sets the attribute of the optional additional filter.
+     * @param {Object} context the vuex context.
+     * @param {Function} context.commit the commit function.
+     * @param {Function} context.dispatch the dispatch function.
+     * @param {String} attributeName name of the attribute.
+     * @returns {Promise<void>} resolves once the feature count is refreshed.
+     */
+    selectExtraFilterAttribute ({commit, dispatch}, attributeName) {
+        commit("setExtraFilterAttribute", attributeName);
+        commit("setExtraFilterValue", "");
+        commit("resetResult");
+
+        return dispatch("refreshFeatureCount");
+    },
+
+    /**
+     * Sets the value of the optional additional filter.
+     * @param {Object} context the vuex context.
+     * @param {Function} context.commit the commit function.
+     * @param {Function} context.dispatch the dispatch function.
+     * @param {String} value the value to filter for.
+     * @returns {Promise<void>} resolves once the feature count is refreshed.
+     */
+    selectExtraFilterValue ({commit, dispatch}, value) {
+        commit("setExtraFilterValue", value);
+        commit("resetResult");
+
+        return dispatch("refreshFeatureCount");
+    },
+
+    /**
+     * Collects the values an attribute can take, so they can be offered while
+     * typing. Triggered when a value field is focused; already known or running
+     * lookups are not repeated.
+     *
+     * A failure is deliberately not an error of the analysis - the value can
+     * always be typed by hand.
+     * @param {Object} context the vuex context.
+     * @param {Object} context.state the state of this module.
+     * @param {Object} context.getters the getters of this module.
+     * @param {Function} context.commit the commit function.
+     * @param {String} attributeName name of the attribute.
+     * @returns {Promise<void>} resolves once the values are stored.
+     */
+    async loadValuesFor ({state, getters, commit}, attributeName) {
+        const layerId = state.selectedLayerId,
+            {wfsUrl} = state,
+            {typeName} = getters,
+            known = getters.valuesFor(attributeName);
+
+        if (!attributeName || known.status === "loading" || known.status === "ready") {
+            return;
+        }
+
+        commit("setValueCacheEntry", {
+            attribute: attributeName,
+            entry: {values: [], truncated: false, status: "loading"}
+        });
+
+        try {
+            const {values, truncated} = await fetchDistinctValues(wfsUrl, typeName, attributeName, {
+                isNumeric: Boolean(getters.attributeByName(attributeName)?.isNumeric),
+                limit: getters.settings.maxFilterValues
+            });
+
+            if (layerId !== state.selectedLayerId) {
+                return;
+            }
+
+            commit("setValueCacheEntry", {
+                attribute: attributeName,
+                entry: {values, truncated, status: "ready"}
+            });
+        }
+        catch (error) {
+            if (layerId !== state.selectedLayerId) {
+                return;
+            }
+
+            commit("setValueCacheEntry", {
+                attribute: attributeName,
+                entry: {values: [], truncated: false, status: "error"}
+            });
+        }
+    },
+
+    /**
+     * Asks the service how many features the current filter matches. This is a
+     * hits-only request, so it transfers no features and can be repeated after
+     * every change of the filter.
+     * @param {Object} context the vuex context.
+     * @param {Object} context.state the state of this module.
+     * @param {Object} context.getters the getters of this module.
+     * @param {Function} context.commit the commit function.
+     * @returns {Promise<void>} resolves once the count is stored.
+     */
+    async refreshFeatureCount ({state, getters, commit}) {
+        const token = ++requestToken,
+            {wfsUrl} = state,
+            {typeName, cqlFilter} = getters;
+
+        if (wfsUrl === "" || typeName === "") {
+            return;
+        }
+
+        commit("setFeatureCountStatus", "loading");
+
+        try {
+            const count = await fetchFeatureCount(wfsUrl, typeName, cqlFilter);
+
+            if (token !== requestToken) {
+                return;
+            }
+
+            commit("setFeatureCount", count);
+            commit("setFeatureCountStatus", "ready");
+        }
+        catch (error) {
+            if (token !== requestToken) {
+                return;
+            }
+
+            commit("setFeatureCount", null);
+            commit("setFeatureCountStatus", "error");
+        }
+    },
+
+    /**
+     * Switches between counting features and summing their area.
+     * @param {Object} context the vuex context.
+     * @param {Function} context.commit the commit function.
+     * @param {String} mode either "count" or "area".
+     * @returns {void}
+     */
+    selectMode ({commit}, mode) {
+        commit("setMode", mode);
+        commit("resetResult");
+    },
+
+    /**
+     * Reads the legend of the layer: the classes the map draws, and the colours
+     * it draws them in. One request answers both.
+     *
+     * A legend with more classes than `maxLegendRules` is kept for its colours
+     * but not offered as a method - ua_kanalisation_2005 has 242 rules, and
+     * every class costs a request.
+     * @param {Object} context the vuex context.
+     * @param {Object} context.state the state of this module.
+     * @param {Object} context.getters the getters of this module.
+     * @param {Function} context.commit the commit function.
+     * @returns {Promise<void>} resolves once the legend is stored.
+     */
+    async loadLegend ({state, getters, commit, dispatch}) {
+        const layerConf = getters.selectedLayer,
+            layerId = state.selectedLayerId;
+
+        if (!layerConf) {
+            return;
+        }
+
+        commit("setLegendStatus", "loading");
+
+        const legend = await fetchLegend(layerConf.url, layerConf.layers);
+
+        if (layerId !== state.selectedLayerId) {
+            return;
+        }
+
+        if (legend === "") {
+            commit("setLegendStatus", "unavailable");
+            return;
+        }
+
+        const classes = parseLegendClasses(legend);
+
+        commit("setLegendColors", colorMapByAttribute(parseLegendRules(legend)));
+        commit("setLegendClasses", classes.length <= getters.settings.maxLegendRules ? classes : []);
+        commit("setLegendStatus", classes.length > 0 ? "ready" : "unavailable");
+
+        // Readable labels take one small request per class and are only needed
+        // once the result is shown, so they are fetched alongside the form.
+        dispatch("loadClassNames");
+    },
+
+    /**
+     * Trades the bare codes of the legend for readable text, where the layer
+     * keeps it in a sibling column: the classes of the Flächennutzung map are
+     * named "10" and "21", and `woz_name` says what that means.
+     *
+     * Only equality rules on one and the same column can be resolved this way.
+     * Each code costs one small request, so a failure simply leaves the code.
+     * @param {Object} context the vuex context.
+     * @param {Object} context.state the state of this module.
+     * @param {Object} context.getters the getters of this module.
+     * @param {Function} context.commit the commit function.
+     * @returns {Promise<void>} resolves once the labels are stored.
+     */
+    async loadClassNames ({state, getters, commit}) {
+        const layerId = state.selectedLayerId,
+            byAttribute = new Map();
+
+        // A legend may classify by more than one column - the Flächennutzung
+        // map draws built-up areas by `woz` and green ones by `grz` - so the
+        // codes are resolved per column, not in one go.
+        state.legendClasses.forEach((legendClass) => {
+            const equality = readEquality(legendClass.filter);
+
+            if (!equality) {
+                return;
+            }
+            if (!byAttribute.has(equality.attribute)) {
+                byAttribute.set(equality.attribute, []);
+            }
+            byAttribute.get(equality.attribute).push({label: legendClass.label, value: equality.value});
+        });
+
+        const names = {};
+
+        for (const [codeAttribute, entries] of byAttribute) {
+            const nameAttribute = plainTextNamesOf(codeAttribute, getters.settings.nameSuffixes)
+                .find((candidate) => getters.attributeByName(candidate));
+
+            if (!nameAttribute) {
+                continue;
+            }
+
+            // Sequential per column, but each answer is a few hundred bytes.
+            const resolved = await fetchCodeNameMap(
+                state.wfsUrl,
+                getters.typeName,
+                codeAttribute,
+                nameAttribute,
+                entries.map((entry) => entry.value),
+                Boolean(getters.attributeByName(codeAttribute)?.isNumeric)
+            );
+
+            entries.forEach((entry) => {
+                if (resolved[entry.value]) {
+                    names[entry.label] = resolved[entry.value];
+                }
+            });
+        }
+
+        if (layerId === state.selectedLayerId && Object.keys(names).length > 0) {
+            commit("setClassNames", names);
+        }
+    },
+
+    /**
+     * Loads the colours the map draws this layer with, and - where the map is
+     * styled by a code while the chart is grouped by the readable name - the
+     * correspondence between the two.
+     *
+     * Everything here is optional decoration: any failure simply leaves the
+     * charts in their neutral palette, so nothing is reported as an error.
+     * @param {Object} context the vuex context.
+     * @param {Object} context.state the state of this module.
+     * @param {Object} context.getters the getters of this module.
+     * @param {Function} context.commit the commit function.
+     * @returns {Promise<void>} resolves once the colours are stored.
+     */
+    async loadLegendColors ({state, getters, commit}) {
+        const layerId = state.selectedLayerId,
+            layerConf = getters.selectedLayer;
+
+        if (!getters.autoColorEnabled || !layerConf || state.analyseAttribute === "") {
+            return;
+        }
+
+        let colors = state.legendColors;
+
+        if (Object.keys(colors).length === 0) {
+            colors = await fetchLegendColors(layerConf.url, layerConf.layers);
+
+            if (layerId !== state.selectedLayerId) {
+                return;
+            }
+            commit("setLegendColors", colors);
+        }
+
+        const match = matchLegendAttribute(colors, state.analyseAttribute, getters.settings.nameSuffixes);
+
+        if (!match?.needsBridge) {
+            return;
+        }
+
+        const codes = Object.keys(colors[match.legendAttribute] || {}),
+            known = Object.keys(state.codeNames);
+
+        // Already resolved, or more entries than the lookup is worth.
+        if (codes.every((code) => known.includes(code)) ||
+            codes.length > getters.settings.maxLegendRules) {
+            return;
+        }
+
+        const attribute = getters.attributeByName(match.legendAttribute),
+            codeNames = await fetchCodeNameMap(
+                state.wfsUrl,
+                getters.typeName,
+                match.legendAttribute,
+                state.analyseAttribute,
+                codes,
+                Boolean(attribute?.isNumeric)
+            );
+
+        if (layerId === state.selectedLayerId) {
+            commit("setCodeNames", codeNames);
+        }
+    },
+
+    /**
+     * Runs the analysis with the current selections. Counting uses
+     * GetPropertyValue, the area analysis GetFeature limited to two properties -
+     * in both cases no geometries are transferred.
+     * @param {Object} context the vuex context.
+     * @param {Object} context.state the state of this module.
+     * @param {Object} context.getters the getters of this module.
+     * @param {Function} context.commit the commit function.
+     * @returns {Promise<void>} resolves once the result is stored.
+     */
+    async runAnalysis ({state, getters, commit, dispatch}) {
+        const token = ++requestToken,
+            {wfsUrl, analyseAttribute, areaAttribute, mode} = state,
+            {typeName, cqlFilter} = getters,
+            byLegend = getters.analysisMethod === "legend";
+
+        if (!getters.canAnalyse) {
+            return;
+        }
+
+        commit("setAnalysisStatus", "running");
+        commit("setAnalysisError", "");
+        commit("setNotShown", null);
+        // Decoration, not a precondition - the analysis does not wait for it.
+        if (!byLegend) {
+            dispatch("loadLegendColors");
+        }
+
+        try {
+            const request = {wfsUrl, typeName, attribute: analyseAttribute, cqlFilter};
+            let result = null,
+                notShown = 0;
+
+            if (byLegend) {
+                const measured = await analyseByLegend({
+                    wfsUrl,
+                    typeName,
+                    classes: getters.exclusiveLegendClasses,
+                    cqlFilter,
+                    mode,
+                    areaAttribute,
+                    withNotShown: true
+                });
+
+                result = toLegendResult(measured.categories, mode === "area" ? "area" : "count");
+                notShown = measured.notShown;
+            }
+            else {
+                result = mode === "area"
+                    ? await analyseByArea({...request, areaAttribute})
+                    : await analyseByCount(request);
+            }
+
+            if (token !== requestToken) {
+                return;
+            }
+
+            commit("setResult", result);
+            commit("setNotShown", notShown);
+            commit("setAnalysisStatus", "ready");
+        }
+        catch (error) {
+            if (token !== requestToken) {
+                return;
+            }
+
+            commit("setResult", null);
+            commit("setAnalysisStatus", "error");
+            commit("setAnalysisError", error.message);
+        }
+    }
+};
+
+export default actions;
