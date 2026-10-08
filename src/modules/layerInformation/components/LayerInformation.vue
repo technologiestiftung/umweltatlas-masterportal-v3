@@ -44,6 +44,7 @@ export default {
             berlinImgLink: "./resources/img/berlin.png",
             imgLink: "./resources/img/person-circle.svg",
             infoFrameBlocked: false,
+            infoFrameReady: false,
             infoFrameSide: null,
             menuWidthBeforeInfoFrame: null
         };
@@ -234,6 +235,20 @@ export default {
          */
         infoFrameMenuWidth () {
             return this.infoFrameConfig.menuWidth || "70%";
+        },
+        /**
+         * The url the iframe loads. berlin.de refuses to be framed by a foreign origin
+         * ("X-Frame-Options: sameorigin"), so with a configured proxyPrefix the absolute
+         * url is turned into a same origin path, which a reverse proxy forwards to
+         * berlin.de. Loaded from our own origin, the frame is no longer refused.
+         * Without proxyPrefix the page is loaded straight from berlin.de.
+         * @returns {String} the iframe src
+         */
+        infoFrameSrc () {
+            const prefix = this.infoFrameConfig.proxyPrefix,
+                url = this.uaData.uaInfoURL;
+
+            return prefix && url?.startsWith(prefix) ? url.slice(prefix.length) : url;
         }
     },
 
@@ -265,11 +280,13 @@ export default {
         },
 
         /**
-         * A different layer means a different page, so the previous blocked state is void.
+         * A different layer means a different page, so the previous blocked state is void
+         * and the new page has to be hidden again until it has been trimmed.
          * @returns {void}
          */
         "uaData.uaInfoURL" () {
             this.infoFrameBlocked = false;
+            this.infoFrameReady = false;
         }
     },
 
@@ -509,16 +526,128 @@ export default {
          * Best effort detection of a refused framing (X-Frame-Options / frame-ancestors).
          * A refused document leaves the frame on about:blank, which stays readable from
          * here, while a page that really loaded throws a SecurityError on the same access.
+         * When the page came through the proxy it is same origin and can be trimmed down
+         * to the part of the Umweltatlas page we actually want to show.
          * @param {Event} event the iframe load event
          * @returns {void}
          */
         onInfoFrameLoad (event) {
+            let doc = null;
+
             try {
                 this.infoFrameBlocked = event.target.contentWindow.location.href === "about:blank";
+                doc = event.target.contentDocument;
             }
             catch (error) {
+                // loaded cross origin: the frame works, but its document stays untouchable
                 this.infoFrameBlocked = false;
+                this.infoFrameReady = true;
+                return;
             }
+            if (!this.infoFrameBlocked && doc) {
+                this.trimInfoFrameDocument(doc);
+            }
+            // only now is the page reduced to what we want to show, so reveal it
+            this.infoFrameReady = true;
+        },
+
+        /**
+         * Reduces the Umweltatlas page to its main content and, within that, to the first
+         * two sections ("Zusammenfassung" and the note on how current the data is). The
+         * rest is berlin.de navigation, contact blocks and a link list that the layer
+         * information already covers.
+         * Only possible while the page is served through the proxy, because a cross
+         * origin document cannot be modified.
+         * @param {Document} doc the document inside the iframe
+         * @returns {void}
+         */
+        trimInfoFrameDocument (doc) {
+            const main = doc.getElementById("layout-grid__area--maincontent");
+
+            if (!main || !doc.body || doc.body.dataset.uaTrimmed === "true") {
+                return;
+            }
+            const sections = Array.from(main.querySelectorAll(":scope > section")).slice(0, 2),
+                style = doc.createElement("style");
+
+            if (sections.length > 0) {
+                main.replaceChildren(...sections);
+            }
+            doc.body.replaceChildren(main);
+            doc.body.dataset.uaTrimmed = "true";
+
+            style.textContent = this.infoFrameCss();
+            doc.head?.appendChild(style);
+        },
+
+        /**
+         * Css injected into the iframe, so the Umweltatlas text reads like the layer
+         * information next to it. The values are taken from the sidebar itself rather
+         * than from the scss variables, because the iframe has its own root font size
+         * and "rem" would not mean the same thing in there.
+         * @returns {String} the css
+         */
+        infoFrameCss () {
+            const sidebar = window.getComputedStyle(this.$el),
+                font = sidebar.fontFamily,
+                size = sidebar.fontSize,
+                color = sidebar.color,
+                main = "#layout-grid__area--maincontent";
+
+            return `
+                ${this.portalFontFaceCss()}
+                body {
+                    margin: 0;
+                    padding: 12px;
+                    background: #fff;
+                    color: ${color};
+                }
+                ${main}, ${main} * {
+                    font-family: ${font} !important;
+                    font-size: ${size} !important;
+                    line-height: 1.5 !important;
+                    margin-top: 0px !important;
+                }
+                ${main} h1, ${main} h2, ${main} h3,
+                ${main} h4, ${main} h5, ${main} h6 {
+                    font-size: ${size} !important;
+                    font-weight: bold !important;
+                    margin: 0 0 0.5rem 0;
+                }
+                ${main} img {
+                    max-width: 100%;
+                    height: auto;
+                }`;
+        },
+
+        /**
+         * The @font-face rules of the portal, with the font urls made absolute. Relative
+         * urls would be resolved against berlin.de inside the iframe and not be found,
+         * and without them the iframe would fall back to Arial instead of MasterPortalFont.
+         * @returns {String} the css
+         */
+        portalFontFaceCss () {
+            const rules = [];
+
+            Array.from(document.styleSheets).forEach(sheet => {
+                let cssRules = null;
+
+                try {
+                    cssRules = sheet.cssRules;
+                }
+                catch (error) {
+                    return; // stylesheet of another origin, not readable
+                }
+                Array.from(cssRules || []).forEach(rule => {
+                    if (rule.type === 5) { // CSSRule.FONT_FACE_RULE
+                        rules.push(rule.cssText.replace(
+                            /url\(\s*(['"]?)([^'")]+)\1\s*\)/g,
+                            (match, quote, url) => `url("${new URL(url, sheet.href || location.href).href}")`
+                        ));
+                    }
+                });
+            });
+            return rules.join("\n");
         }
     }
 };
@@ -850,23 +979,6 @@ export default {
             v-if="showInfoFrame"
             class="ua-layer-info-frame"
         >
-            <div class="ua-layer-info-frame-header">
-                <span class="ua-layer-info-frame-title">
-                    Umweltatlas
-                </span>
-                <a
-                    :href="uaData.uaInfoURL"
-                    target="_blank"
-                    rel="noopener"
-                    class="ua-layer-info-frame-link"
-                >
-                    In neuem Tab öffnen
-                    <i
-                        class="bi bi-box-arrow-up-right"
-                        aria-hidden="true"
-                    />
-                </a>
-            </div>
             <div
                 v-if="infoFrameBlocked"
                 class="ua-layer-info-frame-fallback"
@@ -885,12 +997,19 @@ export default {
                     </a>
                 </p>
             </div>
+            <div
+                v-if="!infoFrameBlocked && !infoFrameReady"
+                class="ua-layer-info-frame-loading"
+            >
+                {{ $t("common:modules.layerInformation.loading") }}
+            </div>
             <iframe
                 v-show="!infoFrameBlocked"
-                :key="uaData.uaInfoURL"
-                :src="uaData.uaInfoURL"
+                :key="infoFrameSrc"
+                :src="infoFrameSrc"
                 :title="'Umweltatlas: ' + layerName"
                 class="ua-layer-info-iframe"
+                :class="{'ua-layer-info-iframe-loading': !infoFrameReady}"
                 referrerpolicy="no-referrer-when-downgrade"
                 @load="onInfoFrameLoad"
             />
@@ -920,6 +1039,7 @@ export default {
     }
 
     .ua-layer-info-frame {
+        position: relative;
         flex: 1 1 auto;
         display: flex;
         flex-direction: column;
@@ -929,34 +1049,34 @@ export default {
         border-radius: 5px;
         overflow: hidden;
         background-color: $white;
-    }
-
-    .ua-layer-info-frame-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
-        padding: 6px 10px;
-        border-bottom: 1px solid $light_grey;
-    }
-
-    .ua-layer-info-frame-title {
-        font-weight: bold;
-        color: $dark_green;
-    }
-
-    .ua-layer-info-frame-link {
-        white-space: nowrap;
+        padding-top: 10px;
     }
 
     .ua-layer-info-frame-fallback {
         padding: 10px;
     }
 
+    /* Covers the iframe while the Umweltatlas page is still the full berlin.de page.
+       It is only reduced to the part we want once it has finished loading, and without
+       this the whole page would be visible for a moment. */
+    .ua-layer-info-frame-loading {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $white;
+        z-index: 1;
+    }
+
     .ua-layer-info-iframe {
         flex: 1 1 auto;
         width: 100%;
         border: 0;
+
+        &-loading {
+            visibility: hidden;
+        }
     }
 
     .ua-breadcrumbs{

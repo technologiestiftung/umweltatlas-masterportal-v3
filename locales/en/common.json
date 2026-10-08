@@ -646,7 +646,8 @@
       "contactPublisher": "Write to the point of contact ",
       "mailSubject": "Request to dataset ",
       "mailOriginHint": "This request was sent to you through the contact form on ",
-      "changeLayerInfo": "Choose layer infotext: "
+      "changeLayerInfo": "Choose layer infotext: ",
+      "loading": "Loading …"
     },
     "layerPills": {
       "next": "Show next layers",

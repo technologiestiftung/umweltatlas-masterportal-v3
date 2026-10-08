@@ -18,7 +18,13 @@ const Config = {
         // Requires berlin.de to allow framing from this portal's origin.
         uaInfoFrame: {
             enabled: true,
-            menuWidth: "70%"
+            menuWidth: "70%",
+            // Loads the page through our own origin, so that the
+            // "X-Frame-Options: sameorigin" of berlin.de is satisfied. Needs a reverse
+            // proxy that forwards /umweltatlas to https://www.berlin.de/umweltatlas.
+            // Locally this is done by the webpack dev server, see devtools/proxyconf_example.json.
+            // Remove this line to load the page directly from www.berlin.de.
+            proxyPrefix: "https://www.berlin.de"
         }
     },
     layerConf: "./resources/services-internet.json",

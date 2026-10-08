@@ -653,7 +653,8 @@
       "contactPublisher": "Schreiben Sie dem Ansprechpartner ",
       "mailSubject": "Anfrage zum Datensatz ",
       "mailOriginHint": "Diese Anfrage wurde über das Kontaktformular unter der folgenden URL an Sie versandt",
-      "changeLayerInfo": "Information zur Ebene auswählen: "
+      "changeLayerInfo": "Information zur Ebene auswählen: ",
+      "loading": "Wird geladen …"
     },
     "layerPills": {
       "next": "Nächsten Layer anzeigen",
