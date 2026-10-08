@@ -42,11 +42,15 @@ export default {
             dropdownOptions: [],
             uaImgLink: "./resources/img/logo-umweltatlas.svg",
             berlinImgLink: "./resources/img/berlin.png",
-            imgLink: "./resources/img/person-circle.svg"
+            imgLink: "./resources/img/person-circle.svg",
+            infoFrameBlocked: false,
+            infoFrameReady: false,
+            infoFrameSide: null,
+            menuWidthBeforeInfoFrame: null
         };
     },
     computed: {
-        ...mapGetters(["configJs", "layerConfigById"]),
+        ...mapGetters(["configJs", "layerConfigById", "isMobile"]),
         ...mapGetters("Modules/LayerInformation", [
             "abstractText",
             "customText",
@@ -67,7 +71,8 @@ export default {
         ]),
         ...mapGetters("Menu", [
             "mainMenu",
-            "secondaryMenu"
+            "secondaryMenu",
+            "currentMenuWidth"
         ]),
         ...mapGetters(["allLayerConfigsStructured"]),
         showAdditionalMetaData () {
@@ -201,10 +206,49 @@ export default {
             }
         },
         fullPath(){
-            const allLayers = this.allLayerConfigsStructured(treeSubjectsKey) 
+            const allLayers = this.allLayerConfigsStructured(treeSubjectsKey)
             let fullPath = getFullPathToLayer(allLayers, this.layerInfo.id);
             fullPath === null ? "" : fullPath.pop();
             return fullPath;
+        },
+        /**
+         * Settings for the Umweltatlas info iframe, from Config.layerInformation.uaInfoFrame.
+         * @returns {Object} the configuration, empty if nothing is configured
+         */
+        infoFrameConfig () {
+            return this.configJs?.layerInformation?.uaInfoFrame ?? {};
+        },
+        /**
+         * The iframe is shown next to the layer information whenever the layer provides
+         * a uaInfoURL. On mobile the menu already fills the screen, so there is no room
+         * for a second column and the existing link in the accordion has to do.
+         * @returns {Boolean} true if the iframe column should be rendered
+         */
+        showInfoFrame () {
+            return this.infoFrameConfig.enabled !== false
+                && Boolean(this.uaData.uaInfoURL)
+                && !this.isMobile;
+        },
+        /**
+         * Width the menu is widened to while the iframe is shown.
+         * @returns {String} a css width
+         */
+        infoFrameMenuWidth () {
+            return this.infoFrameConfig.menuWidth || "70%";
+        },
+        /**
+         * The url the iframe loads. berlin.de refuses to be framed by a foreign origin
+         * ("X-Frame-Options: sameorigin"), so with a configured proxyPrefix the absolute
+         * url is turned into a same origin path, which a reverse proxy forwards to
+         * berlin.de. Loaded from our own origin, the frame is no longer refused.
+         * Without proxyPrefix the page is loaded straight from berlin.de.
+         * @returns {String} the iframe src
+         */
+        infoFrameSrc () {
+            const prefix = this.infoFrameConfig.proxyPrefix,
+                url = this.uaData.uaInfoURL;
+
+            return prefix && url?.startsWith(prefix) ? url.slice(prefix.length) : url;
         }
     },
 
@@ -218,6 +262,31 @@ export default {
             const metaInfo = this.getMetaInfoForLayer(newIndex);
 
             this.getAbstractInfo(metaInfo);
+        },
+
+        /**
+         * Widens the menu as soon as the iframe column appears and restores the
+         * previous width once it is gone again.
+         * @param {Boolean} value whether the iframe column is shown
+         * @returns {void}
+         */
+        showInfoFrame (value) {
+            if (value) {
+                this.expandMenuForInfoFrame();
+            }
+            else {
+                this.restoreMenuWidth();
+            }
+        },
+
+        /**
+         * A different layer means a different page, so the previous blocked state is void
+         * and the new page has to be hidden again until it has been trimmed.
+         * @returns {void}
+         */
+        "uaData.uaInfoURL" () {
+            this.infoFrameBlocked = false;
+            this.infoFrameReady = false;
         }
     },
 
@@ -237,10 +306,12 @@ export default {
         if (!this.legendAvailable) {
             this.activeTab = "LayerInfoDataDownload";
         }
+        this.expandMenuForInfoFrame();
     },
 
     unmounted () {
         this.setLayerInfoLegend({});
+        this.restoreMenuWidth();
     },
 
     methods: {
@@ -248,6 +319,7 @@ export default {
         ...mapActions("Modules/Legend", ["createLegendForLayerInfo"]),
         ...mapMutations("Modules/LayerInformation", ["setMetaDataCatalogueId", "setSelectedLayerIndex"]),
         ...mapMutations("Modules/Legend", ["setLayerInfoLegend"]),
+        ...mapMutations("Menu", ["setCurrentMenuWidth"]),
         ...mapActions("Menu", ["changeCurrentComponent"]),
         ...mapActions("Modules/SearchBar", [
             "showInTree"
@@ -393,6 +465,190 @@ export default {
             return url;
             }
         },
+
+        /**
+         * Widens the menu so the layer information and the iframe fit next to each other.
+         * The side is remembered, because by the time the menu navigates away from the
+         * layer information, menuIndicator already points at the other menu.
+         * @returns {void}
+         */
+        expandMenuForInfoFrame () {
+            if (!this.showInfoFrame || this.infoFrameSide !== null) {
+                return;
+            }
+            const side = this.menuIndicator;
+
+            this.infoFrameSide = side;
+            this.menuWidthBeforeInfoFrame = this.currentMenuWidth(side);
+            this.setMenuWidth(side, this.infoFrameMenuWidth);
+        },
+
+        /**
+         * Restores the menu width that was in place before the iframe was shown.
+         * On mobile the MenuContainer sets the width to 100% itself, so the remembered
+         * desktop width is only dropped here and not written back.
+         * @returns {void}
+         */
+        restoreMenuWidth () {
+            if (this.infoFrameSide === null) {
+                return;
+            }
+            const side = this.infoFrameSide,
+                width = this.menuWidthBeforeInfoFrame;
+
+            this.infoFrameSide = null;
+            this.menuWidthBeforeInfoFrame = null;
+
+            if (!this.isMobile) {
+                this.setMenuWidth(side, width);
+            }
+        },
+
+        /**
+         * Sets the menu width in the store and on the element itself. The ResizeHandle
+         * writes a pixel width directly onto the menu element without going through the
+         * store, so a store update alone does not necessarily reach the DOM after the
+         * user has dragged the menu wider or narrower.
+         * @param {String} side the menu to resize
+         * @param {String} width a css width
+         * @returns {void}
+         */
+        setMenuWidth (side, width) {
+            const menu = document.getElementById("mp-menu-" + side);
+
+            this.setCurrentMenuWidth({side, width});
+            if (menu) {
+                menu.style.width = width;
+            }
+        },
+
+        /**
+         * Best effort detection of a refused framing (X-Frame-Options / frame-ancestors).
+         * A refused document leaves the frame on about:blank, which stays readable from
+         * here, while a page that really loaded throws a SecurityError on the same access.
+         * When the page came through the proxy it is same origin and can be trimmed down
+         * to the part of the Umweltatlas page we actually want to show.
+         * @param {Event} event the iframe load event
+         * @returns {void}
+         */
+        onInfoFrameLoad (event) {
+            let doc = null;
+
+            try {
+                this.infoFrameBlocked = event.target.contentWindow.location.href === "about:blank";
+                doc = event.target.contentDocument;
+            }
+            catch (error) {
+                // loaded cross origin: the frame works, but its document stays untouchable
+                this.infoFrameBlocked = false;
+                this.infoFrameReady = true;
+                return;
+            }
+            if (!this.infoFrameBlocked && doc) {
+                this.trimInfoFrameDocument(doc);
+            }
+            // only now is the page reduced to what we want to show, so reveal it
+            this.infoFrameReady = true;
+        },
+
+        /**
+         * Reduces the Umweltatlas page to its main content and, within that, to the first
+         * two sections ("Zusammenfassung" and the note on how current the data is). The
+         * rest is berlin.de navigation, contact blocks and a link list that the layer
+         * information already covers.
+         * Only possible while the page is served through the proxy, because a cross
+         * origin document cannot be modified.
+         * @param {Document} doc the document inside the iframe
+         * @returns {void}
+         */
+        trimInfoFrameDocument (doc) {
+            const main = doc.getElementById("layout-grid__area--maincontent");
+
+            if (!main || !doc.body || doc.body.dataset.uaTrimmed === "true") {
+                return;
+            }
+            const sections = Array.from(main.querySelectorAll(":scope > section")).slice(0, 2),
+                style = doc.createElement("style");
+
+            if (sections.length > 0) {
+                main.replaceChildren(...sections);
+            }
+            doc.body.replaceChildren(main);
+            doc.body.dataset.uaTrimmed = "true";
+
+            style.textContent = this.infoFrameCss();
+            doc.head?.appendChild(style);
+        },
+
+        /**
+         * Css injected into the iframe, so the Umweltatlas text reads like the layer
+         * information next to it. The values are taken from the sidebar itself rather
+         * than from the scss variables, because the iframe has its own root font size
+         * and "rem" would not mean the same thing in there.
+         * @returns {String} the css
+         */
+        infoFrameCss () {
+            const sidebar = window.getComputedStyle(this.$el),
+                font = sidebar.fontFamily,
+                size = sidebar.fontSize,
+                color = sidebar.color,
+                main = "#layout-grid__area--maincontent";
+
+            return `
+                ${this.portalFontFaceCss()}
+                body {
+                    margin: 0;
+                    padding: 12px;
+                    background: #fff;
+                    color: ${color};
+                }
+                ${main}, ${main} * {
+                    font-family: ${font} !important;
+                    font-size: ${size} !important;
+                    line-height: 1.5 !important;
+                    margin-top: 0px !important;
+                }
+                ${main} h1, ${main} h2, ${main} h3,
+                ${main} h4, ${main} h5, ${main} h6 {
+                    font-size: ${size} !important;
+                    font-weight: bold !important;
+                    margin: 0 0 0.5rem 0;
+                }
+                ${main} img {
+                    max-width: 100%;
+                    height: auto;
+                }`;
+        },
+
+        /**
+         * The @font-face rules of the portal, with the font urls made absolute. Relative
+         * urls would be resolved against berlin.de inside the iframe and not be found,
+         * and without them the iframe would fall back to Arial instead of MasterPortalFont.
+         * @returns {String} the css
+         */
+        portalFontFaceCss () {
+            const rules = [];
+
+            Array.from(document.styleSheets).forEach(sheet => {
+                let cssRules = null;
+
+                try {
+                    cssRules = sheet.cssRules;
+                }
+                catch (error) {
+                    return; // stylesheet of another origin, not readable
+                }
+                Array.from(cssRules || []).forEach(rule => {
+                    if (rule.type === 5) { // CSSRule.FONT_FACE_RULE
+                        rules.push(rule.cssText.replace(
+                            /url\(\s*(['"]?)([^'")]+)\1\s*\)/g,
+                            (match, quote, url) => `url("${new URL(url, sheet.href || location.href).href}")`
+                        ));
+                    }
+                });
+            });
+            return rules.join("\n");
+        }
     }
 };
 </script>
@@ -400,326 +656,428 @@ export default {
 <template lang="html">
     <div
         id="modules-layer-information"
+        :class="{'ua-with-info-frame': showInfoFrame}"
     >
-        <div v-if="fullPath" class="mb-4">
-            <span
-                v-for="(key, value) in fullPath"
-                :key="key"
-                class="mb-0"
-            >
-                <a 
-                    @click="openInLayerTree(fullPath[value].id)"
-                    href="#" 
-                    class="ua-breadcrumbs"
+        <div class="ua-layer-info-main">
+            <div v-if="fullPath" class="mb-4">
+                <span
+                    v-for="(key, value) in fullPath"
+                    :key="key"
+                    class="mb-0"
                 >
-                    {{ fullPath[value].name }}
+                    <a 
+                        @click="openInLayerTree(fullPath[value].id)"
+                        href="#" 
+                        class="ua-breadcrumbs"
+                    >
+                        {{ fullPath[value].name }}
+                    </a>
+                    <span> / </span>
+                </span>
+            </div>
+
+            <div
+                v-if="showAbstractText"
+                class="mb-2 abstract"
+                v-html="abstractText"
+            />
+
+            <p v-if="showPublication || showRevision">
+                <span v-if="showPublication">
+                    {{ $t("common:modules.layerInformation.publicationCreation") }}: {{ datePublication }}
+                </span>
+                <span v-if="showRevision">
+                    <br>
+                    {{ $t("common:modules.layerInformation.periodicityTitle") }}: {{ dateRevision }}
+                </span>
+            </p>
+
+            <AccordionItem
+                v-if="uaData.uaEbenenbeschreibung"
+                id="layer-info-ua-ebenenbeschreibung"
+                :title="'Über diese Kartenebene'"
+                :is-open="false"
+                :font-size="'font-size-base'"
+                :coloured-header="true"
+                :coloured-body="true"
+                :header-bold="true"
+            >
+                <p class="mb-0" style="white-space: pre-wrap;">
+                    {{ uaData.uaEbenenbeschreibung }}
+                </p>
+            </AccordionItem>
+
+            <AccordionItem
+                v-if="uaData.uaInfoURL"
+                id="layer-info-ua"
+                :title="'Über diesen Datensatz'"
+                :is-open="false"
+                :font-size="'font-size-base'"
+                :coloured-header="true"
+                :coloured-body="true"
+                :header-bold="true"
+            >
+                <span class="ua-break-parent">
+                    <span class="ua-break-one" style="width: 60px; flex: inherit; margin-right: 13px;">
+                        <a :href=uaData.uaInfoURL target="_blank">
+                            <img style="width: 60px; height: 40px;" :src=uaImgLink alt=""/>
+                        </a>
+                    </span>
+                    <p class="ua-break-two">
+                        Ausführliche Informationen zum ausgewählten Datensatz, wie Datengrundlagen, Methode, Kartenbeschreibung sowie relevante Begleitliteratur und ein Kartenimpressum finden Sie im
+                        <a :href=uaData.uaInfoURL target="_blank">Umweltaltas</a> 
+                    </p>
+                </span>
+                <span class="ua-break-parent">
+                    <span class="ua-break-one" style="width: 60px; flex: inherit; margin-right: 13px;">
+                        <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL target="_blank">
+                            <img style="width: 60px;" :src=berlinImgLink alt=""/>
+                        </a>
+                    </span>
+                    <p class="ua-break-two" v-if="uaData.uaGdiURL">
+                        Weitere Metadaten zu diesem Datensatz, wie z.B. Nutzungsbedingungen, finden Sie in der 
+                        <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL target="_blank">Geodatensuche</a>
+                    </p>
+                </span>
+            </AccordionItem>
+
+            <AccordionItem
+                v-if="contact.length || uaData.uaContact"
+                id="layer-info-contact"
+                :title="$t('Kontakt')"
+                :is-open="false"
+                :font-size="'font-size-base'"
+                :coloured-header="true"
+                :coloured-body="true"
+                :header-bold="true"
+            >
+                <span v-if="filteredContact.length" class="contact-wrapper">
+                    <p class="font-bold ua-dark-green pb-2">Fachlich verantwortlich</p>
+                    <div
+                    v-for="(c, idx) in filteredContact"
+                    :key="c.email || c.name || idx"
+                    class="ua-break-parent"
+                    style="padding-bottom: 10px;"
+                    >
+                        <div>
+                            <img :src="imgLink" alt="" class="ua-person-img">
+                        </div>
+                        <div class="ua-break-two" style="flex: 1 1 0%;">
+                            <p v-if="c?.name">{{ c.name }}</p>
+                            <p
+                            v-for="pos in (c?.positionName || [])"
+                            :key="pos"
+                            v-if="(c?.positionName || []).length"
+                            >
+                                {{ pos }}
+                            </p>
+                            <p v-if="c?.individualName">{{ c.individualName }}</p>
+                            <p v-if="c?.phone">{{ c.phone }}</p>
+                            <!-- street + postalCode + city (your current output is a bit odd; this is a cleaner version) -->
+                            <p v-if="c?.street || c?.postalCode">
+                            {{ [c.street, c.postalCode].filter(Boolean).join(" ") }}
+                            </p>
+                            <p v-if="c?.city">{{ c.city }}</p>
+                            <a v-if="c?.email" :href="'mailto:' + c.email">{{ c.email }}</a>
+                        </div>
+                    </div>
+                </span>
+
+                <span v-if="uaData.uaContact" class="ua-contact-wrapper">
+                    <p class="font-bold ua-dark-green pb-2">Umweltatlas</p>
+                    <div class="ua-break-parent">
+                        <div>
+                            <img :src=imgLink alt="" class="ua-person-img">
+                        </div>
+                        <div class="ua-break-two">
+                            <p>Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen Berlin</p>
+                            <p v-if="uaData.uaContact.name">
+                                {{ uaData.uaContact.name }}
+                            </p>
+                            <p v-if="uaData.uaContact.tel">
+                                {{ uaData.uaContact.tel }}
+                            </p>
+                            <a
+                                v-if="uaData.uaContact.email"
+                                :href="'mailto:' + uaData.uaContact.email"
+                            >
+                                {{ uaData.uaContact.email }}
+                            </a>
+                        </div>
+                    </div>
+       
+                    <p class="pb-2"></p>
+                </span>
+
+            </AccordionItem>
+
+            <div v-if="uaData.uaDownload?.length" class="mb-4 d-grid gap-2">
+                <p v-if="uaData.uaDownload.length > 1" class="mb-2 mt-8" style="margin-top: 20px;">Karten als PDF herunterladen</p>
+                <a v-for="(url, idx) in uaData.uaDownload" :key="url || idx" :href="url">
+                    <button
+                    class="btn btn-light w-100 ua-button"
+                    type="button"
+                    aria-label="download"
+                    :style="uaData.uaDownload.length === 1 ? { marginTop: '16px' } : {}"
+                    >
+                    <i
+                        class="bi-download position-absolute"
+                        aria-hidden="true"
+                        style="left: .75rem; top: 50%; transform: translateY(-50%); line-height: 1;"
+                    />
+                    {{ uaData.uaDownload.length > 1 ? filenameFromUrl(url) : "Karte als PDF herunterladen" }}
+                    </button>
                 </a>
-                <span> / </span>
-            </span>
+            </div>
+
+            <template
+                v-if="showCustomMetaData"
+            >
+                <div
+                    v-for="(key, value) in customText"
+                    :key="key"
+                >
+                    <p
+                        v-if="isWebLink(key)"
+                        class="mb-0"
+                    >
+                        {{ value + ": " }}
+                        <a
+                            :href="value"
+                            target="_blank"
+                        >{{ key }}</a>
+                    </p>
+                    <p
+                        v-else
+                        class="mb-0"
+                    >
+                        {{ value + ": " + key }}
+                    </p>
+                </div>
+            </template>
+
+            <hr>
+
+            <nav role="navigation">
+                <ul class="nav nav-tabs">
+                    <li
+                        v-if="legendAvailable"
+                        value="layerinfo-legend"
+                        class="nav-item"
+                    >
+                        <a
+                            href="#layerinfo-legend"
+                            class="nav-link"
+                            :class="{active: isActiveTab('layerinfo-legend') }"
+                            @click="setActiveTab"
+                        >{{ $t("common:modules.layerInformation.legend") }}
+                        </a>
+                    </li>
+                    <li
+                        v-if="showDownloadLinks"
+                        value="LayerInfoDataDownload"
+                        class="nav-item"
+                    >
+                        <a
+                            href="#LayerInfoDataDownload"
+                            class="nav-link"
+                            :class="{active: isActiveTab('LayerInfoDataDownload') }"
+                            @click="setActiveTab"
+                        >{{ $t("common:modules.layerInformation.downloadDataset") }}
+                        </a>
+                    </li>
+                    <li
+                        v-if="showUrl"
+                        value="url"
+                        class="nav-item"
+                    >
+                        <a
+                            href="#url"
+                            class="nav-link"
+                            :class="{active: isActiveTab('url') }"
+                            @click="setActiveTab"
+                        >{{ layerTyp }}
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="tab-content">
+                <div
+                    v-if="legendAvailable"
+                    id="layerinfo-legend"
+                    :class="getTabPaneClasses('layerinfo-legend')"
+                    :show="isActiveTab('layerinfo-legend')"
+                >
+                    <LegendSingleLayer
+                        v-if="legendURL !== 'ignore'"
+                        :legend-obj="layerInfoLegend"
+                        :selected-layer="selectedOption"
+                    />
+                </div>
+                <div
+                    id="LayerInfoDataDownload"
+                    class="row"
+                    :class="getTabPaneClasses('LayerInfoDataDownload')"
+                    :show="isActiveTab('LayerInfoDataDownload')"
+                    :type="String('LayerInfoDataDownload')"
+                >
+                    <div class="">
+                        <ul
+                            v-if="showDownloadLinks"
+                            class="pt-5 pl-2"
+                            style="padding-bottom: 0px;"
+                        >
+                            <li
+                                 v-for="downloadLink in downloadLinks"
+                                :key="downloadLink.linkName"
+                                class="mb-4"
+                            >
+                                <p class="pb-0 pt-0 mt-0 mb-2">{{ downloadLink.linkName }}</p>
+                                <UrlInput :layerUrl="downloadLink.link"/>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                           <div
+                    v-if="showUrl"
+                    id="url"
+                    :show="isActiveTab('url')"
+                    :class="getTabPaneClasses('url')"
+                    :type="String('url')"
+                >
+                    <div
+                        v-if="Array.isArray(layerInfo.url)"
+                        class="pt-5"
+                    >
+                        <ul
+                            v-for="(layerInfoUrl, i) in layerInfo.url"
+                            :key="layerInfoUrl"
+                        >
+                            {{ layerInfo.layerNames[i] }}
+                            <li>
+                                <a
+                                    :href="layerUrl"
+                                    target="_blank"
+                                >
+                                    {{ layerInfoUrl }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div
+                        v-else
+                        class="pt-5"
+                    >
+                        <UrlInput :layerUrl="layerUrl"/>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div
-            v-if="showAbstractText"
-            class="mb-2 abstract"
-            v-html="abstractText"
-        />
-
-        <p v-if="showPublication || showRevision">
-            <span v-if="showPublication">
-                {{ $t("common:modules.layerInformation.publicationCreation") }}: {{ datePublication }}
-            </span>
-            <span v-if="showRevision">
-                <br>
-                {{ $t("common:modules.layerInformation.periodicityTitle") }}: {{ dateRevision }}
-            </span>
-        </p>
-
-        <AccordionItem
-            v-if="uaData.uaEbenenbeschreibung"
-            id="layer-info-ua-ebenenbeschreibung"
-            :title="'Über diese Kartenebene'"
-            :is-open="false"
-            :font-size="'font-size-base'"
-            :coloured-header="true"
-            :coloured-body="true"
-            :header-bold="true"
-        >
-            <p class="mb-0" style="white-space: pre-wrap;">
-                {{ uaData.uaEbenenbeschreibung }}
-            </p>
-        </AccordionItem>
-
-        <AccordionItem
-            v-if="uaData.uaInfoURL"
-            id="layer-info-ua"
-            :title="'Über diesen Datensatz'"
-            :is-open="false"
-            :font-size="'font-size-base'"
-            :coloured-header="true"
-            :coloured-body="true"
-            :header-bold="true"
-        >
-            <span class="ua-break-parent">
-                <span class="ua-break-one" style="width: 60px; flex: inherit; margin-right: 13px;">
-                    <a :href=uaData.uaInfoURL target="_blank">
-                        <img style="width: 60px; height: 40px;" :src=uaImgLink alt=""/>
-                    </a>
-                </span>
-                <p class="ua-break-two">
-                    Ausführliche Informationen zum ausgewählten Datensatz, wie Datengrundlagen, Methode, Kartenbeschreibung sowie relevante Begleitliteratur und ein Kartenimpressum finden Sie im
-                    <a :href=uaData.uaInfoURL target="_blank">Umweltaltas</a> 
-                </p>
-            </span>
-            <span class="ua-break-parent">
-                <span class="ua-break-one" style="width: 60px; flex: inherit; margin-right: 13px;">
-                    <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL target="_blank">
-                        <img style="width: 60px;" :src=berlinImgLink alt=""/>
-                    </a>
-                </span>
-                <p class="ua-break-two" v-if="uaData.uaGdiURL">
-                    Weitere Metadaten zu diesem Datensatz, wie z.B. Nutzungsbedingungen, finden Sie in der 
-                    <a v-if="uaData.uaGdiURL" :href=uaData.uaGdiURL target="_blank">Geodatensuche</a>
-                </p>
-            </span>
-        </AccordionItem>
-
-        <AccordionItem
-            v-if="contact.length || uaData.uaContact"
-            id="layer-info-contact"
-            :title="$t('Kontakt')"
-            :is-open="false"
-            :font-size="'font-size-base'"
-            :coloured-header="true"
-            :coloured-body="true"
-            :header-bold="true"
-        >
-            <span v-if="filteredContact.length" class="contact-wrapper">
-                <p class="font-bold ua-dark-green pb-2">Fachlich verantwortlich</p>
-                <div
-                v-for="(c, idx) in filteredContact"
-                :key="c.email || c.name || idx"
-                class="ua-break-parent"
-                style="padding-bottom: 10px;"
-                >
-                    <div>
-                        <img :src="imgLink" alt="" class="ua-person-img">
-                    </div>
-                    <div class="ua-break-two" style="flex: 1 1 0%;">
-                        <p v-if="c?.name">{{ c.name }}</p>
-                        <p
-                        v-for="pos in (c?.positionName || [])"
-                        :key="pos"
-                        v-if="(c?.positionName || []).length"
-                        >
-                            {{ pos }}
-                        </p>
-                        <p v-if="c?.individualName">{{ c.individualName }}</p>
-                        <p v-if="c?.phone">{{ c.phone }}</p>
-                        <!-- street + postalCode + city (your current output is a bit odd; this is a cleaner version) -->
-                        <p v-if="c?.street || c?.postalCode">
-                        {{ [c.street, c.postalCode].filter(Boolean).join(" ") }}
-                        </p>
-                        <p v-if="c?.city">{{ c.city }}</p>
-                        <a v-if="c?.email" :href="'mailto:' + c.email">{{ c.email }}</a>
-                    </div>
-                </div>
-            </span>
-
-            <span v-if="uaData.uaContact" class="ua-contact-wrapper">
-                <p class="font-bold ua-dark-green pb-2">Umweltatlas</p>
-                <div class="ua-break-parent">
-                    <div>
-                        <img :src=imgLink alt="" class="ua-person-img">
-                    </div>
-                    <div class="ua-break-two">
-                        <p>Senatsverwaltung für Stadtentwicklung, Bauen und Wohnen Berlin</p>
-                        <p v-if="uaData.uaContact.name">
-                            {{ uaData.uaContact.name }}
-                        </p>
-                        <p v-if="uaData.uaContact.tel">
-                            {{ uaData.uaContact.tel }}
-                        </p>
-                        <a
-                            v-if="uaData.uaContact.email"
-                            :href="'mailto:' + uaData.uaContact.email"
-                        >
-                            {{ uaData.uaContact.email }}
-                        </a>
-                    </div>
-                </div>
-       
-                <p class="pb-2"></p>
-            </span>
-
-        </AccordionItem>
-
-        <div v-if="uaData.uaDownload?.length" class="mb-4 d-grid gap-2">
-            <p v-if="uaData.uaDownload.length > 1" class="mb-2 mt-8" style="margin-top: 20px;">Karten als PDF herunterladen</p>
-            <a v-for="(url, idx) in uaData.uaDownload" :key="url || idx" :href="url">
-                <button
-                class="btn btn-light w-100 ua-button"
-                type="button"
-                aria-label="download"
-                :style="uaData.uaDownload.length === 1 ? { marginTop: '16px' } : {}"
-                >
-                <i
-                    class="bi-download position-absolute"
-                    aria-hidden="true"
-                    style="left: .75rem; top: 50%; transform: translateY(-50%); line-height: 1;"
-                />
-                {{ uaData.uaDownload.length > 1 ? filenameFromUrl(url) : "Karte als PDF herunterladen" }}
-                </button>
-            </a>
-        </div>
-
-        <template
-            v-if="showCustomMetaData"
+            v-if="showInfoFrame"
+            class="ua-layer-info-frame"
         >
             <div
-                v-for="(key, value) in customText"
-                :key="key"
+                v-if="infoFrameBlocked"
+                class="ua-layer-info-frame-fallback"
             >
-                <p
-                    v-if="isWebLink(key)"
-                    class="mb-0"
-                >
-                    {{ value + ": " }}
+                <p>
+                    Die Umweltatlas-Seite kann an dieser Stelle nicht eingebettet werden,
+                    weil berlin.de das Einbetten in fremde Seiten unterbindet.
+                </p>
+                <p class="mb-0">
                     <a
-                        :href="value"
+                        :href="uaData.uaInfoURL"
                         target="_blank"
-                    >{{ key }}</a>
-                </p>
-                <p
-                    v-else
-                    class="mb-0"
-                >
-                    {{ value + ": " + key }}
+                        rel="noopener"
+                    >
+                        Seite in einem neuen Tab öffnen
+                    </a>
                 </p>
             </div>
-        </template>
-
-        <hr>
-
-        <nav role="navigation">
-            <ul class="nav nav-tabs">
-                <li
-                    v-if="legendAvailable"
-                    value="layerinfo-legend"
-                    class="nav-item"
-                >
-                    <a
-                        href="#layerinfo-legend"
-                        class="nav-link"
-                        :class="{active: isActiveTab('layerinfo-legend') }"
-                        @click="setActiveTab"
-                    >{{ $t("common:modules.layerInformation.legend") }}
-                    </a>
-                </li>
-                <li
-                    v-if="showDownloadLinks"
-                    value="LayerInfoDataDownload"
-                    class="nav-item"
-                >
-                    <a
-                        href="#LayerInfoDataDownload"
-                        class="nav-link"
-                        :class="{active: isActiveTab('LayerInfoDataDownload') }"
-                        @click="setActiveTab"
-                    >{{ $t("common:modules.layerInformation.downloadDataset") }}
-                    </a>
-                </li>
-                <li
-                    v-if="showUrl"
-                    value="url"
-                    class="nav-item"
-                >
-                    <a
-                        href="#url"
-                        class="nav-link"
-                        :class="{active: isActiveTab('url') }"
-                        @click="setActiveTab"
-                    >{{ layerTyp }}
-                    </a>
-                </li>
-            </ul>
-        </nav>
-
-        <div class="tab-content">
             <div
-                v-if="legendAvailable"
-                id="layerinfo-legend"
-                :class="getTabPaneClasses('layerinfo-legend')"
-                :show="isActiveTab('layerinfo-legend')"
+                v-if="!infoFrameBlocked && !infoFrameReady"
+                class="ua-layer-info-frame-loading"
             >
-                <LegendSingleLayer
-                    v-if="legendURL !== 'ignore'"
-                    :legend-obj="layerInfoLegend"
-                    :selected-layer="selectedOption"
-                />
+                {{ $t("common:modules.layerInformation.loading") }}
             </div>
-            <div
-                id="LayerInfoDataDownload"
-                class="row"
-                :class="getTabPaneClasses('LayerInfoDataDownload')"
-                :show="isActiveTab('LayerInfoDataDownload')"
-                :type="String('LayerInfoDataDownload')"
-            >
-                <div class="">
-                    <ul
-                        v-if="showDownloadLinks"
-                        class="pt-5 pl-2"
-                        style="padding-bottom: 0px;"
-                    >
-                        <li
-                             v-for="downloadLink in downloadLinks"
-                            :key="downloadLink.linkName"
-                            class="mb-4"
-                        >
-                            <p class="pb-0 pt-0 mt-0 mb-2">{{ downloadLink.linkName }}</p>
-                            <UrlInput :layerUrl="downloadLink.link"/>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-                       <div
-                v-if="showUrl"
-                id="url"
-                :show="isActiveTab('url')"
-                :class="getTabPaneClasses('url')"
-                :type="String('url')"
-            >
-                <div
-                    v-if="Array.isArray(layerInfo.url)"
-                    class="pt-5"
-                >
-                    <ul
-                        v-for="(layerInfoUrl, i) in layerInfo.url"
-                        :key="layerInfoUrl"
-                    >
-                        {{ layerInfo.layerNames[i] }}
-                        <li>
-                            <a
-                                :href="layerUrl"
-                                target="_blank"
-                            >
-                                {{ layerInfoUrl }}
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div
-                    v-else
-                    class="pt-5"
-                >
-                    <UrlInput :layerUrl="layerUrl"/>
-                </div>
-            </div>
+            <iframe
+                v-show="!infoFrameBlocked"
+                :key="infoFrameSrc"
+                :src="infoFrameSrc"
+                :title="'Umweltatlas: ' + layerName"
+                class="ua-layer-info-iframe"
+                :class="{'ua-layer-info-iframe-loading': !infoFrameReady}"
+                referrerpolicy="no-referrer-when-downgrade"
+                @load="onInfoFrameLoad"
+            />
         </div>
     </div>
 </template>
 
 <style lang="scss">
     @import "~variables";
+
+    /* Two column layout: layer information left, Umweltatlas iframe right.
+       Both columns scroll on their own so the iframe keeps its full height
+       while the layer information next to it is scrolled. */
+    #modules-layer-information.ua-with-info-frame {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        gap: 1rem;
+        flex: 1 1 auto;
+        min-height: 0;
+
+        > .ua-layer-info-main {
+            flex: 0 0 360px;
+            min-width: 0;
+            overflow-y: auto;
+        }
+    }
+
+    .ua-layer-info-frame {
+        position: relative;
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        min-height: 0;
+        border: 1px solid $light_grey;
+        border-radius: 5px;
+        overflow: hidden;
+        background-color: $white;
+        padding-top: 10px;
+    }
+
+    .ua-layer-info-frame-fallback {
+        padding: 10px;
+    }
+
+    /* Covers the iframe while the Umweltatlas page is still the full berlin.de page.
+       It is only reduced to the part we want once it has finished loading, and without
+       this the whole page would be visible for a moment. */
+    .ua-layer-info-frame-loading {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $white;
+        z-index: 1;
+    }
+
+    .ua-layer-info-iframe {
+        flex: 1 1 auto;
+        width: 100%;
+        border: 0;
+
+        &-loading {
+            visibility: hidden;
+        }
+    }
 
     .ua-breadcrumbs{
         color: #000; 
