@@ -109,6 +109,32 @@ Das Modul [LayerInformation.vue](./src/modules/layerInformation/components/Layer
 - Ein Link zur entsprechenden Umweltatlas-Seite des Datensatzes wurde hinzugefügt.
 - Mit der neuen ``UrlInput`` Komponente werden WMS- und WFS-Links besser dargestellt.
 - Unter dem Titel wurden der Pfad zur Layer hinzugefügt damit sich der Datensatz besser Verordnen läßt.  
+- Neben den Layerinformationen wird die Umweltatlas-Seite des Datensatzes (``uaInfoURL``) in einem iframe über die volle Höhe der Seitenleiste angezeigt (siehe unten).
+
+### Umweltatlas-iframe in den Layerinformationen
+
+Sobald die Layerinformationen zu einem Layer mit ``uaInfoURL`` geöffnet werden, teilt sich die Seitenleiste in zwei Spalten: links die Layerinformationen, rechts ein iframe mit der Umweltatlas-Seite des Datensatzes. Die Seitenleiste wird dafür automatisch verbreitert und beim Schließen wieder auf die vorherige Breite zurückgesetzt. Auf mobilen Geräten wird das iframe nicht angezeigt, da die Seitenleiste dort bereits den ganzen Bildschirm einnimmt.
+
+Konfiguriert wird das in [./portal/umweltatlas/config.js](./portal/umweltatlas/config.js):
+
+```js
+layerInformation: {
+    uaInfoFrame: {
+        enabled: true,     // auf false setzen, um das iframe abzuschalten
+        menuWidth: "70%"   // Breite der Seitenleiste, solange das iframe sichtbar ist
+    }
+}
+```
+
+**Wichtig:** www.berlin.de sendet den HTTP-Header ``X-Frame-Options: sameorigin``. Browser verweigern das Einbetten damit auf allen Seiten, die nicht selbst unter ``www.berlin.de`` laufen — also auch unter ``https://gdi.berlin.de/viewer/umweltatlas/karten/``. In diesem Fall zeigt die Komponente statt des iframes einen Hinweis mit einem Link, der die Seite in einem neuen Tab öffnet.
+
+Damit das iframe wirklich funktioniert, muss berlin.de das Einbetten für die Portal-Domain erlauben, z. B. mit
+
+```
+Content-Security-Policy: frame-ancestors 'self' https://gdi.berlin.de
+```
+
+anstelle von ``X-Frame-Options: sameorigin``. Alternativ müssten die Umweltatlas-Seiten über die Portal-Domain ausgeliefert werden (Reverse Proxy).
 
 ### UrlInput Component
 

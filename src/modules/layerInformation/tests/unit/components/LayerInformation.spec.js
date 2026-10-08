@@ -17,10 +17,18 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
         pointOfContact,
         publisher,
         mainMenu,
-        layerConfig;
+        layerConfig,
+        layerInfoState,
+        setCurrentMenuWidthSpy;
 
     beforeEach(() => {
         layerConfig = {};
+        setCurrentMenuWidthSpy = sinon.spy();
+        layerInfoState = {
+            typ: "WMS",
+            metaIdArray: [],
+            url: "https://wfs.example.org/?evil=1"
+        };
         downloadLinks = null;
         legendAvailable = true;
         mainMenu = {
@@ -45,11 +53,7 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
                         LayerInformation: {
                             namespaced: true,
                             state: {
-                                layerInfo: {
-                                    typ: "WMS",
-                                    metaIdArray: [],
-                                    url: "https://wfs.example.org/?evil=1"
-                                }
+                                layerInfo: layerInfoState
                             },
                             mutations: {
                                 setMetaDataCatalogueId: () => sinon.stub()
@@ -96,8 +100,15 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
                 },
                 Menu: {
                     namespaced: true,
+                    state: {
+                        mainMenu
+                    },
+                    mutations: {
+                        setCurrentMenuWidth: (state, payload) => setCurrentMenuWidthSpy(payload)
+                    },
                     getters: {
-                        mainMenu: () => mainMenu,
+                        currentMenuWidth: () => () => "25%",
+                        mainMenu: (state) => state.mainMenu,
                         secondaryMenu: () => {
                             return {
                                 sections: [
@@ -117,6 +128,7 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
             },
             getters: {
                 isModuleAvailable: () => () => true,
+                isMobile: () => false,
                 configJs: () => sinon.stub(),
                 layerConfigById: () => () => layerConfig,
                 restServiceById: () => sinon.stub()
@@ -617,6 +629,122 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
 
             expect(cleanedUrl.endsWith("/")).to.be.false;
             expect(cleanedUrl.endsWith("?")).to.be.false;
+        });
+    });
+
+    describe("Umweltatlas info frame", () => {
+        it("is not rendered for a layer without uaInfoURL", () => {
+            const wrapper = mount(LayerInformationComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.vm.showInfoFrame).to.be.false;
+            expect(wrapper.find(".ua-layer-info-iframe").exists()).to.be.false;
+        });
+
+        it("renders the iframe with the uaInfoURL as src", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/wasser/flurabstand/1995/zusammenfassung/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                iframe = wrapper.find(".ua-layer-info-iframe");
+
+            expect(wrapper.vm.showInfoFrame).to.be.true;
+            expect(iframe.exists()).to.be.true;
+            expect(iframe.attributes("src")).to.equal(layerInfoState.uaInfoURL);
+            expect(wrapper.find("#modules-layer-information").classes()).to.include("ua-with-info-frame");
+        });
+
+        it("widens the menu while the iframe is shown and restores the width afterwards", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.vm.menuWidthBeforeInfoFrame).to.equal("25%");
+            expect(setCurrentMenuWidthSpy.calledOnce).to.be.true;
+            expect(setCurrentMenuWidthSpy.firstCall.args[0]).to.eql({side: "mainMenu", width: "70%"});
+
+            wrapper.vm.restoreMenuWidth();
+            expect(setCurrentMenuWidthSpy.calledTwice).to.be.true;
+            expect(setCurrentMenuWidthSpy.secondCall.args[0]).to.eql({side: "mainMenu", width: "25%"});
+            expect(wrapper.vm.menuWidthBeforeInfoFrame).to.be.null;
+        });
+
+        it("restores the width of the menu it widened, although the menu already navigated away", async () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.vm.infoFrameSide).to.equal("mainMenu");
+
+            // closing the layer information switches the menu back before this
+            // component is unmounted, so menuIndicator can no longer be trusted
+            store.state.Menu.mainMenu.currentComponent = "root";
+            await wrapper.vm.$nextTick();
+            expect(wrapper.vm.menuIndicator).to.equal("secondaryMenu");
+
+            wrapper.vm.restoreMenuWidth();
+
+            expect(setCurrentMenuWidthSpy.lastCall.args[0]).to.eql({side: "mainMenu", width: "25%"});
+            expect(wrapper.vm.infoFrameSide).to.be.null;
+        });
+
+        it("writes the restored width onto the menu element, overriding a dragged pixel width", () => {
+            const menu = document.createElement("div");
+
+            menu.id = "mp-menu-mainMenu";
+            document.body.appendChild(menu);
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(menu.style.width).to.equal("70%");
+
+            // the ResizeHandle writes pixels straight onto the element
+            menu.style.width = "640px";
+            wrapper.vm.restoreMenuWidth();
+            expect(menu.style.width).to.equal("25%");
+
+            menu.remove();
+        });
+
+        it("flags the frame as blocked when the framed document stays on about:blank", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.onInfoFrameLoad({target: {contentWindow: {location: {href: "about:blank"}}}});
+            expect(wrapper.vm.infoFrameBlocked).to.be.true;
+
+            wrapper.vm.onInfoFrameLoad({
+                target: {
+                    get contentWindow () {
+                        throw new Error("SecurityError");
+                    }
+                }
+            });
+            expect(wrapper.vm.infoFrameBlocked).to.be.false;
         });
     });
 });
