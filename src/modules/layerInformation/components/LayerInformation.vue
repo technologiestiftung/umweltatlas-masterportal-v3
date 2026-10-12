@@ -10,6 +10,28 @@ import {treeSubjectsKey} from "../../../shared/js/utils/constants";
 import {getFullPathToLayer} from "../../../shared/js/utils/getFullPathToLayer";
 
 /**
+ * The parts of the Umweltatlas main content that are not shown in the iframe: the
+ * "Direkt zur Kontaktinformation" anchor, its jump target and the contact block at the
+ * bottom of every page. The contact is already part of the layer information next to it.
+ * Everything else of the main content is kept, including the navigation links at the
+ * bottom, which load the other pages of the dataset into the iframe.
+ */
+const infoFrameRemoveSelectors = ".anker-jumptocontact, .sprungmarke, .modul-contactinclude",
+
+    /**
+     * Heading of the section with the links to the other pages of a dataset. It is the
+     * only thing telling that section apart, berlin.de gives it the same classes as
+     * every other section.
+     */
+    infoFrameNavigationHeading = "Navigation",
+
+    /**
+     * Pages that are reachable from the navigation on berlin.de but not from the iframe:
+     * the portal shows the maps itself and offers the downloads in the layer information.
+     */
+    infoFrameRemoveNavigationLinks = ["/karten/", "/download/"];
+
+/**
  * The Layer Information that gives the user information, links and the legend for a layer
  * @module modules/layerInformation/components/LayerInformation
  * @vue-data {String} activeTab - The active tab.
@@ -45,6 +67,8 @@ export default {
             imgLink: "./resources/img/person-circle.svg",
             infoFrameBlocked: false,
             infoFrameReady: false,
+            infoFrameNavItems: [],
+            infoFrameNavUrl: null,
             infoFrameSide: null,
             menuWidthBeforeInfoFrame: null
         };
@@ -249,6 +273,29 @@ export default {
                 url = this.uaData.uaInfoURL;
 
             return prefix && url?.startsWith(prefix) ? url.slice(prefix.length) : url;
+        },
+        /**
+         * The page currently loaded in the iframe: the one the user picked from the
+         * navigation, otherwise the dataset's summary page.
+         * @returns {String} the iframe src
+         */
+        infoFrameCurrentSrc () {
+            return this.infoFrameNavUrl ?? this.infoFrameSrc;
+        },
+        /**
+         * The navigation shown above the iframe. The summary page is put in front of the
+         * entries taken from the page, because its own navigation does not link to it and
+         * there would otherwise be no way back to it.
+         * @returns {Object[]} items with label and href
+         */
+        infoFrameNavigationItems () {
+            if (this.infoFrameNavItems.length === 0) {
+                return [];
+            }
+            return [
+                {label: this.$t("common:modules.layerInformation.uaInfoFrameSummary"), href: this.infoFrameSrc},
+                ...this.infoFrameNavItems
+            ];
         }
     },
 
@@ -287,6 +334,8 @@ export default {
         "uaData.uaInfoURL" () {
             this.infoFrameBlocked = false;
             this.infoFrameReady = false;
+            this.infoFrameNavItems = [];
+            this.infoFrameNavUrl = null;
         }
     },
 
@@ -532,10 +581,12 @@ export default {
          * @returns {void}
          */
         onInfoFrameLoad (event) {
-            let doc = null;
+            let frameWindow = null,
+                doc = null;
 
             try {
-                this.infoFrameBlocked = event.target.contentWindow.location.href === "about:blank";
+                frameWindow = event.target.contentWindow;
+                this.infoFrameBlocked = frameWindow.location.href === "about:blank";
                 doc = event.target.contentDocument;
             }
             catch (error) {
@@ -546,16 +597,41 @@ export default {
             }
             if (!this.infoFrameBlocked && doc) {
                 this.trimInfoFrameDocument(doc);
+                // the navigation links at the bottom load another page of the dataset
+                // into the iframe, which has to be hidden and trimmed again
+                frameWindow.addEventListener("pagehide", this.onInfoFrameUnload);
             }
             // only now is the page reduced to what we want to show, so reveal it
             this.infoFrameReady = true;
         },
 
         /**
-         * Reduces the Umweltatlas page to its main content and, within that, to the first
-         * two sections ("Zusammenfassung" and the note on how current the data is). The
-         * rest is berlin.de navigation, contact blocks and a link list that the layer
-         * information already covers.
+         * Hides the iframe again as soon as it starts loading another page, so the
+         * untrimmed berlin.de page is never visible.
+         * @returns {void}
+         */
+        onInfoFrameUnload () {
+            this.infoFrameReady = false;
+        },
+
+        /**
+         * Loads another page of the dataset into the iframe.
+         * @param {String} href the page to load
+         * @returns {void}
+         */
+        openInfoFramePage (href) {
+            if (href === this.infoFrameCurrentSrc) {
+                return;
+            }
+            this.infoFrameReady = false;
+            this.infoFrameNavUrl = href;
+        },
+
+        /**
+         * Reduces the Umweltatlas page to its main content, minus the contact anchor and
+         * the contact block, see infoFrameRemoveSelectors. Everything else is kept, as the
+         * number and kind of sections differ per page: "zusammenfassung" has the summary
+         * and a note on how current the data is, "download" a list of downloads, and so on.
          * Only possible while the page is served through the proxy, because a cross
          * origin document cannot be modified.
          * @param {Document} doc the document inside the iframe
@@ -567,17 +643,62 @@ export default {
             if (!main || !doc.body || doc.body.dataset.uaTrimmed === "true") {
                 return;
             }
-            const sections = Array.from(main.querySelectorAll(":scope > section")).slice(0, 2),
-                style = doc.createElement("style");
+            const style = doc.createElement("style");
 
-            if (sections.length > 0) {
-                main.replaceChildren(...sections);
-            }
+            main.querySelectorAll(infoFrameRemoveSelectors).forEach(element => element.remove());
+            this.trimInfoFrameLinks(main);
             doc.body.replaceChildren(main);
             doc.body.dataset.uaTrimmed = "true";
 
             style.textContent = this.infoFrameCss();
             doc.head?.appendChild(style);
+        },
+
+        /**
+         * Takes the navigation out of the page and keeps it as data for the tab bar the
+         * component renders above the iframe. Only the "zusammenfassung" page carries a
+         * navigation, so without this the user would be stranded on the first subpage
+         * they open. Every link left in the page leads away from the dataset and is
+         * opened in a new tab, so the iframe never shows an untrimmed page.
+         * @param {HTMLElement} main the main content of the Umweltatlas page
+         * @returns {void}
+         */
+        trimInfoFrameLinks (main) {
+            const navigation = this.infoFrameNavigation(main);
+
+            if (navigation) {
+                this.infoFrameNavItems = Array.from(navigation.querySelectorAll("a[href]"))
+                    .map(link => ({
+                        label: link.textContent.trim(),
+                        href: (link.getAttribute("href") || "").split(/[?#]/)[0]
+                    }))
+                    .filter(item => item.href
+                        && !infoFrameRemoveNavigationLinks.some(end => item.href.endsWith(end)));
+                navigation.remove();
+            }
+
+            main.querySelectorAll("a[href]").forEach(link => {
+                // in page anchors have nothing to open in a tab
+                if ((link.getAttribute("href") || "").startsWith("#")) {
+                    return;
+                }
+                link.setAttribute("target", "_blank");
+                link.setAttribute("rel", "noopener");
+            });
+        },
+
+        /**
+         * Finds the section holding the links to the other pages of the dataset.
+         * Only the "zusammenfassung" page has one.
+         * @param {HTMLElement} main the main content of the Umweltatlas page
+         * @returns {HTMLElement|null} the navigation section
+         */
+        infoFrameNavigation (main) {
+            return Array.from(main.querySelectorAll("section")).find(section => {
+                const heading = section.querySelector("h1, h2, h3, h4, h5, h6");
+
+                return heading?.textContent.trim() === infoFrameNavigationHeading;
+            }) ?? null;
         },
 
         /**
@@ -984,8 +1105,7 @@ export default {
                 class="ua-layer-info-frame-fallback"
             >
                 <p>
-                    Die Umweltatlas-Seite kann an dieser Stelle nicht eingebettet werden,
-                    weil berlin.de das Einbetten in fremde Seiten unterbindet.
+                    {{ $t("common:modules.layerInformation.uaInfoFrameBlocked") }}
                 </p>
                 <p class="mb-0">
                     <a
@@ -993,26 +1113,47 @@ export default {
                         target="_blank"
                         rel="noopener"
                     >
-                        Seite in einem neuen Tab öffnen
+                        {{ $t("common:modules.layerInformation.uaInfoFrameOpenInNewTab") }}
                     </a>
                 </p>
             </div>
-            <div
-                v-if="!infoFrameBlocked && !infoFrameReady"
-                class="ua-layer-info-frame-loading"
+            <nav
+                v-if="!infoFrameBlocked && infoFrameNavigationItems.length"
+                class="ua-layer-info-frame-nav"
+                :aria-label="$t('common:modules.layerInformation.uaInfoFrameNavigation')"
             >
-                {{ $t("common:modules.layerInformation.loading") }}
-            </div>
-            <iframe
+                <button
+                    v-for="item in infoFrameNavigationItems"
+                    :key="item.href"
+                    type="button"
+                    class="ua-layer-info-frame-nav-item"
+                    :class="{active: item.href === infoFrameCurrentSrc}"
+                    :aria-current="item.href === infoFrameCurrentSrc ? 'page' : null"
+                    @click="openInfoFramePage(item.href)"
+                >
+                    {{ item.label }}
+                </button>
+            </nav>
+            <div
                 v-show="!infoFrameBlocked"
-                :key="infoFrameSrc"
-                :src="infoFrameSrc"
-                :title="'Umweltatlas: ' + layerName"
-                class="ua-layer-info-iframe"
-                :class="{'ua-layer-info-iframe-loading': !infoFrameReady}"
-                referrerpolicy="no-referrer-when-downgrade"
-                @load="onInfoFrameLoad"
-            />
+                class="ua-layer-info-frame-body"
+            >
+                <div
+                    v-if="!infoFrameReady"
+                    class="ua-layer-info-frame-loading"
+                >
+                    {{ $t("common:modules.layerInformation.uaInfoFrameLoading") }}
+                </div>
+                <iframe
+                    :key="infoFrameSrc"
+                    :src="infoFrameCurrentSrc"
+                    :title="$t('common:modules.layerInformation.uaInfoFrameTitle') + layerName"
+                    class="ua-layer-info-iframe"
+                    :class="{'ua-layer-info-iframe-loading': !infoFrameReady}"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    @load="onInfoFrameLoad"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -1039,7 +1180,6 @@ export default {
     }
 
     .ua-layer-info-frame {
-        position: relative;
         flex: 1 1 auto;
         display: flex;
         flex-direction: column;
@@ -1054,6 +1194,45 @@ export default {
 
     .ua-layer-info-frame-fallback {
         padding: 10px;
+    }
+
+    /* The navigation of the Umweltatlas page, lifted out of the iframe so it survives
+       when the user opens one of the subpages, which carry no navigation themselves. */
+    .ua-layer-info-frame-nav {
+        flex: 0 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2px 1rem;
+        padding: 6px 10px;
+        border-bottom: 1px solid $light_grey;
+    }
+
+    .ua-layer-info-frame-nav-item {
+        padding: 0;
+        border: 0;
+        background: none;
+        color: $link-color;
+        text-decoration: underline;
+
+        &:hover {
+            opacity: 0.7;
+        }
+
+        &.active {
+            color: $dark_green;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: default;
+        }
+    }
+
+    /* Holds the iframe and the overlay that covers it while loading, so that the
+       navigation above stays visible and clickable. */
+    .ua-layer-info-frame-body {
+        position: relative;
+        flex: 1 1 auto;
+        display: flex;
+        min-height: 0;
     }
 
     /* Covers the iframe while the Umweltatlas page is still the full berlin.de page.

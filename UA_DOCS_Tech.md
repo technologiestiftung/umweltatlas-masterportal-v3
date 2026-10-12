@@ -175,14 +175,33 @@ Solange es keinen Proxy gibt, kann ``proxyPrefix`` weggelassen werden. Die Kompo
 
 #### Welcher Teil der Seite angezeigt wird
 
-Im iframe wird nicht die komplette Umweltatlas-Seite gezeigt, sondern nur der Hauptinhalt ``#layout-grid__area--maincontent`` und davon nur die ersten beiden ``<section>``-Elemente:
+Im iframe wird nicht die komplette Umweltatlas-Seite gezeigt, sondern nur der Hauptinhalt ``#layout-grid__area--maincontent``. Davon werden noch entfernt (Konstante ``infoFrameRemoveSelectors``):
 
-1. „Zusammenfassung“
-2. der Hinweis, ob die Inhalte des Jahrgangs aktuell oder historisch sind
+- ``.anker-jumptocontact`` — der Sprunglink „Direkt zur Kontaktinformation“
+- ``.sprungmarke`` — dessen Sprungziel (``#kontakt``)
+- ``.modul-contactinclude`` — der Kontaktblock am Seitenende
 
-Weggelassen werden damit die berlin.de-Navigation, Kopf- und Fußbereich, die Sprungmarken sowie die dritte Section („Navigation“, eine Linkliste) und die Kontaktblöcke — diese Informationen stehen bereits in den Layerinformationen daneben. In der Praxis schrumpft die Seite dadurch von rund 31.000 auf etwa 2.000 Zeichen Text.
+Der Kontakt steht bereits in den Layerinformationen daneben.
 
-Das passiert in ``trimInfoFrameDocument`` in [LayerInformation.vue](./src/modules/layerInformation/components/LayerInformation.vue), nachdem das iframe geladen wurde.
+#### Navigation
+
+Die Navigationsliste am Seitenende wird **aus dem iframe entfernt** und stattdessen von der Komponente als Leiste über dem iframe gerendert. Grund: Nur die Seite „zusammenfassung“ besitzt eine solche Liste. Bliebe sie im iframe, käme man von einer Unterseite nicht mehr weiter. Außerhalb des iframes bleibt sie beim Wechsel auf eine Unterseite stehen.
+
+Erkannt wird die Liste an der Überschrift „Navigation“ (``infoFrameNavigationHeading``) — berlin.de gibt dieser Section dieselben CSS-Klassen wie allen anderen, die Überschrift ist das einzige Unterscheidungsmerkmal.
+
+Aus der Navigation werden die Einträge **Karten** und **Download** entfernt (``infoFrameRemoveNavigationLinks``), da das Portal die Karten selbst anzeigt und die Downloads bereits in den Layerinformationen angeboten werden. Es bleiben: Einleitung, Datengrundlage, Methode, Kartenbeschreibung und Literatur.
+
+Vorangestellt wird ein Eintrag **Zusammenfassung**, der zurück auf die Ausgangsseite führt — die Navigationsliste von berlin.de verlinkt diese selbst nicht.
+
+#### Links im iframe
+
+Nur über die Navigationsleiste wird eine Seite im iframe geöffnet. Alle Links, die in der Seite verbleiben, erhalten ``target="_blank"`` und werden in einem neuen Tab geöffnet. So zeigt das iframe immer eine gefilterte Umweltatlas-Seite und nie eine fremde oder ungefilterte Seite. Ausgenommen sind reine Sprungmarken (``href="#…"``), die nichts zu öffnen haben.
+
+Bewusst wird **nicht** nach einer festen Anzahl von ``<section>``-Elementen gefiltert, da die Seiten unterschiedlich viele haben: „methode“ und „literatur“ je eine, „zusammenfassung“ drei, „einleitung“ und „download“ fünf.
+
+Weggelassen werden außerdem Kopf- und Fußbereich von berlin.de sowie die Hauptnavigation, da nur der Hauptinhalt übernommen wird. In der Praxis schrumpft die Seite dadurch von rund 30.000 auf 200 bis 5.000 Zeichen Text, je nach Unterseite.
+
+Das passiert in ``trimInfoFrameDocument`` in [LayerInformation.vue](./src/modules/layerInformation/components/LayerInformation.vue), nachdem das iframe geladen wurde. Folgt jemand einem der Navigationslinks, wird das iframe über ``pagehide`` zunächst wieder ausgeblendet und die neu geladene Seite genauso gefiltert.
 
 **Das funktioniert nur mit Proxy.** Nur wenn die Seite über die eigene Origin ausgeliefert wird, darf JavaScript das Dokument im iframe verändern. Wird die Seite irgendwann direkt von berlin.de eingebettet (z. B. weil dort ``frame-ancestors`` gesetzt wurde), ist das Dokument fremd und wird vom Browser geschützt — dann erscheint die vollständige Umweltatlas-Seite inklusive berlin.de-Navigation.
 
