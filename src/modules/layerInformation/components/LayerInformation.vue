@@ -717,6 +717,26 @@ export default {
 
             return `
                 ${this.portalFontFaceCss()}
+                /* berlin.de forces a scrollbar with "html {overflow-y: scroll}", which
+                   leaves a dead bar next to the short pages shown here */
+                html {
+                    overflow-y: auto;
+                }
+                /* the portal's scrollbar, see src/assets/css/masterportal.css */
+                ::-webkit-scrollbar-track {
+                    border-radius: 10px;
+                    background-color: white;
+                }
+                ::-webkit-scrollbar {
+                    width: 12px;
+                    background-color: white;
+                }
+                ::-webkit-scrollbar-thumb {
+                    border-radius: 10px;
+                    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+                    background-color: lightgray;
+                    border: 3px solid white;
+                }
                 body {
                     margin: 0;
                     padding: 12px;

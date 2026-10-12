@@ -1202,6 +1202,30 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
             expect(css).to.include(`font-size: ${sidebar.fontSize} !important`);
         });
 
+        it("gives the framed page the scrollbar of the portal and only when it scrolls", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                doc = document.implementation.createHTMLDocument("berlin.de");
+
+            doc.body.innerHTML = "<div id=\"layout-grid__area--maincontent\"><section>a</section></div>";
+            wrapper.vm.trimInfoFrameDocument(doc);
+
+            const css = doc.head.querySelector("style").textContent;
+
+            // berlin.de sets "html {overflow-y: scroll}", which shows a dead scrollbar
+            expect(css).to.include("overflow-y: auto");
+            // same values as "* ::-webkit-scrollbar" in src/assets/css/masterportal.css
+            expect(css).to.include("::-webkit-scrollbar");
+            expect(css).to.include("width: 12px");
+            expect(css).to.include("background-color: lightgray");
+            expect(css).to.include("border: 3px solid white");
+        });
+
         it("is switched off by enabled: false", () => {
             layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
             configJs = {
