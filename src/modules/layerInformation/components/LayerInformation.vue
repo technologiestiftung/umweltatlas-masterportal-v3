@@ -781,7 +781,7 @@ export default {
                 v-if="showInfoFrame"
                 id="layer-info-ua-frame"
                 :title="$t('common:modules.layerInformation.uaInfoFrameAccordion')"
-                :is-open="true"
+                :is-open="false"
                 :font-size="'font-size-base'"
                 :coloured-header="true"
                 :coloured-body="true"
@@ -817,7 +817,7 @@ export default {
             <AccordionItem
                 v-if="uaData.uaInfoURL"
                 id="layer-info-ua"
-                :title="'Über diesen Datensatz'"
+                :title="'Weitere Metadaten'"
                 :is-open="false"
                 :font-size="'font-size-base'"
                 :coloured-header="true"

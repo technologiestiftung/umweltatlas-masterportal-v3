@@ -113,7 +113,11 @@ Das Modul [LayerInformation.vue](./src/modules/layerInformation/components/Layer
 
 ### Umweltatlas-iframe in den Layerinformationen
 
-Sobald die Layerinformationen zu einem Layer mit ``uaInfoURL`` geöffnet werden, teilt sich die Seitenleiste in zwei Spalten: links die Layerinformationen, rechts ein iframe mit der Umweltatlas-Seite des Datensatzes. Die Seitenleiste wird dafür automatisch verbreitert und beim Schließen wieder auf die vorherige Breite zurückgesetzt. Auf mobilen Geräten wird das iframe nicht angezeigt, da die Seitenleiste dort bereits den ganzen Bildschirm einnimmt.
+Hat ein Layer ein ``uaInfoURL``, bekommen die Layerinformationen ein zusätzliches Accordion **„Umweltatlas“** — direkt über „Über diese Kartenebene“. Darin steht ein iframe mit der Umweltatlas-Seite des Datensatzes. Das Accordion ist beim Öffnen zugeklappt und unabhängig von der Bildschirmgröße immer an derselben Stelle; die Breite der Seitenleiste wird nicht verändert.
+
+Das iframe selbst steckt in einer eigenen Komponente, [LayerInfoFrame.vue](./src/modules/layerInformation/components/LayerInfoFrame.vue). Der gesamte Zustand und das Filtern der geladenen Seite bleiben in ``LayerInformation.vue``.
+
+**Zu beachten:** Das zugeklappte Accordion verbirgt seinen Inhalt nur per CSS, das iframe hängt also im DOM und lädt die Seite sofort mit. Beim Aufklappen ist sie dadurch direkt da, es wird aber auch dann geladen, wenn niemand das Accordion öffnet.
 
 Konfiguriert wird das in [./portal/umweltatlas/config.js](./portal/umweltatlas/config.js):
 
@@ -121,7 +125,6 @@ Konfiguriert wird das in [./portal/umweltatlas/config.js](./portal/umweltatlas/c
 layerInformation: {
     uaInfoFrame: {
         enabled: true,     // auf false setzen, um das iframe abzuschalten
-        menuWidth: "70%",  // Breite der Seitenleiste, solange das iframe sichtbar ist
         proxyPrefix: "https://www.berlin.de"  // siehe unten, ohne diese Zeile wird direkt von berlin.de geladen
     }
 }
