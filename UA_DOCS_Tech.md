@@ -155,6 +155,24 @@ Der Webpack-Dev-Server übernimmt den Proxy. Der Eintrag steht in [./devtools/pr
 
 Wer eine eigene ``devtools/proxyconf.json`` angelegt hat (diese Datei ist in ``.gitignore``), muss den Eintrag dort ergänzen, da die Beispieldatei dann nicht mehr geladen wird.
 
+#### Netlify (Testumgebung)
+
+Für die Testumgebung auf Netlify übernimmt [./netlify.toml](./netlify.toml) den Proxy. Dort ist nichts weiter einzurichten, die Regel greift mit dem nächsten Deploy:
+
+```toml
+[[redirects]]
+  from = "/umweltatlas/*"
+  to = "https://www.berlin.de/umweltatlas/:splat"
+  status = 200
+```
+
+**Das sieht nach einem Konflikt aus, ist aber keiner:** Auf Netlify ist das Veröffentlichungsverzeichnis ``dist/``, das Portal liegt dort also selbst unter ``/umweltatlas/`` — demselben Pfad, den die Regel trifft. Netlify liefert jedoch eine vorhandene Datei immer vor einer **nicht erzwungenen** Redirect-Regel aus. Die Dateien des Portals (``index.html``, ``config.js``, ``config.json``, ``layers.json``, ``favicon.ico``, ``resources/…``) gewinnen daher weiterhin, und nur die Pfade von berlin.de (``/umweltatlas/<thema>/…`` und ``/umweltatlas/_assets/…``), die es im Portal nicht gibt, werden weitergeleitet.
+
+Daraus folgen zwei Dinge:
+
+- Der Pfad der Regel darf **nicht** geändert werden. Er muss dem Pfad auf berlin.de entsprechen, sonst finden die relativen Bilder und Links der Seite ihr Ziel nicht mehr (siehe oben).
+- ``force = true`` darf **nicht** ergänzt werden. Die Regel würde dann auch ``index.html``, ``config.js`` und ``resources/…`` überdecken und das Portal unerreichbar machen.
+
 #### Produktion
 
 Unter ``https://gdi.berlin.de/viewer/umweltatlas/karten/`` muss dieselbe Weiterleitung auf dem Server eingerichtet werden:
