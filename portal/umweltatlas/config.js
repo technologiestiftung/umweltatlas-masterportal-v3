@@ -19,6 +19,9 @@ const Config = {
         uaInfoFrame: {
             enabled: true,
             menuWidth: "70%",
+            // Ab welcher Breite der Seitenleiste (in Pixeln) das iframe neben den
+            // Layerinformationen Platz hat. Darunter wird es darunter eingereiht.
+            minSideBySideWidth: 650,
             // Loads the page through our own origin, so that the
             // "X-Frame-Options: sameorigin" of berlin.de is satisfied. Needs a reverse
             // proxy that forwards /umweltatlas to https://www.berlin.de/umweltatlas.
