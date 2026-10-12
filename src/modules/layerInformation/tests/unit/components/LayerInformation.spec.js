@@ -831,6 +831,58 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
             expect(link.attributes("target")).to.equal("_blank");
         });
 
+        it("drops the page title but keeps the subsection headings", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                doc = document.implementation.createHTMLDocument("berlin.de");
+
+            // the shape of the "download" page: page title, then subsections
+            doc.body.innerHTML = `
+                <div id="layout-grid__area--maincontent">
+                    <section class="modul-text_bild">
+                        <h2 class="title" id="headline_1_0">Download</h2>
+                    </section>
+                    <section class="modul-download-multi">
+                        <h3 class="title" id="headline_1_3">Texte</h3>
+                    </section>
+                    <section class="modul-download-multi">
+                        <h3 class="title" id="headline_1_4">Karten</h3>
+                    </section>
+                </div>`;
+
+            wrapper.vm.trimInfoFrameDocument(doc);
+
+            // the navigation above the iframe already says which page this is
+            expect(doc.querySelector("h2.title")).to.be.null;
+            expect(Array.from(doc.querySelectorAll("h3")).map(h => h.textContent)).to.eql(["Texte", "Karten"]);
+        });
+
+        it("drops only the first page title, not a later one", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                doc = document.implementation.createHTMLDocument("berlin.de");
+
+            doc.body.innerHTML = `
+                <div id="layout-grid__area--maincontent">
+                    <section><h2 class="title">Zusammenfassung</h2></section>
+                    <section><h2 class="title">Noch eine Überschrift</h2></section>
+                </div>`;
+
+            wrapper.vm.trimInfoFrameDocument(doc);
+
+            expect(Array.from(doc.querySelectorAll("h2")).map(h => h.textContent)).to.eql(["Noch eine Überschrift"]);
+        });
+
         it("keeps the main content minus the contact anchor and the contact block", () => {
             layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
 

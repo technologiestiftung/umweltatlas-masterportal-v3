@@ -219,6 +219,8 @@ Nur über die Navigationsleiste wird eine Seite im iframe geöffnet. Alle Links,
 
 Bewusst wird **nicht** nach einer festen Anzahl von ``<section>``-Elementen gefiltert, da die Seiten unterschiedlich viele haben: „methode“ und „literatur“ je eine, „zusammenfassung“ drei, „einleitung“ und „download“ fünf.
 
+Ebenfalls entfernt wird die **Überschrift der Seite** — jede Umweltatlas-Seite beginnt mit einem ``<h2 class="title">`` mit ihrem eigenen Namen („Zusammenfassung“, „Methode“, …), den die Navigationsleiste über dem iframe bereits anzeigt (Konstante ``infoFramePageHeading``). Entfernt wird nur das erste solche Element; die Zwischenüberschriften des Inhalts sind ``<h3>`` und bleiben erhalten.
+
 Weggelassen werden außerdem Kopf- und Fußbereich von berlin.de sowie die Hauptnavigation, da nur der Hauptinhalt übernommen wird. In der Praxis schrumpft die Seite dadurch von rund 30.000 auf 200 bis 5.000 Zeichen Text, je nach Unterseite.
 
 Das passiert in ``trimInfoFrameDocument`` in [LayerInformation.vue](./src/modules/layerInformation/components/LayerInformation.vue), nachdem das iframe geladen wurde. Folgt jemand einem der Navigationslinks, wird das iframe über ``pagehide`` zunächst wieder ausgeblendet und die neu geladene Seite genauso gefiltert.

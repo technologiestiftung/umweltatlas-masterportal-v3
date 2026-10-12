@@ -35,7 +35,13 @@ const infoFrameRemoveSelectors = ".anker-jumptocontact, .sprungmarke, .modul-con
      * checked as a fallback, in case a label is ever spelled differently.
      * "Kartenbeschreibung" is a different entry and stays, the match is exact.
      */
-    infoFrameRemoveNavigationEntries = ["karten", "download"];
+    infoFrameRemoveNavigationEntries = ["karten", "download"],
+
+    /**
+     * The heading every Umweltatlas page opens with, holding the name of the page.
+     * Subsection headings are h3, so this only ever matches the page title.
+     */
+    infoFramePageHeading = "h2.title";
 
 /**
  * The Layer Information that gives the user information, links and the legend for a layer
@@ -726,6 +732,11 @@ export default {
 
             main.querySelectorAll(infoFrameRemoveSelectors).forEach(element => element.remove());
             this.trimInfoFrameLinks(main);
+            // The page opens with its own title ("Zusammenfassung", "Methode", …), which
+            // the navigation above the iframe already shows. Only this first one goes,
+            // the h3 below it are the headings of the actual content.
+            // Has to run after the navigation section, that one starts with a title too.
+            main.querySelector(infoFramePageHeading)?.remove();
             doc.body.replaceChildren(main);
             doc.body.dataset.uaTrimmed = "true";
 
