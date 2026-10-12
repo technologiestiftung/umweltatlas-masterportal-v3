@@ -14,14 +14,10 @@ const Config = {
         ],
     ],
     layerInformation: {
-        // Shows the uaInfoURL of a layer in an iframe next to the layer information.
-        // Requires berlin.de to allow framing from this portal's origin.
+        // Shows the uaInfoURL of a layer in an iframe, in an accordion of the
+        // layer information. Requires berlin.de to allow framing from this origin.
         uaInfoFrame: {
             enabled: true,
-            menuWidth: "70%",
-            // Ab welcher Breite der Seitenleiste (in Pixeln) das iframe neben den
-            // Layerinformationen Platz hat. Darunter wird es darunter eingereiht.
-            minSideBySideWidth: 650,
             // Loads the page through our own origin, so that the
             // "X-Frame-Options: sameorigin" of berlin.de is satisfied. Needs a reverse
             // proxy that forwards /umweltatlas to https://www.berlin.de/umweltatlas.

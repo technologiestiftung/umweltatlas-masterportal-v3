@@ -647,6 +647,7 @@
       "mailSubject": "Request to dataset ",
       "mailOriginHint": "This request was sent to you through the contact form on ",
       "changeLayerInfo": "Choose layer infotext: ",
+      "uaInfoFrameAccordion": "Umweltatlas",
       "uaInfoFrameLoading": "Loading …",
       "uaInfoFrameSummary": "Summary",
       "uaInfoFrameNavigation": "Umweltatlas navigation",

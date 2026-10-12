@@ -662,72 +662,8 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
             expect(wrapper.vm.showInfoFrame).to.be.true;
             expect(iframe.exists()).to.be.true;
             expect(iframe.attributes("src")).to.equal(layerInfoState.uaInfoURL);
-            expect(wrapper.find("#modules-layer-information").classes()).to.include("ua-with-info-frame");
-        });
-
-        it("widens the menu while the iframe is shown and restores the width afterwards", () => {
-            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
-
-            const wrapper = mount(LayerInformationComponent, {
-                global: {
-                    plugins: [store]
-                }
-            });
-
-            expect(wrapper.vm.menuWidthBeforeInfoFrame).to.equal("25%");
-            expect(setCurrentMenuWidthSpy.calledOnce).to.be.true;
-            expect(setCurrentMenuWidthSpy.firstCall.args[0]).to.eql({side: "mainMenu", width: "70%"});
-
-            wrapper.vm.restoreMenuWidth();
-            expect(setCurrentMenuWidthSpy.calledTwice).to.be.true;
-            expect(setCurrentMenuWidthSpy.secondCall.args[0]).to.eql({side: "mainMenu", width: "25%"});
-            expect(wrapper.vm.menuWidthBeforeInfoFrame).to.be.null;
-        });
-
-        it("restores the width of the menu it widened, although the menu already navigated away", async () => {
-            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
-
-            const wrapper = mount(LayerInformationComponent, {
-                global: {
-                    plugins: [store]
-                }
-            });
-
-            expect(wrapper.vm.infoFrameSide).to.equal("mainMenu");
-
-            // closing the layer information switches the menu back before this
-            // component is unmounted, so menuIndicator can no longer be trusted
-            store.state.Menu.mainMenu.currentComponent = "root";
-            await wrapper.vm.$nextTick();
-            expect(wrapper.vm.menuIndicator).to.equal("secondaryMenu");
-
-            wrapper.vm.restoreMenuWidth();
-
-            expect(setCurrentMenuWidthSpy.lastCall.args[0]).to.eql({side: "mainMenu", width: "25%"});
-            expect(wrapper.vm.infoFrameSide).to.be.null;
-        });
-
-        it("writes the restored width onto the menu element, overriding a dragged pixel width", () => {
-            const menu = document.createElement("div");
-
-            menu.id = "mp-menu-mainMenu";
-            document.body.appendChild(menu);
-            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
-
-            const wrapper = mount(LayerInformationComponent, {
-                global: {
-                    plugins: [store]
-                }
-            });
-
-            expect(menu.style.width).to.equal("70%");
-
-            // the ResizeHandle writes pixels straight onto the element
-            menu.style.width = "640px";
-            wrapper.vm.restoreMenuWidth();
-            expect(menu.style.width).to.equal("25%");
-
-            menu.remove();
+            // it lives in its own accordion, above "Über diese Kartenebene"
+            expect(wrapper.find("#accordion-container-layer-info-ua-frame").exists()).to.be.true;
         });
 
         it("flags the frame as blocked when the framed document stays on about:blank", () => {
@@ -951,16 +887,6 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
             expect(doc.querySelectorAll("section")).to.have.lengthOf(5);
             expect(doc.querySelector(".modul-contactinclude")).to.be.null;
         });
-
-        /**
-         * Switches the mocked device mode. Wrapped in a function so that assigning it
-         * after an await does not trip require-atomic-updates.
-         * @param {Boolean} value whether the screen counts as small
-         * @returns {void}
-         */
-        function setMobile (value) {
-            store.state.isMobile = value;
-        }
 
         /**
          * The main content of a "zusammenfassung" page, which is the only one carrying
@@ -1339,158 +1265,6 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
             expect(css).to.include("border: 3px solid white");
         });
 
-        it("puts the iframe beside the layer information on a wide screen", () => {
-            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
-
-            const wrapper = mount(LayerInformationComponent, {
-                global: {
-                    plugins: [store]
-                }
-            });
-
-            expect(wrapper.vm.stackInfoFrame).to.be.false;
-            expect(wrapper.find("#modules-layer-information").classes()).to.include("ua-with-info-frame");
-
-            const frame = wrapper.find(".ua-layer-info-frame");
-
-            expect(frame.exists()).to.be.true;
-            expect(frame.classes()).to.not.include("ua-layer-info-frame-stacked");
-            // beside the layer information, not inside it
-            expect(wrapper.find(".ua-layer-info-main .ua-layer-info-frame").exists()).to.be.false;
-            // and the menu is widened for it
-            expect(setCurrentMenuWidthSpy.firstCall.args[0]).to.eql({side: "mainMenu", width: "70%"});
-        });
-
-        it("stacks the iframe into the layer information on a small screen", () => {
-            setMobile(true);
-            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
-
-            const wrapper = mount(LayerInformationComponent, {
-                global: {
-                    plugins: [store]
-                }
-            });
-
-            expect(wrapper.vm.showInfoFrame).to.be.true;
-            expect(wrapper.vm.stackInfoFrame).to.be.true;
-            // no second column
-            expect(wrapper.find("#modules-layer-information").classes()).to.not.include("ua-with-info-frame");
-
-            const frame = wrapper.find(".ua-layer-info-main .ua-layer-info-frame");
-
-            expect(frame.exists()).to.be.true;
-            expect(frame.classes()).to.include("ua-layer-info-frame-stacked");
-            // the menu already fills the screen, so it is not widened
-            expect(setCurrentMenuWidthSpy.called).to.be.false;
-        });
-
-        it("moves the iframe when the screen is resized across the breakpoint", async () => {
-            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
-
-            const wrapper = mount(LayerInformationComponent, {
-                global: {
-                    plugins: [store]
-                }
-            });
-
-            // starts wide: beside the layer information
-            expect(wrapper.find(".ua-layer-info-main .ua-layer-info-frame").exists()).to.be.false;
-            expect(wrapper.find(".ua-layer-info-frame").exists()).to.be.true;
-
-            setMobile(true);
-            await wrapper.vm.$nextTick();
-
-            // now stacked inside it
-            expect(wrapper.vm.stackInfoFrame).to.be.true;
-            expect(wrapper.find(".ua-layer-info-main .ua-layer-info-frame").exists()).to.be.true;
-            expect(wrapper.find(".ua-layer-info-frame").classes()).to.include("ua-layer-info-frame-stacked");
-            expect(wrapper.find("#modules-layer-information").classes()).to.not.include("ua-with-info-frame");
-
-            setMobile(false);
-            await wrapper.vm.$nextTick();
-
-            // and back beside it
-            expect(wrapper.vm.stackInfoFrame).to.be.false;
-            expect(wrapper.find(".ua-layer-info-main .ua-layer-info-frame").exists()).to.be.false;
-            expect(wrapper.find(".ua-layer-info-frame").exists()).to.be.true;
-            expect(wrapper.find("#modules-layer-information").classes()).to.include("ua-with-info-frame");
-        });
-
-        it("stacks the iframe when the user drags the sidebar too narrow", async () => {
-            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
-
-            const wrapper = mount(LayerInformationComponent, {
-                global: {
-                    plugins: [store]
-                }
-            });
-
-            // jsdom has no ResizeObserver, so the measured width is set directly
-            await wrapper.setData({infoFramePanelWidth: 900});
-            expect(wrapper.vm.stackInfoFrame).to.be.false;
-            expect(wrapper.find(".ua-layer-info-main .ua-layer-info-frame").exists()).to.be.false;
-
-            await wrapper.setData({infoFramePanelWidth: 400});
-
-            expect(wrapper.vm.stackInfoFrame).to.be.true;
-            expect(wrapper.find(".ua-layer-info-main .ua-layer-info-frame").exists()).to.be.true;
-            // dragging must not fight the user by resetting the menu width
-            expect(setCurrentMenuWidthSpy.callCount).to.equal(1);
-            expect(setCurrentMenuWidthSpy.firstCall.args[0]).to.eql({side: "mainMenu", width: "70%"});
-
-            await wrapper.setData({infoFramePanelWidth: 900});
-
-            expect(wrapper.vm.stackInfoFrame).to.be.false;
-            expect(wrapper.find(".ua-layer-info-main .ua-layer-info-frame").exists()).to.be.false;
-        });
-
-        it("takes the side by side threshold from the config", async () => {
-            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
-            configJs = {layerInformation: {uaInfoFrame: {minSideBySideWidth: 300}}};
-
-            const wrapper = mount(LayerInformationComponent, {
-                global: {
-                    plugins: [store]
-                }
-            });
-
-            expect(wrapper.vm.infoFrameMinSideBySideWidth).to.equal(300);
-            await wrapper.setData({infoFramePanelWidth: 400});
-            // 400 would stack with the default of 650, but not with 300
-            expect(wrapper.vm.stackInfoFrame).to.be.false;
-        });
-
-        it("stacks the iframe between the contact accordion and the legend tabs", () => {
-            setMobile(true);
-            pointOfContact = {name: "Behörde ABC"};
-            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
-
-            const wrapper = mount(LayerInformationComponent, {
-                    global: {
-                        plugins: [store]
-                    }
-                }),
-                main = wrapper.find(".ua-layer-info-main").element,
-                order = Array.from(main.children).map(child => {
-                    // AccordionItem renders its root as accordion-container-<id>
-                    if (child.id === "accordion-container-layer-info-contact") {
-                        return "contact";
-                    }
-                    if (child.classList.contains("ua-layer-info-frame")) {
-                        return "frame";
-                    }
-                    return child.tagName.toLowerCase();
-                });
-
-            expect(order).to.include("contact");
-            expect(order).to.include("frame");
-            expect(order).to.include("hr");
-            // contact … frame … hr, and the legend tabs follow the hr
-            expect(order.indexOf("contact")).to.be.lessThan(order.indexOf("frame"));
-            expect(order.indexOf("frame")).to.be.lessThan(order.indexOf("hr"));
-            expect(order.indexOf("hr")).to.be.lessThan(order.indexOf("nav"));
-        });
-
         it("is switched off by enabled: false", () => {
             layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
             configJs = {
@@ -1509,7 +1283,7 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
 
             expect(wrapper.vm.showInfoFrame).to.be.false;
             expect(wrapper.find(".ua-layer-info-iframe").exists()).to.be.false;
-            expect(setCurrentMenuWidthSpy.called).to.be.false;
+            expect(wrapper.find("#accordion-container-layer-info-ua-frame").exists()).to.be.false;
         });
     });
 });

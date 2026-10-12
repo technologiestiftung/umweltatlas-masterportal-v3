@@ -1,9 +1,8 @@
 <script>
 /**
- * The Umweltatlas page of a dataset, shown in an iframe next to the layer information.
- * It is rendered in one of two places, depending on the room there is: beside the layer
- * information on a wide screen, stacked into it on a small one. All of the state and the
- * trimming of the framed page stays in LayerInformation.
+ * The Umweltatlas page of a dataset, shown in an iframe inside an accordion of the layer
+ * information. All of the state and the trimming of the framed page stays in
+ * LayerInformation.
  * @module modules/layerInformation/components/LayerInfoFrame
  * @vue-prop {String} src - The page to load.
  * @vue-prop {String} externalUrl - The original berlin.de url, for the fallback link.
@@ -11,7 +10,6 @@
  * @vue-prop {Boolean} blocked - Whether berlin.de refused to be framed.
  * @vue-prop {Boolean} ready - Whether the page is loaded and trimmed and may be shown.
  * @vue-prop {Object[]} navigationItems - Links to the other pages of the dataset.
- * @vue-prop {Boolean} stacked - Whether it is stacked into the layer information.
  * @vue-event {Event} load - The iframe finished loading.
  * @vue-event {String} navigate - A navigation item was clicked.
  */
@@ -41,10 +39,6 @@ export default {
         navigationItems: {
             type: Array,
             default: () => []
-        },
-        stacked: {
-            type: Boolean,
-            default: false
         }
     },
     emits: ["load", "navigate"]
@@ -52,10 +46,7 @@ export default {
 </script>
 
 <template lang="html">
-    <div
-        class="ua-layer-info-frame"
-        :class="{'ua-layer-info-frame-stacked': stacked}"
-    >
+    <div class="ua-layer-info-frame">
         <div
             v-if="blocked"
             class="ua-layer-info-frame-fallback"

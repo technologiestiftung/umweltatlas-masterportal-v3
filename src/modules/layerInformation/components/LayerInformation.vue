@@ -81,15 +81,11 @@ export default {
             infoFrameBlocked: false,
             infoFrameReady: false,
             infoFrameNavItems: [],
-            infoFrameNavUrl: null,
-            infoFrameSide: null,
-            infoFramePanelWidth: 0,
-            infoFramePanelObserver: null,
-            menuWidthBeforeInfoFrame: null
+            infoFrameNavUrl: null
         };
     },
     computed: {
-        ...mapGetters(["configJs", "layerConfigById", "isMobile"]),
+        ...mapGetters(["configJs", "layerConfigById"]),
         ...mapGetters("Modules/LayerInformation", [
             "abstractText",
             "customText",
@@ -110,8 +106,7 @@ export default {
         ]),
         ...mapGetters("Menu", [
             "mainMenu",
-            "secondaryMenu",
-            "currentMenuWidth"
+            "secondaryMenu"
         ]),
         ...mapGetters(["allLayerConfigsStructured"]),
         showAdditionalMetaData () {
@@ -266,35 +261,6 @@ export default {
                 && Boolean(this.uaData.uaInfoURL);
         },
         /**
-         * Below which width of the sidebar the two columns no longer fit.
-         * @returns {Number} a width in pixels
-         */
-        infoFrameMinSideBySideWidth () {
-            return this.infoFrameConfig.minSideBySideWidth ?? 650;
-        },
-        /**
-         * Whether the iframe is stacked into the layer information, between the contact
-         * accordion and the legend tabs, instead of being put beside it. That is the case
-         * on a small screen (isMobile, up to 768px) and whenever the user has dragged the
-         * sidebar too narrow for two columns.
-         * @returns {Boolean} true if the iframe is stacked instead of put beside
-         */
-        stackInfoFrame () {
-            if (!this.showInfoFrame) {
-                return false;
-            }
-            return this.isMobile
-                || (this.infoFramePanelWidth > 0
-                    && this.infoFramePanelWidth < this.infoFrameMinSideBySideWidth);
-        },
-        /**
-         * Width the menu is widened to while the iframe is shown.
-         * @returns {String} a css width
-         */
-        infoFrameMenuWidth () {
-            return this.infoFrameConfig.menuWidth || "70%";
-        },
-        /**
          * The url the iframe loads. berlin.de refuses to be framed by a foreign origin
          * ("X-Frame-Options: sameorigin"), so with a configured proxyPrefix the absolute
          * url is turned into a same origin path, which a reverse proxy forwards to
@@ -346,50 +312,6 @@ export default {
         },
 
         /**
-         * Widens the menu as soon as the iframe column appears and restores the
-         * previous width once it is gone again.
-         * @param {Boolean} value whether the iframe column is shown
-         * @returns {void}
-         */
-        showInfoFrame (value) {
-            if (value) {
-                this.expandMenuForInfoFrame();
-            }
-            else {
-                this.restoreMenuWidth();
-            }
-        },
-
-        /**
-         * Crossing the breakpoint while the layer information is open switches between the
-         * second column and the stacked iframe, so the widened menu has to follow.
-         * @param {Boolean} value whether the iframe is stacked
-         * @returns {void}
-         */
-        stackInfoFrame () {
-            // the iframe is rendered in the other place now, so it loads again.
-            // The menu width is deliberately left alone here: stacking can be the result
-            // of the user dragging the sidebar narrow, and resetting the width would
-            // fight that drag. Only the device mode changes the width, see below.
-            this.infoFrameReady = false;
-        },
-
-        /**
-         * On a small screen the MenuContainer sets the menu to the full width itself, so
-         * the widening for the second column has to be undone and redone around that.
-         * @param {Boolean} value whether the screen is small
-         * @returns {void}
-         */
-        isMobile (value) {
-            if (value) {
-                this.restoreMenuWidth();
-            }
-            else {
-                this.expandMenuForInfoFrame();
-            }
-        },
-
-        /**
          * A different layer means a different page, so the previous blocked state is void
          * and the new page has to be hidden again until it has been trimmed.
          * @returns {void}
@@ -418,15 +340,10 @@ export default {
         if (!this.legendAvailable) {
             this.activeTab = "LayerInfoDataDownload";
         }
-        this.expandMenuForInfoFrame();
-        this.observeInfoFramePanelWidth();
     },
 
     unmounted () {
         this.setLayerInfoLegend({});
-        this.restoreMenuWidth();
-        this.infoFramePanelObserver?.disconnect();
-        this.infoFramePanelObserver = null;
     },
 
     methods: {
@@ -434,7 +351,6 @@ export default {
         ...mapActions("Modules/Legend", ["createLegendForLayerInfo"]),
         ...mapMutations("Modules/LayerInformation", ["setMetaDataCatalogueId", "setSelectedLayerIndex"]),
         ...mapMutations("Modules/Legend", ["setLayerInfoLegend"]),
-        ...mapMutations("Menu", ["setCurrentMenuWidth"]),
         ...mapActions("Menu", ["changeCurrentComponent"]),
         ...mapActions("Modules/SearchBar", [
             "showInTree"
@@ -578,81 +494,6 @@ export default {
             return decodeURIComponent(name);
             } catch {
             return url;
-            }
-        },
-
-        /**
-         * Keeps track of how wide the layer information actually is, so the iframe can be
-         * stacked when the user drags the sidebar too narrow for two columns. The menu
-         * width in the store is only written while the ResizeHandle is dragged and starts
-         * out at 0, so the element itself is measured instead.
-         * @returns {void}
-         */
-        observeInfoFramePanelWidth () {
-            if (typeof ResizeObserver === "undefined" || !this.$el?.getBoundingClientRect) {
-                return;
-            }
-            this.infoFramePanelWidth = this.$el.getBoundingClientRect().width;
-            this.infoFramePanelObserver = new ResizeObserver(entries => {
-                this.infoFramePanelWidth = entries[0].contentRect.width;
-            });
-            this.infoFramePanelObserver.observe(this.$el);
-        },
-
-        /**
-         * Widens the menu so the layer information and the iframe fit next to each other.
-         * The side is remembered, because by the time the menu navigates away from the
-         * layer information, menuIndicator already points at the other menu.
-         * @returns {void}
-         */
-        expandMenuForInfoFrame () {
-            // on a small screen the menu already fills the screen
-            if (!this.showInfoFrame || this.isMobile || this.infoFrameSide !== null) {
-                return;
-            }
-            const side = this.menuIndicator;
-
-            this.infoFrameSide = side;
-            this.menuWidthBeforeInfoFrame = this.currentMenuWidth(side);
-            this.setMenuWidth(side, this.infoFrameMenuWidth);
-        },
-
-        /**
-         * Restores the menu width that was in place before the iframe was shown.
-         * On mobile the MenuContainer sets the width to 100% itself, so the remembered
-         * desktop width is only dropped here and not written back.
-         * @returns {void}
-         */
-        restoreMenuWidth () {
-            if (this.infoFrameSide === null) {
-                return;
-            }
-            const side = this.infoFrameSide,
-                width = this.menuWidthBeforeInfoFrame;
-
-            this.infoFrameSide = null;
-            this.menuWidthBeforeInfoFrame = null;
-
-            if (!this.isMobile) {
-                this.setMenuWidth(side, width);
-            }
-        },
-
-        /**
-         * Sets the menu width in the store and on the element itself. The ResizeHandle
-         * writes a pixel width directly onto the menu element without going through the
-         * store, so a store update alone does not necessarily reach the DOM after the
-         * user has dragged the menu wider or narrower.
-         * @param {String} side the menu to resize
-         * @param {String} width a css width
-         * @returns {void}
-         */
-        setMenuWidth (side, width) {
-            const menu = document.getElementById("mp-menu-" + side);
-
-            this.setCurrentMenuWidth({side, width});
-            if (menu) {
-                menu.style.width = width;
             }
         },
 
@@ -901,7 +742,6 @@ export default {
 <template lang="html">
     <div
         id="modules-layer-information"
-        :class="{'ua-with-info-frame': showInfoFrame && !stackInfoFrame}"
     >
         <div class="ua-layer-info-main">
             <div v-if="fullPath" class="mb-4">
@@ -936,6 +776,28 @@ export default {
                     {{ $t("common:modules.layerInformation.periodicityTitle") }}: {{ dateRevision }}
                 </span>
             </p>
+
+            <AccordionItem
+                v-if="showInfoFrame"
+                id="layer-info-ua-frame"
+                :title="$t('common:modules.layerInformation.uaInfoFrameAccordion')"
+                :is-open="true"
+                :font-size="'font-size-base'"
+                :coloured-header="true"
+                :coloured-body="true"
+                :header-bold="true"
+            >
+                <LayerInfoFrame
+                    :src="infoFrameCurrentSrc"
+                    :external-url="uaData.uaInfoURL"
+                    :title="$t('common:modules.layerInformation.uaInfoFrameTitle') + layerName"
+                    :blocked="infoFrameBlocked"
+                    :ready="infoFrameReady"
+                    :navigation-items="infoFrameNavigationItems"
+                    @load="onInfoFrameLoad"
+                    @navigate="openInfoFramePage"
+                />
+            </AccordionItem>
 
             <AccordionItem
                 v-if="uaData.uaEbenenbeschreibung"
@@ -1101,18 +963,6 @@ export default {
                 </div>
             </template>
 
-            <LayerInfoFrame
-                v-if="stackInfoFrame"
-                stacked
-                :src="infoFrameCurrentSrc"
-                :external-url="uaData.uaInfoURL"
-                :title="$t('common:modules.layerInformation.uaInfoFrameTitle') + layerName"
-                :blocked="infoFrameBlocked"
-                :ready="infoFrameReady"
-                :navigation-items="infoFrameNavigationItems"
-                @load="onInfoFrameLoad"
-                @navigate="openInfoFramePage"
-            />
 
             <hr>
 
@@ -1232,57 +1082,21 @@ export default {
                 </div>
             </div>
         </div>
-
-        <LayerInfoFrame
-            v-if="showInfoFrame && !stackInfoFrame"
-            :src="infoFrameCurrentSrc"
-            :external-url="uaData.uaInfoURL"
-            :title="$t('common:modules.layerInformation.uaInfoFrameTitle') + layerName"
-            :blocked="infoFrameBlocked"
-            :ready="infoFrameReady"
-            :navigation-items="infoFrameNavigationItems"
-            @load="onInfoFrameLoad"
-            @navigate="openInfoFramePage"
-        />
     </div>
 </template>
 
 <style lang="scss">
     @import "~variables";
 
-    /* Two column layout: layer information left, Umweltatlas iframe right.
-       Both columns scroll on their own so the iframe keeps its full height
-       while the layer information next to it is scrolled. */
-    #modules-layer-information.ua-with-info-frame {
-        display: flex;
-        flex-direction: row;
-        align-items: stretch;
-        gap: 1rem;
-        flex: 1 1 auto;
-        min-height: 0;
-
-        > .ua-layer-info-main {
-            flex: 0 0 360px;
-            min-width: 0;
-            overflow-y: auto;
-        }
-    }
-
-    /* Small screens have no room for a second column, so the iframe sits in the flow of
-       the layer information, between the contact accordion and the legend tabs. It cannot
-       take the full height there, hence a fixed one. */
-    .ua-layer-info-frame-stacked {
-        height: 60vh;
-        margin-bottom: 1rem;
-    }
-
+    /* The iframe sits in an accordion in the normal flow of the layer information, so it
+       cannot take the full height and gets a fixed one. */
     .ua-layer-info-frame {
-        flex: 1 1 auto;
+        height: 60vh;
         display: flex;
         flex-direction: column;
         min-width: 0;
         min-height: 0;
-        border: 1px solid $light_grey;
+        // border: 1px solid $light_grey;
         border-radius: 5px;
         overflow: hidden;
         background-color: $white;
