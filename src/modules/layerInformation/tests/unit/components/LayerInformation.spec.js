@@ -17,10 +17,20 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
         pointOfContact,
         publisher,
         mainMenu,
-        layerConfig;
+        layerConfig,
+        layerInfoState,
+        setCurrentMenuWidthSpy,
+        configJs;
 
     beforeEach(() => {
         layerConfig = {};
+        configJs = {};
+        setCurrentMenuWidthSpy = sinon.spy();
+        layerInfoState = {
+            typ: "WMS",
+            metaIdArray: [],
+            url: "https://wfs.example.org/?evil=1"
+        };
         downloadLinks = null;
         legendAvailable = true;
         mainMenu = {
@@ -45,11 +55,7 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
                         LayerInformation: {
                             namespaced: true,
                             state: {
-                                layerInfo: {
-                                    typ: "WMS",
-                                    metaIdArray: [],
-                                    url: "https://wfs.example.org/?evil=1"
-                                }
+                                layerInfo: layerInfoState
                             },
                             mutations: {
                                 setMetaDataCatalogueId: () => sinon.stub()
@@ -96,8 +102,15 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
                 },
                 Menu: {
                     namespaced: true,
+                    state: {
+                        mainMenu
+                    },
+                    mutations: {
+                        setCurrentMenuWidth: (state, payload) => setCurrentMenuWidthSpy(payload)
+                    },
                     getters: {
-                        mainMenu: () => mainMenu,
+                        currentMenuWidth: () => () => "25%",
+                        mainMenu: (state) => state.mainMenu,
                         secondaryMenu: () => {
                             return {
                                 sections: [
@@ -115,9 +128,13 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
                     }
                 }
             },
+            state: {
+                isMobile: false
+            },
             getters: {
                 isModuleAvailable: () => () => true,
-                configJs: () => sinon.stub(),
+                isMobile: (state) => state.isMobile,
+                configJs: () => configJs,
                 layerConfigById: () => () => layerConfig,
                 restServiceById: () => sinon.stub()
             }
@@ -617,6 +634,656 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
 
             expect(cleanedUrl.endsWith("/")).to.be.false;
             expect(cleanedUrl.endsWith("?")).to.be.false;
+        });
+    });
+
+    describe("Umweltatlas info frame", () => {
+        it("is not rendered for a layer without uaInfoURL", () => {
+            const wrapper = mount(LayerInformationComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.vm.showInfoFrame).to.be.false;
+            expect(wrapper.find(".ua-layer-info-iframe").exists()).to.be.false;
+        });
+
+        it("renders the iframe with the uaInfoURL as src", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/wasser/flurabstand/1995/zusammenfassung/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                iframe = wrapper.find(".ua-layer-info-iframe");
+
+            expect(wrapper.vm.showInfoFrame).to.be.true;
+            expect(iframe.exists()).to.be.true;
+            expect(iframe.attributes("src")).to.equal(layerInfoState.uaInfoURL);
+            // it lives in its own accordion, above "Über diese Kartenebene"
+            expect(wrapper.find("#accordion-container-layer-info-ua-frame").exists()).to.be.true;
+        });
+
+        it("flags the frame as blocked when the framed document stays on about:blank", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.onInfoFrameLoad({target: {contentWindow: {location: {href: "about:blank"}}}});
+            expect(wrapper.vm.infoFrameBlocked).to.be.true;
+
+            wrapper.vm.onInfoFrameLoad({
+                target: {
+                    get contentWindow () {
+                        throw new Error("SecurityError");
+                    }
+                }
+            });
+            expect(wrapper.vm.infoFrameBlocked).to.be.false;
+        });
+
+        it("loads the page straight from berlin.de when no proxyPrefix is configured", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/wasser/zusammenfassung/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                iframe = wrapper.find(".ua-layer-info-iframe");
+
+            expect(wrapper.vm.infoFrameSrc).to.equal("https://www.berlin.de/umweltatlas/wasser/zusammenfassung/");
+            expect(iframe.attributes("src")).to.equal("https://www.berlin.de/umweltatlas/wasser/zusammenfassung/");
+        });
+
+        it("rewrites the url to a same origin path when a proxyPrefix is configured", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/wasser/zusammenfassung/";
+            configJs = {
+                layerInformation: {
+                    uaInfoFrame: {
+                        proxyPrefix: "https://www.berlin.de"
+                    }
+                }
+            };
+
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                iframe = wrapper.find(".ua-layer-info-iframe");
+
+            expect(wrapper.vm.infoFrameSrc).to.equal("/umweltatlas/wasser/zusammenfassung/");
+            expect(iframe.attributes("src")).to.equal("/umweltatlas/wasser/zusammenfassung/");
+        });
+
+        it("keeps the url untouched when it does not start with the proxyPrefix", () => {
+            layerInfoState.uaInfoURL = "https://example.org/umweltatlas/wasser/";
+            configJs = {
+                layerInformation: {
+                    uaInfoFrame: {
+                        proxyPrefix: "https://www.berlin.de"
+                    }
+                }
+            };
+
+            const wrapper = mount(LayerInformationComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.vm.infoFrameSrc).to.equal("https://example.org/umweltatlas/wasser/");
+        });
+
+        it("keeps the fallback link on the absolute berlin.de url, not the proxied path", async () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/wasser/zusammenfassung/";
+            configJs = {
+                layerInformation: {
+                    uaInfoFrame: {
+                        proxyPrefix: "https://www.berlin.de"
+                    }
+                }
+            };
+
+            const wrapper = mount(LayerInformationComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            await wrapper.setData({infoFrameBlocked: true});
+
+            const link = wrapper.find(".ua-layer-info-frame-fallback a");
+
+            expect(wrapper.vm.infoFrameSrc).to.equal("/umweltatlas/wasser/zusammenfassung/");
+            expect(link.attributes("href")).to.equal("https://www.berlin.de/umweltatlas/wasser/zusammenfassung/");
+            expect(link.attributes("target")).to.equal("_blank");
+        });
+
+        it("drops the page title but keeps the subsection headings", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                doc = document.implementation.createHTMLDocument("berlin.de");
+
+            // the shape of the "download" page: page title, then subsections
+            doc.body.innerHTML = `
+                <div id="layout-grid__area--maincontent">
+                    <section class="modul-text_bild">
+                        <h2 class="title" id="headline_1_0">Download</h2>
+                    </section>
+                    <section class="modul-download-multi">
+                        <h3 class="title" id="headline_1_3">Texte</h3>
+                    </section>
+                    <section class="modul-download-multi">
+                        <h3 class="title" id="headline_1_4">Karten</h3>
+                    </section>
+                </div>`;
+
+            wrapper.vm.trimInfoFrameDocument(doc);
+
+            // the navigation above the iframe already says which page this is
+            expect(doc.querySelector("h2.title")).to.be.null;
+            expect(Array.from(doc.querySelectorAll("h3")).map(h => h.textContent)).to.eql(["Texte", "Karten"]);
+        });
+
+        it("drops only the first page title, not a later one", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                doc = document.implementation.createHTMLDocument("berlin.de");
+
+            doc.body.innerHTML = `
+                <div id="layout-grid__area--maincontent">
+                    <section><h2 class="title">Zusammenfassung</h2></section>
+                    <section><h2 class="title">Noch eine Überschrift</h2></section>
+                </div>`;
+
+            wrapper.vm.trimInfoFrameDocument(doc);
+
+            expect(Array.from(doc.querySelectorAll("h2")).map(h => h.textContent)).to.eql(["Noch eine Überschrift"]);
+        });
+
+        it("keeps the main content minus the contact anchor and the contact block", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                doc = document.implementation.createHTMLDocument("berlin.de");
+
+            // the shape of every Umweltatlas page, see the pages of einwohnerdichte/2011
+            doc.body.innerHTML = `
+                <header id="header">chrome</header>
+                <div role="main" id="layout-grid">
+                    <div id="layout-grid__area--maincontent">
+                        <div class="anker-jumptocontact">Direkt zur Kontaktinformation</div>
+                        <section id="s1">Zusammenfassung</section>
+                        <section id="s2">Die Inhalte dieses Jahrgangs sind aktuell.</section>
+                        <section id="s3">Navigation</section>
+                        <div id="kontakt" class="sprungmarke"></div>
+                        <div class="html5-section modul-contactinclude">Kontakt</div>
+                    </div>
+                </div>
+                <footer id="footer">chrome</footer>`;
+
+            wrapper.vm.trimInfoFrameDocument(doc);
+
+            const main = doc.getElementById("layout-grid__area--maincontent");
+
+            expect(doc.body.children).to.have.lengthOf(1);
+            expect(doc.body.firstElementChild).to.equal(main);
+            // all sections survive, including the navigation links at the bottom
+            expect(Array.from(main.children).map(child => child.id)).to.eql(["s1", "s2", "s3"]);
+            expect(doc.querySelector(".anker-jumptocontact")).to.be.null;
+            expect(doc.getElementById("kontakt")).to.be.null;
+            expect(doc.querySelector(".modul-contactinclude")).to.be.null;
+            expect(doc.getElementById("header")).to.be.null;
+            expect(doc.getElementById("footer")).to.be.null;
+        });
+
+        it("keeps a varying number of sections, whatever the page has", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                doc = document.implementation.createHTMLDocument("berlin.de");
+
+            // "download" has one teaser plus four download blocks
+            doc.body.innerHTML = `
+                <div id="layout-grid__area--maincontent">
+                    <div class="anker-jumptocontact">x</div>
+                    <section class="modul-text_bild">Download</section>
+                    <section class="modul-download-multi">a</section>
+                    <section class="modul-download-multi">b</section>
+                    <section class="modul-download-multi">c</section>
+                    <section class="modul-download-multi">d</section>
+                    <div id="kontakt" class="sprungmarke"></div>
+                    <div class="html5-section modul-contactinclude">Kontakt</div>
+                </div>`;
+
+            wrapper.vm.trimInfoFrameDocument(doc);
+
+            expect(doc.querySelectorAll("section")).to.have.lengthOf(5);
+            expect(doc.querySelector(".modul-contactinclude")).to.be.null;
+        });
+
+        /**
+         * The main content of a "zusammenfassung" page, which is the only one carrying
+         * a navigation to the other pages of the dataset.
+         * @returns {Document} the document
+         */
+        function summaryDocument () {
+            const doc = document.implementation.createHTMLDocument("berlin.de");
+
+            doc.body.innerHTML = `
+                <div id="layout-grid__area--maincontent">
+                    <section id="s1">
+                        <a id="other-dataset" href="/umweltatlas/nutzung/gebaeudealter/2016/zusammenfassung/">anderer Datensatz</a>
+                        <a id="external" href="https://www.statistik-berlin-brandenburg.de/">extern</a>
+                        <a id="anchor" href="#somewhere">Sprungmarke</a>
+                    </section>
+                    <section id="nav-section"><h2 class="title">Navigation</h2>
+                        <ul>
+                            <li><a href="/umweltatlas/nutzung/ew/2011/einleitung/">Einleitung</a></li>
+                            <li><a href="/umweltatlas/nutzung/ew/2011/methode/">Methode</a></li>
+                            <li><a href="/umweltatlas/nutzung/ew/2011/kartenbeschreibung/">Kartenbeschreibung</a></li>
+                            <li><a href="/umweltatlas/nutzung/ew/2011/karten/">Karten</a></li>
+                            <li><a href="/umweltatlas/nutzung/ew/2011/download/">Download</a></li>
+                        </ul>
+                    </section>
+                </div>`;
+            return doc;
+        }
+
+        it("takes the navigation out of the iframe and keeps it as nav items", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/nutzung/ew/2011/zusammenfassung/";
+            configJs = {layerInformation: {uaInfoFrame: {proxyPrefix: "https://www.berlin.de"}}};
+
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                doc = summaryDocument();
+
+            wrapper.vm.trimInfoFrameDocument(doc);
+
+            // the navigation section itself is gone from the page
+            expect(doc.getElementById("nav-section")).to.be.null;
+            // Karten and Download are not offered, Kartenbeschreibung is a different entry
+            expect(wrapper.vm.infoFrameNavItems.map(item => item.label)).to.eql([
+                "Einleitung",
+                "Methode",
+                "Kartenbeschreibung"
+            ]);
+            // the summary is put in front, the page's own navigation does not link to it
+            expect(wrapper.vm.infoFrameNavigationItems.map(item => item.href)).to.eql([
+                "/umweltatlas/nutzung/ew/2011/zusammenfassung/",
+                "/umweltatlas/nutzung/ew/2011/einleitung/",
+                "/umweltatlas/nutzung/ew/2011/methode/",
+                "/umweltatlas/nutzung/ew/2011/kartenbeschreibung/"
+            ]);
+        });
+
+        it("removes Karten and Download by label, whatever the url says", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                doc = document.implementation.createHTMLDocument("berlin.de");
+
+            // verkehr-laerm/laermbelastung/2017 points "Download" at /abbildungen-tabellen/
+            doc.body.innerHTML = `
+                <div id="layout-grid__area--maincontent">
+                    <section><h2 class="title">Navigation</h2>
+                        <ul>
+                            <li><a href="/umweltatlas/verkehr-laerm/laermbelastung/2017/einleitung/">Einleitung</a></li>
+                            <li><a href="/umweltatlas/verkehr-laerm/laermbelastung/2017/karten/">Karten</a></li>
+                            <li><a href="/umweltatlas/verkehr-laerm/laermbelastung/2017/abbildungen-tabellen/">Download</a></li>
+                        </ul>
+                    </section>
+                </div>`;
+            wrapper.vm.trimInfoFrameDocument(doc);
+
+            expect(wrapper.vm.infoFrameNavItems.map(item => item.label)).to.eql(["Einleitung"]);
+        });
+
+        it("keeps an entry whose label only starts with a removed one", () => {
+            const wrapper = mount(LayerInformationComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.vm.isRemovedNavigationItem({label: "Karten", href: "/a/karten/"})).to.be.true;
+            expect(wrapper.vm.isRemovedNavigationItem({label: "Download", href: "/a/abbildungen-tabellen/"})).to.be.true;
+            // a url with a doubled trailing slash still matches
+            expect(wrapper.vm.isRemovedNavigationItem({label: "x", href: "/a/karten//"})).to.be.true;
+            expect(wrapper.vm.isRemovedNavigationItem({label: "Kartenbeschreibung", href: "/a/kartenbeschreibung/"})).to.be.false;
+            expect(wrapper.vm.isRemovedNavigationItem({label: "Literatur", href: "/a/literatur/"})).to.be.false;
+        });
+
+        it("renders the navigation above the iframe and opens a page on click", async () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/nutzung/ew/2011/zusammenfassung/";
+            configJs = {layerInformation: {uaInfoFrame: {proxyPrefix: "https://www.berlin.de"}}};
+
+            const wrapper = mount(LayerInformationComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.trimInfoFrameDocument(summaryDocument());
+            wrapper.vm.infoFrameReady = true;
+            await wrapper.vm.$nextTick();
+
+            const items = wrapper.findAll(".ua-layer-info-frame-nav-item");
+
+            // $t is mocked to return the key, the other labels come from the page itself
+            expect(items.map(item => item.text())).to.eql([
+                "common:modules.layerInformation.uaInfoFrameSummary",
+                "Einleitung",
+                "Methode",
+                "Kartenbeschreibung"
+            ]);
+            expect(items[0].classes()).to.include("active");
+
+            await items[2].trigger("click");
+
+            expect(wrapper.vm.infoFrameCurrentSrc).to.equal("/umweltatlas/nutzung/ew/2011/methode/");
+            expect(wrapper.find(".ua-layer-info-iframe").attributes("src")).to.equal("/umweltatlas/nutzung/ew/2011/methode/");
+            // hidden again until the new page is loaded and trimmed
+            expect(wrapper.vm.infoFrameReady).to.be.false;
+        });
+
+        it("opens every link left in the page in a new tab", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                doc = summaryDocument();
+
+            wrapper.vm.trimInfoFrameDocument(doc);
+
+            expect(doc.getElementById("other-dataset").getAttribute("target")).to.equal("_blank");
+            expect(doc.getElementById("other-dataset").getAttribute("rel")).to.equal("noopener");
+            expect(doc.getElementById("external").getAttribute("target")).to.equal("_blank");
+            // an in page anchor has nothing to open in a tab
+            expect(doc.getElementById("anchor").getAttribute("target")).to.be.null;
+        });
+
+        it("keeps the navigation when a subpage without one is loaded", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/nutzung/ew/2011/zusammenfassung/";
+            configJs = {layerInformation: {uaInfoFrame: {proxyPrefix: "https://www.berlin.de"}}};
+
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                subpage = document.implementation.createHTMLDocument("berlin.de");
+
+            wrapper.vm.trimInfoFrameDocument(summaryDocument());
+            expect(wrapper.vm.infoFrameNavItems).to.have.lengthOf(3);
+
+            // subpages such as "download" carry no navigation of their own
+            subpage.body.innerHTML = `
+                <div id="layout-grid__area--maincontent">
+                    <section class="modul-download-multi">
+                        <a id="pdf" href="/umweltatlas/_assets/nutzung/ew/2011/kh606.pdf?ts=1">PDF</a>
+                    </section>
+                </div>`;
+            wrapper.vm.trimInfoFrameDocument(subpage);
+
+            expect(wrapper.vm.infoFrameNavigation(subpage.getElementById("layout-grid__area--maincontent"))).to.be.null;
+            expect(wrapper.vm.infoFrameNavItems).to.have.lengthOf(3);
+            expect(subpage.getElementById("pdf").getAttribute("target")).to.equal("_blank");
+        });
+
+        it("drops the navigation when another layer is opened", async () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/nutzung/ew/2011/zusammenfassung/";
+            configJs = {layerInformation: {uaInfoFrame: {proxyPrefix: "https://www.berlin.de"}}};
+
+            const wrapper = mount(LayerInformationComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.trimInfoFrameDocument(summaryDocument());
+            wrapper.vm.openInfoFramePage("/umweltatlas/nutzung/ew/2011/methode/");
+            expect(wrapper.vm.infoFrameNavItems).to.have.lengthOf(3);
+
+            store.state.Modules.LayerInformation.layerInfo.uaInfoURL = "https://www.berlin.de/umweltatlas/boden/anderer/2020/zusammenfassung/";
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.vm.infoFrameNavItems).to.be.empty;
+            expect(wrapper.vm.infoFrameNavUrl).to.be.null;
+            expect(wrapper.vm.infoFrameCurrentSrc).to.equal("/umweltatlas/boden/anderer/2020/zusammenfassung/");
+        });
+
+        it("hides the iframe again when a navigation link loads another page into it", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.infoFrameReady = true;
+            wrapper.vm.onInfoFrameUnload();
+
+            expect(wrapper.vm.infoFrameReady).to.be.false;
+        });
+
+        it("trims the framed page only once", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                doc = document.implementation.createHTMLDocument("berlin.de");
+
+            doc.body.innerHTML = `
+                <div id="layout-grid__area--maincontent">
+                    <section id="s1">a</section>
+                    <section id="s2">b</section>
+                </div>`;
+
+            wrapper.vm.trimInfoFrameDocument(doc);
+            wrapper.vm.trimInfoFrameDocument(doc);
+
+            expect(doc.body.dataset.uaTrimmed).to.equal("true");
+            expect(doc.body.children).to.have.lengthOf(1);
+            expect(doc.querySelectorAll("section")).to.have.lengthOf(2);
+        });
+
+        it("leaves a document without the main content container alone", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                doc = document.implementation.createHTMLDocument("berlin.de");
+
+            doc.body.innerHTML = "<p id=\"other\">something else</p>";
+            wrapper.vm.trimInfoFrameDocument(doc);
+
+            expect(doc.getElementById("other")).to.not.be.null;
+            expect(doc.body.dataset.uaTrimmed).to.be.undefined;
+        });
+
+        it("does not touch the document of a cross origin frame", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                trim = sinon.spy(wrapper.vm, "trimInfoFrameDocument");
+
+            wrapper.vm.onInfoFrameLoad({
+                target: {
+                    get contentWindow () {
+                        throw new Error("SecurityError");
+                    }
+                }
+            });
+
+            expect(wrapper.vm.infoFrameBlocked).to.be.false;
+            expect(trim.called).to.be.false;
+        });
+
+        it("hides the iframe until the page has been trimmed", async () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.vm.infoFrameReady).to.be.false;
+            expect(wrapper.find(".ua-layer-info-iframe").classes()).to.include("ua-layer-info-iframe-loading");
+            expect(wrapper.find(".ua-layer-info-frame-loading").exists()).to.be.true;
+
+            const doc = document.implementation.createHTMLDocument("berlin.de"),
+                addEventListener = sinon.spy();
+
+            doc.body.innerHTML = "<div id=\"layout-grid__area--maincontent\"><section>a</section></div>";
+            wrapper.vm.onInfoFrameLoad({
+                target: {
+                    contentWindow: {location: {href: "https://localhost/umweltatlas/"}, addEventListener},
+                    contentDocument: doc
+                }
+            });
+            await wrapper.vm.$nextTick();
+
+            expect(wrapper.vm.infoFrameReady).to.be.true;
+            expect(wrapper.find(".ua-layer-info-iframe").classes()).to.not.include("ua-layer-info-iframe-loading");
+            expect(wrapper.find(".ua-layer-info-frame-loading").exists()).to.be.false;
+            // so that following a navigation link hides the frame again
+            expect(addEventListener.calledWith("pagehide", wrapper.vm.onInfoFrameUnload)).to.be.true;
+        });
+
+        it("reveals the iframe even when the document cannot be trimmed", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            wrapper.vm.onInfoFrameLoad({
+                target: {
+                    get contentWindow () {
+                        throw new Error("SecurityError");
+                    }
+                }
+            });
+
+            expect(wrapper.vm.infoFrameReady).to.be.true;
+        });
+
+        it("styles the framed text like the sidebar and makes headings bold", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                doc = document.implementation.createHTMLDocument("berlin.de");
+
+            doc.body.innerHTML = "<div id=\"layout-grid__area--maincontent\"><section><h2>Zusammenfassung</h2></section></div>";
+            wrapper.vm.trimInfoFrameDocument(doc);
+
+            const css = doc.head.querySelector("style").textContent,
+                sidebar = window.getComputedStyle(wrapper.vm.$el);
+
+            expect(css).to.include("#layout-grid__area--maincontent h2");
+            expect(css).to.include("font-weight: bold !important");
+            expect(css).to.include(`font-family: ${sidebar.fontFamily} !important`);
+            expect(css).to.include(`font-size: ${sidebar.fontSize} !important`);
+        });
+
+        it("gives the framed page the scrollbar of the portal and only when it scrolls", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                doc = document.implementation.createHTMLDocument("berlin.de");
+
+            doc.body.innerHTML = "<div id=\"layout-grid__area--maincontent\"><section>a</section></div>";
+            wrapper.vm.trimInfoFrameDocument(doc);
+
+            const css = doc.head.querySelector("style").textContent;
+
+            // berlin.de sets "html {overflow-y: scroll}", which shows a dead scrollbar
+            expect(css).to.include("overflow-y: auto");
+            // same values as "* ::-webkit-scrollbar" in src/assets/css/masterportal.css
+            expect(css).to.include("::-webkit-scrollbar");
+            expect(css).to.include("width: 12px");
+            expect(css).to.include("background-color: lightgray");
+            expect(css).to.include("border: 3px solid white");
+        });
+
+        it("is switched off by enabled: false", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+            configJs = {
+                layerInformation: {
+                    uaInfoFrame: {
+                        enabled: false
+                    }
+                }
+            };
+
+            const wrapper = mount(LayerInformationComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.vm.showInfoFrame).to.be.false;
+            expect(wrapper.find(".ua-layer-info-iframe").exists()).to.be.false;
+            expect(wrapper.find("#accordion-container-layer-info-ua-frame").exists()).to.be.false;
         });
     });
 });

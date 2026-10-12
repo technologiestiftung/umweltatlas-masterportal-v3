@@ -1,0 +1,13 @@
+# Die Umweltatlas-Seiten, die in den Layerinformationen im iframe angezeigt werden, werden
+# über diesen Proxy ausgeliefert. Dadurch kommen sie von unserer eigenen Origin und der
+# Header "X-Frame-Options: sameorigin" von berlin.de ist erfüllt. Siehe UA_DOCS_Tech.md.
+#
+# Die Regel ist bewusst NICHT erzwungen (kein "force = true"): Netlify liefert eine
+# vorhandene Datei immer vor einer nicht erzwungenen Redirect-Regel aus. Die Dateien des
+# Portals unter /umweltatlas/ (index.html, config.js, config.json, layers.json,
+# favicon.ico, resources/...) gewinnen also weiterhin, und nur die Pfade von berlin.de
+# (/umweltatlas/<thema>/... und /umweltatlas/_assets/...) werden weitergeleitet.
+[[redirects]]
+  from = "/umweltatlas/*"
+  to = "https://www.berlin.de/umweltatlas/:splat"
+  status = 200

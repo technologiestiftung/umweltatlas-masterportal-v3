@@ -4,5 +4,10 @@
     "pathRewrite": {
       "^/geodienste_hamburg_de": ""
     }
+  },
+  "/umweltatlas": {
+    "target": "https://www.berlin.de",
+    "changeOrigin": true,
+    "secure": true
   }
 }
