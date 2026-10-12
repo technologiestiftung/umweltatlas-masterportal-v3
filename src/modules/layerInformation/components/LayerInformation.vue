@@ -27,10 +27,15 @@ const infoFrameRemoveSelectors = ".anker-jumptocontact, .sprungmarke, .modul-con
     infoFrameNavigationHeading = "Navigation",
 
     /**
-     * Pages that are reachable from the navigation on berlin.de but not from the iframe:
-     * the portal shows the maps itself and offers the downloads in the layer information.
+     * Entries of the navigation that are not offered in the iframe: the portal shows the
+     * maps itself and the downloads are already part of the layer information.
+     * Matched against the label and against the last segment of the url, in lower case.
+     * The label is the reliable one of the two — berlin.de points "Download" at
+     * /download/ on most pages but at /abbildungen-tabellen/ on others. The url is still
+     * checked as a fallback, in case a label is ever spelled differently.
+     * "Kartenbeschreibung" is a different entry and stays, the match is exact.
      */
-    infoFrameRemoveNavigationLinks = ["/karten/", "/download/"];
+    infoFrameRemoveNavigationEntries = ["karten", "download"];
 
 /**
  * The Layer Information that gives the user information, links and the legend for a layer
@@ -746,8 +751,7 @@ export default {
                         label: link.textContent.trim(),
                         href: (link.getAttribute("href") || "").split(/[?#]/)[0]
                     }))
-                    .filter(item => item.href
-                        && !infoFrameRemoveNavigationLinks.some(end => item.href.endsWith(end)));
+                    .filter(item => item.href && !this.isRemovedNavigationItem(item));
                 navigation.remove();
             }
 
@@ -759,6 +763,21 @@ export default {
                 link.setAttribute("target", "_blank");
                 link.setAttribute("rel", "noopener");
             });
+        },
+
+        /**
+         * Whether a navigation entry is one of the pages the iframe does not offer,
+         * see infoFrameRemoveNavigationEntries.
+         * @param {Object} item the navigation entry
+         * @param {String} item.label the link text
+         * @param {String} item.href the link target
+         * @returns {Boolean} true if the entry is dropped
+         */
+        isRemovedNavigationItem ({label, href}) {
+            const slug = href.replace(/\/+$/, "").split("/").pop().toLowerCase();
+
+            return infoFrameRemoveNavigationEntries.includes(label.trim().toLowerCase())
+                || infoFrameRemoveNavigationEntries.includes(slug);
         },
 
         /**
@@ -939,7 +958,7 @@ export default {
                         </a>
                     </span>
                     <p class="ua-break-two">
-                        Ausführliche Informationen zum ausgewählten Datensatz, wie Datengrundlagen, Methode, Kartenbeschreibung sowie relevante Begleitliteratur und ein Kartenimpressum finden Sie im
+                        Die ausführlichen Informationen zum ausgewählten Datensatz, wie Grundlagen, Methode, Kartenbeschreibung sowie relevante Begleitliteratur finden sie zusätzlich auch im
                         <a :href=uaData.uaInfoURL target="_blank">Umweltaltas</a> 
                     </p>
                 </span>

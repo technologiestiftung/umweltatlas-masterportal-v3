@@ -929,6 +929,7 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
                         <ul>
                             <li><a href="/umweltatlas/nutzung/ew/2011/einleitung/">Einleitung</a></li>
                             <li><a href="/umweltatlas/nutzung/ew/2011/methode/">Methode</a></li>
+                            <li><a href="/umweltatlas/nutzung/ew/2011/kartenbeschreibung/">Kartenbeschreibung</a></li>
                             <li><a href="/umweltatlas/nutzung/ew/2011/karten/">Karten</a></li>
                             <li><a href="/umweltatlas/nutzung/ew/2011/download/">Download</a></li>
                         </ul>
@@ -952,14 +953,60 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
 
             // the navigation section itself is gone from the page
             expect(doc.getElementById("nav-section")).to.be.null;
-            // Karten and Download are not offered
-            expect(wrapper.vm.infoFrameNavItems.map(item => item.label)).to.eql(["Einleitung", "Methode"]);
+            // Karten and Download are not offered, Kartenbeschreibung is a different entry
+            expect(wrapper.vm.infoFrameNavItems.map(item => item.label)).to.eql([
+                "Einleitung",
+                "Methode",
+                "Kartenbeschreibung"
+            ]);
             // the summary is put in front, the page's own navigation does not link to it
             expect(wrapper.vm.infoFrameNavigationItems.map(item => item.href)).to.eql([
                 "/umweltatlas/nutzung/ew/2011/zusammenfassung/",
                 "/umweltatlas/nutzung/ew/2011/einleitung/",
-                "/umweltatlas/nutzung/ew/2011/methode/"
+                "/umweltatlas/nutzung/ew/2011/methode/",
+                "/umweltatlas/nutzung/ew/2011/kartenbeschreibung/"
             ]);
+        });
+
+        it("removes Karten and Download by label, whatever the url says", () => {
+            layerInfoState.uaInfoURL = "https://www.berlin.de/umweltatlas/";
+
+            const wrapper = mount(LayerInformationComponent, {
+                    global: {
+                        plugins: [store]
+                    }
+                }),
+                doc = document.implementation.createHTMLDocument("berlin.de");
+
+            // verkehr-laerm/laermbelastung/2017 points "Download" at /abbildungen-tabellen/
+            doc.body.innerHTML = `
+                <div id="layout-grid__area--maincontent">
+                    <section><h2 class="title">Navigation</h2>
+                        <ul>
+                            <li><a href="/umweltatlas/verkehr-laerm/laermbelastung/2017/einleitung/">Einleitung</a></li>
+                            <li><a href="/umweltatlas/verkehr-laerm/laermbelastung/2017/karten/">Karten</a></li>
+                            <li><a href="/umweltatlas/verkehr-laerm/laermbelastung/2017/abbildungen-tabellen/">Download</a></li>
+                        </ul>
+                    </section>
+                </div>`;
+            wrapper.vm.trimInfoFrameDocument(doc);
+
+            expect(wrapper.vm.infoFrameNavItems.map(item => item.label)).to.eql(["Einleitung"]);
+        });
+
+        it("keeps an entry whose label only starts with a removed one", () => {
+            const wrapper = mount(LayerInformationComponent, {
+                global: {
+                    plugins: [store]
+                }
+            });
+
+            expect(wrapper.vm.isRemovedNavigationItem({label: "Karten", href: "/a/karten/"})).to.be.true;
+            expect(wrapper.vm.isRemovedNavigationItem({label: "Download", href: "/a/abbildungen-tabellen/"})).to.be.true;
+            // a url with a doubled trailing slash still matches
+            expect(wrapper.vm.isRemovedNavigationItem({label: "x", href: "/a/karten//"})).to.be.true;
+            expect(wrapper.vm.isRemovedNavigationItem({label: "Kartenbeschreibung", href: "/a/kartenbeschreibung/"})).to.be.false;
+            expect(wrapper.vm.isRemovedNavigationItem({label: "Literatur", href: "/a/literatur/"})).to.be.false;
         });
 
         it("renders the navigation above the iframe and opens a page on click", async () => {
@@ -982,7 +1029,8 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
             expect(items.map(item => item.text())).to.eql([
                 "common:modules.layerInformation.uaInfoFrameSummary",
                 "Einleitung",
-                "Methode"
+                "Methode",
+                "Kartenbeschreibung"
             ]);
             expect(items[0].classes()).to.include("active");
 
@@ -1025,7 +1073,7 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
                 subpage = document.implementation.createHTMLDocument("berlin.de");
 
             wrapper.vm.trimInfoFrameDocument(summaryDocument());
-            expect(wrapper.vm.infoFrameNavItems).to.have.lengthOf(2);
+            expect(wrapper.vm.infoFrameNavItems).to.have.lengthOf(3);
 
             // subpages such as "download" carry no navigation of their own
             subpage.body.innerHTML = `
@@ -1037,7 +1085,7 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
             wrapper.vm.trimInfoFrameDocument(subpage);
 
             expect(wrapper.vm.infoFrameNavigation(subpage.getElementById("layout-grid__area--maincontent"))).to.be.null;
-            expect(wrapper.vm.infoFrameNavItems).to.have.lengthOf(2);
+            expect(wrapper.vm.infoFrameNavItems).to.have.lengthOf(3);
             expect(subpage.getElementById("pdf").getAttribute("target")).to.equal("_blank");
         });
 
@@ -1053,7 +1101,7 @@ describe("src/modules/layerInformation/components/LayerInformation.vue", () => {
 
             wrapper.vm.trimInfoFrameDocument(summaryDocument());
             wrapper.vm.openInfoFramePage("/umweltatlas/nutzung/ew/2011/methode/");
-            expect(wrapper.vm.infoFrameNavItems).to.have.lengthOf(2);
+            expect(wrapper.vm.infoFrameNavItems).to.have.lengthOf(3);
 
             store.state.Modules.LayerInformation.layerInfo.uaInfoURL = "https://www.berlin.de/umweltatlas/boden/anderer/2020/zusammenfassung/";
             await wrapper.vm.$nextTick();

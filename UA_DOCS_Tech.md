@@ -207,7 +207,9 @@ Die Navigationsliste am Seitenende wird **aus dem iframe entfernt** und stattdes
 
 Erkannt wird die Liste an der Überschrift „Navigation“ (``infoFrameNavigationHeading``) — berlin.de gibt dieser Section dieselben CSS-Klassen wie allen anderen, die Überschrift ist das einzige Unterscheidungsmerkmal.
 
-Aus der Navigation werden die Einträge **Karten** und **Download** entfernt (``infoFrameRemoveNavigationLinks``), da das Portal die Karten selbst anzeigt und die Downloads bereits in den Layerinformationen angeboten werden. Es bleiben: Einleitung, Datengrundlage, Methode, Kartenbeschreibung und Literatur.
+Aus der Navigation werden die Einträge **Karten** und **Download** entfernt (``infoFrameRemoveNavigationEntries``), da das Portal die Karten selbst anzeigt und die Downloads bereits in den Layerinformationen angeboten werden. Es bleiben z. B. Einleitung, Datengrundlage, Methode, Kartenbeschreibung und Literatur — welche Einträge eine Seite hat, ist von Datensatz zu Datensatz unterschiedlich.
+
+Entscheidend ist dabei die **Beschriftung** des Links, nicht die URL: berlin.de verlinkt „Download“ auf den meisten Seiten auf ``/download/``, auf anderen aber z. B. auf ``/abbildungen-tabellen/`` (siehe [Lärmbelastung 2017](https://www.berlin.de/umweltatlas/verkehr-laerm/laermbelastung/2017/zusammenfassung/)). Zusätzlich wird auch das letzte Segment der URL geprüft, falls eine Beschriftung einmal abweicht. Verglichen wird exakt und in Kleinschreibung, damit „Kartenbeschreibung“ erhalten bleibt.
 
 Vorangestellt wird ein Eintrag **Zusammenfassung**, der zurück auf die Ausgangsseite führt — die Navigationsliste von berlin.de verlinkt diese selbst nicht.
 
