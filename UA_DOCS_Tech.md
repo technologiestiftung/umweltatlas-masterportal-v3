@@ -110,6 +110,12 @@ Das Modul [LayerInformation.vue](./src/modules/layerInformation/components/Layer
 - Mit der neuen ``UrlInput`` Komponente werden WMS- und WFS-Links besser dargestellt.
 - Unter dem Titel wurden der Pfad zur Layer hinzugefügt damit sich der Datensatz besser Verordnen läßt.  
 
+### Entfernen-Icon im Themenbaum
+
+Neben jedem ausgewählten Layer im Themenbaum gibt es nun ein zusätzliches Icon (``bi-x-lg``), mit dem der Layer direkt aus der Karte entfernt werden kann — ohne das Untermenü aufklappen zu müssen. Das Icon nutzt die bereits vorhandene Action ``Modules/LayerTree/removeLayer`` und den Text ``common:modules.layerTree.iconRemoveLayer``.
+
+Neue Komponente: [LayerComponentIconRemove.vue](./src/modules/layerTree/components/LayerComponentIconRemove.vue), eingebunden in [LayerComponent.vue](./src/modules/layerTree/components/LayerComponent.vue) neben den Icons für Filter, Untermenü, Info und ``customLayerIcon``. Das Icon wird nur im Themenbaum angezeigt, nicht in der Layer-Auswahl.
+
 ### UrlInput Component
 
 Zur besseren Darstellung und Nutzung der WFS- und WMS-URLs wurde eine separate Komponente namens UrlInput erstellt. URLs erscheinen dort in einem ``Input`` und können via Buttons kopiert oder geöffnent werden. 

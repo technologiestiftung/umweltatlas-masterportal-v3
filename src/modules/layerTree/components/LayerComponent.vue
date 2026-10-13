@@ -6,6 +6,7 @@ import LayerCheckBox from "./LayerCheckBox.vue";
 import LayerComponentIconFilter from "./LayerComponentIconFilter.vue";
 import LayerComponentIconInfo from "./LayerComponentIconInfo.vue";
 import LayerComponentIconCustom from "./LayerComponentIconCustom.vue";
+import LayerComponentIconRemove from "./LayerComponentIconRemove.vue";
 import LayerComponentIconSubMenu from "./LayerComponentIconSubMenu.vue";
 import LayerComponentSubMenu from "./LayerComponentSubMenu.vue";
 import layerCollection from "@core/layers/js/layerCollection.js";
@@ -23,6 +24,7 @@ export default {
         LayerComponentIconFilter,
         LayerComponentIconInfo,
         LayerComponentIconCustom,
+        LayerComponentIconRemove,
         LayerComponentIconSubMenu,
         LayerComponentSubMenu
     },
@@ -174,6 +176,10 @@ export default {
                     :layer-conf="conf"
                 />
                 <LayerComponentIconCustom
+                    v-if="isLayerTree()"
+                    :layer-conf="conf"
+                />
+                <LayerComponentIconRemove
                     v-if="isLayerTree()"
                     :layer-conf="conf"
                 />
