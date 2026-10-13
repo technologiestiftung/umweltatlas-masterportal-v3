@@ -87,6 +87,8 @@ Dem Vergleichstool compareMaps wurde ein zusätzlicher Infotext hinzugefügt. Au
 
 Ein neues Modal namens LayerStartModal wurde hinzugefügt, das beim Starten der Anwendung erscheint. Nutzer können hier direkt ein Thema auswählen, welches dann im Themenbaum geöffnet wird.
 
+Das Modal wird **nicht** angezeigt, wenn die Anwendung über einen geteilten Link („Auswahl speichern und teilen“, Modul ``shareView``) geöffnet wurde. Erkannt wird das am URL-Parameter ``LAYERS``, den geteilte Links immer enthalten (siehe [gettersShareView.js](./src/modules/shareView/store/gettersShareView.js)).
+
 [LayerStartModal](./src/modules/layerTree/components/LayerStartModal.vue)
 
 
