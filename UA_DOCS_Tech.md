@@ -92,6 +92,28 @@ Das Modal wird **nicht** angezeigt, wenn die Anwendung über einen geteilten Lin
 [LayerStartModal](./src/modules/layerTree/components/LayerStartModal.vue)
 
 
+### Legende
+
+Die Legende (Modul ``legend``) wird nicht mehr als Eintrag im ``mainMenu`` (links) angezeigt, sondern über einen eigenen Button geöffnet, der sich in der Control-Leiste der Karte bei den Zoom-Buttons befindet. Die Legende öffnet sich dann im ``secondaryMenu`` (rechts), analog zum [Geoportal.de](https://www.geoportal.de/).
+
+Es handelt sich um eine reine Konfigurationsänderung in [config.json](./portal/umweltatlas/config.json) über das Control ``startModule``:
+
+```json
+"controls": {
+  "zoom": true,
+  "startModule": {
+    "secondaryMenu": [
+      {
+        "type": "legend",
+        "icon": "bi-list-task"
+      }
+    ]
+  }
+}
+```
+
+Der Legenden-Tab in der LayerInformation bleibt zusätzlich bestehen.
+
 ### UI Texte
 
 In der Datei [common.json](./locales/de/common.json) wurden Texte leicht angepasst, und ein neuer Key (``compareMaps.titel``) wurde hinzugefügt, um einen zusätzlichen Text im Karten-Vergleichstool anzuzeigen.

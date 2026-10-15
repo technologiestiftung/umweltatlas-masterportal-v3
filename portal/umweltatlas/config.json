@@ -11,7 +11,15 @@
         "hideMapMarkerOnVectorHighlight": true
       },
       "controls": {
-        "zoom": true
+        "zoom": true,
+        "startModule": {
+          "secondaryMenu": [
+            {
+              "type": "legend",
+              "icon": "bi-list-task"
+            }
+          ]
+        }
       },
       "mapView": {
         "backgroundImage": "./resources/img/backgroundCanvas_grey.jpeg",
@@ -89,10 +97,6 @@
       },
       "sections": [
         [
-          {
-            "type": "legend",
-            "icon": "bi-book"
-          },
           {
             "type": "news",
             "icon": "bi-newspaper",
