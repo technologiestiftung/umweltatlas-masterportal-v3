@@ -71,10 +71,18 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["allLayerConfigsStructured", "showLayerAddButton", "portalConfig"]),
+        ...mapGetters(["allLayerConfigsStructured", "showLayerAddButton", "portalConfig", "getUrlParamValue"]),
         ...mapGetters("Modules/LayerTree", ["menuSide"]),
         ...mapGetters("Modules/LayerSelection", {layerSelectionType: "type", layerSelectionName: "name"}),
         ...mapGetters(["isMobile",]),
+        /**
+         * Checks if the portal was opened via a shared url, created with "Auswahl speichern und teilen" (shareView).
+         * Those urls always contain the LAYERS parameter, see gettersShareView.js.
+         * @returns {Boolean} true, if the portal was opened via a shared url
+         */
+        isSharedView () {
+            return this.getUrlParamValue("LAYERS") !== undefined;
+        }
     },
     methods: {
         ...mapActions("Modules/LayerSelection", ["navigateForward"]),
@@ -120,7 +128,7 @@ export default {
 
 <template lang="html">
 
-    <div id="start-modal" v-if="showTheModal" @click="toggleModal(false)">
+    <div id="start-modal" v-if="showTheModal && !isSharedView" @click="toggleModal(false)">
 
         <div id="start-modal-content">
 

@@ -87,8 +87,32 @@ Dem Vergleichstool compareMaps wurde ein zusätzlicher Infotext hinzugefügt. Au
 
 Ein neues Modal namens LayerStartModal wurde hinzugefügt, das beim Starten der Anwendung erscheint. Nutzer können hier direkt ein Thema auswählen, welches dann im Themenbaum geöffnet wird.
 
+Das Modal wird **nicht** angezeigt, wenn die Anwendung über einen geteilten Link („Auswahl speichern und teilen“, Modul ``shareView``) geöffnet wurde. Erkannt wird das am URL-Parameter ``LAYERS``, den geteilte Links immer enthalten (siehe [gettersShareView.js](./src/modules/shareView/store/gettersShareView.js)).
+
 [LayerStartModal](./src/modules/layerTree/components/LayerStartModal.vue)
 
+
+### Legende
+
+Die Legende (Modul ``legend``) kann zusätzlich über einen eigenen Button geöffnet, der sich in der Control-Leiste der Karte bei den Zoom-Buttons befindet. Die Legende öffnet sich dann im ``secondaryMenu`` (rechts), analog zum [Geoportal.de](https://www.geoportal.de/).
+
+Es handelt sich um eine reine Konfigurationsänderung in [config.json](./portal/umweltatlas/config.json) über das Control ``startModule``:
+
+```json
+"controls": {
+  "zoom": true,
+  "startModule": {
+    "secondaryMenu": [
+      {
+        "type": "legend",
+        "icon": "bi-list-task"
+      }
+    ]
+  }
+}
+```
+
+Der Legenden-Tab in der LayerInformation bleibt zusätzlich bestehen.
 
 ### UI Texte
 
@@ -109,6 +133,12 @@ Das Modul [LayerInformation.vue](./src/modules/layerInformation/components/Layer
 - Ein Link zur entsprechenden Umweltatlas-Seite des Datensatzes wurde hinzugefügt.
 - Mit der neuen ``UrlInput`` Komponente werden WMS- und WFS-Links besser dargestellt.
 - Unter dem Titel wurden der Pfad zur Layer hinzugefügt damit sich der Datensatz besser Verordnen läßt.  
+
+### Entfernen-Icon im Themenbaum
+
+Neben jedem ausgewählten Layer im Themenbaum gibt es nun ein zusätzliches Icon (``bi-x-lg``), mit dem der Layer direkt aus der Karte entfernt werden kann — ohne das Untermenü aufklappen zu müssen. Das Icon nutzt die bereits vorhandene Action ``Modules/LayerTree/removeLayer`` und den Text ``common:modules.layerTree.iconRemoveLayer``.
+
+Neue Komponente: [LayerComponentIconRemove.vue](./src/modules/layerTree/components/LayerComponentIconRemove.vue), eingebunden in [LayerComponent.vue](./src/modules/layerTree/components/LayerComponent.vue) neben den Icons für Filter, Untermenü, Info und ``customLayerIcon``. Das Icon wird nur im Themenbaum angezeigt, nicht in der Layer-Auswahl.
 
 ### UrlInput Component
 
