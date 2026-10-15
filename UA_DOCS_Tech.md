@@ -94,7 +94,7 @@ Das Modal wird **nicht** angezeigt, wenn die Anwendung über einen geteilten Lin
 
 ### Legende
 
-Die Legende (Modul ``legend``) wird nicht mehr als Eintrag im ``mainMenu`` (links) angezeigt, sondern über einen eigenen Button geöffnet, der sich in der Control-Leiste der Karte bei den Zoom-Buttons befindet. Die Legende öffnet sich dann im ``secondaryMenu`` (rechts), analog zum [Geoportal.de](https://www.geoportal.de/).
+Die Legende (Modul ``legend``) kann zusätzlich über einen eigenen Button geöffnet, der sich in der Control-Leiste der Karte bei den Zoom-Buttons befindet. Die Legende öffnet sich dann im ``secondaryMenu`` (rechts), analog zum [Geoportal.de](https://www.geoportal.de/).
 
 Es handelt sich um eine reine Konfigurationsänderung in [config.json](./portal/umweltatlas/config.json) über das Control ``startModule``:
 
